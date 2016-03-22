@@ -13,5 +13,7 @@ public class App {
             System.out.println(a);
         } else
             System.out.println(b);
+
+        System.out.println("hello");
     }
 }
