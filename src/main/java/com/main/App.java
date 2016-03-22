@@ -10,10 +10,8 @@ public class App {
         int a = 2, b = 1;
 
         if (a == 1) {
-            System.out.println(a);
-        } else
             System.out.println(b);
-
-        System.out.println("hello");
+        } else
+            System.out.println(a);
     }
 }
