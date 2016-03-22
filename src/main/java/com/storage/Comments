@@ -1,0 +1,44 @@
+DATABASE TABLES
+
+1.User Specs
+
+	-Username
+	-email
+	-Password
+	-VAT
+	-Fist Name
+	-Last Name
+	-Country
+	-Mobile Number
+	-Registration date
+	-Date of birth
+	-Gender
+	-isAdmin
+	-isVerified
+	
+	-Card number(null)
+	-Street (null)
+	-City (null)
+	-Postal Code (null)
+	-Telephone number (null)
+	
+2.Items
+
+	-ItemID
+	-Name
+	-Category
+	-Currently
+	-Buy_price
+	-First_bid
+	-Number_of_Bids
+	-Bids/Bid/Bidder
+	-Bids/Bid/Time
+	-Bids/Bid/Amount
+	-Location/Country
+	-Started
+	-Ends
+	-Seller
+	-Description
+	(-Confirmation?)
+	
+	-Photograph
