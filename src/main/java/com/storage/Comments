@@ -17,6 +17,8 @@ DATABASE TABLES
 	-isVerified
 	
 	-Card number(null)
+	-CVV (null)
+	-Expiration Date (null)
 	-Street (null)
 	-City (null)
 	-Postal Code (null)
