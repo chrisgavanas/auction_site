@@ -1,19 +1,23 @@
-package model;
+package com.webapplication.dao;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
+
 @Entity
-@Table(name = "`auction item`")
-@NamedQueries({ 
-	@NamedQuery(name = "Auction_item.findAll", query = "SELECT a FROM Auction_item a") 
+@Table(name="`auction item`")
+@NamedQueries({
+	@NamedQuery(name="Auction_item.findAll", query="SELECT a FROM Auction_item a")
 })
 public class Auction_item implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int auctionItem_id;
 
 	private double buy_price;
@@ -38,21 +42,17 @@ public class Auction_item implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date started;
 
-	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name="user_id")
 	private User user;
 
-	// bi-directional many-to-one association to Bid
-	@OneToMany(mappedBy = "auctionItem")
-	private List<Bid> bids;
-
-	// bi-directional many-to-many association to Category
-	@ManyToMany(mappedBy = "auctionItems")
+	@ManyToMany(mappedBy="auctionItems")
 	private List<Category> categories;
 
-	// bi-directional many-to-one association to Image
-	@OneToMany(mappedBy = "auctionItem")
+	@OneToMany(mappedBy="auctionItem")
+	private List<Bid> bids;
+
+	@OneToMany(mappedBy="auctionItem")
 	private List<Image> images;
 
 	public Auction_item() {
@@ -154,6 +154,14 @@ public class Auction_item implements Serializable {
 		this.user = user;
 	}
 
+	public List<Category> getCategories() {
+		return this.categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
 	public List<Bid> getBids() {
 		return this.bids;
 	}
@@ -174,14 +182,6 @@ public class Auction_item implements Serializable {
 		bid.setAuctionItem(null);
 
 		return bid;
-	}
-
-	public List<Category> getCategories() {
-		return this.categories;
-	}
-
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
 	}
 
 	public List<Image> getImages() {

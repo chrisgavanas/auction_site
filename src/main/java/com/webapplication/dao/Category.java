@@ -1,26 +1,37 @@
-package model;
+package com.webapplication.dao;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
+
 @Entity
-@NamedQueries({ 
-	@NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c") 
+@Table(name="`category`")
+@NamedQueries({
+	@NamedQuery(name="Category.findAll", query="SELECT c FROM Category c")
 })
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "category_id")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="category_id")
 	private int categoryId;
 
 	private String category;
 
-	// bi-directional many-to-many association to Auction_item
 	@ManyToMany
-	@JoinTable(name = "`auction item_has_category`", joinColumns = {
-			@JoinColumn(name = "category_id") }, inverseJoinColumns = { @JoinColumn(name = "auctionItem_id") })
+	@JoinTable(
+		name="`auction item_has_category`"
+		, joinColumns={
+			@JoinColumn(name="category_id")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="auctionItem_id")
+			}
+		)
 	private List<Auction_item> auctionItems;
 
 	public Category() {

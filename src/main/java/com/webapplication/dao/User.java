@@ -1,22 +1,36 @@
-package model;
+package com.webapplication.dao;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+
 @Entity
-@NamedQueries({ 
-	@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u") 
+@Table(name="`user`")
+@NamedQueries({
+	@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 })
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "user_id")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="user_id")
 	private int userId;
 
-	@Column(name = "bidder_rating")
+	@Column(name="bidder_rating")
 	private float bidderRating;
 
 	private String city;
@@ -24,13 +38,13 @@ public class User implements Serializable {
 	private String country;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "`Date of Birth`")
+	@Column(name="`Date of Birth`")
 	private Date date_of_Birth;
 
-	@Column(name = "`E-mail`")
+	@Column(name="`E-mail`")
 	private String e_mail;
 
-	@Column(name = "`First Name`")
+	@Column(name="`First Name`")
 	private String first_Name;
 
 	private String gender;
@@ -39,39 +53,37 @@ public class User implements Serializable {
 
 	private boolean isVerified;
 
-	@Column(name = "`Last Name`")
+	@Column(name="`Last Name`")
 	private String last_Name;
 
-	@Column(name = "`Mobile Number`")
+	@Column(name="`Mobile Number`")
 	private String mobile_Number;
 
 	private String password;
 
-	@Column(name = "`Postal Code`")
+	@Column(name="`Postal Code`")
 	private String postal_Code;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "`Registration Date`")
+	@Column(name="`Registration Date`")
 	private Date registration_Date;
 
-	@Column(name = "seller_rating")
+	@Column(name="seller_rating")
 	private float sellerRating;
 
 	private String street;
 
-	@Column(name = "`Telephone Number`")
+	@Column(name="`Telephone Number`")
 	private String telephone_Number;
 
 	private String username;
 
 	private String vat;
 
-	// bi-directional many-to-one association to Auction_item
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy="user")
 	private List<Auction_item> auctionItems;
 
-	// bi-directional many-to-one association to Bid
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy="user")
 	private List<Bid> bids;
 
 	public User() {

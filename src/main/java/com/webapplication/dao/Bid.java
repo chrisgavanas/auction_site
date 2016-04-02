@@ -1,34 +1,37 @@
-package model;
+package com.webapplication.dao;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 
+
 @Entity
-@NamedQueries({ 
-	@NamedQuery(name = "Bid.findAll", query = "SELECT b FROM Bid b")
+@Table(name="`bid`")
+@NamedQueries({
+	@NamedQuery(name="Bid.findAll", query="SELECT b FROM Bid b")
 })
 public class Bid implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "bid_id")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="bid_id")
 	private int bidId;
 
 	private double amount;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "bidding_time")
+	@Column(name="bidding_time")
 	private Date biddingTime;
 
-	// bi-directional many-to-one association to Auction_item
 	@ManyToOne
-	@JoinColumn(name = "auctionItem_user_id")
+	@JoinColumn(name="auctionItem_user_id")
 	private Auction_item auctionItem;
 
-	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name="user_id")
 	private User user;
 
 	public Bid() {
