@@ -1,15 +1,23 @@
 package com.webapplication.api;
 
-import javax.xml.bind.ValidationException;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.webapplication.dto.UserLogInRequestDto;
 import com.webapplication.dto.UserLogInResponseDto;
+import com.webapplication.dto.UserRegisterRequestDto;
+import com.webapplication.dto.UserRegisterResponseDto;
 import com.webapplication.service.UserServiceApi;
-import com.webapplication.validator.UserValidator;
+import com.webapplication.validator.UserLogInValidator;
+import com.webapplication.validator.UserRegisterValidator;
 
 @Component
 public class UserApiImpl implements UserApi {
@@ -18,10 +26,24 @@ public class UserApiImpl implements UserApi {
     private UserServiceApi userServiceApi;
 
     @Autowired
-    private UserValidator userValidator;
+    private UserLogInValidator userLogInValidator;
+    
+    @Autowired
+    private UserRegisterValidator userRegisterValidator;
     
     public UserLogInResponseDto login(@RequestBody UserLogInRequestDto userLogInRequestDto) throws ValidationException {
-    	userValidator.validate(userLogInRequestDto);
+    	userLogInValidator.validate(userLogInRequestDto);
         return userServiceApi.login(userLogInRequestDto);
     }
+    
+	public UserRegisterResponseDto register(UserRegisterRequestDto userLogInRequestDto) throws ValidationException {
+		userRegisterValidator.validate(userLogInRequestDto);
+		return null;
+	}
+   
+    @ExceptionHandler(ValidationException.class)
+    private void invalidAttributes(HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.BAD_REQUEST.value());
+    }
+
 }

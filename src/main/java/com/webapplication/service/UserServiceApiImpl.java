@@ -8,6 +8,8 @@ import com.webapplication.dao.CategoryRepository;
 import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.UserLogInRequestDto;
 import com.webapplication.dto.UserLogInResponseDto;
+import com.webapplication.dto.UserRegisterRequestDto;
+import com.webapplication.dto.UserRegisterResponseDto;
 
 @Transactional
 @Component
@@ -24,5 +26,10 @@ public class UserServiceApiImpl implements UserServiceApi {
     	responseDto.setUsername("lala");
     	return responseDto;
     }
+
+	@Override
+	public UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) {
+		return null;
+	}
 
 }
