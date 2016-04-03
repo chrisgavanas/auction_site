@@ -12,7 +12,7 @@ public class UserRegisterResponseDto {
 	private String country;
 	private String mobileNumber;
 	private Date registrationDate;
-	private String gender; // TODO
+	private Gender gender;
 	private Boolean isAdmin;
 	private Boolean isVerified;
 	private String vat;
@@ -88,11 +88,11 @@ public class UserRegisterResponseDto {
 		this.registrationDate = registrationDate;
 	}
 
-	public String getGender() {
+	public Gender getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
 

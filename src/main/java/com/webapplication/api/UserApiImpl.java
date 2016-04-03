@@ -36,7 +36,7 @@ public class UserApiImpl implements UserApi {
         return userServiceApi.login(userLogInRequestDto);
     }
     
-	public UserRegisterResponseDto register(UserRegisterRequestDto userLogInRequestDto) throws ValidationException {
+	public UserRegisterResponseDto register(@RequestBody UserRegisterRequestDto userLogInRequestDto) throws ValidationException {
 		userRegisterValidator.validate(userLogInRequestDto);
 		return null;
 	}
