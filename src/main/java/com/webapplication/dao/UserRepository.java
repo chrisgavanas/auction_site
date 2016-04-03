@@ -1,4 +1,4 @@
-package com.main.test;
+package com.webapplication.dao;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

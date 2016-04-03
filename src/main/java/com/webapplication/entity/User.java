@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.webapplication.dto.Gender;
 
 
 @Entity
@@ -47,7 +51,8 @@ public class User implements Serializable {
 	@Column(name="`First Name`")
 	private String first_Name;
 
-	private String gender;
+	@Enumerated(EnumType.STRING)
+	private Gender gender;
 
 	private boolean isAdmin;
 
@@ -145,11 +150,11 @@ public class User implements Serializable {
 		this.first_Name = first_Name;
 	}
 
-	public String getGender() {
+	public Gender getGender() {
 		return this.gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
 
