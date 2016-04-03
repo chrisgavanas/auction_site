@@ -21,11 +21,6 @@ public class UserRegisterValidator implements Validator<UserRegisterRequestDto> 
 			error = UserRegisterError.MISSING_DATA;
 			throw new ValidationException(error.getDescription());
 		}
-		Arrays.asList(request.getCountry(), request.getDateOfBirth(), request.getEmail(),
-				request.getFirstName(), request.getGender(), request.getIsAdmin(), request.getLastName(),
-				request.getMobileNumber(), request.getPassword(), request.getRegistrationDate(), 
-				request.getUsername(), request.getVat())
-				.stream().forEach(x -> System.out.println(x));
 		
 		if (Arrays.asList(request.getCountry(), request.getDateOfBirth(), request.getEmail(),
 				request.getFirstName(), request.getGender(), request.getIsAdmin(), request.getLastName(),
