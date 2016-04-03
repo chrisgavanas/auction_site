@@ -10,12 +10,10 @@ import com.webapplication.service.UserServiceApi;
 @Component
 public class UserApiImpl implements UserApi {
 
-	@Autowired
-	private UserServiceApi userServiceApi;
-	
-	@Override
-	public UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) {
-		return userServiceApi.login(userLogInRequestDto);
-	}
+    @Autowired
+    private UserServiceApi userServiceApi;
 
+    public UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) {
+        return userServiceApi.login(userLogInRequestDto);
+    }
 }

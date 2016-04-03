@@ -1,4 +1,4 @@
-package com.webapplication.dao;
+package com.webapplication.entity;
 
 import java.io.Serializable;
 import java.util.Date;
