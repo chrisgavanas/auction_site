@@ -1,5 +1,6 @@
 package com.webapplication.api;
 
+
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
@@ -31,14 +32,14 @@ public class UserApiImpl implements UserApi {
     @Autowired
     private UserRegisterValidator userRegisterValidator;
     
-    public UserLogInResponseDto login(@RequestBody UserLogInRequestDto userLogInRequestDto) throws ValidationException {
+    public UserLogInResponseDto login(@RequestBody UserLogInRequestDto userLogInRequestDto) throws Exception {
     	userLogInValidator.validate(userLogInRequestDto);
         return userServiceApi.login(userLogInRequestDto);
     }
     
-	public UserRegisterResponseDto register(@RequestBody UserRegisterRequestDto userLogInRequestDto) throws ValidationException {
+	public UserRegisterResponseDto register(@RequestBody UserRegisterRequestDto userLogInRequestDto) throws Exception {
 		userRegisterValidator.validate(userLogInRequestDto);
-		return null;
+		return userServiceApi.register(userLogInRequestDto);
 	}
    
     @ExceptionHandler(ValidationException.class)

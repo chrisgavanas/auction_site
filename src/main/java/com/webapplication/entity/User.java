@@ -26,9 +26,9 @@ public class User implements Serializable {
 
     private String gender;
 
-    private byte isAdmin;
+    private boolean isVerified;
 
-    private byte isVerified;
+	private boolean isAdmin;
 
     private String lastName;
 
@@ -118,19 +118,19 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
-    public byte getIsAdmin() {
+    public boolean getIsAdmin() {
         return this.isAdmin;
     }
 
-    public void setIsAdmin(byte isAdmin) {
+    public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
 
-    public byte getIsVerified() {
+    public boolean getIsVerified() {
         return this.isVerified;
     }
 
-    public void setIsVerified(byte isVerified) {
+    public void setIsVerified(boolean isVerified) {
         this.isVerified = isVerified;
     }
 

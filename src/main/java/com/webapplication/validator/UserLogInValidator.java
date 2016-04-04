@@ -15,24 +15,18 @@ import com.webapplication.error.UserLogInError;
 @Component
 public class UserLogInValidator implements Validator<UserLogInRequestDto> {
 
-    @Override
-    public void validate(UserLogInRequestDto request) throws ValidationException {
-        UserLogInError error;
+	@Override
+	public void validate(UserLogInRequestDto request) throws ValidationException {
+		if (request == null)
+			throw new ValidationException(UserLogInError.MISSING_DATA.getDescription());
 
-        if (request == null) {
-            error = UserLogInError.MISSING_DATA;
-            throw new ValidationException(error.getDescription());
-        }
-        if (Arrays.asList(request.getUsername(), request.getPassword())
-            .stream().anyMatch(field -> { return Objects.isNull(field); })) {
-                error = UserLogInError.MISSING_DATA;
-                throw new ValidationException(error.getDescription());
-        }
-        if (Arrays.asList(request.getUsername(), request.getPassword())
-            .stream().anyMatch(field -> { return field.isEmpty(); })) {
-                error = UserLogInError.INVALID_DATA;
-                throw new ValidationException(error.getDescription());
-        }
-    }
+		if (Arrays.asList(request.getUsername(), request.getPassword())
+			.stream().anyMatch(field -> { return Objects.isNull(field); }))
+				throw new ValidationException(UserLogInError.MISSING_DATA.getDescription());
+
+		if (Arrays.asList(request.getUsername(), request.getPassword())
+			.stream().anyMatch(field -> { return field.isEmpty(); }))
+				throw new ValidationException(UserLogInError.INVALID_DATA.getDescription());
+	}
 
 }

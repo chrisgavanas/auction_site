@@ -7,7 +7,7 @@ import com.webapplication.dto.UserRegisterResponseDto;
 
 public interface UserServiceApi {
 
-	UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto);
+	UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) throws Exception;
 	
-	UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto);
+	UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) throws Exception;
 }

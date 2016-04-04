@@ -1,7 +1,7 @@
 package com.webapplication.api;
 
 
-import javax.validation.ValidationException;
+
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,10 +17,10 @@ import com.webapplication.dto.UserRegisterResponseDto;
 public interface UserApi {
 
 	@RequestMapping(path = "/login", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) throws ValidationException;
+	UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) throws Exception;
 
 	@RequestMapping(path = "/user", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	UserRegisterResponseDto register(UserRegisterRequestDto userLogInRequestDto) throws ValidationException;
+	UserRegisterResponseDto register(UserRegisterRequestDto userLogInRequestDto) throws Exception;
 	
 }
 	
