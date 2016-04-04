@@ -1,9 +1,19 @@
 package com.webapplication.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.webapplication.dto.Gender;
 
 @Entity
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
@@ -24,7 +34,8 @@ public class User implements Serializable {
 
     private String firstName;
 
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     private boolean isVerified;
 
@@ -47,7 +58,7 @@ public class User implements Serializable {
 
     private String street;
 
-    private String telephoneNumber;
+    private String phoneNumber;
 
     private String username;
 
@@ -110,11 +121,11 @@ public class User implements Serializable {
         this.firstName = firstName;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return this.gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
@@ -198,12 +209,12 @@ public class User implements Serializable {
         this.street = street;
     }
 
-    public String getTelephoneNumber() {
-        return this.telephoneNumber;
+    public String getPhoneNumber() {
+        return this.phoneNumber;
     }
 
-    public void setTelephoneNumber(String telephoneNumber) {
-        this.telephoneNumber = telephoneNumber;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getUsername() {

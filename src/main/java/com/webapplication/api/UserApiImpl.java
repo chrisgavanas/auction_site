@@ -4,7 +4,6 @@ package com.webapplication.api;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,10 @@ import com.webapplication.dto.UserLogInRequestDto;
 import com.webapplication.dto.UserLogInResponseDto;
 import com.webapplication.dto.UserRegisterRequestDto;
 import com.webapplication.dto.UserRegisterResponseDto;
+import com.webapplication.exception.EmailUnverifiedException;
+import com.webapplication.exception.NotFoundException;
+import com.webapplication.exception.UserAlreadyExists;
+import com.webapplication.exception.ValidationException;
 import com.webapplication.service.UserServiceApi;
 import com.webapplication.validator.UserLogInValidator;
 import com.webapplication.validator.UserRegisterValidator;
@@ -41,10 +44,21 @@ public class UserApiImpl implements UserApi {
 		userRegisterValidator.validate(userLogInRequestDto);
 		return userServiceApi.register(userLogInRequestDto);
 	}
-   
+
+	
     @ExceptionHandler(ValidationException.class)
     private void invalidAttributes(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value());
     }
-
+    
+    @ExceptionHandler({NotFoundException.class, EmailUnverifiedException.class })
+    private void userNotFound(HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.UNAUTHORIZED.value());
+    }
+    
+    @ExceptionHandler(UserAlreadyExists.class)
+    private void userAlreadyExists(HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.CONFLICT.value());
+    }
+ 
 }

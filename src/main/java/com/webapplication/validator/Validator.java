@@ -1,6 +1,7 @@
 package com.webapplication.validator;
 
-import javax.validation.ValidationException;
+import com.webapplication.exception.ValidationException;
+
 
 public interface Validator<T> {
 

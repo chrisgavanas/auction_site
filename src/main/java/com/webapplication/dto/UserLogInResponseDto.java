@@ -1,15 +1,15 @@
 package com.webapplication.dto;
 
 public class UserLogInResponseDto {
-	private String username;
+	private Integer userId;
 	private String authToken;
 
-	public String getUsername() {
-		return username;
+	public Integer getUseId() {
+		return userId;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUseId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getAuthToken() {

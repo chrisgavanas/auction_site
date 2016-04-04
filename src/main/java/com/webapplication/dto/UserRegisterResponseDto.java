@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class UserRegisterResponseDto {
 
-	private String userId;
+	private Integer userId;
 	private String username;
 	private String email;
 	private String firstName;
@@ -24,11 +24,11 @@ public class UserRegisterResponseDto {
 	private Float ratingAsSeller;
 	private Float ratingasBidder;
 
-	public String getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
