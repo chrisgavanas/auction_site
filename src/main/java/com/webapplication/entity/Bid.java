@@ -1,80 +1,71 @@
 package com.webapplication.entity;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
 import java.util.Date;
 
-
 @Entity
-@Table(name="`bid`")
-@NamedQueries({
-	@NamedQuery(name="Bid.findAll", query="SELECT b FROM Bid b")
-})
+@NamedQuery(name = "Bid.findAll", query = "SELECT b FROM Bid b")
 public class Bid implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="bid_id")
-	private int bidId;
+    @Id
+    private int bidId;
 
-	private double amount;
+    private double amount;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="bidding_time")
-	private Date biddingTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date bidDate;
 
-	@ManyToOne
-	@JoinColumn(name="auctionItem_user_id")
-	private Auction_item auctionItem;
+    @ManyToOne
+    @JoinColumn(name = "SellerId")
+    private Auctionitem auctionitem;
 
-	@ManyToOne
-	@JoinColumn(name="user_id")
-	private User user;
+    @ManyToOne
+    @JoinColumn(name = "UserId")
+    private User user;
 
-	public Bid() {
-	}
+    public Bid() {
+    }
 
-	public int getBidId() {
-		return this.bidId;
-	}
+    public int getBidId() {
+        return this.bidId;
+    }
 
-	public void setBidId(int bidId) {
-		this.bidId = bidId;
-	}
+    public void setBidId(int bidId) {
+        this.bidId = bidId;
+    }
 
-	public double getAmount() {
-		return this.amount;
-	}
+    public double getAmount() {
+        return this.amount;
+    }
 
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
 
-	public Date getBiddingTime() {
-		return this.biddingTime;
-	}
+    public Date getBidDate() {
+        return this.bidDate;
+    }
 
-	public void setBiddingTime(Date biddingTime) {
-		this.biddingTime = biddingTime;
-	}
+    public void setBidDate(Date bidDate) {
+        this.bidDate = bidDate;
+    }
 
-	public Auction_item getAuctionItem() {
-		return this.auctionItem;
-	}
+    public Auctionitem getAuctionitem() {
+        return this.auctionitem;
+    }
 
-	public void setAuctionItem(Auction_item auctionItem) {
-		this.auctionItem = auctionItem;
-	}
+    public void setAuctionitem(Auctionitem auctionitem) {
+        this.auctionitem = auctionitem;
+    }
 
-	public User getUser() {
-		return this.user;
-	}
+    public User getUser() {
+        return this.user;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
 }

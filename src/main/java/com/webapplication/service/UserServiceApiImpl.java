@@ -10,6 +10,7 @@ import com.webapplication.dto.UserLogInRequestDto;
 import com.webapplication.dto.UserLogInResponseDto;
 import com.webapplication.dto.UserRegisterRequestDto;
 import com.webapplication.dto.UserRegisterResponseDto;
+import com.webapplication.entity.Category;
 
 @Transactional
 @Component
@@ -17,19 +18,18 @@ public class UserServiceApiImpl implements UserServiceApi {
 
     @Autowired
     private UserRepository userRepository;
-    
+
     @Autowired
-    private CategoryRepository categoryRepository;	
+    private CategoryRepository categoryRepository;
 
     public UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) {
-    	UserLogInResponseDto responseDto = new UserLogInResponseDto();
-    	responseDto.setUsername("lala");
-    	return responseDto;
+        UserLogInResponseDto responseDto = new UserLogInResponseDto();
+        return responseDto;
     }
 
-	@Override
-	public UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) {
-		return null;
-	}
+    @Override
+    public UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) {
+        return null;
+    }
 
 }

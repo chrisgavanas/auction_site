@@ -1,301 +1,269 @@
 package com.webapplication.entity;
 
 import java.io.Serializable;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import com.webapplication.dto.Gender;
-
-
 @Entity
-@Table(name="`user`")
-@NamedQueries({
-	@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
-})
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="user_id")
-	private int userId;
+    @Id
+    private int userId;
 
-	@Column(name="bidder_rating")
-	private float bidderRating;
+    private String city;
 
-	private String city;
+    private String country;
 
-	private String country;
+    @Temporal(TemporalType.DATE)
+    private Date dateOfBirth;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name="`Date of Birth`")
-	private Date date_of_Birth;
+    private String email;
 
-	@Column(name="`E-mail`")
-	private String e_mail;
+    private String firstName;
 
-	@Column(name="`First Name`")
-	private String first_Name;
+    private String gender;
 
-	@Enumerated(EnumType.STRING)
-	private Gender gender;
+    private byte isAdmin;
 
-	private boolean isAdmin;
+    private byte isVerified;
 
-	private boolean isVerified;
+    private String lastName;
 
-	@Column(name="`Last Name`")
-	private String last_Name;
+    private String mobileNumber;
 
-	@Column(name="`Mobile Number`")
-	private String mobile_Number;
+    private String password;
 
-	private String password;
+    private String postalCode;
 
-	@Column(name="`Postal Code`")
-	private String postal_Code;
+    private float ratingAsBidder;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="`Registration Date`")
-	private Date registration_Date;
+    private float ratingAsSeller;
 
-	@Column(name="seller_rating")
-	private float sellerRating;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registrationDate;
 
-	private String street;
+    private String street;
 
-	@Column(name="`Telephone Number`")
-	private String telephone_Number;
+    private String telephoneNumber;
 
-	private String username;
+    private String username;
 
-	private String vat;
+    private String vat;
 
-	@OneToMany(mappedBy="user")
-	private List<Auction_item> auctionItems;
+    @OneToMany(mappedBy = "user")
+    private List<Auctionitem> auctionitems;
 
-	@OneToMany(mappedBy="user")
-	private List<Bid> bids;
+    @OneToMany(mappedBy = "user")
+    private List<Bid> bids;
 
-	public User() {
-	}
+    public User() {
+    }
 
-	public int getUserId() {
-		return this.userId;
-	}
+    public int getUserId() {
+        return this.userId;
+    }
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
-	public float getBidderRating() {
-		return this.bidderRating;
-	}
+    public String getCity() {
+        return this.city;
+    }
 
-	public void setBidderRating(float bidderRating) {
-		this.bidderRating = bidderRating;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public String getCity() {
-		return this.city;
-	}
+    public String getCountry() {
+        return this.country;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
-	public String getCountry() {
-		return this.country;
-	}
+    public Date getDateOfBirth() {
+        return this.dateOfBirth;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 
-	public Date getDate_of_Birth() {
-		return this.date_of_Birth;
-	}
-
-	public void setDate_of_Birth(Date date_of_Birth) {
-		this.date_of_Birth = date_of_Birth;
-	}
-
-	public String getE_mail() {
-		return this.e_mail;
-	}
-
-	public void setE_mail(String e_mail) {
-		this.e_mail = e_mail;
-	}
-
-	public String getFirst_Name() {
-		return this.first_Name;
-	}
-
-	public void setFirst_Name(String first_Name) {
-		this.first_Name = first_Name;
-	}
-
-	public Gender getGender() {
-		return this.gender;
-	}
-
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
-
-	public boolean getIsAdmin() {
-		return this.isAdmin;
-	}
-
-	public void setIsAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
-
-	public boolean getIsVerified() {
-		return this.isVerified;
-	}
+    public String getEmail() {
+        return this.email;
+    }
 
-	public void setIsVerified(boolean isVerified) {
-		this.isVerified = isVerified;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getLast_Name() {
-		return this.last_Name;
-	}
+    public String getFirstName() {
+        return this.firstName;
+    }
 
-	public void setLast_Name(String last_Name) {
-		this.last_Name = last_Name;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getGender() {
+        return this.gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public byte getIsAdmin() {
+        return this.isAdmin;
+    }
+
+    public void setIsAdmin(byte isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+    public byte getIsVerified() {
+        return this.isVerified;
+    }
+
+    public void setIsVerified(byte isVerified) {
+        this.isVerified = isVerified;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
 
-	public String getMobile_Number() {
-		return this.mobile_Number;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public void setMobile_Number(String mobile_Number) {
-		this.mobile_Number = mobile_Number;
-	}
+    public String getMobileNumber() {
+        return this.mobileNumber;
+    }
 
-	public String getPassword() {
-		return this.password;
-	}
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getPassword() {
+        return this.password;
+    }
 
-	public String getPostal_Code() {
-		return this.postal_Code;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setPostal_Code(String postal_Code) {
-		this.postal_Code = postal_Code;
-	}
+    public String getPostalCode() {
+        return this.postalCode;
+    }
 
-	public Date getRegistration_Date() {
-		return this.registration_Date;
-	}
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
 
-	public void setRegistration_Date(Date registration_Date) {
-		this.registration_Date = registration_Date;
-	}
+    public float getRatingAsBidder() {
+        return this.ratingAsBidder;
+    }
 
-	public float getSellerRating() {
-		return this.sellerRating;
-	}
+    public void setRatingAsBidder(float ratingAsBidder) {
+        this.ratingAsBidder = ratingAsBidder;
+    }
 
-	public void setSellerRating(float sellerRating) {
-		this.sellerRating = sellerRating;
-	}
+    public float getRatingAsSeller() {
+        return this.ratingAsSeller;
+    }
 
-	public String getStreet() {
-		return this.street;
-	}
+    public void setRatingAsSeller(float ratingAsSeller) {
+        this.ratingAsSeller = ratingAsSeller;
+    }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
+    public Date getRegistrationDate() {
+        return this.registrationDate;
+    }
 
-	public String getTelephone_Number() {
-		return this.telephone_Number;
-	}
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
 
-	public void setTelephone_Number(String telephone_Number) {
-		this.telephone_Number = telephone_Number;
-	}
+    public String getStreet() {
+        return this.street;
+    }
 
-	public String getUsername() {
-		return this.username;
-	}
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public String getTelephoneNumber() {
+        return this.telephoneNumber;
+    }
 
-	public String getVat() {
-		return this.vat;
-	}
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
 
-	public void setVat(String vat) {
-		this.vat = vat;
-	}
+    public String getUsername() {
+        return this.username;
+    }
 
-	public List<Auction_item> getAuctionItems() {
-		return this.auctionItems;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setAuctionItems(List<Auction_item> auctionItems) {
-		this.auctionItems = auctionItems;
-	}
+    public String getVat() {
+        return this.vat;
+    }
 
-	public Auction_item addAuctionItem(Auction_item auctionItem) {
-		getAuctionItems().add(auctionItem);
-		auctionItem.setUser(this);
+    public void setVat(String vat) {
+        this.vat = vat;
+    }
 
-		return auctionItem;
-	}
+    public List<Auctionitem> getAuctionitems() {
+        return this.auctionitems;
+    }
 
-	public Auction_item removeAuctionItem(Auction_item auctionItem) {
-		getAuctionItems().remove(auctionItem);
-		auctionItem.setUser(null);
+    public void setAuctionitems(List<Auctionitem> auctionitems) {
+        this.auctionitems = auctionitems;
+    }
 
-		return auctionItem;
-	}
+    public Auctionitem addAuctionitem(Auctionitem auctionitem) {
+        getAuctionitems().add(auctionitem);
+        auctionitem.setUser(this);
 
-	public List<Bid> getBids() {
-		return this.bids;
-	}
+        return auctionitem;
+    }
 
-	public void setBids(List<Bid> bids) {
-		this.bids = bids;
-	}
+    public Auctionitem removeAuctionitem(Auctionitem auctionitem) {
+        getAuctionitems().remove(auctionitem);
+        auctionitem.setUser(null);
 
-	public Bid addBid(Bid bid) {
-		getBids().add(bid);
-		bid.setUser(this);
+        return auctionitem;
+    }
 
-		return bid;
-	}
+    public List<Bid> getBids() {
+        return this.bids;
+    }
 
-	public Bid removeBid(Bid bid) {
-		getBids().remove(bid);
-		bid.setUser(null);
+    public void setBids(List<Bid> bids) {
+        this.bids = bids;
+    }
 
-		return bid;
-	}
+    public Bid addBid(Bid bid) {
+        getBids().add(bid);
+        bid.setUser(this);
+
+        return bid;
+    }
+
+    public Bid removeBid(Bid bid) {
+        getBids().remove(bid);
+        bid.setUser(null);
+
+        return bid;
+    }
 
 }

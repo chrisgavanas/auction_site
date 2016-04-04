@@ -15,24 +15,24 @@ import com.webapplication.error.UserLogInError;
 @Component
 public class UserLogInValidator implements Validator<UserLogInRequestDto> {
 
-	@Override
-	public void validate(UserLogInRequestDto request) throws ValidationException {
-		UserLogInError error;
+    @Override
+    public void validate(UserLogInRequestDto request) throws ValidationException {
+        UserLogInError error;
 
-		if (request == null) {
-			error = UserLogInError.MISSING_DATA;
-			throw new ValidationException(error.getDescription());
-		}
-		if (Arrays.asList(request.getUsername(), request.getPassword())
-			.stream().anyMatch(field -> { return Objects.isNull(field); })) {
-				error = UserLogInError.MISSING_DATA;
-				throw new ValidationException(error.getDescription());
-		}
-		if (Arrays.asList(request.getUsername(), request.getPassword())
-			.stream().anyMatch(field -> { return field.isEmpty(); })) {
-				error = UserLogInError.INVALID_DATA;
-				throw new ValidationException(error.getDescription());
-		}
-	}
+        if (request == null) {
+            error = UserLogInError.MISSING_DATA;
+            throw new ValidationException(error.getDescription());
+        }
+        if (Arrays.asList(request.getUsername(), request.getPassword())
+            .stream().anyMatch(field -> { return Objects.isNull(field); })) {
+                error = UserLogInError.MISSING_DATA;
+                throw new ValidationException(error.getDescription());
+        }
+        if (Arrays.asList(request.getUsername(), request.getPassword())
+            .stream().anyMatch(field -> { return field.isEmpty(); })) {
+                error = UserLogInError.INVALID_DATA;
+                throw new ValidationException(error.getDescription());
+        }
+    }
 
 }
