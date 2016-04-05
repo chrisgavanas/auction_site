@@ -17,11 +17,11 @@ public class UserLogInValidator implements Validator<UserLogInRequestDto> {
 		if (request == null)
 			throw new ValidationException(UserLogInError.MISSING_DATA);
 
-		if (Arrays.asList(request.getUsername(), request.getPassword())
+		if (Arrays.asList(request.getEmail(), request.getPassword())
 				.stream().anyMatch(field -> { return Objects.isNull(field); }))
 			throw new ValidationException(UserLogInError.MISSING_DATA);
 
-		if (Arrays.asList(request.getUsername(), request.getPassword())
+		if (Arrays.asList(request.getEmail(), request.getPassword())
 				.stream().anyMatch(field -> { return field.isEmpty(); }))
 			throw new ValidationException(UserLogInError.INVALID_DATA);
 	}
