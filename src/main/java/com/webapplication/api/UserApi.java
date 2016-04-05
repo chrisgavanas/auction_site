@@ -20,7 +20,7 @@ public interface UserApi {
 	UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) throws Exception;
 
 	@RequestMapping(path = "/user", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	UserRegisterResponseDto register(UserRegisterRequestDto userLogInRequestDto) throws Exception;
+	UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) throws Exception;
 	
 }
 	
