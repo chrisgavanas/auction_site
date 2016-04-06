@@ -1,7 +1,6 @@
 package com.webapplication.validator;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
@@ -17,18 +16,12 @@ public class UserLogInValidator implements Validator<UserLogInRequestDto> {
 		if (request == null)
 			throw new ValidationException(UserLogInError.MISSING_DATA);
 
-		if (request.getEmail() != null) {
-			if (Arrays.asList(request.getEmail(), request.getPassword()).stream().anyMatch(field -> {
-				return Objects.isNull(field);
-			}))
-				throw new ValidationException(UserLogInError.MISSING_DATA);
-		} else {
-			System.out.println("mphka edw");
-			if (Arrays.asList(request.getUsername(), request.getPassword()).stream().anyMatch(field -> {
-				return Objects.isNull(field);
-			}))
-				throw new ValidationException(UserLogInError.MISSING_DATA);
-		}
+		if (request.getEmail() != null && request.getPassword() == null)
+			throw new ValidationException(UserLogInError.MISSING_DATA);
+		else if (request.getUsername() != null && request.getPassword() == null)
+			throw new ValidationException(UserLogInError.MISSING_DATA);
+		else if (request.getEmail() == null && request.getUsername() == null)
+			throw new ValidationException(UserLogInError.MISSING_DATA);
 
 		if (request.getEmail() != null) {
 			if (Arrays.asList(request.getEmail(), request.getPassword()).stream().anyMatch(field -> {

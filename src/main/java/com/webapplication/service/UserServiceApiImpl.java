@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.webapplication.dao.CategoryRepository;
+
 import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.UserLogInRequestDto;
 import com.webapplication.dto.UserLogInResponseDto;
@@ -27,18 +27,16 @@ public class UserServiceApiImpl implements UserServiceApi {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    //@Autowired
+    //private CategoryRepository categoryRepository;
     
     @Autowired
     private UserMapper userMapper;
 
     public UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) throws Exception {
     	User user;
-    	if(userLogInRequestDto.getUsername() == null)
-    		user = userRepository.findUserByEmailAndPassword(userLogInRequestDto.getEmail(), userLogInRequestDto.getPassword());
-    	else 
-    		user = userRepository.findUserByUsernameAndPassword(userLogInRequestDto.getUsername(), userLogInRequestDto.getPassword());
+    	user = userRepository.findUserByPasswordAndUsernameOrEmail(userLogInRequestDto.getPassword(), userLogInRequestDto.getUsername(), userLogInRequestDto.getEmail());
+   
     	Optional.ofNullable(user).orElseThrow(() -> new NotFoundException(UserLogInError.INVALID_CREDENTIALS));
     	if (!user.getIsVerified())
     		throw new EmailUnverifiedException(UserLogInError.USER_NOT_EMAIL_VERIFIED);
