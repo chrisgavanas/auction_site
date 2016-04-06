@@ -39,7 +39,7 @@ public class User implements Serializable {
 
     private boolean isVerified;
 
-	private boolean isAdmin;
+    private boolean isAdmin;
 
     private String lastName;
 
