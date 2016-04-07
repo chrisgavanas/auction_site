@@ -30,7 +30,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     private UserMapper userMapper;
 
     public UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) throws Exception {
-        User user = userRepository.findUserByUsernameOrEmailAndPassword(userLogInRequestDto.getPassword(), userLogInRequestDto.getUsername(), userLogInRequestDto.getEmail());
+        User user = userRepository.findUserByUsernameOrEmailAndPassword(userLogInRequestDto.getUsername(), userLogInRequestDto.getEmail(), userLogInRequestDto.getPassword());
 
         Optional.ofNullable(user).orElseThrow(() -> new NotFoundException(UserLogInError.INVALID_CREDENTIALS));
         if (!user.getIsVerified())
@@ -38,7 +38,6 @@ public class UserServiceApiImpl implements UserServiceApi {
 
         UserLogInResponseDto responseDto = new UserLogInResponseDto();
         responseDto.setUseId(user.getUserId());
-
         return responseDto;
     }
 
