@@ -3,6 +3,11 @@ var loginController = router.controller('loginController', function($scope, $htt
     $scope.login = function() {
         $http.post('/api/login', $scope.user).success((res) => {
             alert(res.error || "Success!");
-        }).error(console.log.bind(console));
+        }).error(function(data, response) {
+            if (response == 400) {
+                $scope.user.username = ""
+                alert(data.message);
+            }
+        });
     };
 });
