@@ -14,5 +14,5 @@ public interface UserServiceApi {
 	
 	UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) throws Exception;
 	
-	UserIdResponseDto getUserId(UserIdRequestDto userIdRequestDtio) throws Exception;
+	UserIdResponseDto getUser(UserIdRequestDto userIdRequestDto) throws Exception;
 }

@@ -53,13 +53,12 @@ public class UserApiImpl implements UserApi {
     }
 
 
-	public UserIdResponseDto getUserId(@PathVariable String userId) throws Exception {
+	public UserIdResponseDto getUser(@PathVariable String userId) throws Exception {
 		UserIdRequestDto userIdRequestDto = new UserIdRequestDto();
-		System.out.println("test"+userId);
-		//userIdRequestDto.setId(userId);
-	//	System.out.println(userId);
-	//	userIdValidator.validate(userIdRequestDto);
-		return userServiceApi.getUserId(userIdRequestDto);
+		int id = Integer.parseInt(userId);
+		userIdRequestDto.setId(id);
+		userIdValidator.validate(userIdRequestDto);
+		return userServiceApi.getUser(userIdRequestDto);
 	}
 	
 

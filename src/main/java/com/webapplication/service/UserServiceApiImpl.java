@@ -54,19 +54,18 @@ public class UserServiceApiImpl implements UserServiceApi {
 			throw new UserAlreadyExists(user.getUsername().equals(userRegisterRequestDto.getUsername())
 					? UserRegisterError.USERNAME_ALREADY_IN_USE : UserRegisterError.EMAIL_ALREADY_USED);
 
-		user = userMapper.convert(userRegisterRequestDto);
+		user = userMapper.registerRequestToUser(userRegisterRequestDto);
 		userRepository.save(user);
 
-		return userMapper.convert(user);
+		return userMapper.userToRegisterResponse(user);
 	}
 
-	public UserIdResponseDto getUserId(UserIdRequestDto userIdRequestDto) throws Exception {
+	public UserIdResponseDto getUser(UserIdRequestDto userIdRequestDto) throws Exception {
 		User user = userRepository.findUserByUserId(userIdRequestDto.getId());
 		if (user == null)
 			throw new NotFoundException(UserIdError.NOT_EXISTS);
 		UserIdResponseDto responseDto = new UserIdResponseDto();
-		responseDto.setUsername(user.getUsername());
-
+		responseDto = userMapper.userToUserIdRepsonse(user);
 		return responseDto;
 
 	}

@@ -15,6 +15,6 @@ public class UserIdValidator implements Validator<UserIdRequestDto> {
 		if (request == null)
 			throw new ValidationException(UserLogInError.MISSING_DATA);
 		
-		System.out.println(request.getId());
+		
 	}
 }
