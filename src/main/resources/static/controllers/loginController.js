@@ -4,7 +4,7 @@ var loginController = router.controller('loginController', function($scope, $htt
         $http.post('/api/login', $scope.user).success((res) => {
             alert(res.error || "Success!");
         }).error(function(data, response) {
-            if (response == 400) {
+            if (response == 401) {
                 $scope.user.username = ""
                 alert(data.message);
             }
