@@ -6,7 +6,6 @@ public class UserIdResponseDto {
 	private Integer userId;
 	private String username;
 	private String email;
-	private String password;
 	private String firstName;
 	private String lastName;
 	private String country;
@@ -38,14 +37,6 @@ public class UserIdResponseDto {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getFirstName() {

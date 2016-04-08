@@ -67,35 +67,7 @@ public class UserMapper {
         return userResponse;
     }
     
-    public User userIdRequestToUser(UserIdRequestDto userDto){
-    	 if (userDto == null)
-             return null;
-
-         User user = new User();
-         user.setUsername(userDto.getUsername());
-         user.setEmail(userDto.getEmail());
-         user.setPassword(userDto.getPassword());
-         user.setFirstName(userDto.getFirstName());
-         user.setLastName(userDto.getLastName());
-         user.setCountry(userDto.getCountry());
-         user.setMobileNumber(userDto.getMobileNumber());
-         user.setRegistrationDate(userDto.getRegistrationDate());
-         user.setGender(userDto.getGender());
-         user.setIsAdmin(userDto.getIsAdmin() == null ? false : userDto.getIsAdmin());
-         user.setIsVerified(false);
-         user.setVat(userDto.getVat());
-         user.setDateOfBirth(userDto.getDateOfBirth());
-         user.setStreet(userDto.getStreet());
-         user.setCity(userDto.getCity());
-         user.setPostalCode(userDto.getPostalCode());
-         user.setPhoneNumber(userDto.getPhoneNumber());
-         user.setRatingAsSeller(0);
-         user.setRatingAsBidder(0);
-
-         return user;
     
-    	
-    }
     
     public UserIdResponseDto userToUserIdRepsonse(User user){
     	 if (user == null)
