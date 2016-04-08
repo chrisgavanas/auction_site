@@ -27,7 +27,7 @@ public interface UserApi {
 	@RequestMapping(path = "/user", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) throws Exception;
 	
-	@RequestMapping(path = "/user/{userId}", method = RequestMethod.GET, params="MyParam=MyValue")
+	@RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
 	UserIdResponseDto getUserId(@PathVariable String userId) throws Exception;
 }
 	

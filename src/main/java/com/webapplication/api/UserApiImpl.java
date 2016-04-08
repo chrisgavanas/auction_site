@@ -36,22 +36,22 @@ public class UserApiImpl implements UserApi {
 
     @Autowired
     private UserLogInValidator userLogInValidator;
-    
+
     @Autowired
     private UserRegisterValidator userRegisterValidator;
+
     
     @Autowired 
     private UserIdValidator userIdValidator;
     
+
+
+
     public UserLogInResponseDto login(@RequestBody UserLogInRequestDto userLogInRequestDto) throws Exception {
-    	userLogInValidator.validate(userLogInRequestDto);
+        userLogInValidator.validate(userLogInRequestDto);
         return userServiceApi.login(userLogInRequestDto);
     }
-    
-	public UserRegisterResponseDto register(@RequestBody UserRegisterRequestDto userRegisterRequestDto) throws Exception {
-		userRegisterValidator.validate(userRegisterRequestDto);
-		return userServiceApi.register(userRegisterRequestDto);
-	}
+
 
 	public UserIdResponseDto getUserId(@PathVariable String userId) throws Exception {
 		UserIdRequestDto userIdRequestDto = new UserIdRequestDto();
@@ -62,21 +62,28 @@ public class UserApiImpl implements UserApi {
 		return userServiceApi.getUserId(userIdRequestDto);
 	}
 	
+
+    public UserRegisterResponseDto register(@RequestBody UserRegisterRequestDto userRegisterRequestDto) throws Exception {
+        userRegisterValidator.validate(userRegisterRequestDto);
+        return userServiceApi.register(userRegisterRequestDto);
+    }
+
+
+
     @ExceptionHandler(ValidationException.class)
     private void invalidAttributes(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value());
     }
-    
+
     @ExceptionHandler({NotFoundException.class, EmailUnverifiedException.class })
     private void userNotFound(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.UNAUTHORIZED.value());
     }
-    
+
     @ExceptionHandler(UserAlreadyExists.class)
     private void userAlreadyExists(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.CONFLICT.value());
     }
 
-	
- 
+
 }
