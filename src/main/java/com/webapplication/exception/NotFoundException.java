@@ -1,5 +1,6 @@
 package com.webapplication.exception;
 
+import com.webapplication.error.UserIdError;
 import com.webapplication.error.UserLogInError;
 import com.webapplication.error.UserRegisterError;
 
@@ -11,6 +12,10 @@ public class NotFoundException extends Exception {
 	}
 
 	public NotFoundException(UserLogInError error) {
+		super(error.getDescription());
+	}
+	
+	public NotFoundException(UserIdError error){
 		super(error.getDescription());
 	}
 }
