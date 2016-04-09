@@ -2,7 +2,7 @@ package com.webapplication.dto;
 
 import java.util.Date;
 
-public class UserIdResponseDto {
+public class UserResponseDto {
 	private Integer userId;
 	private String username;
 	private String email;

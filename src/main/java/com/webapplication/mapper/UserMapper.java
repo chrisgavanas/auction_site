@@ -2,15 +2,14 @@ package com.webapplication.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.webapplication.dto.UserIdRequestDto;
-import com.webapplication.dto.UserIdResponseDto;
 import com.webapplication.dto.UserRegisterRequestDto;
 import com.webapplication.dto.UserRegisterResponseDto;
+import com.webapplication.dto.UserResponseDto;
 import com.webapplication.entity.User;
 
 @Component
 public class UserMapper {
-	
+
     public User registerRequestToUser(UserRegisterRequestDto userDto) {
         if (userDto == null)
             return null;
@@ -66,14 +65,14 @@ public class UserMapper {
 
         return userResponse;
     }
-    
-    
-    
-    public UserIdResponseDto userToUserIdRepsonse(User user){
-    	 if (user == null)
+
+
+
+    public UserResponseDto userToUserRepsonse(User user){
+         if (user == null)
              return null;
 
-         UserIdResponseDto userResponse = new UserIdResponseDto();
+         UserResponseDto userResponse = new UserResponseDto();
          userResponse.setUserId(user.getUserId());
          userResponse.setUsername(user.getUsername());
          userResponse.setEmail(user.getEmail());
@@ -95,6 +94,6 @@ public class UserMapper {
          userResponse.setRatingasBidder(user.getRatingAsBidder());
 
          return userResponse;
-    
+
     }
 }

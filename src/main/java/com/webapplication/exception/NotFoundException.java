@@ -1,21 +1,12 @@
 package com.webapplication.exception;
 
-import com.webapplication.error.UserIdError;
-import com.webapplication.error.UserLogInError;
-import com.webapplication.error.UserRegisterError;
+import com.webapplication.error.UserError;
 
 public class NotFoundException extends Exception {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public NotFoundException(UserRegisterError error) {
-		super(error.getDescription());
-	}
+    public NotFoundException(UserError error) {
+        super(error.getDescription());
+    }
 
-	public NotFoundException(UserLogInError error) {
-		super(error.getDescription());
-	}
-	
-	public NotFoundException(UserIdError error){
-		super(error.getDescription());
-	}
 }
