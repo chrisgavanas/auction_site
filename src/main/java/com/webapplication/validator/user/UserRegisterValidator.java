@@ -1,13 +1,14 @@
-package com.webapplication.validator;
+package com.webapplication.validator.user;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
-import com.webapplication.dto.UserRegisterRequestDto;
-import com.webapplication.error.UserRegisterError;
-import com.webapplication.exception.ValidationException;
+import com.webapplication.dto.user.UserRegisterRequestDto;
+import com.webapplication.error.user.UserRegisterError;
+import com.webapplication.exception.user.ValidationException;
+import com.webapplication.validator.Validator;
 
 @Component
 public class UserRegisterValidator implements Validator<UserRegisterRequestDto> {

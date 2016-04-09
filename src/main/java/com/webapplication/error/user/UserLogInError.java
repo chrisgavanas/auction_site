@@ -1,4 +1,4 @@
-package com.webapplication.error;
+package com.webapplication.error.user;
 
 public enum UserLogInError {
 	MISSING_DATA("Username or password is missing."),

@@ -1,8 +1,8 @@
-package com.webapplication.exception;
+package com.webapplication.exception.user;
 
-import com.webapplication.error.UserError;
-import com.webapplication.error.UserLogInError;
-import com.webapplication.error.UserRegisterError;
+import com.webapplication.error.user.UserError;
+import com.webapplication.error.user.UserLogInError;
+import com.webapplication.error.user.UserRegisterError;
 
 public class ValidationException extends Exception {
     private static final long serialVersionUID = 1L;
