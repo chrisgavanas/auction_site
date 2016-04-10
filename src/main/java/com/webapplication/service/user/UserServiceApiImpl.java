@@ -71,7 +71,7 @@ public class UserServiceApiImpl implements UserServiceApi {
 
         return responseDto;
     }
-
+   
     public void verifyUser(Integer userId) throws Exception {
         User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
