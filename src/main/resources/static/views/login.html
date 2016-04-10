@@ -3,17 +3,17 @@
 <head>
 <style>
 body {background-color:lightgrey}
-h1   {color:black}
+h1   {color:#636363}
 
 h1.centered{
 	position: fixed;
-	top: 50%;
+	top: 45%;
   	left: 50%;
-  	margin-top: -50px;
-  	margin-left: -150px;
+  	margin-top: -90px;
+  	margin-left: -60px;
 }
 
-}
+
 form.form{
     font-size:150%;
 }
@@ -21,23 +21,53 @@ form.centered{
 	position: fixed;
 	top: 50%;
   	left: 50%;
-  	margin-top: -50px;
+  	margin-top: -70px;
   	margin-left: -150px;
 }
 
+img.centered{
+	position: fixed;
+	top: 25%;
+  	left: 50%;
+  	margin-top: -90px;
+  	margin-left: -215px;
+}
+
+button.centered{
+	position: fixed;
+    top: 67%;
+    left: 50%;
+    margin-top: -70px;
+    margin-left: -70px;
+}
+
+button.button {
+    background-color: #b30000;
+    border: none;
+    color: white;
+    padding: 8px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+}
 </style>
 </head>
 <body>
 
-<h1 class="centered">Sign in</h1>
+<h1 class="centered" style="font-family:'verdana'">  <font size="4"><b>SIGN IN</b></font></h1>
+<img class="centered" src="http://i765.photobucket.com/albums/xx295/yiotappl/logo_zpsk7avtgbm.png"  style="width:400px;height:160px;"/img>
 
 <form class="form centered" ng-submit="login()">
-    Username or e-mail:
-    <br><input type="text" name="username" ng-model="user.username"><br>
-    Password:
+	
+    <font size="2">USERNAME OR E-MAIL:</font>
+    <br><input  type="text" name="username" ng-model="user.username"><br>
+    <font size="2">PASSWORD:</font>
     <br><input type="password" name="password" ng-model="user.password"><br><br>
 
-    <button type="button" ng-click="login()">Sign in</button>
+    <button class="centered button" type="button" ng-click="login()">Sign in</button>
+ 
 </form>
 
 </body>
