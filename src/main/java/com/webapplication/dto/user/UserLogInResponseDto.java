@@ -1,4 +1,4 @@
-package com.webapplication.dto;
+package com.webapplication.dto.user;
 
 public class UserLogInResponseDto {
 	private Integer userId;

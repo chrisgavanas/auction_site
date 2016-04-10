@@ -1,12 +1,12 @@
-package com.webapplication.validator;
+package com.webapplication.validator.user;
 
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import com.webapplication.error.UserError;
-import com.webapplication.exception.NotFoundException;
-import com.webapplication.exception.ValidationException;
+import com.webapplication.error.user.UserError;
+import com.webapplication.exception.user.NotFoundException;
+import com.webapplication.exception.user.ValidationException;
 
 @Component
 public class UserRequestValidator {

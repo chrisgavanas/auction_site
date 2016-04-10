@@ -2,9 +2,9 @@ package com.webapplication.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.webapplication.dto.UserRegisterRequestDto;
-import com.webapplication.dto.UserRegisterResponseDto;
-import com.webapplication.dto.UserResponseDto;
+import com.webapplication.dto.user.UserRegisterRequestDto;
+import com.webapplication.dto.user.UserRegisterResponseDto;
+import com.webapplication.dto.user.UserResponseDto;
 import com.webapplication.entity.User;
 
 @Component

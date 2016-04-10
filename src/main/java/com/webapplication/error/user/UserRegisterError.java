@@ -1,4 +1,4 @@
-package com.webapplication.error;
+package com.webapplication.error.user;
 
 public enum UserRegisterError {
 	MISSING_DATA("Required attributes are missing."),

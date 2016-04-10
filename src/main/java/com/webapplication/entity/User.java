@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.webapplication.dto.Gender;
+import com.webapplication.dto.user.Gender;
 
 @Entity
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
