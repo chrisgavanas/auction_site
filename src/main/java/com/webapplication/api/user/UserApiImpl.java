@@ -32,7 +32,7 @@ import com.webapplication.validator.user.UserRequestValidator;
 public class UserApiImpl implements UserApi {
 
     @Autowired
-    private UserServiceApi userServiceApi;
+    private UserServiceApi userService;
 
     @Autowired
     private UserLogInValidator userLogInValidator;
@@ -45,22 +45,22 @@ public class UserApiImpl implements UserApi {
 
     public UserLogInResponseDto login(@RequestBody UserLogInRequestDto userLogInRequestDto) throws Exception {
         userLogInValidator.validate(userLogInRequestDto);
-        return userServiceApi.login(userLogInRequestDto);
+        return userService.login(userLogInRequestDto);
     }
 
     public UserRegisterResponseDto register(@RequestBody UserRegisterRequestDto userRegisterRequestDto) throws Exception {
         userRegisterValidator.validate(userRegisterRequestDto);
-        return userServiceApi.register(userRegisterRequestDto);
+        return userService.register(userRegisterRequestDto);
     }
 
     public UserResponseDto getUser(@PathVariable Integer userId) throws Exception {
         userRequestValidator.validate(userId);
-        return userServiceApi.getUser(userId);
+        return userService.getUser(userId);
     }
 
     public void verifyUser(@PathVariable Integer userId) throws Exception {
         userRequestValidator.validate(userId);
-        userServiceApi.verifyUser(userId);
+        userService.verifyUser(userId);
     }
 
     @ExceptionHandler(ValidationException.class)
