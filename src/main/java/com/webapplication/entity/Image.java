@@ -21,6 +21,11 @@ public class Image implements Serializable {
     public Image() {
     }
 
+    public Image(byte[] image, Auctionitem auctionItem) {
+        this.image = image;
+        this.auctionitem = auctionItem;
+    }
+
     public int getImageId() {
         return this.imageId;
     }

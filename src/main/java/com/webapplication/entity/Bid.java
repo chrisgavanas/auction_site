@@ -12,7 +12,7 @@ public class Bid implements Serializable {
     @Id
     private int bidId;
 
-    private double amount;
+    private Double amount;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date bidDate;
@@ -36,11 +36,11 @@ public class Bid implements Serializable {
         this.bidId = bidId;
     }
 
-    public double getAmount() {
+    public Double getAmount() {
         return this.amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
