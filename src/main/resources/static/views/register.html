@@ -2,11 +2,19 @@
 <html>
 <head>
 <style>
-body {background-color:lightgrey}
-input {
-	margin-bottom: 5px; 
-	margin-top: 5px;
-	text-align:center
+body {background-color: #e8e8e8}
+#headerBar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 500%;
+    height: 50px;
+    background: #383838;
+  	margin: 0
+}
+form div{
+	padding: 2px;
+	text-align: centered;
 }
 h1  {
 	color:#636363;
@@ -15,20 +23,32 @@ h1  {
 }
 
 h1.centered{
-	display: block;
-	margin: 0 auto;
+	position: fixed;
+	top: 35%;
+  	left: 48%;
+  	margin-top: -90px;
+  	margin-left: -75px;
+}
+.form{
+	border: none;
+  
+   
 }
 form.centered{
-	 font-size:130%;
-	
-	
-  	margin-top: 20px;
+	position: fixed;
+	top: 40%;
+  	left: 48%;
+  	margin-top: -70px;
+  	margin-left: -150px;
   	
 }
 
 img.centered{
-	display: block;
-	margin: 0 auto;
+	position: fixed;
+	top: 15%;
+  	left: 50%;
+  	margin-top: -90px;
+  	margin-left: -215px;
 }
 
 button.button {
@@ -42,16 +62,74 @@ button.button {
     font-size: 16px;
     border-radius: 4px;
 }
+
+.button1 {
+    background-color: #b30000;
+    border: none;
+    left: 47.5%;
+    top: 10px;
+   
+    display: inline-block;
+    width: 40px;
+    height: 30px;
+    border-radius: 4px;
+    position: fixed;
+   
+   
+}
+
+.box{
+ position: fixed;
+ top :10px;
+ left: 21%;
+}
+
+.container-1{
+  width: 300px;
+ 
+  
+  white-space: nowrap;
+  position: fixed;
+}
+
+.container-1 input#search{
+  width: 500px;
+  height: 30px;
+  border: none;
+  font-size: 10pt;
+  float: left;
+  padding-left: 15px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.container-1 .icon{
+  position: fixed;
+  top: 10px;
+ 
+  z-index: 1;
+  color: #FFFFFF;
+}
 </style>
 </head>
 
 <body>
-
+<a href="/#/welcome">
 <img class="centered" src="http://i765.photobucket.com/albums/xx295/yiotappl/logo_zpsk7avtgbm.png"  style="width:400px;height:160px;"/img>
-
+</a>
+<div id="headerBar"></div>
 <h1 class="centered" style="font-family:'verdana'" align="middle">  <font size="4"><b>REGISTER ACCOUNT</b></font></h1>
 
-<form class="centered" align="middle" >
+<div class="box">
+  <div class="container-1">
+     
+      <input type="search" id="search" placeholder="Search..." />
+      <button class="icon button1"><i class="fa fa-search"></i></button>
+  </div>
+</div>
+
+<form class="centered form" align="middle" >
    <div>
        <div>
              
