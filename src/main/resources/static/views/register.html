@@ -78,12 +78,10 @@ button.button {
             <input type="text" name="phoneNumber" placeholder="Phone Number" ng-model="user.phoneNumber">
         </div>
         <div>
-            <label>Gender:</label>
-            <select name="gender" ng-model="user.gender" autofocus>
-                <option value="M" >M</option>
-                <option value="F">F</option>
-            </select>
-        </div>
+            Gender:
+            <input type="radio" ng-model="user.gender" value="M">Male
+            <input type="radio" ng-model="user.gender" value="F">Female    
+         </div>
          <div>
             <input type="text" name="vat" placeholder="VAT" ng-model="user.vat">
         </div>
@@ -104,7 +102,7 @@ button.button {
             <input type="text" name="postalCode" placeholder="Postal Code" ng-model="user.postalCode">
         </div>
         <div>
-            <button class="button" type="button" ng-click="register()" style="margin-top: 20px;">Register</button>
+            <button class="button" type="submit" ng-click="register()" style="margin-top: 20px;">Register</button>
         </div>
 </div>
 </form>

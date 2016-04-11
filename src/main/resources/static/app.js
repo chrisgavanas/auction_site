@@ -6,6 +6,11 @@ router.config(function($stateProvider, $urlRouterProvider) {
     
     $stateProvider
         
+    	.state('welcome', {
+    		url: '/welcome',
+    		controller: 'welcomeController',
+    		templateUrl: 'views/welcome.html'
+    	})
         .state('login', {
             url: '/login',
             controller: 'loginController',

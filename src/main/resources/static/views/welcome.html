@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {background-color:lightgrey}
+img.centered{
+	position: fixed;
+	top: 25%;
+  	left: 50%;
+  	margin-top: -90px;
+  	margin-left: -215px;
+}
+
+
+.pos{
+	position:relative;
+	left: 950px;
+	top: 10px;
+
+}
+.button {
+    background-color: #b30000;
+    border: none;
+    color: white;
+    padding: 5px 18px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+</style>
+
+
+</head>
+<body>
+
+<img class="centered" src="http://i765.photobucket.com/albums/xx295/yiotappl/logo_zpsk7avtgbm.png"  style="width:400px;height:160px;"/img>
+<button  class="button pos" type="button"  ng-click="redirect(/login)" >Sign In</button>
+<button  class="button pos" type="button" ng-click="redirect(/register)">Register</button>
+
+
+
+</body>
+</html>
