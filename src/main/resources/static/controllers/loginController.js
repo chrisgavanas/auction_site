@@ -1,4 +1,4 @@
-var loginController = router.controller('loginController', function($scope, $http) {
+var loginController = router.controller('loginController', function($scope, $http, $state) {
     $scope.user = {};
     $scope.login = function() {
         $http.post('/api/login', $scope.user).success((res) => {
@@ -10,4 +10,8 @@ var loginController = router.controller('loginController', function($scope, $htt
             }
         });
     };
+    
+    $scope.welcome = function(){
+    	$state.go("welcome");
+    }
 });

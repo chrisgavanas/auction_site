@@ -1,10 +1,10 @@
-var welcomeController = router.controller('welcomeController', function($scope, $location){
+var welcomeController = router.controller('welcomeController', function($scope, $state){
 	$scope.redirectLogin = function(){
-		$location.path("/login");
+		$state.go("login");
 	
 	}
 	$scope.redirectRegister = function(){
-		$location.path("/register");
+		$state.go("register");
 	}
 	
 	

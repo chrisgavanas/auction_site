@@ -2,10 +2,10 @@
 <html>
 <head>
 <style>
-body {background-color:lightgrey}
+body {background-color:#e8e8e8}
 img.centered{
 	position: fixed;
-	top: 25%;
+	top: 15%;
   	left: 50%;
   	margin-top: -90px;
   	margin-left: -215px;
@@ -18,25 +18,81 @@ img.centered{
 	top: 10px;
 
 }
+.button1 {
+    background-color: #b30000;
+    border: none;
+    left: 46.5%;
+    top: 10px;
+   
+    display: inline-block;
+    width: 40px;
+    height: 30px;
+    border-radius: 4px;
+    position: fixed;
+   
+   
+}
+.box{
+ position: fixed;
+ top :10px;
+ left: 20%;
+}
+.container-1{
+  width: 300px;
+ 
+  
+  white-space: nowrap;
+  position: fixed;
+}
+.container-1 input#search{
+  width: 500px;
+  height: 30px;
+  border: none;
+  font-size: 10pt;
+  float: left;
+  padding-left: 15px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.container-1 .icon{
+  position: fixed;
+  top: 10px;
+ 
+  z-index: 1;
+  color: #FFFFFF;
+}
 .button {
     background-color: #b30000;
     border: none;
     color: white;
-    padding: 5px 18px;
+    width: 75px;
+    height: 30px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 14px;
+    font-size: 16px;
     border-radius: 4px;
 }
-
 </style>
 
 
 </head>
 <body>
-
+<a href="/#/welcome">
 <img class="centered" src="http://i765.photobucket.com/albums/xx295/yiotappl/logo_zpsk7avtgbm.png"  style="width:400px;height:160px;"/img>
+</a>
+
+<div class="box">
+  <div class="container-1">
+     
+      <input type="search" id="search" placeholder="Search..." />
+      <button class="icon button1"><i class="fa fa-search"></i></button>
+  </div>
+</div>
+
+
 <button  class="button pos" type="button"  ng-click="redirectLogin()" >Sign In</button>
 <button  class="button pos" type="button" ng-click="redirectRegister()">Register</button>
 
