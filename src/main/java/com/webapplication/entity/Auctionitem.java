@@ -1,43 +1,35 @@
 package com.webapplication.entity;
 
 import java.io.Serializable;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
-@NamedQuery(name = "Auctionitem.findAll", query = "SELECT a FROM Auctionitem a")
+@NamedQuery(name="Auctionitem.findAll", query="SELECT a FROM Auctionitem a")
 public class Auctionitem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     private int auctionItemId;
 
-    private Integer bidsNo;
+    private int bidsNo;
 
-    private Double buyout;
+    private double buyout;
 
-    private Double currentBid;
+    private double currentBid;
 
     private String description;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 
-    private Double latitude;
+    private double latitude;
 
-    private Double longitude;
+    private double longitude;
 
-    private Double minBid;
+    private double minBid;
 
     private String name;
 
@@ -45,16 +37,17 @@ public class Auctionitem implements Serializable {
     private Date startDate;
 
     @ManyToOne
-    @JoinColumn(name = "UserId")
+    @JoinColumn(name="UserId")
     private User user;
 
-    @ManyToMany(mappedBy = "auctionitems")
-    private List<Category> categories;
-
-    @OneToMany(mappedBy = "auctionitem")
+    @OneToMany(mappedBy="auctionitem")
     private List<Bid> bids;
 
-    @OneToMany(mappedBy = "auctionitem")
+    @ManyToMany(mappedBy="auctionitems")
+    private List<Category> categories;
+
+    //bi-directional many-to-one association to Image
+    @OneToMany(mappedBy="auctionitem")
     private List<Image> images;
 
     public Auctionitem() {
@@ -68,27 +61,27 @@ public class Auctionitem implements Serializable {
         this.auctionItemId = auctionItemId;
     }
 
-    public Integer getBidsNo() {
+    public int getBidsNo() {
         return this.bidsNo;
     }
 
-    public void setBidsNo(Integer bidsNo) {
+    public void setBidsNo(int bidsNo) {
         this.bidsNo = bidsNo;
     }
 
-    public Double getBuyout() {
+    public double getBuyout() {
         return this.buyout;
     }
 
-    public void setBuyout(Double buyout) {
+    public void setBuyout(double buyout) {
         this.buyout = buyout;
     }
 
-    public Double getCurrentBid() {
+    public double getCurrentBid() {
         return this.currentBid;
     }
 
-    public void setCurrentBid(Double currentBid) {
+    public void setCurrentBid(double currentBid) {
         this.currentBid = currentBid;
     }
 
@@ -108,27 +101,27 @@ public class Auctionitem implements Serializable {
         this.endDate = endDate;
     }
 
-    public Double getLatitude() {
+    public double getLatitude() {
         return this.latitude;
     }
 
-    public void setLatitude(Double latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public Double getLongitude() {
+    public double getLongitude() {
         return this.longitude;
     }
 
-    public void setLongitude(Double longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public Double getMinBid() {
+    public double getMinBid() {
         return this.minBid;
     }
 
-    public void setMinBid(Double minBid) {
+    public void setMinBid(double minBid) {
         this.minBid = minBid;
     }
 
@@ -156,14 +149,6 @@ public class Auctionitem implements Serializable {
         this.user = user;
     }
 
-    public List<Category> getCategories() {
-        return this.categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
     public List<Bid> getBids() {
         return this.bids;
     }
@@ -184,6 +169,14 @@ public class Auctionitem implements Serializable {
         bid.setAuctionitem(null);
 
         return bid;
+    }
+
+    public List<Category> getCategories() {
+        return this.categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public List<Image> getImages() {

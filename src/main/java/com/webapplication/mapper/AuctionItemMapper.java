@@ -1,5 +1,7 @@
 package com.webapplication.mapper;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -13,6 +15,7 @@ import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.entity.Auctionitem;
+import com.webapplication.entity.Category;
 import com.webapplication.entity.Image;
 import com.webapplication.entity.User;
 
@@ -46,7 +49,14 @@ public class AuctionItemMapper {
         User user = userRepository.findUserByUserId(auctionItemRequestDto.getUserId());
         auctionItem.setUser(user);
         Optional.ofNullable(auctionItemRequestDto.getCategories()).ifPresent(categories -> {
-            auctionItem.setCategories(Lists.newArrayList(categoryRepository.findAll(categories)));
+            List<Category> c = Lists.newArrayList(categoryRepository.findAll(categories));
+            c.forEach(a -> {
+                List<Auctionitem> x = new LinkedList<Auctionitem>();
+                x.add(auctionItem);
+                a.setAuctionitems(x);
+            });
+
+            auctionItem.setCategories(c);
         });
         Optional.ofNullable(auctionItemRequestDto.getImages()).ifPresent(images -> {
             auctionItem.setImages(images.stream()

@@ -15,8 +15,9 @@ import javax.persistence.TemporalType;
 
 import com.webapplication.dto.user.Gender;
 
+
 @Entity
-@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
+@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -27,7 +28,7 @@ public class User implements Serializable {
 
     private String country;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfBirth;
 
     private String email;
@@ -37,15 +38,17 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private boolean isVerified;
+    private Boolean isAdmin;
 
-    private boolean isAdmin;
+    private Boolean isVerified;
 
     private String lastName;
 
     private String mobileNumber;
 
     private String password;
+
+    private String phoneNumber;
 
     private String postalCode;
 
@@ -58,16 +61,16 @@ public class User implements Serializable {
 
     private String street;
 
-    private String phoneNumber;
-
     private String username;
 
     private String vat;
 
-    @OneToMany(mappedBy = "user")
+    //bi-directional many-to-one association to Auctionitem
+    @OneToMany(mappedBy="user")
     private List<Auctionitem> auctionitems;
 
-    @OneToMany(mappedBy = "user")
+    //bi-directional many-to-one association to Bid
+    @OneToMany(mappedBy="user")
     private List<Bid> bids;
 
     public User() {
@@ -129,19 +132,19 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
-    public boolean getIsAdmin() {
+    public Boolean getIsAdmin() {
         return this.isAdmin;
     }
 
-    public void setIsAdmin(boolean isAdmin) {
+    public void setIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
 
-    public boolean getIsVerified() {
+    public Boolean getIsVerified() {
         return this.isVerified;
     }
 
-    public void setIsVerified(boolean isVerified) {
+    public void setIsVerified(Boolean isVerified) {
         this.isVerified = isVerified;
     }
 
@@ -167,6 +170,14 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getPostalCode() {
@@ -207,14 +218,6 @@ public class User implements Serializable {
 
     public void setStreet(String street) {
         this.street = street;
-    }
-
-    public String getPhoneNumber() {
-        return this.phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getUsername() {
