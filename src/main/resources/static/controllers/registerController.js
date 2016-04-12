@@ -7,8 +7,8 @@ var registerController = router.controller('registerController', function($scope
             alert(res.error || "Success!");
         }).error(function(data, response) {
             alert(data.message);
-        });
-    }
+    });
+    
     
     $scope.redirectLogin = function(){
 		$state.go("login");
@@ -16,5 +16,5 @@ var registerController = router.controller('registerController', function($scope
 	}
 	$scope.redirectRegister = function(){
 		$state.go("register");
-	}
+	}	
 });

@@ -31,59 +31,61 @@
    		<hr>
 		<h1 style="font-family:'verdana'" align="middle">  <font size="4"><b>REGISTER ACCOUNT</b></font></h1>
    
-       <div>
-             
+       <div class="padded">
+            
              <input type="email" name="email" placeholder="E-mail" ng-model="user.email">
         </div>
-        <div>
-        <input type="text" name="username" placeholder="Username" ng-model="user.username"></div>
-        <div>
+        <div class="padded">
+        	<input type="text" name="username" placeholder="Username" ng-model="user.username">
+        </div>
+        <div class="padded">
     		<input type="text" name="firstName" placeholder="First Name" ng-model="user.firstName">
         
             <input type="text" name="lastName" placeholder="Last Name" ng-model="user.lastName">
         </div>
         
-        <div>
+        <div class="padded">
        
             <input type="password" name="password" placeholder="Password" ng-model="user.password">
         
             <input type="password" name="confirmPassword" placeholder="Re-type password" ng-model="user.confirmPassword">
         </div>
        
-         <div>
+         <div class="padded">
             <input type="text" name="mobileNumber"  placeholder="Mobile Number" ng-model="user.mobileNumber">
         
             <input type="text" name="phoneNumber" placeholder="Phone Number" ng-model="user.phoneNumber">
         </div>
-        <div>
+        <div class="padded">
             Gender:
             <input type="radio" ng-model="user.gender" value="M">Male
             <input type="radio" ng-model="user.gender" value="F">Female    
          </div>
-         <div>
+         <div class="padded">
             <input type="text" name="vat" placeholder="VAT" ng-model="user.vat">
         </div>
-        <div>
+        <div class="padded">
           
             <input type="date" name="dateOfBirth" placeholder="Date Of Birth" ng-model="user.dateOfBirth">
         </div>
-        <div>
+        <div class="padded">
             <input type="text" name="country" placeholder="Country" ng-model="user.country">
         </div>
-        <div>
+        <div class="padded">
             <input type="text" name="city" placeholder="City" ng-model="user.city">
         </div>
-        <div>
+        <div class="padded">
             <input type="text" name="street" placeholder="Street" ng-model="user.street">
         </div>
-        <div>
+        <div class="padded">
             <input type="text" name="postalCode" placeholder="Postal Code" ng-model="user.postalCode">
         </div>
-        <div>
+        <div class="padded">
             <button class="button" type="submit" ng-click="register()" >Register</button>
         </div>
 	</div>
 	<hr>
+	
 </form>
 
 </body>
