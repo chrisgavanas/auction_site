@@ -1,134 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-body {background-color: #e8e8e8}
-h1   {color:#636363}
-#headerBar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 500%;
-    height: 50px;
-    background: #383838;
-      margin: 0
-}
-
-
-
-
-.form{
-	border: 1px solid grey;
-	border-collapse: separate;
-	border-spacing: 10px 50px;
-}
-
-.centered{
-	position: relative;
-	margin-top: 60px;
-	margin-left: 25%;
-	margin-right: 25%;
-	text-align: center;
-  	
-}
-
-
-
-button.button {
-    background-color: #b30000;
-    border: none;
-    color: white;
-    padding: 8px 25px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 4px;
-}
-
-
-.button1 {
-    background-color: #b30000;
-    border: none;
-    left: 47.5%;
-    top: 10px;
-   
-    display: inline-block;
-    width: 40px;
-    height: 30px;
-    border-radius: 4px;
-    position: fixed;
-   
-}
-
-.box{
- position: absolute;
- top :10px;
- left: 21%;
-}
-
-.container-1{
-  width: 300px;
-
-
-  white-space: nowrap;
-  position: absolute;
-}
-.container-1 input#search{
-  width: 500px;
-  height: 30px;
-  border: none;
-  font-size: 10pt;
-  float: left;
-  padding-left: 15px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-
-.container-1 .icon{
-  position: fixed;
-  top: 10px;
-
-  z-index: 1;
-  color: #FFFFFF;
-}
-
-
-
-hr {
-	width: 30%;
-   
-	
-    border: 0;
-    border-top: 1px solid #989898;
-}
-</style>
-</head>
+	<link rel="stylesheet" type="text/css" href="../styles/basic.css">
+	<link rel="stylesheet" type="text/css" href="../styles/centered.css">
+	<link rel="stylesheet" type="text/css" href="../styles/login.css">
+	</head>
 <body>
-
 
 <div id="headerBar"></div>
 
 <div class="box">
-  <div class="container-1">
+  	<div class="container-4">
+      	<input type="search" id="search" placeholder="Search..." />
+      	<button class="icon"><i class="fa fa-search"></i></button>
+      	<button  class="buttonL " type="button"  ng-click="redirectLogin()" >Sign In</button>
+		<button  class="buttonR " type="button" ng-click="redirectRegister()">Register</button>
+	</div>
 
-      <input type="search" id="search" placeholder="Search..." />
-      <button class="icon button1"><i class="fa fa-search"></i></button>
-  </div>
 </div>
 
 
 <p class="centered" align="middle">
 	<a href="/#/welcome">
 		<img  src="http://i765.photobucket.com/albums/xx295/yiotappl/logo_zpsk7avtgbm.png"   >
-	</a></p>
+	</a>
+</p>
 	
 
-<form class="centered form" align="middle">
+<form class="centered1 form" align="middle">
 	
-	
-	<h1  style="font-family:'verdana'">  <font size="4"><b>SIGN IN</b></font></h1>
+	<hr>
+	<h1  style="font-family:'verdana'">
+		<font size="4"><b>SIGN IN</b></font>
+	</h1>
 
     <font size="2">USERNAME OR E-MAIL:</font>
     <br><input  type="text" name="username" ng-model="user.username"><br>
@@ -137,8 +41,14 @@ hr {
 
 
     <button class="button" type="submit" ng-click="login()">Sign in</button>
- 
+ 	<hr>
+
+	New to this site?
+ 	<a href="/#/register">
+		Register here.
+	</a>
 </form>
+
 
 
 </body>
