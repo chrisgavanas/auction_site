@@ -16,11 +16,11 @@ import com.webapplication.entity.User;
 import com.webapplication.error.user.UserError;
 import com.webapplication.error.user.UserLogInError;
 import com.webapplication.error.user.UserRegisterError;
-import com.webapplication.exception.user.EmailUnverifiedException;
-import com.webapplication.exception.user.NotFoundException;
-import com.webapplication.exception.user.UserAlreadyExistsException;
-import com.webapplication.exception.user.UserAlreadyVerifiedException;
-import com.webapplication.exception.user.UserNotFoundException;
+import com.webapplication.exception.EmailUnverifiedException;
+import com.webapplication.exception.NotFoundException;
+import com.webapplication.exception.UserAlreadyExistsException;
+import com.webapplication.exception.UserAlreadyVerifiedException;
+import com.webapplication.exception.UserNotFoundException;
 import com.webapplication.mapper.UserMapper;
 
 @Transactional

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.webapplication.dto.user.UserRegisterRequestDto;
 import com.webapplication.error.user.UserRegisterError;
-import com.webapplication.exception.user.ValidationException;
+import com.webapplication.exception.ValidationException;
 import com.webapplication.validator.Validator;
 
 @Component

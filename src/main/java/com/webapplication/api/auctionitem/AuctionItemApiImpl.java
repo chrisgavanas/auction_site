@@ -1,21 +1,42 @@
 package com.webapplication.api.auctionitem;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
+import com.webapplication.exception.ValidationException;
 import com.webapplication.service.auctionitem.AuctionItemServiceApi;
+import com.webapplication.validator.auctionitem.AuctionItemValidator;
 
 @Component
 public class AuctionItemApiImpl implements AuctionItemApi {
 
     @Autowired
     private AuctionItemServiceApi auctionItemService;
+    
+    @Autowired
+    private AuctionItemValidator auctionItemValidator;
 
     public AddAuctionItemResponseDto addItem(@RequestBody AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
+    	auctionItemValidator.validate(auctionItemRequestDto);
         return auctionItemService.addItem(auctionItemRequestDto);
     }
 
+    @ExceptionHandler(ValidationException.class)
+    private void invalidData(HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.BAD_REQUEST.value());
+    }
+    
+    @ExceptionHandler(Exception.class)
+    private void genericError(HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
 }

@@ -1,16 +1,16 @@
-package com.webapplication.exception.user;
+package com.webapplication.exception;
 
 import com.webapplication.error.user.UserLogInError;
 import com.webapplication.error.user.UserRegisterError;
 
-public class UserAlreadyExistsException extends Exception {
+public class NotAuthorizedException extends Exception {
 	private static final long serialVersionUID = 1L;
 
-	public UserAlreadyExistsException(UserRegisterError error) {
+	public NotAuthorizedException(UserRegisterError error) {
 		super(error.getDescription());
 	}
 
-	public UserAlreadyExistsException(UserLogInError error) {
+	public NotAuthorizedException(UserLogInError error) {
 		super(error.getDescription());
 	}
 }

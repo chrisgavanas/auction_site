@@ -1,6 +1,6 @@
 package com.webapplication.validator;
 
-import com.webapplication.exception.user.ValidationException;
+import com.webapplication.exception.ValidationException;
 
 
 public interface Validator<T> {
