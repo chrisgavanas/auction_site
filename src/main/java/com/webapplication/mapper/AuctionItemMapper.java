@@ -18,6 +18,8 @@ import com.webapplication.entity.Category;
 import com.webapplication.entity.Image;
 import com.webapplication.entity.User;
 
+import javax.servlet.http.HttpSession;
+
 @Component
 public class AuctionItemMapper {
 
@@ -47,6 +49,7 @@ public class AuctionItemMapper {
         auctionItem.setLongitude(auctionItemRequestDto.getLongitude());
         User user = userRepository.findUserByUserId(auctionItemRequestDto.getUserId());
         auctionItem.setUser(user);
+
         Optional.ofNullable(auctionItemRequestDto.getCategories()).ifPresent(categories -> {
         	List<Category> cat = Lists.newArrayList(categoryRepository.findAll(categories));
         	cat.forEach(category -> {
