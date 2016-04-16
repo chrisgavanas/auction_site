@@ -1,10 +1,12 @@
 package com.webapplication.api.user;
 
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletResponse;
-
+import com.webapplication.dto.user.*;
+import com.webapplication.exception.*;
+import com.webapplication.service.user.UserServiceApi;
+import com.webapplication.validator.user.UserLogInValidator;
+import com.webapplication.validator.user.UserRegisterValidator;
+import com.webapplication.validator.user.UserRequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -12,21 +14,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.webapplication.dto.user.UserLogInRequestDto;
-import com.webapplication.dto.user.UserLogInResponseDto;
-import com.webapplication.dto.user.UserRegisterRequestDto;
-import com.webapplication.dto.user.UserRegisterResponseDto;
-import com.webapplication.dto.user.UserResponseDto;
-import com.webapplication.exception.user.EmailUnverifiedException;
-import com.webapplication.exception.user.NotFoundException;
-import com.webapplication.exception.user.UserAlreadyExistsException;
-import com.webapplication.exception.user.UserAlreadyVerifiedException;
-import com.webapplication.exception.user.UserNotFoundException;
-import com.webapplication.exception.user.ValidationException;
-import com.webapplication.service.user.UserServiceApi;
-import com.webapplication.validator.user.UserLogInValidator;
-import com.webapplication.validator.user.UserRegisterValidator;
-import com.webapplication.validator.user.UserRequestValidator;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Component
 public class UserApiImpl implements UserApi {
@@ -68,7 +57,7 @@ public class UserApiImpl implements UserApi {
         response.sendError(HttpStatus.BAD_REQUEST.value());
     }
 
-    @ExceptionHandler({UserNotFoundException.class, EmailUnverifiedException.class })
+    @ExceptionHandler({UserNotFoundException.class, EmailUnverifiedException.class})
     private void userNotFound(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.UNAUTHORIZED.value());
     }

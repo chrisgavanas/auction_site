@@ -1,27 +1,24 @@
 package com.webapplication.service.user;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
+import com.webapplication.authentication.Authenticator;
 import com.webapplication.dao.UserRepository;
-import com.webapplication.dto.user.UserLogInRequestDto;
-import com.webapplication.dto.user.UserLogInResponseDto;
-import com.webapplication.dto.user.UserRegisterRequestDto;
-import com.webapplication.dto.user.UserRegisterResponseDto;
-import com.webapplication.dto.user.UserResponseDto;
+import com.webapplication.dto.user.*;
 import com.webapplication.entity.User;
 import com.webapplication.error.user.UserError;
 import com.webapplication.error.user.UserLogInError;
 import com.webapplication.error.user.UserRegisterError;
-import com.webapplication.exception.user.EmailUnverifiedException;
-import com.webapplication.exception.user.NotFoundException;
-import com.webapplication.exception.user.UserAlreadyExistsException;
-import com.webapplication.exception.user.UserAlreadyVerifiedException;
-import com.webapplication.exception.user.UserNotFoundException;
+import com.webapplication.exception.*;
 import com.webapplication.mapper.UserMapper;
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Transactional
 @Component
@@ -33,20 +30,22 @@ public class UserServiceApiImpl implements UserServiceApi {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private Authenticator authenticator;
 
     public UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) throws Exception {
         User user = userRepository.findUserByUsernameOrEmailAndPassword(userLogInRequestDto.getUsername(), userLogInRequestDto.getEmail(), userLogInRequestDto.getPassword());
-
 
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserLogInError.INVALID_CREDENTIALS));
         if (!user.getIsVerified())
             throw new EmailUnverifiedException(UserLogInError.USER_NOT_EMAIL_VERIFIED);
 
-        UserLogInResponseDto responseDto = new UserLogInResponseDto();
-        responseDto.setUseId(user.getUserId());
+        SessionInfo session = new SessionInfo(user.getUsername(), DateTime.now().plusHours(Authenticator.SESSION_TIME_OUT_HOURS));
+        UUID authToken = authenticator.createSession(session);
+        UserLogInResponseDto responseDto = new UserLogInResponseDto(user.getUserId(), authToken);
+
         return responseDto;
     }
-
 
     public UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) throws Exception {
         User user = userRepository.findUserByUsernameOrEmail(userRegisterRequestDto.getUsername(),
@@ -71,7 +70,7 @@ public class UserServiceApiImpl implements UserServiceApi {
 
         return responseDto;
     }
-   
+
     public void verifyUser(Integer userId) throws Exception {
         User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));

@@ -1,4 +1,4 @@
-package com.webapplication.exception.user;
+package com.webapplication.exception;
 
 import com.webapplication.error.user.UserError;
 

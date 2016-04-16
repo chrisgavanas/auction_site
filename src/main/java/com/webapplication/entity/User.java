@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -22,11 +24,13 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int userId;
 
     private String city;
 
     private String country;
+
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfBirth;
@@ -65,13 +69,11 @@ public class User implements Serializable {
 
     private String vat;
 
-    //bi-directional many-to-one association to Auctionitem
-    @OneToMany(mappedBy="user")
-    private List<Auctionitem> auctionitems;
-
-    //bi-directional many-to-one association to Bid
     @OneToMany(mappedBy="user")
     private List<Bid> bids;
+
+    @OneToMany(mappedBy="user")
+    private List<Auctionitem> auctionitems;
 
     public User() {
     }
@@ -236,28 +238,6 @@ public class User implements Serializable {
         this.vat = vat;
     }
 
-    public List<Auctionitem> getAuctionitems() {
-        return this.auctionitems;
-    }
-
-    public void setAuctionitems(List<Auctionitem> auctionitems) {
-        this.auctionitems = auctionitems;
-    }
-
-    public Auctionitem addAuctionitem(Auctionitem auctionitem) {
-        getAuctionitems().add(auctionitem);
-        auctionitem.setUser(this);
-
-        return auctionitem;
-    }
-
-    public Auctionitem removeAuctionitem(Auctionitem auctionitem) {
-        getAuctionitems().remove(auctionitem);
-        auctionitem.setUser(null);
-
-        return auctionitem;
-    }
-
     public List<Bid> getBids() {
         return this.bids;
     }
@@ -278,6 +258,28 @@ public class User implements Serializable {
         bid.setUser(null);
 
         return bid;
+    }
+
+    public List<Auctionitem> getAuctionitems() {
+        return this.auctionitems;
+    }
+
+    public void setAuctionitems(List<Auctionitem> auctionitems) {
+        this.auctionitems = auctionitems;
+    }
+
+    public Auctionitem addAuctionitem(Auctionitem auctionitem) {
+        getAuctionitems().add(auctionitem);
+        auctionitem.setUser(this);
+
+        return auctionitem;
+    }
+
+    public Auctionitem removeAuctionitem(Auctionitem auctionitem) {
+        getAuctionitems().remove(auctionitem);
+        auctionitem.setUser(null);
+
+        return auctionitem;
     }
 
 }

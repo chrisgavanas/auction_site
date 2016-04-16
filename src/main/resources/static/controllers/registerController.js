@@ -1,4 +1,4 @@
-var registerController = router.controller('registerController', function($scope, $http) {
+var registerController = router.controller('registerController', function($scope, $http, $state) {
     $scope.user = {};
     $scope.register = function() {
         $scope.user.registrationDate = new Date();
@@ -9,4 +9,13 @@ var registerController = router.controller('registerController', function($scope
             alert(data.message);
         });
     };
+    
+    
+    $scope.redirectLogin = function(){
+		$state.go("login");
+	
+	};	
+	$scope.redirectRegister = function(){
+		$state.go("register");
+	};	
 });

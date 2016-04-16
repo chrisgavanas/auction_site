@@ -16,4 +16,5 @@ public interface UserServiceApi {
     UserResponseDto getUser(Integer userId) throws Exception;
 
     void verifyUser(Integer userId) throws Exception;
+
 }

@@ -1,0 +1,35 @@
+@CHARSET "UTF-8";
+
+form div{
+	text-align: centered;
+}
+
+h1  {
+	color:#636363;
+	margin-bottom: 10px; 
+	margin-top: -10px
+}
+
+
+hr {
+	width: 50%;
+    border: 0;
+    border-top: 1px solid #989898;
+}
+
+button.button {
+    background-color: #b30000;
+    border: none;
+    color: white;
+    padding: 8px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.padded{
+	padding: 5px;
+}

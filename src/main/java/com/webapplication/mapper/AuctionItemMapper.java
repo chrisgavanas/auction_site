@@ -1,6 +1,5 @@
 package com.webapplication.mapper;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,19 +43,17 @@ public class AuctionItemMapper {
         auctionItem.setStartDate(auctionItemRequestDto.getStartDate());
         auctionItem.setEndDate(auctionItemRequestDto.getEndDate());
         auctionItem.setDescription(auctionItemRequestDto.getDescription());
-        auctionItem.setLongitude(auctionItemRequestDto.getLongitude());
         auctionItem.setLatitude(auctionItemRequestDto.getLatitude());
+        auctionItem.setLongitude(auctionItemRequestDto.getLongitude());
         User user = userRepository.findUserByUserId(auctionItemRequestDto.getUserId());
         auctionItem.setUser(user);
-        Optional.ofNullable(auctionItemRequestDto.getCategories()).ifPresent(categories -> {
-            List<Category> c = Lists.newArrayList(categoryRepository.findAll(categories));
-            c.forEach(a -> {
-                List<Auctionitem> x = new LinkedList<Auctionitem>();
-                x.add(auctionItem);
-                a.setAuctionitems(x);
-            });
 
-            auctionItem.setCategories(c);
+        Optional.ofNullable(auctionItemRequestDto.getCategories()).ifPresent(categories -> {
+            List<Category> cat = Lists.newArrayList(categoryRepository.findAll(categories));
+            cat.forEach(category -> {
+                category.getAuctionitems().add(auctionItem);
+            });
+            auctionItem.setCategories(cat);
         });
         Optional.ofNullable(auctionItemRequestDto.getImages()).ifPresent(images -> {
             auctionItem.setImages(images.stream()
