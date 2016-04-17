@@ -1,5 +1,13 @@
 @CHARSET "UTF-8";
 
+#usernamePanel{
+	display: none;
+}
+
+#passwordPanel{
+	display: none;
+}
+
 h1{
 	margin-top: -15px;
 	color:#636363
@@ -22,3 +30,4 @@ hr {
     border: 0;
     border-top: 1px solid #989898;
 }
+
