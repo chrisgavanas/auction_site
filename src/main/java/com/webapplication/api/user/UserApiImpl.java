@@ -2,6 +2,7 @@ package com.webapplication.api.user;
 
 
 import com.webapplication.dto.user.*;
+import com.webapplication.error.user.UserError;
 import com.webapplication.exception.*;
 import com.webapplication.service.user.UserServiceApi;
 import com.webapplication.validator.user.UserLogInValidator;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 public class UserApiImpl implements UserApi {
@@ -43,12 +45,23 @@ public class UserApiImpl implements UserApi {
     }
 
     public UserResponseDto getUser(@PathVariable Integer userId) throws Exception {
-        userRequestValidator.validate(userId);
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.INVALID_DATA));
+        if (userId <= 0)
+            throw new ValidationException(UserError.INVALID_DATA);
+
         return userService.getUser(userId);
     }
 
+    public UserResponseDto updateUser(@PathVariable Integer userId, UserRequestDto userRequestDto) throws Exception {
+        userRequestValidator.validate(userRequestDto);
+        return userService.updateUser(userRequestDto);
+    }
+
     public void verifyUser(@PathVariable Integer userId) throws Exception {
-        userRequestValidator.validate(userId);
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.INVALID_DATA));
+        if (userId <= 0)
+            throw new ValidationException(UserError.INVALID_DATA);
+
         userService.verifyUser(userId);
     }
 

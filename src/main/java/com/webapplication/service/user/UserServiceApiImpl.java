@@ -11,14 +11,11 @@ import com.webapplication.exception.*;
 import com.webapplication.mapper.UserMapper;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Transactional
 @Component
@@ -66,7 +63,7 @@ public class UserServiceApiImpl implements UserServiceApi {
             throw new NotFoundException(UserError.USER_DOES_NOT_EXIST);
 
         UserResponseDto responseDto = new UserResponseDto();
-        responseDto = userMapper.userToUserRepsonse(user);
+        responseDto = userMapper.userToUserResponse(user);
 
         return responseDto;
     }
@@ -80,6 +77,18 @@ public class UserServiceApiImpl implements UserServiceApi {
 
         user.setIsVerified(true);
         userRepository.save(user);
+    }
+
+    public UserResponseDto updateUser(UserRequestDto userRequestDto) throws Exception {
+        User user = userRepository.findUserByUserId(userRequestDto.getUserId());
+        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
+        if (userRepository.countByEmail(user.getEmail()) > 0)
+            throw new UserAlreadyExistsException(UserError.EMAIL_TAKEN);
+
+        userMapper.update(user, userRequestDto);
+        userRepository.save(user);
+
+        return userMapper.userToUserResponse(user);
     }
 
 }

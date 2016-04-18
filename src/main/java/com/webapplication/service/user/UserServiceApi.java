@@ -1,10 +1,6 @@
 package com.webapplication.service.user;
 
-import com.webapplication.dto.user.UserLogInRequestDto;
-import com.webapplication.dto.user.UserLogInResponseDto;
-import com.webapplication.dto.user.UserRegisterRequestDto;
-import com.webapplication.dto.user.UserRegisterResponseDto;
-import com.webapplication.dto.user.UserResponseDto;
+import com.webapplication.dto.user.*;
 
 
 public interface UserServiceApi {
@@ -17,4 +13,5 @@ public interface UserServiceApi {
 
     void verifyUser(Integer userId) throws Exception;
 
+    UserResponseDto updateUser(UserRequestDto userRequestDto) throws Exception;
 }
