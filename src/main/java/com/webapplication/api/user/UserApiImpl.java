@@ -52,7 +52,7 @@ public class UserApiImpl implements UserApi {
         return userService.getUser(userId);
     }
 
-    public UserResponseDto updateUser(@PathVariable Integer userId, UserRequestDto userRequestDto) throws Exception {
+    public UserResponseDto updateUser(@PathVariable Integer userId, @RequestBody UserRequestDto userRequestDto) throws Exception {
         userRequestValidator.validate(userRequestDto);
         return userService.updateUser(userRequestDto);
     }
@@ -75,7 +75,7 @@ public class UserApiImpl implements UserApi {
         response.sendError(HttpStatus.UNAUTHORIZED.value());
     }
 
-    @ExceptionHandler({UserAlreadyExistsException.class, UserAlreadyVerifiedException.class})
+    @ExceptionHandler({UserAlreadyExistsException.class, UserAlreadyVerifiedException.class, EmailAlreadyInUseException.class})
     private void userAlreadyExists(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.CONFLICT.value());
     }

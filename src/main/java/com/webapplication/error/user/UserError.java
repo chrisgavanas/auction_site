@@ -4,7 +4,7 @@ public enum UserError {
     USER_DOES_NOT_EXIST("User does not exist."),
     INVALID_DATA("Invalid data."),
     USER_ALREADY_VERIFIED("User is already verified."),
-    EMAIL_TAKEN("Email is already in user.");
+    EMAIL_TAKEN("Email is already in use.");
 
     private final String description;
 
