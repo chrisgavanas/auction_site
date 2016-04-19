@@ -23,8 +23,6 @@ public class Authenticator {
         return uuid;
     }
 
-
-
     @Scheduled(fixedDelay = SESSION_TIME_OUT)
     private void cleanUpSessions() {
         sessions.entrySet().removeIf(session -> session.getValue().getDate().isAfter(DateTime.now()));

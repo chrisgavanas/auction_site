@@ -11,14 +11,11 @@ import com.webapplication.exception.*;
 import com.webapplication.mapper.UserMapper;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Transactional
 @Component
@@ -42,9 +39,8 @@ public class UserServiceApiImpl implements UserServiceApi {
 
         SessionInfo session = new SessionInfo(user.getUsername(), DateTime.now().plusHours(Authenticator.SESSION_TIME_OUT_HOURS));
         UUID authToken = authenticator.createSession(session);
-        UserLogInResponseDto responseDto = new UserLogInResponseDto(user.getUserId(), authToken);
 
-        return responseDto;
+        return new UserLogInResponseDto(user.getUserId(), authToken);
     }
 
     public UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) throws Exception {
@@ -65,8 +61,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         if (user == null)
             throw new NotFoundException(UserError.USER_DOES_NOT_EXIST);
 
-        UserResponseDto responseDto = new UserResponseDto();
-        responseDto = userMapper.userToUserRepsonse(user);
+        UserResponseDto responseDto = userMapper.userToUserResponse(user);
 
         return responseDto;
     }
@@ -80,6 +75,18 @@ public class UserServiceApiImpl implements UserServiceApi {
 
         user.setIsVerified(true);
         userRepository.save(user);
+    }
+
+    public UserResponseDto updateUser(UserRequestDto userRequestDto) throws Exception {
+        User user = userRepository.findUserByUserId(userRequestDto.getUserId());
+        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
+        if (!user.getEmail().equals(userRequestDto.getEmail()) && userRepository.countByEmail(userRequestDto.getEmail()) > 0)
+            throw new EmailAlreadyInUseException(UserError.EMAIL_TAKEN);
+
+        userMapper.update(user, userRequestDto);
+        userRepository.save(user);
+
+        return userMapper.userToUserResponse(user);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.webapplication.mapper;
 
+import com.webapplication.dto.user.UserRequestDto;
 import org.springframework.stereotype.Component;
 
 import com.webapplication.dto.user.UserRegisterRequestDto;
@@ -68,7 +69,7 @@ public class UserMapper {
 
 
 
-    public UserResponseDto userToUserRepsonse(User user){
+    public UserResponseDto userToUserResponse(User user){
          if (user == null)
              return null;
 
@@ -96,4 +97,18 @@ public class UserMapper {
          return userResponse;
 
     }
+
+    public void update(User user, UserRequestDto userRequestDto) {
+        user.setUserId(userRequestDto.getUserId());
+        user.setEmail(userRequestDto.getEmail());
+        user.setFirstName(userRequestDto.getFirstName());
+        user.setLastName(userRequestDto.getFirstName());
+        user.setCountry(userRequestDto.getCountry());
+        user.setMobileNumber(userRequestDto.getMobileNumber());
+        user.setRegistrationDate(userRequestDto.getRegistrationDate());
+        user.setGender(userRequestDto.getGender());
+        user.setVat(userRequestDto.getVat());
+        user.setDateOfBirth(userRequestDto.getDateOfBirth());
+    }
+
 }
