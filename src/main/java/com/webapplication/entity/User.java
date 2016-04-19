@@ -31,7 +31,6 @@ public class User implements Serializable {
 
     private String country;
 
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfBirth;
 

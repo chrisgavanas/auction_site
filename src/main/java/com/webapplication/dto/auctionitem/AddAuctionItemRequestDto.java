@@ -15,7 +15,7 @@ public class AddAuctionItemRequestDto {
     private Double longitude;
     private Integer userId;
     private List<Integer> categories;
-    private List<byte[]> images;
+    private List<Byte[]> images;
 
     public String getName() {
         return name;
@@ -97,11 +97,11 @@ public class AddAuctionItemRequestDto {
         this.categories = categories;
     }
 
-    public List<byte[]> getImages() {
+    public List<Byte[]> getImages() {
         return images;
     }
 
-    public void setImages(List<byte[]> images) {
+    public void setImages(List<Byte[]> images) {
         this.images = images;
     }
 

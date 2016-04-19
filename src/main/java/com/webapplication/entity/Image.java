@@ -15,7 +15,7 @@ public class Image implements Serializable {
     private int imageId;
 
     @Lob
-    private byte[] image;
+    private Byte[] image;
 
     @ManyToOne
     @JoinColumn(name="AuctionItemId")
@@ -24,7 +24,7 @@ public class Image implements Serializable {
     public Image() {
     }
 
-    public Image(byte[] image, Auctionitem auctionitem) {
+    public Image(Byte[] image, Auctionitem auctionitem) {
         this.image = image;
         this.auctionitem = auctionitem;
     }
@@ -37,11 +37,11 @@ public class Image implements Serializable {
         this.imageId = imageId;
     }
 
-    public byte[] getImage() {
+    public Byte[] getImage() {
         return this.image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(Byte[] image) {
         this.image = image;
     }
 
