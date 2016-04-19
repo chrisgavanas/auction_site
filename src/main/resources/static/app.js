@@ -1,4 +1,4 @@
-var router = angular.module('router', ['ui.router', 'ngResource']);
+var router = angular.module('router', ['ui.router', 'ngResource', 'ngCookies']);
 
 router.config(function($stateProvider, $urlRouterProvider) {
     
