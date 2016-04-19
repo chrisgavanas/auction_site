@@ -134,7 +134,8 @@ body {
 
 hr.vertical{
 	width: 0px;
-	height: 10px;
-	float: left;
-	border-top: 1px solid #989898;
+	margin-top: 22.5px;
+	height: 30px;
+	float: right;
+	border-left: 1px solid #989898;
 }
