@@ -2,7 +2,7 @@ var loginController = router.controller('loginController', function($scope, $htt
     $scope.user = {};
     $scope.login = function(user) {
     	AuthenticationService.login(user).then(function (user){
-    		$state.go("welcomeUser");
+    		$state.go("welcome");
     	}, function (response) {
     		if (response.status == 400){
         		if($scope.user.username === "" | $scope.user.username === undefined)
@@ -12,7 +12,7 @@ var loginController = router.controller('loginController', function($scope, $htt
         		
         	}
             if (response.status == 401) {
-                alert(JSON.stringify($scope.user.username));
+               document.getElementById("donotmatchPanel").style.display = "block";
                
             }
     	});

@@ -16,7 +16,7 @@
 
 <div class="container-4">
   <a href="/#/welcome">
-		<img class="img" src="http://i765.photobucket.com/albums/xx295/yiotappl/logonew_zpstit9bcvx.png"  style="width:155px;height:50px;"/img>
+		<img class="img" src="http://i765.photobucket.com/albums/xx295/yiotappl/logonew_zpstit9bcvx.png"  style="width:150px;height:50px;"/img>
 	  </a>
       <input type="search" id="search" placeholder="Search..." />
       <select class="select">
@@ -43,7 +43,11 @@
 	<h1  style="font-family:'verdana'">
 		<font size="4"><b>SIGN IN</b></font>
 	</h1>
-
+	<div id="donotmatchPanel" >
+    	<font color= #FF0000>
+    		Username or e-mail and password do not match.
+    	</font>
+    </div> 
     <font size="2">USERNAME OR E-MAIL:</font>
     <br><input  type="text" name="username" ng-model="user.username"><br>
     <div id="usernamePanel" >
