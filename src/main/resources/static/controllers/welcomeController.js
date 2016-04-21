@@ -32,4 +32,8 @@ var welcomeController = router.controller('welcomeController', function($scope, 
 		$state.go($state.current, {}, {reload: true}); 
 	}
 	
+	$scope.myProfile = function(){
+		$state.go("profile");
+	}
+	
 });
