@@ -1,5 +1,13 @@
 @CHARSET "UTF-8";
 
+#inUsePanel1{
+	display: none;
+}
+
+#inUsePanel2{
+	display:none;
+}
+
 form div{
 	text-align: centered;
 }
@@ -33,3 +41,4 @@ button.button {
 .padded{
 	padding: 5px;
 }
+

@@ -2,6 +2,7 @@ router.factory('AuthenticationService', function($http, $cookies, userDataServic
 	var authService = {};
 	
 	authService.login = function(user){
+		
 		return $http.post('/api/login', user)
 					.then(function (response) {
 						userDataService.setUserId(response.data.useId);
@@ -14,6 +15,14 @@ router.factory('AuthenticationService', function($http, $cookies, userDataServic
 				
 	};
 	
+	authService.register = function(user){
+		console.log(user);
+		return $http.post('/api/user', user)
+					.then(function(repsonse){
+						return response.data;
+					});
+		
+	};
 	authService.isAuntenticated = function () {
 		return !!userDataService.getUserId();
 		

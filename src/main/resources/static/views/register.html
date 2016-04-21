@@ -34,11 +34,16 @@
 
 
 
-<form class="centered1 form" align="middle" >
+<form class="centered1 form" align="middle" ng-controller="registerController" >
    <div>
    		<hr>
 		<h1 style="font-family:'verdana'" align="middle">  <font size="4"><b>REGISTER ACCOUNT</b></font></h1>
-   
+   		<font id="inUsePanel1" color= #FF0000>
+    		Username already in use.
+    	</font>
+    	<font id="inUsePanel2" color= #FF0000>
+    		E-mail already in use.
+    	</font>
        <div class="padded">
             
              <input type="email" name="email" placeholder="E-mail" ng-model="user.email">
@@ -89,7 +94,7 @@
             <input type="text" name="postalCode" placeholder="Postal Code" ng-model="user.postalCode">
         </div>
         <div class="padded">
-            <button class="button" type="submit" ng-click="register()" >Register</button>
+            <button class="button" type="submit" ng-click="register(user)" >Register</button>
         </div>
 	</div>
 	<hr>
