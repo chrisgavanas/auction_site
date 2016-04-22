@@ -1,35 +1,48 @@
 package com.webapplication.validator.user;
 
-import com.webapplication.dto.user.UserRequestDto;
-import com.webapplication.error.user.UserError;
+
+import com.webapplication.dto.user.ChangePasswordRequestDto;
+import com.webapplication.dto.user.UserLogInRequestDto;
+import com.webapplication.dto.user.UserRegisterRequestDto;
+import com.webapplication.dto.user.UserUpdateRequestDto;
 import com.webapplication.exception.ValidationException;
-import com.webapplication.validator.Validator;
+import com.webapplication.validator.UserRequestValidatorWrapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
-
 @Component
-public class UserRequestValidator implements Validator<UserRequestDto> {
+public class UserRequestValidator implements UserRequestValidatorWrapper {
+
+    @Autowired
+    private UserLogInValidator userLogInValidator;
+
+    @Autowired
+    private UserRegisterValidator userRegisterValidator;
+
+    @Autowired
+    private UserUpdateRequestValidator userUpdateRequestValidator;
+
+    @Autowired
+    private ChangePasswordValidator changePasswordValidator;
 
     @Override
-    public void validate(UserRequestDto userRequestDto) throws ValidationException {
-        Optional.ofNullable(userRequestDto).orElseThrow(() -> new ValidationException(UserError.INVALID_DATA));
+    public void validate(UserLogInRequestDto userLogInRequestDto) throws ValidationException {
+        userLogInValidator.validate(userLogInRequestDto);
+    }
 
-        if (Arrays.asList(userRequestDto.getUserId(),userRequestDto.getEmail(), userRequestDto.getFirstName(),
-                userRequestDto.getLastName(), userRequestDto.getCountry(), userRequestDto.getMobileNumber(),
-                userRequestDto.getRegistrationDate(), userRequestDto.getGender(), userRequestDto.getVat(),
-                userRequestDto.getDateOfBirth()).stream().anyMatch(Objects::isNull))
-            throw new ValidationException(UserError.INVALID_DATA);
+    @Override
+    public void validate(UserRegisterRequestDto userRegisterRequestDto) throws ValidationException {
+        userRegisterValidator.validate(userRegisterRequestDto);
+    }
 
-        if (userRequestDto.getUserId() <= 0)
-            throw new ValidationException(UserError.INVALID_DATA);
+    @Override
+    public void validate(ChangePasswordRequestDto changePasswordRequestDto) throws ValidationException {
+        changePasswordValidator.validate(changePasswordRequestDto);
+    }
 
-        if (Arrays.asList(userRequestDto.getEmail(), userRequestDto.getFirstName(), userRequestDto.getLastName(),
-                userRequestDto.getCountry(),userRequestDto.getMobileNumber(), userRequestDto.getVat())
-                .stream().anyMatch(String::isEmpty))
-            throw new ValidationException(UserError.INVALID_DATA);
+    @Override
+    public void validate(UserUpdateRequestDto userUpdateRequestDto) throws ValidationException {
+        userUpdateRequestValidator.validate(userUpdateRequestDto);
     }
 
 }

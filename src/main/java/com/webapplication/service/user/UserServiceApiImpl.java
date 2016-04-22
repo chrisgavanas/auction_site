@@ -9,6 +9,7 @@ import com.webapplication.error.user.UserLogInError;
 import com.webapplication.error.user.UserRegisterError;
 import com.webapplication.exception.*;
 import com.webapplication.mapper.UserMapper;
+import com.webapplication.validator.user.ChangePasswordValidator;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,8 +45,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     }
 
     public UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) throws Exception {
-        User user = userRepository.findUserByUsernameOrEmail(userRegisterRequestDto.getUsername(),
-                userRegisterRequestDto.getEmail());
+        User user = userRepository.findUserByUsernameOrEmail(userRegisterRequestDto.getUsername(), userRegisterRequestDto.getEmail());
         if (user != null)
             throw new UserAlreadyExistsException(user.getUsername().equals(userRegisterRequestDto.getUsername())
                     ? UserRegisterError.USERNAME_ALREADY_IN_USE : UserRegisterError.EMAIL_ALREADY_USED);
@@ -58,12 +58,9 @@ public class UserServiceApiImpl implements UserServiceApi {
 
     public UserResponseDto getUser(Integer userId) throws Exception {
         User user = userRepository.findUserByUserId(userId);
-        if (user == null)
-            throw new NotFoundException(UserError.USER_DOES_NOT_EXIST);
+        Optional.ofNullable(user).orElseThrow(() -> new NotFoundException(UserError.USER_DOES_NOT_EXIST));
 
-        UserResponseDto responseDto = userMapper.userToUserResponse(user);
-
-        return responseDto;
+        return userMapper.userToUserResponse(user);
     }
 
     public void verifyUser(Integer userId) throws Exception {
@@ -77,16 +74,25 @@ public class UserServiceApiImpl implements UserServiceApi {
         userRepository.save(user);
     }
 
-    public UserResponseDto updateUser(UserRequestDto userRequestDto) throws Exception {
-        User user = userRepository.findUserByUserId(userRequestDto.getUserId());
+    public UserResponseDto updateUser(UserUpdateRequestDto userUpdateRequestDto) throws Exception {
+        User user = userRepository.findUserByUserId(userUpdateRequestDto.getUserId());
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
-        if (!user.getEmail().equals(userRequestDto.getEmail()) && userRepository.countByEmail(userRequestDto.getEmail()) > 0)
-            throw new EmailAlreadyInUseException(UserError.EMAIL_TAKEN);
 
-        userMapper.update(user, userRequestDto);
+        if (!user.getEmail().equals(userUpdateRequestDto.getEmail()) && userRepository.countByEmail(userUpdateRequestDto.getEmail()) > 0)
+            throw new EmailAlreadyInUseException(UserError.EMAIL_ALREADY_IN_USE);
+
+        userMapper.update(user, userUpdateRequestDto);
         userRepository.save(user);
 
         return userMapper.userToUserResponse(user);
+    }
+
+    public void changePassword(Integer userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception {
+        User user = userRepository.findUserByUserId(userId);
+        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
+
+        user.setPassword(changePasswordRequestDto.getPassword());
+        userRepository.save(user);
     }
 
 }

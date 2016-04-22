@@ -5,9 +5,7 @@ import com.webapplication.dto.user.*;
 import com.webapplication.error.user.UserError;
 import com.webapplication.exception.*;
 import com.webapplication.service.user.UserServiceApi;
-import com.webapplication.validator.user.UserLogInValidator;
-import com.webapplication.validator.user.UserRegisterValidator;
-import com.webapplication.validator.user.UserRequestValidator;
+import com.webapplication.validator.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -26,21 +24,15 @@ public class UserApiImpl implements UserApi {
     private UserServiceApi userService;
 
     @Autowired
-    private UserLogInValidator userLogInValidator;
-
-    @Autowired
-    private UserRegisterValidator userRegisterValidator;
-
-    @Autowired
     private UserRequestValidator userRequestValidator;
 
     public UserLogInResponseDto login(@RequestBody UserLogInRequestDto userLogInRequestDto) throws Exception {
-        userLogInValidator.validate(userLogInRequestDto);
+        userRequestValidator.validate(userLogInRequestDto);
         return userService.login(userLogInRequestDto);
     }
 
     public UserRegisterResponseDto register(@RequestBody UserRegisterRequestDto userRegisterRequestDto) throws Exception {
-        userRegisterValidator.validate(userRegisterRequestDto);
+        userRequestValidator.validate(userRegisterRequestDto);
         return userService.register(userRegisterRequestDto);
     }
 
@@ -52,11 +44,6 @@ public class UserApiImpl implements UserApi {
         return userService.getUser(userId);
     }
 
-    public UserResponseDto updateUser(@PathVariable Integer userId, @RequestBody UserRequestDto userRequestDto) throws Exception {
-        userRequestValidator.validate(userRequestDto);
-        return userService.updateUser(userRequestDto);
-    }
-
     public void verifyUser(@PathVariable Integer userId) throws Exception {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.INVALID_DATA));
         if (userId <= 0)
@@ -64,6 +51,21 @@ public class UserApiImpl implements UserApi {
 
         userService.verifyUser(userId);
     }
+
+    public UserResponseDto updateUser(@PathVariable Integer userId, @RequestBody UserUpdateRequestDto userUpdateRequestDto) throws Exception {
+        userRequestValidator.validate(userUpdateRequestDto);
+        return userService.updateUser(userUpdateRequestDto);
+    }
+
+    public void changePassword(@PathVariable Integer userId, @RequestBody ChangePasswordRequestDto changePasswordRequestDto) throws Exception {
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.INVALID_DATA));
+        userRequestValidator.validate(changePasswordRequestDto);
+        if (userId <= 0)
+            throw new ValidationException(UserError.INVALID_DATA);
+
+        userService.changePassword(userId, changePasswordRequestDto);
+    }
+
 
     @ExceptionHandler(ValidationException.class)
     private void invalidAttributes(HttpServletResponse response) throws IOException {

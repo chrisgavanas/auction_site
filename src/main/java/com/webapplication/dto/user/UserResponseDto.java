@@ -3,177 +3,178 @@ package com.webapplication.dto.user;
 import java.util.Date;
 
 public class UserResponseDto {
-	private Integer userId;
-	private String username;
-	private String email;
-	private String firstName;
-	private String lastName;
-	private String country;
-	private String mobileNumber;
-	private Date registrationDate;
-	private Gender gender;
-	private Boolean isAdmin;
-	private Boolean isVerified;
-	private String vat;
-	private Date dateOfBirth;
-	private String street;
-	private String city;
-	private String postalCode;
-	private String phoneNumber;
-	private Float ratingAsSeller;
-	private Float ratingasBidder;
-	
-	public String getUsername() {
-		return username;
-	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    private Integer userId;
+    private String username;
+    private String email;
+    private String firstName;
+    private String lastName;
+    private String country;
+    private String mobileNumber;
+    private Date registrationDate;
+    private Gender gender;
+    private Boolean isAdmin;
+    private Boolean isVerified;
+    private String vat;
+    private Date dateOfBirth;
+    private String street;
+    private String city;
+    private String postalCode;
+    private String phoneNumber;
+    private Float ratingAsSeller;
+    private Float ratingasBidder;
 
-	public String getEmail() {
-		return email;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public String getCountry() {
-		return country;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public String getMobileNumber() {
-		return mobileNumber;
-	}
+    public String getCountry() {
+        return country;
+    }
 
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
-	}
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
-	public Date getRegistrationDate() {
-		return registrationDate;
-	}
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
 
-	public void setRegistrationDate(Date registrationDate) {
-		this.registrationDate = registrationDate;
-	}
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
 
-	public Gender getGender() {
-		return gender;
-	}
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
 
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
 
-	public Boolean getIsAdmin() {
-		return isAdmin;
-	}
+    public Gender getGender() {
+        return gender;
+    }
 
-	public void setIsAdmin(Boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 
-	public String getVat() {
-		return vat;
-	}
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
 
-	public void setVat(String vat) {
-		this.vat = vat;
-	}
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
 
-	public Date getDateOfBirth() {
-		return dateOfBirth;
-	}
+    public String getVat() {
+        return vat;
+    }
 
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
+    public void setVat(String vat) {
+        this.vat = vat;
+    }
 
-	public String getStreet() {
-		return street;
-	}
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public String getStreet() {
+        return street;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
-	public String getPostalCode() {
-		return postalCode;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
+    public String getPostalCode() {
+        return postalCode;
+    }
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
 
-	public Integer getUserId() {
-		return userId;
-	}
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-	public Boolean getIsVerified() {
-		return isVerified;
-	}
+    public Integer getUserId() {
+        return userId;
+    }
 
-	public void setIsVerified(Boolean isVerified) {
-		this.isVerified = isVerified;
-	}
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
-	public Float getRatingAsSeller() {
-		return ratingAsSeller;
-	}
+    public Boolean getIsVerified() {
+        return isVerified;
+    }
 
-	public void setRatingAsSeller(Float ratingAsSeller) {
-		this.ratingAsSeller = ratingAsSeller;
-	}
+    public void setIsVerified(Boolean isVerified) {
+        this.isVerified = isVerified;
+    }
 
-	public Float getRatingasBidder() {
-		return ratingasBidder;
-	}
+    public Float getRatingAsSeller() {
+        return ratingAsSeller;
+    }
 
-	public void setRatingasBidder(Float ratingasBidder) {
-		this.ratingasBidder = ratingasBidder;
-	}
-	
-	
+    public void setRatingAsSeller(Float ratingAsSeller) {
+        this.ratingAsSeller = ratingAsSeller;
+    }
+
+    public Float getRatingasBidder() {
+        return ratingasBidder;
+    }
+
+    public void setRatingasBidder(Float ratingasBidder) {
+        this.ratingasBidder = ratingasBidder;
+    }
+
+
 }

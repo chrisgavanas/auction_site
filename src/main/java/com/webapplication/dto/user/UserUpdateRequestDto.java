@@ -3,7 +3,7 @@ package com.webapplication.dto.user;
 
 import java.util.Date;
 
-public class UserRequestDto {
+public class UserUpdateRequestDto {
 
     private Integer userId;
     private String email;
@@ -11,7 +11,6 @@ public class UserRequestDto {
     private String lastName;
     private String country;
     private String mobileNumber;
-    private Date registrationDate;
     private Gender gender;
     private String vat;
     private Date dateOfBirth;
@@ -66,14 +65,6 @@ public class UserRequestDto {
 
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
-    }
-
-    public Date getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public void setRegistrationDate(Date registrationDate) {
-        this.registrationDate = registrationDate;
     }
 
     public Gender getGender() {

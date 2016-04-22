@@ -1,6 +1,7 @@
 package com.webapplication.service.user;
 
 import com.webapplication.dto.user.*;
+import com.webapplication.validator.user.ChangePasswordValidator;
 
 
 public interface UserServiceApi {
@@ -13,5 +14,7 @@ public interface UserServiceApi {
 
     void verifyUser(Integer userId) throws Exception;
 
-    UserResponseDto updateUser(UserRequestDto userRequestDto) throws Exception;
+    UserResponseDto updateUser(UserUpdateRequestDto userUpdateRequestDto) throws Exception;
+
+    void changePassword(Integer userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
 }

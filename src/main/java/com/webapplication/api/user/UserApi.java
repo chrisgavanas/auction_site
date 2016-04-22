@@ -20,9 +20,12 @@ public interface UserApi {
     UserResponseDto getUser(@PathVariable Integer userId) throws Exception;
 
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    UserResponseDto updateUser(@PathVariable Integer userId, UserRequestDto userRequestDto) throws Exception;
+    UserResponseDto updateUser(@PathVariable Integer userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception;
 
     @RequestMapping(path = "/user/{userId}/verifyUser", method = RequestMethod.POST)
     void verifyUser(@PathVariable Integer userId) throws Exception;
+
+    @RequestMapping(path = "/user/{userId}/changePassword", method = RequestMethod.POST, consumes = "application/json")
+    void changePassword(@PathVariable Integer userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
 
 }

@@ -1,6 +1,8 @@
 package com.webapplication.validator.user;
 
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -12,30 +14,19 @@ import com.webapplication.validator.Validator;
 @Component
 public class UserLogInValidator implements Validator<UserLogInRequestDto> {
 
-	@Override
-	public void validate(UserLogInRequestDto request) throws ValidationException {
-		if (request == null)
-			throw new ValidationException(UserLogInError.MISSING_DATA);
+    @Override
+    public void validate(UserLogInRequestDto request) throws ValidationException {
+        Optional.ofNullable(request).orElseThrow(() -> new ValidationException(UserLogInError.MISSING_DATA));
+        Optional.ofNullable(request.getPassword()).orElseThrow(() -> new ValidationException(UserLogInError.MISSING_DATA));
 
-		if (request.getEmail() != null && request.getPassword() == null)
-			throw new ValidationException(UserLogInError.MISSING_DATA);
-		else if (request.getUsername() != null && request.getPassword() == null)
-			throw new ValidationException(UserLogInError.MISSING_DATA);
-		else if (request.getEmail() == null && request.getUsername() == null)
-			throw new ValidationException(UserLogInError.MISSING_DATA);
+        if (Arrays.asList(request.getUsername(), request.getEmail())
+                .stream().filter(Objects::nonNull).count() == 0)
+            throw new ValidationException(UserLogInError.MISSING_DATA);
 
-		if (request.getEmail() != null) {
-			if (Arrays.asList(request.getEmail(), request.getPassword()).stream().anyMatch(field -> {
-				return field.isEmpty();
-			}))
-				throw new ValidationException(UserLogInError.INVALID_DATA);
-		} else {
-			if (Arrays.asList(request.getUsername(), request.getPassword()).stream().anyMatch(field -> {
-				return field.isEmpty();
-			}))
-				throw new ValidationException(UserLogInError.INVALID_DATA);
-		}
+        if (Arrays.asList(request.getUsername(), request.getEmail(), request.getPassword())
+                .stream().filter(Objects::nonNull).anyMatch(String::isEmpty))
+            throw new ValidationException(UserLogInError.INVALID_DATA);
 
-	}
+    }
 
 }
