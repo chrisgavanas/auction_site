@@ -20,7 +20,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     @Autowired
     private AuctionItemMapper auctionItemMapper;
 
-    public AddAuctionItemResponseDto addItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
+    public AddAuctionItemResponseDto addAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
         Auctionitem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(auctionItemRequestDto);
         auctionItemRepository.save(auctionItem);
 

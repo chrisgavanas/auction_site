@@ -12,6 +12,6 @@ import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 public interface AuctionItemApi {
 
     @RequestMapping(path = "/auctionitem", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    AddAuctionItemResponseDto addItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception;
+    AddAuctionItemResponseDto addAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception;
 
 }

@@ -37,7 +37,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         if (!user.getIsVerified())
             throw new EmailUnverifiedException(UserLogInError.USER_NOT_EMAIL_VERIFIED);
 
-        SessionInfo session = new SessionInfo(user.getUsername(), DateTime.now().plusHours(Authenticator.SESSION_TIME_OUT_HOURS));
+        SessionInfo session = new SessionInfo(user.getUserId(), DateTime.now().plusHours(Authenticator.SESSION_TIME_OUT_HOURS));
         UUID authToken = authenticator.createSession(session);
 
         return new UserLogInResponseDto(user.getUserId(), authToken);

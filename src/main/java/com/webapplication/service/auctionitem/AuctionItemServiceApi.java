@@ -5,6 +5,6 @@ import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 
 public interface AuctionItemServiceApi {
 
-    AddAuctionItemResponseDto addItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception;
+    AddAuctionItemResponseDto addAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception;
 
 }

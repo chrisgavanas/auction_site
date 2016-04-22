@@ -33,5 +33,6 @@ public class UserRegisterValidator implements Validator<UserRegisterRequestDto> 
         if (Arrays.asList(request.getStreet(), request.getCity(), request.getPostalCode(), request.getPhoneNumber())
             .stream().filter(Objects::nonNull).anyMatch(String::isEmpty))
                 throw new ValidationException(UserRegisterError.INVALID_DATA);
+
     }
 }
