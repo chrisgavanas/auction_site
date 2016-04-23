@@ -37,7 +37,7 @@ public class UserApiImpl implements UserApi {
     }
 
     public UserResponseDto getUser(@PathVariable Integer userId) throws Exception {
-        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.INVALID_DATA));
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         if (userId <= 0)
             throw new ValidationException(UserError.INVALID_DATA);
 
@@ -45,7 +45,7 @@ public class UserApiImpl implements UserApi {
     }
 
     public void verifyUser(@PathVariable Integer userId) throws Exception {
-        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.INVALID_DATA));
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         if (userId <= 0)
             throw new ValidationException(UserError.INVALID_DATA);
 
@@ -58,7 +58,7 @@ public class UserApiImpl implements UserApi {
     }
 
     public void changePassword(@PathVariable Integer userId, @RequestBody ChangePasswordRequestDto changePasswordRequestDto) throws Exception {
-        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.INVALID_DATA));
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         userRequestValidator.validate(changePasswordRequestDto);
         if (userId <= 0)
             throw new ValidationException(UserError.INVALID_DATA);

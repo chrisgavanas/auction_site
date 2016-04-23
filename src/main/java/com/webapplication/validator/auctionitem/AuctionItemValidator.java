@@ -27,7 +27,7 @@ public class AuctionItemValidator implements Validator<AddAuctionItemRequestDto>
             throw new ValidationException(AuctionItemError.MISSING_DATA);
 
         if (Arrays.asList(request.getCurrentBid(), request.getBuyout())
-                .stream().filter(Objects::isNull).count() == 0)
+                .stream().filter(Objects::nonNull).count() == 0)
             throw new ValidationException(AuctionItemError.MISSING_DATA);
 
         Double latitude = request.getLatitude();
