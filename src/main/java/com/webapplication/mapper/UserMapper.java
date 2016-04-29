@@ -1,6 +1,6 @@
 package com.webapplication.mapper;
 
-import com.webapplication.dto.user.UserRequestDto;
+import com.webapplication.dto.user.UserUpdateRequestDto;
 import org.springframework.stereotype.Component;
 
 import com.webapplication.dto.user.UserRegisterRequestDto;
@@ -95,20 +95,21 @@ public class UserMapper {
          userResponse.setRatingasBidder(user.getRatingAsBidder());
 
          return userResponse;
-
     }
 
-    public void update(User user, UserRequestDto userRequestDto) {
-        user.setUserId(userRequestDto.getUserId());
-        user.setEmail(userRequestDto.getEmail());
-        user.setFirstName(userRequestDto.getFirstName());
-        user.setLastName(userRequestDto.getFirstName());
-        user.setCountry(userRequestDto.getCountry());
-        user.setMobileNumber(userRequestDto.getMobileNumber());
-        user.setRegistrationDate(userRequestDto.getRegistrationDate());
-        user.setGender(userRequestDto.getGender());
-        user.setVat(userRequestDto.getVat());
-        user.setDateOfBirth(userRequestDto.getDateOfBirth());
+    public void update(User user, UserUpdateRequestDto userUpdateRequestDto) {
+        user.setEmail(userUpdateRequestDto.getEmail());
+        user.setFirstName(userUpdateRequestDto.getFirstName());
+        user.setLastName(userUpdateRequestDto.getLastName());
+        user.setCountry(userUpdateRequestDto.getCountry());
+        user.setMobileNumber(userUpdateRequestDto.getMobileNumber());
+        user.setGender(userUpdateRequestDto.getGender());
+        user.setVat(userUpdateRequestDto.getVat());
+        user.setDateOfBirth(userUpdateRequestDto.getDateOfBirth());
+        user.setStreet(userUpdateRequestDto.getStreet());
+        user.setCity(userUpdateRequestDto.getCity());
+        user.setPostalCode(userUpdateRequestDto.getPostalCode());
+        user.setPhoneNumber(userUpdateRequestDto.getPhoneNumber());
     }
 
 }

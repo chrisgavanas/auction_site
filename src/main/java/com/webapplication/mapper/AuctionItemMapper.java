@@ -1,22 +1,23 @@
 package com.webapplication.mapper;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.google.common.collect.Lists;
 import com.webapplication.dao.CategoryRepository;
 import com.webapplication.dao.ImageRepository;
 import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.entity.Auctionitem;
 import com.webapplication.entity.Category;
 import com.webapplication.entity.Image;
 import com.webapplication.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class AuctionItemMapper {
@@ -68,7 +69,6 @@ public class AuctionItemMapper {
         return auctionItem;
     }
 
-
     public AddAuctionItemResponseDto auctionItemToAddAuctionItemResponseDto(Auctionitem auctionItem) {
         if (auctionItem == null)
             return null;
@@ -97,6 +97,38 @@ public class AuctionItemMapper {
         });
 
         return addAuctionItemResponseDto;
+    }
+
+    public List<AuctionItemResponseDto> auctionItemsToAuctionItemResponseDto(List<Auctionitem> auctionItems) {
+        if (auctionItems == null)
+            return Lists.newArrayList();
+
+        return auctionItems.stream()
+                .map(auctionItem -> auctionItemToAuctionitemResponseDto(auctionItem))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+
+    private AuctionItemResponseDto auctionItemToAuctionitemResponseDto(Auctionitem auctionItem) {
+        if (auctionItem == null)
+            return null;
+
+        AuctionItemResponseDto auctionItemResponseDto = new AuctionItemResponseDto();
+        auctionItemResponseDto.setAuctionItemId(auctionItem.getAuctionItemId());
+        auctionItemResponseDto.setName(auctionItem.getName());
+        auctionItemResponseDto.setCurrentBid(auctionItem.getCurrentBid());
+        auctionItemResponseDto.setBuyout(auctionItem.getBuyout());
+        auctionItemResponseDto.setMinBid(auctionItem.getMinBid());
+        auctionItemResponseDto.setBidsNo(auctionItem.getBidsNo());
+        auctionItemResponseDto.setDescription(auctionItem.getDescription());
+        auctionItemResponseDto.setStartDate(auctionItem.getStartDate());
+        auctionItemResponseDto.setEndDate(auctionItem.getEndDate());
+        auctionItemResponseDto.setLatitude(auctionItem.getLatitude());
+        auctionItemResponseDto.setLongitude(auctionItem.getLongitude());
+        auctionItemResponseDto.setUserId(auctionItem.getUser() == null ? null : auctionItem.getUser().getUserId());
+
+        return auctionItemResponseDto;
     }
 
 }

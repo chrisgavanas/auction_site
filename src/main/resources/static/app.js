@@ -21,10 +21,11 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	controller: 'registerController',
         	templateUrl: 'views/register.html'
         })
-        .state('profile',{
+        .state('profile', {
         	url: '/profile',
         	controller: 'profileController',
         	templateUrl: 'views/profile.html'
+
         })
         
 });

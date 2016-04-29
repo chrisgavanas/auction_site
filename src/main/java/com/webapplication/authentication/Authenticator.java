@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Authenticator {
 
     private Map<UUID, SessionInfo> sessions = new ConcurrentHashMap<>();
+
     private final static int SESSION_TIME_OUT = 1000 * 60 * 60;
     public final static int SESSION_TIME_OUT_HOURS = SESSION_TIME_OUT / (1000 * 60 * 60);
 

@@ -148,4 +148,5 @@ public class UserRegisterRequestDto {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+
 }

@@ -1,21 +1,19 @@
 package com.webapplication.dto.user;
 
 import org.joda.time.DateTime;
-import org.springframework.stereotype.Component;
 
 public class SessionInfo {
 
-    private final String username;
+    private final Integer userId;
     private final DateTime date;
 
-    public SessionInfo(String username, DateTime date) {
-        this.username = username;
+    public SessionInfo(Integer username, DateTime date) {
+        this.userId = username;
         this.date = date;
     }
 
-    public String getUsername() {
-
-        return username;
+    public Integer getUserId() {
+        return userId;
     }
 
     public DateTime getDate() {
