@@ -24,7 +24,7 @@ router.config(function($stateProvider, $urlRouterProvider) {
         .state('profile',{
         	url: '/profile',
         	controller: 'profileController',
-        	tempalteUrl: 'views/profile.html'
+        	templateUrl: 'views/profile.html'
         })
         
 });
