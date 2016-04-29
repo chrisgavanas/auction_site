@@ -2,7 +2,7 @@ var router = angular.module('router', ['ui.router', 'ngResource', 'ngCookies', '
 
 router.config(function($stateProvider, $urlRouterProvider) {
     
-    $urlRouterProvider.otherwise('/welcome');
+    //$urlRouterProvider.otherwise('/welcome');
     
     $stateProvider
         
