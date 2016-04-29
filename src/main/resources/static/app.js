@@ -2,7 +2,7 @@ var router = angular.module('router', ['ui.router', 'ngResource', 'ngCookies', '
 
 router.config(function($stateProvider, $urlRouterProvider) {
     
-    $urlRouterProvider.otherwise('/welcome');
+    //$urlRouterProvider.otherwise('/welcome');
     
     $stateProvider
         
@@ -24,7 +24,8 @@ router.config(function($stateProvider, $urlRouterProvider) {
         .state('profile', {
         	url: '/profile',
         	controller: 'profileController',
-        	template: 'views/profile.html'
+        	templateUrl: 'views/profile.html'
+
         })
         
 });

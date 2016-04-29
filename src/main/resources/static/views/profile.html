@@ -1,10 +1,287 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+
+
+
+<link rel="stylesheet" type="text/css" href="../styles/basic.css">
+<link rel="stylesheet" type="text/css" href="../styles/tabs.css">
+
+<style>
+
+.box{
+position: relative;
+	float: right;
+	margin-top: 70px;
+}
+
+
+.boxed{
+	
+	background-color: #ffffff;
+
+}
+
+.field{
+	margin-top: 2%;
+}
+
+.contMargin{
+	margin-top: 5%;
+}
+
+hr {
+	margin-top: 0;
+	margin-bottom: 0;
+	width: 100%;
+    border: 0;
+    border-top: 1px solid #b3b3b3;
+}
+
+p {
+	margin-top: 2px;
+	margin-bottom: 2px;
+	margin-left: 5px;
+	
+
+}
+
+
+.titleboxed{
+
+	background-color: #bdceda;
+}
+
+
+h3 {
+    margin-top: 0;
+    margin-left: 5px;
+    margin-bottom: 0px;
+}
+
+.fieldTitle{
+margin-left: 15px;
+	float: left;
+	width: 100px;
+	
+}
+.fieldContext{
+	float: left;
+	margin-left: 30%;
+	text-align: middle;
+	
+}
+
+.editLink{
+	float:right;
+	margin-right: 20px;
+	border: none;
+	 outline:none;
+	background-color: transparent;
+	color: #0645AD;
+
+}
+
+form{
+	padding: 5px;
+	float: left;
+
+	text-align: center;
+
+}
+
+#usernameForm{
+	display: none;
+
+
+}
+
+.container{
+	padding-left: 0;
+	padding-right: 0;
+}
+</style>
 </head>
 <body>
-SKATOULA
+<div id="headerBar"></div>
+
+
+<div class="container-4" id="main">
+	<a href="/#/welcome">
+		<img class="img" src="http://i765.photobucket.com/albums/xx295/yiotappl/logonew_zpstit9bcvx.png"  style="width:150px;height:50px;">
+	</a>
+	<input type="search" id="search" placeholder="Search..." />
+	<select class="select">
+		<option>Categories</option>
+		<option>Appliancies</option>
+		<option>Gadgets</option>
+		<option>Hardware</option>
+	</select>
+	<button class="icon"><i class="fa fa-search"></i></button>
+	<div id="ifcase" ng-if="signedIn">
+		<div class="dropdown">
+			<button class="dropbtn">Welcome, {{user.username}} <i class="fa fa-angle-down"></i></button>
+			<div class="dropdown-content">
+				<a href="" ng-click="myProfile()">My Profile</a>
+				<a href="" ng-click="logout()">Sign Out</a>
+			</div>
+  		</div>
+		
+	</div>
+	<div ng-if="!signedIn">
+		<button  class="buttonR " type="button" ng-click="redirectRegister()">Register</button>
+		<hr class="vertical"/>
+		<button  class="buttonL " type="button"  ng-click="redirectLogin()" >Sign In</button>
+		<box>Oops, you are not signed in!</box>
+		
+	</div>
+	  
+</div>
+  
+<div class="container contMargin">
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#userInfo">Personal Information</a></li>
+    <li><a data-toggle="tab" href="#auctions">Auctions</a></li>
+    <li><a data-toggle="tab" href="#bids">Bids</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="userInfo" class="tab-pane fade in active">
+    
+    
+   <div class="field">
+   		<div class="titleboxed">
+   		<hr>
+  		<h3>Contact Information</h3>
+  		</div>
+  		<div class="boxed">
+  			<hr>
+  			<div class="container">
+  			 	<div class="fieldTitle"><strong>Account Type</strong></div>
+  				<div class="fieldContext">{{user.type}}</div>
+  			</div>
+  			<hr>
+  			<div id="usernameCont" class="container">
+  				<div class="fieldTitle"><strong>Username</strong></div>
+  				<div class="fieldContext">{{user.username}}</div>
+  				<button id="usernameBut" class="editLink" ng-click="show()">Edit</button>
+  				
+  			</div>
+  			<form id="usernameForm" class="container" ng-controller="profileController">
+  				Username
+  				<input type="text" name="username">
+  				<br><button ng-click="update()">Save</button>
+  				<button ng-click="update()">Cancel</button></br>
+  			</form>
+  			
+  			<hr> 
+  			<div class="container">
+  			 	<div class="fieldTitle"><strong>Email</strong></div>
+  				<div class="fieldContext">{{user.email}}</div>
+  				<button class="editLink">Edit</button>
+  			</div>
+  			<hr>
+  			<div class="container">
+  			 	<div class="fieldTitle"><strong>Password</strong></div>
+  				<div class="fieldContext">******</div>
+  				<button class="editLink">Edit</button>
+  			</div>
+  			<hr>
+  			<div class="container">
+  			 	<div class="fieldTitle"><strong>First Name</strong></div>
+  				<div class="fieldContext">{{user.firstName}}</div>
+  				<button class="editLink">Edit</button>
+  			</div>
+  			<hr>
+  			<div class="container">
+  			 	<div class="fieldTitle"><strong>Last Name</strong></div>
+  				<div class="fieldContext">{{user.lastName}}</div>
+  				<button class="editLink">Edit</button>
+  			</div>
+  			<hr>
+  			<div class="container">
+  			 	<div class="fieldTitle"><strong>Gender</strong></div>
+  				<div class="fieldContext">{{user.gender}}</div>
+  				<button class="editLink">Edit</button>
+  			</div>
+  			<hr>
+  			<div class="container">
+  			 	<div class="fieldTitle"><strong>Mobile</strong></div>
+  				<div class="fieldContext">{{user.mobileNumber}}</div>
+  				<button class="editLink">Edit</button>
+  			</div>
+  			<hr>
+  			<div class="container">
+  			 	<div class="fieldTitle"><strong>Telephone</strong></div>
+  				<div class="fieldContext">{{user.phoneNumber}}</div>
+  				<button class="editLink">Edit</button>
+  			</div>
+  			<hr>
+  			<div class="container">
+  			 	<div class="fieldTitle"><strong>Date of Birth</strong></div>
+  				<div class="fieldContext">{{user.dateOfBirth}}</div>
+  				<button class="editLink">Edit</button>
+  			</div>
+  			<hr>
+  			<div class="container">
+  			 	<div class="fieldTitle"><strong>VAT</strong></div>
+  				<div class="fieldContext">{{user.vat}}</div>
+  				<button class="editLink">Edit</button>
+  			</div>
+  			<hr>
+ 		</div>
+    </div> 
+     
+     <div class="field">
+   		<div class="titleboxed">
+   		<hr>
+  		<h3>Address</h3>
+  		</div>
+  		<div class="boxed">
+  			<hr>
+  			<div class="container">
+  			 	<div class="fieldTitle"><strong>Street</strong></div>
+  				<div class="fieldContext">{{user.street}}</div>
+  				<button class="editLink">Edit</button>
+  			</div>
+  			<hr>
+  			<div class="container">
+  				<div class="fieldTitle"><strong>City</strong></div>
+  				<div class="fieldContext">{{user.city}}</div>
+  				<button class="editLink">Edit</button>
+  			</div>
+  			<hr> 
+  			<div class="container">
+  			 	<div class="fieldTitle"><strong>Country</strong></div>
+  				<div class="fieldContext">{{user.country}}</div>
+  				<button class="editLink">Edit</button>
+  			</div>
+  			<hr>
+  			<div class="container">
+  			 	<div class="fieldTitle"><strong>Postal Code</strong></div>
+  				<div class="fieldContext">{{user.postalCode}}</div>
+  				<button class="editLink">Edit</button>
+  			</div>
+  			<hr>
+  			
+ 		</div>
+    </div> 
+     
+    </div>
+    <div id="auctions" class="tab-pane fade">
+     
+      <p>My auctions</p>
+    </div>
+    <div id="bids" class="tab-pane fade">
+     
+      <p>My bids</p>
+    </div>
+    
+  </div>
+</div>  
+ 
+ 
+ 
+
 </body>
 </html>
