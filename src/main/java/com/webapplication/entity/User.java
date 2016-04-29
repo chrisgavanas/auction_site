@@ -1,21 +1,13 @@
 package com.webapplication.entity;
 
+import com.webapplication.dto.user.AddressDto;
+import com.webapplication.dto.user.Gender;
+import org.springframework.data.annotation.Transient;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import com.webapplication.dto.user.Gender;
 
 
 @Entity
@@ -67,6 +59,22 @@ public class User implements Serializable {
     private String username;
 
     private String vat;
+
+    @SuppressWarnings("JpaAttributeTypeInspection")
+    @Transient
+    private AddressDto address;
+
+    @PostLoad
+    public void initializeAddress() {
+        address.setCity(city);
+        address.setPostalCode(postalCode);
+        address.setStreet(street);
+    }
+
+    public AddressDto getAddress() {
+        return null;
+    }
+
 
     @OneToMany(mappedBy="user")
     private List<Bid> bids;

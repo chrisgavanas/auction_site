@@ -15,8 +15,8 @@ import java.util.Optional;
 @Component
 public class AuctionItemValidator implements Validator<AddAuctionItemRequestDto> {
 
-    private Range<Double> latitudeRange = new Range<Double>(-90.0, 90.0);
-    private Range<Double> longitudeRange = new Range<Double>(-180.0, 180.0);
+    private Range<Double> latitudeRange = new Range<>(-90.0, 90.0);
+    private Range<Double> longitudeRange = new Range<>(-180.0, 180.0);
 
     @Override
     public void validate(AddAuctionItemRequestDto request) throws ValidationException {

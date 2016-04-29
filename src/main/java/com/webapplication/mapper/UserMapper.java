@@ -29,6 +29,7 @@ public class UserMapper {
         user.setIsVerified(false);
         user.setVat(userDto.getVat());
         user.setDateOfBirth(userDto.getDateOfBirth());
+        
         user.setStreet(userDto.getStreet());
         user.setCity(userDto.getCity());
         user.setPostalCode(userDto.getPostalCode());

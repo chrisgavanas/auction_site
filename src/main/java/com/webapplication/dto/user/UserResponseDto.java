@@ -17,9 +17,7 @@ public class UserResponseDto {
     private Boolean isVerified;
     private String vat;
     private Date dateOfBirth;
-    private String street;
-    private String city;
-    private String postalCode;
+    private AddressDto address;
     private String phoneNumber;
     private Float ratingAsSeller;
     private Float ratingasBidder;
@@ -112,28 +110,12 @@ public class UserResponseDto {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getStreet() {
-        return street;
+    public AddressDto getAddress() {
+        return address;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public void setAddress(AddressDto address) {
+        this.address = address;
     }
 
     public String getPhoneNumber() {
