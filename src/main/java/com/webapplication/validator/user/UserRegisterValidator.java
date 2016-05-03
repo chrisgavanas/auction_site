@@ -34,10 +34,10 @@ public class UserRegisterValidator implements Validator<UserRegisterRequestDto> 
         AddressDto address = request.getAddress();
         if (address != null) {
             if (Arrays.asList(address.getCity(), address.getPostalCode(), address.getStreet()).stream()
-                    .anyMatch(Objects::isNull))
+                    .noneMatch(Objects::nonNull))
                 throw new ValidationException(UserRegisterError.MISSING_DATA);
             if (Arrays.asList(address.getCity(), address.getPostalCode(), address.getStreet()).stream()
-                    .anyMatch(String::isEmpty))
+                    .filter(Objects::nonNull).anyMatch(String::isEmpty))
                 throw new ValidationException(UserRegisterError.INVALID_DATA);
         }
 

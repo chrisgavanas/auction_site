@@ -2,7 +2,6 @@ package com.webapplication.entity;
 
 import com.webapplication.dto.user.AddressDto;
 import com.webapplication.dto.user.Gender;
-import org.springframework.data.annotation.Transient;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,12 +10,12 @@ import java.util.List;
 
 
 @Entity
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int userId;
 
     private String city;
@@ -60,26 +59,28 @@ public class User implements Serializable {
 
     private String vat;
 
-    @SuppressWarnings("JpaAttributeTypeInspection")
     @Transient
-    private AddressDto address;
-
-    @PostLoad
-    public void initializeAddress() {
-        address.setCity(city);
-        address.setPostalCode(postalCode);
-        address.setStreet(street);
-    }
+    private AddressDto address = new AddressDto();
 
     public AddressDto getAddress() {
-        return null;
+        address.setStreet(street);
+        address.setPostalCode(postalCode);
+        address.setCity(city);
+        return address;
     }
 
+    public void setAddress(AddressDto address) {
+        if (address != null) {
+            this.street = address.getStreet();
+            this.city = address.getCity();
+            this.postalCode = address.getPostalCode();
+        }
+    }
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy = "user")
     private List<Bid> bids;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy = "user")
     private List<Auctionitem> auctionitems;
 
     public User() {

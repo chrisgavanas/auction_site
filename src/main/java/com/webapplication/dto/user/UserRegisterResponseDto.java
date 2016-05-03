@@ -22,6 +22,10 @@ public class UserRegisterResponseDto {
     private Float ratingAsSeller;
     private Float ratingasBidder;
 
+    public UserRegisterResponseDto() {
+        address = new AddressDto();
+    }
+
     public Integer getUserId() {
         return userId;
     }
