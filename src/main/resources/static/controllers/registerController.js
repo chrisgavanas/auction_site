@@ -1,5 +1,6 @@
 var registerController = router.controller('registerController', function($scope, $http, $state, AuthenticationService) {
     $scope.user = {};
+    $scope.user.registrationDate = new Date();
     $scope.register = function(user) {
     	AuthenticationService.register(user).then(function (user){
     		$state.go("welcome");

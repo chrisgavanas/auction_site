@@ -1,30 +1,40 @@
-var profileController = router.controller('profileController', function($scope, $state, $http,$cookies, $route){
+var profileController = router.controller('profileController', function($scope, $state, $http,$cookies, $route, AuthenticationService){
 	$scope.user = {};
+	
 	$scope.signedIn = {};
 	if($cookies.get('signedIn') === 'yes'){
 		$scope.user.userId = $cookies.get('userId');
 		$scope.signedIn = true;
 		$http.get('/api/user/'+ $scope.user.userId).then(function successCallback(response){
-			$scope.user = response.data;
+			$scope.user = angular.copy(response.data);
+			
 			if($scope.user.gender == "F")
-				$scope.user.gender = "Female";
+				$scope.gender = "Female";
 			else
-				$scope.user.gender = "Male";
+				$scope.gender = "Male";
 			
 			if($scope.user.isAdmin == true)
 				$scope.user.type = "Administrator";
 			else
 				$scope.user.type = "User";
-			$scope.user.dateOfBirth = $.datepicker.formatDate("M d, yy", new Date(response.data.dateOfBirth));
-			console.log(response.data);
+			
+			$scope.dateOfBirthConverted = $.datepicker.formatDate("M d, yy", new Date(response.data.dateOfBirth));
+			$scope.user.dateOfBirth = new Date(response.data.dateOfBirth);
 
 		}, function errorCallback(response){
 			alert("error");
 			
 			
 		});
-		
-		
+	
+		$http.get('api/auctionitem/user/'+ $scope.user.userId).then(function successCallback(response){
+			$scope.hasAuctions = false;
+			if(response.data.length != 0)
+				$scope.hasAuctions = true;
+			
+		}, function errorCallback(response){
+			alert("error");
+		});
 		
 	}else
 		$scope.signedIn = false;
@@ -43,12 +53,29 @@ var profileController = router.controller('profileController', function($scope, 
 		$cookies.remove('authToken');
 		$cookies.put('signedIn', 'no');
 		$state.go("welcome"); 
-	}
+	};
 	
-	$scope.show = function(){
-		document.getElementById("usernameForm").style.display = "block";
-		document.getElementById("usernameCont").style.backgroundColor = "#edf1f4";
-		document.getElementById("usernameForm").style.backgroundColor = "#edf1f4";
-		document.getElementById("usernameBut").style.display = "none";
-	}
+	$scope.show = function(field){
+	
+		document.getElementById(field+"Form").style.display = "block";
+		document.getElementById(field+"Cont").style.backgroundColor = "#edf1f4";
+		document.getElementById(field+"But").style.display = "none";
+		document.getElementById(field+"Field").style.display = "none";
+	};
+	
+	$scope.applyChanges = function(user){
+		AuthenticationService.updateUser(user).then(function (response){
+			console.log(response);
+			
+			
+		}, function(response){
+			console.log(response);
+		});
+		$state.go($state.current, {}, {reload: true});
+		
+	};
+	
+	$scope.newAuction = function(){
+		$state.go("newAuction");
+	};
 });

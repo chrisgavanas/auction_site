@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../styles/basic.css">
+</head>
+
+
+<style>
+
+textarea {
+   resize: none;
+   height: 200px;
+}
+.categories{
+	padding: 5px;
+	font-weight: normal;
+
+}
+.applyButton{
+	display : block;
+	border-radius: 3px;
+	border: none;
+	background-color: #43637b;
+	color: white;
+	text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+  	margin: 0 auto;
+	text-align: center;
+	padding: 5px;
+	padding-right: 7px;
+	padding-left: 7px;
+	
+	
+	margin-top: 10px;
+	margin-bottom: 2%;
+
+}
+.scroll{
+	width: 500px;
+	height: 100px;
+	overflow: auto;
+	margin-left: 219px;
+	margin-top: 2%;
+	margin-bottom: 2%;
+	border: none;
+	border: 1px solid #bcbcbc;
+
+}
+.menu{
+	text-align: center;
+	margin-top: 3%;
+	border: 1px solid #708b9e;
+	
+	border-radius: 5px;
+	margin-left: 50px;
+	margin-right: 50px;
+margin-left: 100px;
+	margin-right: 100px;
+	background-color: white;
+}
+
+h2{
+	margin-top: 0;
+	margin-bottom: 0;
+	background-color: #bdceda;
+	border-radius: 3px;
+	font-size: 22px;
+	margin-left: 110px;
+	margin-right: 110px;
+	color: black;
+	font-size: 16px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	    font-weight: bold;
+}
+
+h3{
+	background-color: #708b9e;
+	color: white;
+	border-radius: 3px;
+	margin-top: 0;
+    font-weight: bold;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.pricefield{
+	margin-top: 2%;
+	margin-bottom:2%;
+	border: none;
+	border-radius: 3px;
+	border: 1px solid #bcbcbc;
+}
+
+.field{
+	margin-top: 2%;
+	margin-bottom: 2%;
+	width: 500px;
+	border: none;
+	border-radius: 3px;
+	border: 1px solid #bcbcbc;
+
+}
+
+.desc{
+	
+
+
+}
+</style>
+<body>
+<div id="headerBar"></div>
+
+
+<div class="container-4" id="main">
+	<a href="/#/welcome">
+		<img class="img" src="http://i765.photobucket.com/albums/xx295/yiotappl/logonew_zpstit9bcvx.png"  style="width:150px;height:50px;">
+	</a>
+	<input type="search" id="search" placeholder="Search..." />
+	<select class="select">
+		<option>Categories</option>
+		<option>Appliancies</option>
+		<option>Gadgets</option>
+		<option>Hardware</option>
+	</select>
+	<button class="icon"><i class="fa fa-search"></i></button>
+	<div id="ifcase" ng-if="signedIn">
+		<div class="dropdown">
+			<button class="dropbtn">Welcome, {{user.username}} <i class="fa fa-angle-down"></i></button>
+			<div class="dropdown-content">
+				<a href="" ng-click="myProfile()">My Profile</a>
+				<a href="" ng-click="logout()">Sign Out</a>
+			</div>
+  		</div>
+		
+	</div>
+	<div ng-if="!signedIn">
+		<button  class="buttonR " type="button" ng-click="redirectRegister()">Register</button>
+		<hr class="vertical"/>
+		<button  class="buttonL " type="button"  ng-click="redirectLogin()" >Sign In</button>
+		<box>Oops, you are not signed in!</box>
+		
+	</div>
+	  
+</div>
+
+
+<div class="menu" >
+<h3>Create your item</h3>
+<form>
+<h2>Add a title for your item</h2>
+	<input class="field" type="text" ng-model="item.name"></input>
+<h2>Describe the item you are selling</h2>
+	<textarea class="field desc" type="text" ng-model="item.description"></textarea>
+<h2>Add pictures of your item</h2>
+<p></p>
+<h2>Choose categories for your item</h2>
+<div class="scroll">
+	<label class="categories" ng-repeat="category in categories">
+	
+			<input type="checkbox" checklist-model="item.categories" checklist-value="category.id" >{{category.text}}
+	
+	</label>
+</div>
+
+<h2>Choose your pricing options</h2>
+<div>
+
+	<label>Starting price</label>
+	<input class="pricefield" type="text" ng-model="item.currentBid"></input>
+
+	<label>Buy out price (Optional)</label>
+	<input class="pricefield" type="text" ng-model="item.buyout"></input>
+</div>
+<div>
+	<label>Start date</label>
+	<input class="pricefield" type="date" ng-model="item.startDate"></input>
+	<label>End date</label>
+	<input class="pricefield" type="date" ng-model="item.endDate"></input>
+</div>
+
+<h2>Add longitude and latitude values (Optional)</h2>
+<div>
+	<label>Longitude</label>
+	<input class="pricefield" type="text" ng-model="item.longitude"></input>
+	<label>Latitude</label>
+	<input class="pricefield" type="text" ng-model="item.latitude"></input>
+</div>
+
+ <button class="applyButton" ng-click="cont()">Continue</button>
+</form>
+</div>
+
+
+</div>
+
+
+
+
+
+</body>
+</html>
