@@ -43,13 +43,15 @@ public class Auctionitem implements Serializable {
     private GeoLocation geoLocation;
 
     public GeoLocation getGeoLocation() {
+        geoLocation.setLatitude(latitude);
+        geoLocation.setLongitude(longitude);
         return geoLocation;
     }
 
     public void setGeoLocation(GeoLocation geoLocation) {
         if (geoLocation != null) {
             this.latitude = geoLocation.getLatitude();
-            this.longitude = geoLocation.getLongitutde();
+            this.longitude = geoLocation.getLongitude();
         }
     }
 

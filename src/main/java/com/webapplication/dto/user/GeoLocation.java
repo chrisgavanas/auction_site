@@ -4,7 +4,7 @@ package com.webapplication.dto.user;
 public class GeoLocation {
 
     private Double latitude;
-    private Double longitutde;
+    private Double longitude;
 
     public Double getLatitude() {
         return latitude;
@@ -14,12 +14,12 @@ public class GeoLocation {
         this.latitude = latitude;
     }
 
-    public Double getLongitutde() {
-        return longitutde;
+    public Double getLongitude() {
+        return longitude;
     }
 
-    public void setLongitutde(Double longitutde) {
-        this.longitutde = longitutde;
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
 }

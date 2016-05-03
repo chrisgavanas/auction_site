@@ -7,6 +7,7 @@ import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
+import com.webapplication.dto.user.GeoLocation;
 import com.webapplication.entity.Auctionitem;
 import com.webapplication.entity.Category;
 import com.webapplication.entity.Image;
@@ -44,27 +45,24 @@ public class AuctionItemMapper {
         auctionItem.setStartDate(auctionItemRequestDto.getStartDate());
         auctionItem.setEndDate(auctionItemRequestDto.getEndDate());
         auctionItem.setDescription(auctionItemRequestDto.getDescription());
-        auctionItem.setLatitude(auctionItemRequestDto.getLatitude());
-        auctionItem.setLongitude(auctionItemRequestDto.getLongitude());
+        GeoLocation geoLocation = auctionItemRequestDto.getGeoLocation();
+        if (geoLocation != null)
+            auctionItem.setGeoLocation(geoLocation);
         User user = userRepository.findUserByUserId(auctionItemRequestDto.getUserId());
         auctionItem.setUser(user);
 
         Optional.ofNullable(auctionItemRequestDto.getCategories()).ifPresent(categories -> {
             List<Category> cat = Lists.newArrayList(categoryRepository.findAll(categories));
-            cat.forEach(category -> {
-                category.getAuctionitems().add(auctionItem);
-            });
+            cat.forEach(category -> category.getAuctionitems().add(auctionItem));
             auctionItem.setCategories(cat);
         });
-        Optional.ofNullable(auctionItemRequestDto.getImages()).ifPresent(images -> {
-            auctionItem.setImages(images.stream()
-                    .map(image -> {
-                        Image auctionItemImage = new Image(image, auctionItem);
-                        imageRepository.save(auctionItemImage);
-                        return auctionItemImage;
-                    }).collect(Collectors.toList())
-            );
-        });
+        Optional.ofNullable(auctionItemRequestDto.getImages()).ifPresent(images -> auctionItem.setImages(images.stream()
+                .map(image -> {
+                    Image auctionItemImage = new Image(image, auctionItem);
+                    imageRepository.save(auctionItemImage);
+                    return auctionItemImage;
+                }).collect(Collectors.toList())
+        ));
 
         return auctionItem;
     }
@@ -83,18 +81,13 @@ public class AuctionItemMapper {
         addAuctionItemResponseDto.setStartDate(auctionItem.getStartDate());
         addAuctionItemResponseDto.setEndDate(auctionItem.getEndDate());
         addAuctionItemResponseDto.setDescription(auctionItem.getDescription());
-        addAuctionItemResponseDto.setLatitude(auctionItem.getLatitude());
-        addAuctionItemResponseDto.setLongitutde(auctionItem.getLongitude());
+        addAuctionItemResponseDto.setGeoLocation(auctionItem.getGeoLocation());
         Optional.ofNullable(auctionItem.getUser()).ifPresent(user -> {
             addAuctionItemResponseDto.setUsername(user.getUsername());
             addAuctionItemResponseDto.setRatingAsSeller(user.getRatingAsSeller());
         });
-        Optional.ofNullable(auctionItem.getCategories()).ifPresent(categories -> {
-            addAuctionItemResponseDto.setCategories(categories);
-        });
-        Optional.ofNullable(auctionItem.getImages()).ifPresent(images -> {
-            addAuctionItemResponseDto.setImages(images);
-        });
+        Optional.ofNullable(auctionItem.getCategories()).ifPresent(addAuctionItemResponseDto::setCategories);
+        Optional.ofNullable(auctionItem.getImages()).ifPresent(addAuctionItemResponseDto::setImages);
 
         return addAuctionItemResponseDto;
     }
@@ -104,7 +97,7 @@ public class AuctionItemMapper {
             return Lists.newArrayList();
 
         return auctionItems.stream()
-                .map(auctionItem -> auctionItemToAuctionitemResponseDto(auctionItem))
+                .map(this::auctionItemToAuctionitemResponseDto)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
@@ -124,8 +117,7 @@ public class AuctionItemMapper {
         auctionItemResponseDto.setDescription(auctionItem.getDescription());
         auctionItemResponseDto.setStartDate(auctionItem.getStartDate());
         auctionItemResponseDto.setEndDate(auctionItem.getEndDate());
-        auctionItemResponseDto.setLatitude(auctionItem.getLatitude());
-        auctionItemResponseDto.setLongitude(auctionItem.getLongitude());
+        auctionItemResponseDto.setGeoLocation(auctionItem.getGeoLocation());
         auctionItemResponseDto.setUserId(auctionItem.getUser() == null ? null : auctionItem.getUser().getUserId());
 
         return auctionItemResponseDto;

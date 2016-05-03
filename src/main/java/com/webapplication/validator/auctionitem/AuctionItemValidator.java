@@ -2,6 +2,7 @@ package com.webapplication.validator.auctionitem;
 
 
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
+import com.webapplication.dto.user.GeoLocation;
 import com.webapplication.error.auctionitem.AuctionItemError;
 import com.webapplication.exception.ValidationException;
 import com.webapplication.validator.Validator;
@@ -30,25 +31,25 @@ public class AuctionItemValidator implements Validator<AddAuctionItemRequestDto>
                 .stream().filter(Objects::nonNull).count() == 0)
             throw new ValidationException(AuctionItemError.MISSING_DATA);
 
-        Double latitude = request.getLatitude();
-        Double longitude = request.getLongitude();
-        if ((latitude == null && longitude != null) || (latitude != null && longitude == null))
-            throw new ValidationException(AuctionItemError.MISSING_DATA);
+        GeoLocation geoLocation = request.getGeoLocation();
+        if (geoLocation != null) {
+            Double latitude = geoLocation.getLatitude();
+            Double longitude = geoLocation.getLongitude();
+            Optional.ofNullable(latitude).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+            Optional.ofNullable(longitude).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
 
-        if (request.getName().isEmpty())
-            throw new ValidationException(AuctionItemError.INVALID_DATA);
+            if (Arrays.asList(request.getCurrentBid(), request.getBuyout()).stream()
+                    .filter(Objects::nonNull)
+                    .anyMatch(value -> value <= 0))
+                throw new ValidationException(AuctionItemError.INVALID_DATA);
 
-        if (Arrays.asList(request.getCurrentBid(), request.getBuyout()).stream()
-                .filter(Objects::nonNull)
-                .anyMatch(value -> value <= 0))
-            throw new ValidationException(AuctionItemError.INVALID_DATA);
+            if (request.getStartDate().after(request.getEndDate()))
+                throw new ValidationException(AuctionItemError.INVALID_DATA);
 
-        if (request.getStartDate().after(request.getEndDate()))
-            throw new ValidationException(AuctionItemError.INVALID_DATA);
+            if (!latitudeRange.contains(latitude) || !longitudeRange.contains(longitude))
+                throw new ValidationException(AuctionItemError.INVALID_DATA);
 
-        if (!latitudeRange.contains(latitude) || !longitudeRange.contains(longitude))
-            throw new ValidationException(AuctionItemError.INVALID_DATA);
-
+        }
     }
 
 }
