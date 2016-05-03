@@ -1,22 +1,12 @@
 package com.webapplication.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.webapplication.dto.user.GeoLocation;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @NamedQuery(name="Auctionitem.findAll", query="SELECT a FROM Auctionitem a")
@@ -48,6 +38,22 @@ public class Auctionitem implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
+
+    @Transient
+    private GeoLocation geoLocation;
+
+    public GeoLocation getGeoLocation() {
+        geoLocation.setLatitude(latitude);
+        geoLocation.setLongitude(longitude);
+        return geoLocation;
+    }
+
+    public void setGeoLocation(GeoLocation geoLocation) {
+        if (geoLocation != null) {
+            this.latitude = geoLocation.getLatitude();
+            this.longitude = geoLocation.getLongitude();
+        }
+    }
 
     @ManyToOne
     @JoinColumn(name="UserId")

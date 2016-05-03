@@ -1,6 +1,8 @@
 package com.webapplication.dto.auctionitem;
 
 
+import com.webapplication.dto.user.GeoLocation;
+
 import java.util.Date;
 
 public class AuctionItemResponseDto {
@@ -14,8 +16,7 @@ public class AuctionItemResponseDto {
     private String description;
     private Date startDate;
     private Date endDate;
-    private Double latitude;
-    private Double longitude;
+    private GeoLocation geoLocation;
     private Integer userId;
 
     public Integer getAuctionItemId() {
@@ -90,20 +91,12 @@ public class AuctionItemResponseDto {
         this.endDate = endDate;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public GeoLocation getGeoLocation() {
+        return geoLocation;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public void setGeoLocation(GeoLocation geoLocation) {
+        this.geoLocation = geoLocation;
     }
 
     public Integer getUserId() {

@@ -1,5 +1,6 @@
 package com.webapplication.validator.user;
 
+import com.webapplication.dto.user.AddressDto;
 import com.webapplication.dto.user.UserRegisterRequestDto;
 import com.webapplication.error.user.UserRegisterError;
 import com.webapplication.exception.ValidationException;
@@ -26,10 +27,19 @@ public class UserRegisterValidator implements Validator<UserRegisterRequestDto> 
 
         if (Arrays.asList(request.getCountry(), request.getEmail(), request.getFirstName(),
                 request.getLastName(), request.getMobileNumber(), request.getPassword(),
-                request.getUsername(), request.getVat(), request.getStreet(), request.getCity(),
-                request.getPostalCode(), request.getPhoneNumber())
+                request.getUsername(), request.getVat(), request.getPhoneNumber())
                 .stream().filter(Objects::nonNull).anyMatch(String::isEmpty))
-            throw new ValidationException(UserRegisterError.MISSING_DATA);
+            throw new ValidationException(UserRegisterError.INVALID_DATA);
+
+        AddressDto address = request.getAddress();
+        if (address != null) {
+            if (Arrays.asList(address.getCity(), address.getPostalCode(), address.getStreet()).stream()
+                    .noneMatch(Objects::nonNull))
+                throw new ValidationException(UserRegisterError.MISSING_DATA);
+            if (Arrays.asList(address.getCity(), address.getPostalCode(), address.getStreet()).stream()
+                    .filter(Objects::nonNull).anyMatch(String::isEmpty))
+                throw new ValidationException(UserRegisterError.INVALID_DATA);
+        }
 
     }
 }
