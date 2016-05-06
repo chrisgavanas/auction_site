@@ -1,4 +1,6 @@
 var welcomeController = router.controller('welcomeController', function($scope, $state, $http,$cookies, $route){
+	var data = new FormData();
+	console.log(data);
 	$scope.user = {};
 	$scope.signedIn = {};
 	if($cookies.get('signedIn') === 'yes'){

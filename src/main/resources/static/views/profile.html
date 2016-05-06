@@ -5,204 +5,18 @@
 
 
 <link rel="stylesheet" type="text/css" href="../styles/basic.css">
-<link rel="stylesheet" type="text/css" href="../styles/tabs.css">
+<link rel="stylesheet" type="text/css" href="../styles/profile.css">
+
+</head>
 
 <style>
-
-.box{
-position: relative;
-	float: right;
-	margin-top: 70px;
-}
-
-.centeredButton{
-
-	
-}
-.boxed{
-	
-	background-color: #ffffff;
-
-}
-
-.field{
-	margin-top: 2%;
-}
-
-.contMargin{
-	margin-top: 5%;
-}
-
-hr {
-	margin-top: 0;
-	margin-bottom: 0;
-	width: 100%;
-    border: 0;
-    border-top: 1px solid #b3b3b3;
-}
-
-p {
-	margin-top: 2px;
-	margin-bottom: 2px;
-	margin-left: 5px;
-	
-
-}
-
-
-.titleboxed{
-
-	background-color: #bdceda;
-}
-
-
-h3 {
-    margin-top: 0;
-    margin-left: 5px;
-    margin-bottom: 0px;
-}
-
-.fieldTitle{
-	margin-left: 15px;
-	float: left;
-	width: 100px;
-	
-}
-.fieldContext{
-	float: left;
-	margin-left: 30%;
-	text-align: middle;
-	
-}
-
-.editLink{
-	float:right;
-	margin-right: 20px;
-	border: none;
-	 outline:none;
-	background-color: transparent;
-	color: #0645AD;
-
-}
-
-
-#emailForm{
-	display: none;
-}
-
-#passwordForm{
-	display: none;
-
-}
-
-#firstNameForm{
-	display: none;
-}
-
-#lastNameForm{
-	display: none;
-}
-
-#mobileForm{
-	display: none;
-}
-
-#telephoneForm{
-	display:none;
-}
-
-#vatForm{
-	display: none;
-}
-
-#genderForm{
-	display: none;
-	margin-left: 39%;
-}
-
-#dateForm{
-	display: none;
-}
-
-#streetForm{
-	display: none;
-}
-
-#cityForm{
-	display: none;
-}
-
-#countryForm{
-	display: none;
-}
-
-#postalCodeForm{
-	display: none;
-}
-
-#profile{
-	padding-left: 0;
-	padding-right: 0;
-	padding-top: 6px;
-	padding-bottom: 6px;
-}
-
 input{
-	padding-left: 5px;
-	padding-right: 5px;
-	border-radius: 3px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-	border: none;
-	border: 1px solid #dddddd;
-	background-color: white;
-	margin-left: 39.5%;
+	border: 1px solid #bcbcbc;
+
+	border-radius: 2px;
 }
 
-.applyButton{
-	display : block;
-	border-radius: 3px;
-	border: none;
-	background-color: #43637b;
-	color: white;
-	text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 18px;
-  	margin: 0 auto;
-	text-align: center;
-	padding: 5px;
-	padding-right: 7px;
-	padding-left: 7px;
-	width: 60px;
-	margin-left: 555px;
-	margin-top: 10px;
-
-}
-
-
-.maintitle{
-	margin-top: 5%;
-	color: grey;
-
-}
-
-.startButton{
-	display : block;
-	border-radius: 3px;
-	border: none;
-	background-color: #43637b;
-	color: white;
-	text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 18px;
-  	margin-top: 3%;
-  	padding: 5px;
-
-}
 </style>
-</head>
 <body>
 <div id="headerBar"></div>
 
@@ -365,18 +179,18 @@ input{
   			<hr>
   			<div id="streetCont" class="container">
   			 	<div class="fieldTitle"><strong>Street</strong></div>
-  				<div class="fieldContext" id="streetField">{{user.street}}</div>
+  				<div class="fieldContext" id="streetField">{{user.address.street}}</div>
   				
-  				<input id="streetForm" type="text" name="street" ng-model="user.street">
+  				<input id="streetForm" type="text" name="street" ng-model="user.address.street">
   				
   				<button class="editLink" id="streetBut" ng-click="show('street')">Edit</button>
   			</div>
   			<hr>
   			<div id="cityCont" class="container">
   				<div class="fieldTitle"><strong>City</strong></div>
-  				<div class="fieldContext" id="cityField">{{user.city}}</div>
+  				<div class="fieldContext" id="cityField">{{user.address.city}}</div>
   				
-  					<input id="cityForm" type="text" name="city" ng-model="user.city">
+  					<input id="cityForm" type="text" name="city" ng-model="user.address.city">
   				
   				<button class="editLink" id="cityBut" ng-click="show('city')">Edit</button>
   			</div>
@@ -392,9 +206,9 @@ input{
   			<hr>
   			<div id="postalCodeCont" class="container">
   			 	<div class="fieldTitle"><strong>Postal Code</strong></div>
-  				<div class="fieldContext" id="postalCodeField">{{user.postalCode}}</div>
+  				<div class="fieldContext" id="postalCodeField">{{user.address.postalCode}}</div>
   				
-  					<input id="postalCodeForm" type="text" name="postalCode" ng-model="user.postalCode">
+  					<input id="postalCodeForm" type="text" name="postalCode" ng-model="user.address.postalCode">
   				
   				<button class="editLink" id="postalCodeBut" ng-click="show('postalCode')">Edit</button>
   			</div>

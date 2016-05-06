@@ -21,7 +21,13 @@ var itemPreviewController = router.controller('itemPreviewController', function(
 			
 			
 	}
-
+	$scope.complete = function(){
+		$http.post('/api/auctionitem', $scope.item).then (function successCallback(response){
+			console.log(response);
+		}, function errorCallback(response){
+			console.log(response);
+		});
+	}
 
 
 

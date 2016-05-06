@@ -5,7 +5,8 @@ var newAuctionController = router.controller('newAuctionController', function($s
 	$scope.item ={
 		categories: []
 	};
-
+	$scope.item.geoLocation = {};
+	
 	$scope.categories = [
 	{id: 1, text:'Appliances'}, 
 	{id: 2, text:'Gadgets'},
@@ -58,5 +59,16 @@ var newAuctionController = router.controller('newAuctionController', function($s
 		$cookies.putObject('item', $scope.item);
 		$state.go('itemPreview');
 		
+	};
+	
+	var formdata = new FormData();
+	$scope.getTheFiles = function($files){
+		console.log($files);
+		angular.forEach($files, function(value, key){
+			console.log(value);
+			formdata.append(key, value);
+			formdata.append(2, "koula");
+		});
+		alert(formdata);
 	};
 });
