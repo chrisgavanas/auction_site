@@ -98,4 +98,8 @@ public class UserApiImpl implements UserApi {
         response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 
+    @ExceptionHandler(ForbiddenException.class)
+    private void notAllowedAction(HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.FORBIDDEN.value());
+    }
 }

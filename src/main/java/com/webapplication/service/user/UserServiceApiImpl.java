@@ -96,6 +96,9 @@ public class UserServiceApiImpl implements UserServiceApi {
         User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
 
+        if (!user.getPassword().equals(changePasswordRequestDto.getOldPassword()))
+            throw new ForbiddenException(UserError.PASSWORD_MISSMATCH);
+
         user.setPassword(changePasswordRequestDto.getNewPassword());
         userRepository.save(user);
     }
