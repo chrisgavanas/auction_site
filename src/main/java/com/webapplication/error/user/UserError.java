@@ -5,7 +5,9 @@ public enum UserError {
     INVALID_DATA("Invalid data."),
     MISSING_DATA("Missing data."),
     USER_ALREADY_VERIFIED("User is already verified."),
-    EMAIL_ALREADY_IN_USE("Email is already in use.");
+    EMAIL_ALREADY_IN_USE("Email is already in use."),
+    NEW_PASSWORD_DO_NOT_DIFFER("New password must differ with the old password."),
+    PASSWORD_MISSMATCH("Password is invalid");
 
     private final String description;
 

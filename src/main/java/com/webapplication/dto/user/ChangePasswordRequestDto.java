@@ -4,15 +4,24 @@ import java.util.UUID;
 
 public class ChangePasswordRequestDto {
 
-    private String password;
+    private String oldPassword;
+    private String newPassword;
     private UUID authToken;
 
-    public String getPassword() {
-        return password;
+    public String getOldPassword() {
+        return oldPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
     public UUID getAuthToken() {

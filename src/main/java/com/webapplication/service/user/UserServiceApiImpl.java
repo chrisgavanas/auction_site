@@ -9,7 +9,6 @@ import com.webapplication.error.user.UserLogInError;
 import com.webapplication.error.user.UserRegisterError;
 import com.webapplication.exception.*;
 import com.webapplication.mapper.UserMapper;
-import com.webapplication.validator.user.ChangePasswordValidator;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,6 +30,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     @Autowired
     private Authenticator authenticator;
 
+    @Override
     public UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) throws Exception {
         User user = userRepository.findUserByUsernameOrEmailAndPassword(userLogInRequestDto.getUsername(), userLogInRequestDto.getEmail(), userLogInRequestDto.getPassword());
 
@@ -44,6 +44,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         return new UserLogInResponseDto(user.getUserId(), authToken);
     }
 
+    @Override
     public UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) throws Exception {
         User user = userRepository.findUserByUsernameOrEmail(userRegisterRequestDto.getUsername(), userRegisterRequestDto.getEmail());
         if (user != null)
@@ -56,6 +57,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         return userMapper.userToRegisterResponse(user);
     }
 
+    @Override
     public UserResponseDto getUser(Integer userId) throws Exception {
         User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new NotFoundException(UserError.USER_DOES_NOT_EXIST));
@@ -63,6 +65,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         return userMapper.userToUserResponse(user);
     }
 
+    @Override
     public void verifyUser(Integer userId) throws Exception {
         User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
@@ -74,6 +77,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         userRepository.save(user);
     }
 
+    @Override
     public UserResponseDto updateUser(UserUpdateRequestDto userUpdateRequestDto) throws Exception {
         User user = userRepository.findUserByUserId(userUpdateRequestDto.getUserId());
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
@@ -87,11 +91,15 @@ public class UserServiceApiImpl implements UserServiceApi {
         return userMapper.userToUserResponse(user);
     }
 
+    @Override
     public void changePassword(Integer userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception {
         User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
 
-        user.setPassword(changePasswordRequestDto.getPassword());
+        if (!user.getPassword().equals(changePasswordRequestDto.getOldPassword()))
+            throw new ForbiddenException(UserError.PASSWORD_MISSMATCH);
+
+        user.setPassword(changePasswordRequestDto.getNewPassword());
         userRepository.save(user);
     }
 
