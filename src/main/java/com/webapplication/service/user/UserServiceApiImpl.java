@@ -9,7 +9,6 @@ import com.webapplication.error.user.UserLogInError;
 import com.webapplication.error.user.UserRegisterError;
 import com.webapplication.exception.*;
 import com.webapplication.mapper.UserMapper;
-import com.webapplication.validator.user.ChangePasswordValidator;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -91,7 +90,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
 
-        user.setPassword(changePasswordRequestDto.getPassword());
+        user.setPassword(changePasswordRequestDto.getNewPassword());
         userRepository.save(user);
     }
 
