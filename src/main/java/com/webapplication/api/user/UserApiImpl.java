@@ -9,6 +9,7 @@ import com.webapplication.validator.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -72,6 +73,11 @@ public class UserApiImpl implements UserApi {
             throw new ValidationException(UserError.INVALID_DATA);
 
         userService.changePassword(userId, changePasswordRequestDto);
+    }
+
+    @Override
+    public void check(@RequestBody MultiValueMap<String, String> formData) {
+        formData.forEach((k,v) -> System.out.print("Key: " + k + " Value: " + v));
     }
 
 
