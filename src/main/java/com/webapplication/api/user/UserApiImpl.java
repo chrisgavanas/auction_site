@@ -12,10 +12,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class UserApiImpl implements UserApi {
@@ -36,20 +38,20 @@ public class UserApiImpl implements UserApi {
         return userService.register(userRegisterRequestDto);
     }
 
-    public UserResponseDto getUser(@PathVariable Integer userId) throws Exception {
+    public UserResponseDto getUser(@RequestHeader UUID authToken, @PathVariable Integer userId) throws Exception {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         if (userId <= 0)
             throw new ValidationException(UserError.INVALID_DATA);
 
-        return userService.getUser(userId);
+        return userService.getUser(authToken, userId);
     }
 
-    public void verifyUser(@PathVariable Integer userId) throws Exception {
+    public void verifyUser(@RequestHeader UUID authToken, @PathVariable Integer userId) throws Exception {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         if (userId <= 0)
             throw new ValidationException(UserError.INVALID_DATA);
 
-        userService.verifyUser(userId);
+        userService.verifyUser(authToken, userId);
     }
 
     public UserResponseDto updateUser(@PathVariable Integer userId, @RequestBody UserUpdateRequestDto userUpdateRequestDto) throws Exception {

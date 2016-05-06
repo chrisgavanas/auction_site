@@ -3,6 +3,8 @@ package com.webapplication.service.user;
 import com.webapplication.dto.user.*;
 import com.webapplication.validator.user.ChangePasswordValidator;
 
+import java.util.UUID;
+
 
 public interface UserServiceApi {
 
@@ -10,9 +12,9 @@ public interface UserServiceApi {
 
     UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) throws Exception;
 
-    UserResponseDto getUser(Integer userId) throws Exception;
+    UserResponseDto getUser(UUID authToken, Integer userId) throws Exception;
 
-    void verifyUser(Integer userId) throws Exception;
+    void verifyUser(UUID authToken, Integer userId) throws Exception;
 
     UserResponseDto updateUser(UserUpdateRequestDto userUpdateRequestDto) throws Exception;
 

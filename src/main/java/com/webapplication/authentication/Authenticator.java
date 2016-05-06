@@ -14,8 +14,8 @@ public class Authenticator {
 
     private Map<UUID, SessionInfo> sessions = new ConcurrentHashMap<>();
 
-    private final static int SESSION_TIME_OUT = 1000 * 60 * 60;
-    public final static int SESSION_TIME_OUT_HOURS = SESSION_TIME_OUT / (1000 * 60 * 60);
+    private final static int SESSION_TIME_OUT = 1000 * 60 * 30;
+    public final static int SESSION_TIME_OUT_MINUTES = SESSION_TIME_OUT / (1000 * 60);
 
     public UUID createSession(SessionInfo session) {
         UUID uuid = UUID.randomUUID();
@@ -24,8 +24,13 @@ public class Authenticator {
         return uuid;
     }
 
+    public SessionInfo getSession(UUID authToken) {
+        return sessions.get(authToken);
+    }
+
     @Scheduled(fixedDelay = SESSION_TIME_OUT)
     private void cleanUpSessions() {
-        sessions.entrySet().removeIf(session -> session.getValue().getDate().isAfter(DateTime.now()));
+        sessions.entrySet().removeIf(session -> session.getValue().getDate().isBefore(DateTime.now()));
     }
+
 }

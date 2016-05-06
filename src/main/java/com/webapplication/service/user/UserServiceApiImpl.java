@@ -38,7 +38,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         if (!user.getIsVerified())
             throw new EmailUnverifiedException(UserLogInError.USER_NOT_EMAIL_VERIFIED);
 
-        SessionInfo session = new SessionInfo(user.getUserId(), DateTime.now().plusHours(Authenticator.SESSION_TIME_OUT_HOURS));
+        SessionInfo session = new SessionInfo(user.getUserId(), DateTime.now().plusMinutes(Authenticator.SESSION_TIME_OUT_MINUTES), user.getIsAdmin());
         UUID authToken = authenticator.createSession(session);
 
         return new UserLogInResponseDto(user.getUserId(), authToken);
@@ -56,17 +56,22 @@ public class UserServiceApiImpl implements UserServiceApi {
         return userMapper.userToRegisterResponse(user);
     }
 
-    public UserResponseDto getUser(Integer userId) throws Exception {
+    public UserResponseDto getUser(UUID authToken, Integer userId) throws Exception {
+        Optional.ofNullable(authenticator.getSession(authToken)).orElseThrow(() -> new NotAuthorizedException(UserError.UNAUTHORIZED));
         User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new NotFoundException(UserError.USER_DOES_NOT_EXIST));
 
         return userMapper.userToUserResponse(user);
     }
 
-    public void verifyUser(Integer userId) throws Exception {
+    public void verifyUser(UUID authToken, Integer userId) throws Exception {
+        SessionInfo sessionInfo = authenticator.getSession(authToken);
+        Optional.ofNullable(sessionInfo).orElseThrow(() -> new NotAuthorizedException(UserError.UNAUTHORIZED));
+        if (!sessionInfo.getIsAdmin())
+            throw new NotAuthorizedException(UserError.UNAUTHORIZED);
+
         User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
-
         if (user.getIsVerified())
             throw new UserAlreadyVerifiedException(UserError.USER_ALREADY_VERIFIED);
 

@@ -6,10 +6,12 @@ public class SessionInfo {
 
     private final Integer userId;
     private final DateTime date;
+    private final Boolean isAdmin;
 
-    public SessionInfo(Integer username, DateTime date) {
-        this.userId = username;
+    public SessionInfo(Integer userId, DateTime date, Boolean isAdmin) {
+        this.userId = userId;
         this.date = date;
+        this.isAdmin = isAdmin;
     }
 
     public Integer getUserId() {
@@ -18,6 +20,10 @@ public class SessionInfo {
 
     public DateTime getDate() {
         return date;
+    }
+
+    public Boolean getIsAdmin() {
+        return isAdmin;
     }
 
 }
