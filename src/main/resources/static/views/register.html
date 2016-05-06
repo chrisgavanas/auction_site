@@ -5,6 +5,31 @@
 <link rel="stylesheet" type="text/css" href="../styles/centered.css">
 <link rel="stylesheet" type="text/css" href="../styles/register.css">
 </head>
+<style>
+.ng-invalid.ng-dirty{
+
+	border-color: #FA787E;
+	border-radius: 2px;
+	
+}
+
+input{
+	border: 1px solid #bcbcbc;
+
+	border-radius: 2px;
+}
+
+input.ng-invalid.ng-dirty:focus { 
+    outline: none;
+    border-color: #FA787E;
+    box-shadow: 0 0 2px #FA787E;
+}
+
+#emailerror{
+	position:absolute;
+ 	color: #FA787E;
+}
+</style>
 
 <body>
 
@@ -34,7 +59,9 @@
 
 
 
-<form class="centered1 form" align="middle" ng-controller="registerController" >
+<form class="centered1 form" name="registerform" 
+	 ng-controller="registerController" ng-submit="registerform.$valid && register(user)"
+	novalidate>
    <div>
    		<hr>
 		<h1 style="font-family:'verdana'" align="middle">  <font size="4"><b>REGISTER ACCOUNT</b></font></h1>
@@ -46,28 +73,36 @@
     	</font>
        <div class="padded">
             
-             <input type="email" name="email" placeholder="E-mail" ng-model="user.email">
+             <input type="email" validate-email name="email" placeholder="E-mail" ng-model="user.email"  required>
+             
+             
+             <span id="emailerror" ng-show="registerform.email.$invalid && registerform.email.$dirty">
+             <i  class="fa fa-exclamation-circle" aria-hidden="true"></i> Please enter a valid email address</span>
         </div>
         <div class="padded">
-        	<input type="text" name="username" placeholder="Username" ng-model="user.username">
+        	<input type="text" name="username" placeholder="Username" ng-model="user.username" required>
         </div>
         <div class="padded">
-    		<input type="text" name="firstName" placeholder="First Name" ng-model="user.firstName">
+    		<input type="text" name="firstName" placeholder="First Name" ng-model="user.firstName" required>
         
-            <input type="text" name="lastName" placeholder="Last Name" ng-model="user.lastName">
+            <input type="text" name="lastName" placeholder="Last Name" ng-model="user.lastName" required>
         </div>
         
         <div class="padded">
        
-            <input type="password" name="password" placeholder="Password" ng-model="user.password">
+            <input type="password" name="password" placeholder="Password" ng-model="user.password" required>
         
-            <input type="password" name="confirmPassword" placeholder="Re-type password" ng-model="user.confirmPassword">
+            <input type="password" name="confirmPassword" placeholder="Re-type password" 
+            	ng-model="user.confirmPassword" required validate-pass="user.password">
+            <span id="emailerror" ng-show="registerform.confirmPassword.$invalid && registerform.confirmPassword.$dirty">
+             <i  class="fa fa-exclamation-circle" aria-hidden="true"></i> Passwords do not match</span>
+            
         </div>
        
          <div class="padded">
-            <input type="text" name="mobileNumber"  placeholder="Mobile T" ng-model="user.mobileNumber">
+            <input type="text" name="mobileNumber"  placeholder="Mobile T" ng-model="user.mobileNumber" required>
         
-            <input type="text" name="phoneNumber" placeholder="Phone T" ng-model="user.phoneNumber">
+            <input type="text" name="phoneNumber" placeholder="Phone T" ng-model="user.phoneNumber" required>
         </div>
         <div class="padded">
             Gender:
@@ -75,26 +110,26 @@
             <input type="radio" ng-model="user.gender" value="F">Female    
          </div>
          <div class="padded">
-            <input type="text" name="vat" placeholder="VAT" ng-model="user.vat">
+            <input type="text" name="vat" placeholder="VAT" ng-model="user.vat" required>
         </div>
         <div class="padded">
           
-            <input type="date" name="dateOfBirth" placeholder="Date Of Birth" ng-model="user.dateOfBirth">
+            <input type="date" name="dateOfBirth" placeholder="Date Of Birth" ng-model="user.dateOfBirth" required>
         </div>
         <div class="padded">
-            <input type="text" name="country" placeholder="Country" ng-model="user.country">
+            <input type="text" name="country" placeholder="Country" ng-model="user.country" required>
         </div>
         <div class="padded">
-            <input type="text" name="city" placeholder="City" ng-model="user.city">
+            <input type="text" name="city" placeholder="City" ng-model="user.address.city">
         </div>
         <div class="padded">
-            <input type="text" name="street" placeholder="Street" ng-model="user.street">
+            <input type="text" name="street" placeholder="Street" ng-model="user.address.street">
         </div>
         <div class="padded">
-            <input type="text" name="postalCode" placeholder="Postal Code" ng-model="user.postalCode">
+            <input type="text" name="postalCode" placeholder="Postal Code" ng-model="user.address.postalCode">
         </div>
         <div class="padded">
-            <button class="button" type="submit" ng-click="register(user)" >Register</button>
+            <button class="button" type="submit"  >Register</button>
         </div>
 	</div>
 	<hr>
@@ -102,3 +137,4 @@
 </form>
 
 </body>
+</html>

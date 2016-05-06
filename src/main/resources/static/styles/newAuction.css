@@ -1,0 +1,99 @@
+@CHARSET "UTF-8";
+
+
+textarea {
+   resize: none;
+   height: 200px;
+}
+.categories{
+	padding: 5px;
+	font-weight: normal;
+
+}
+.applyButton{
+	display : block;
+	border-radius: 3px;
+	border: none;
+	background-color: #43637b;
+	color: white;
+	text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+  	margin: 0 auto;
+	text-align: center;
+	padding: 5px;
+	padding-right: 7px;
+	padding-left: 7px;
+	
+	
+	margin-top: 10px;
+	margin-bottom: 2%;
+
+}
+.scroll{
+	width: 500px;
+	height: 100px;
+	overflow: auto;
+	margin-left: 219px;
+	margin-top: 2%;
+	margin-bottom: 2%;
+	border: none;
+	border: 1px solid #bcbcbc;
+
+}
+.menu{
+	text-align: center;
+	margin-top: 3%;
+	border: 1px solid #708b9e;
+	
+	border-radius: 5px;
+	margin-left: 50px;
+	margin-right: 50px;
+margin-left: 100px;
+	margin-right: 100px;
+	background-color: white;
+}
+
+h2{
+	margin-top: 0;
+	margin-bottom: 0;
+	background-color: #bdceda;
+	border-radius: 3px;
+	font-size: 22px;
+	margin-left: 110px;
+	margin-right: 110px;
+	color: black;
+	font-size: 16px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	    font-weight: bold;
+}
+
+h3{
+	background-color: #708b9e;
+	color: white;
+	border-radius: 3px;
+	margin-top: 0;
+    font-weight: bold;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.pricefield{
+	margin-top: 2%;
+	margin-bottom:2%;
+	border: none;
+	border-radius: 3px;
+	border: 1px solid #bcbcbc;
+}
+
+.field{
+	margin-top: 2%;
+	margin-bottom: 2%;
+	width: 500px;
+	border: none;
+	border-radius: 3px;
+	border: 1px solid #bcbcbc;
+
+}

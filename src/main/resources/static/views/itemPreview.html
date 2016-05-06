@@ -6,6 +6,28 @@
 <link rel="stylesheet" type="text/css" href="../styles/tabs.css">
 </head>
 <style>
+.applyButton{
+	display : block;
+	border-radius: 3px;
+	border: none;
+	background-color: #43637b;
+	color: white;
+	text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+  	margin: 0 auto;
+	text-align: center;
+	padding: 5px;
+	padding-right: 7px;
+	padding-left: 7px;
+	
+	
+	margin-top: 10px;
+	margin-bottom: 2%;
+
+}
+
 hr {
 	width: 50%;
     border: 0;
@@ -94,6 +116,8 @@ h3{
 	{{category}}
 	</div>
 </div>
+
+<button class="applyButton" ng-click="complete()">Complete Auction</button>
 </div>
 
 </body>

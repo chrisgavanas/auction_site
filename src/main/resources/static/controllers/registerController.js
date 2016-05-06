@@ -1,14 +1,15 @@
 var registerController = router.controller('registerController', function($scope, $http, $state, AuthenticationService) {
     $scope.user = {};
+    $scope.user.address = {};
     $scope.user.registrationDate = new Date();
     $scope.register = function(user) {
     	AuthenticationService.register(user).then(function (user){
     		$state.go("welcome");
     	}, function (response) {
     		alert(response.statusText+response.status);
-    		if (response.statusText == "Username is already in use.") 
+    		if (response.data.message === "Username is already in use.") 
         		document.getElementById("inUsePanel1").style.display = "block";
-    		if(response.statusText == "Email is already in use.")	
+    		if(response.data.message === "Email is already in use.")	
     			document.getElementById("inUsePanel2").style.display = "block";
         	
            

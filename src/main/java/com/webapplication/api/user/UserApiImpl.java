@@ -28,16 +28,19 @@ public class UserApiImpl implements UserApi {
     @Autowired
     private UserRequestValidator userRequestValidator;
 
+    @Override
     public UserLogInResponseDto login(@RequestBody UserLogInRequestDto userLogInRequestDto) throws Exception {
         userRequestValidator.validate(userLogInRequestDto);
         return userService.login(userLogInRequestDto);
     }
 
+    @Override
     public UserRegisterResponseDto register(@RequestBody UserRegisterRequestDto userRegisterRequestDto) throws Exception {
         userRequestValidator.validate(userRegisterRequestDto);
         return userService.register(userRegisterRequestDto);
     }
 
+    @Override
     public UserResponseDto getUser(@RequestHeader UUID authToken, @PathVariable Integer userId) throws Exception {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         if (userId <= 0)
@@ -46,6 +49,7 @@ public class UserApiImpl implements UserApi {
         return userService.getUser(authToken, userId);
     }
 
+    @Override
     public void verifyUser(@RequestHeader UUID authToken, @PathVariable Integer userId) throws Exception {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         if (userId <= 0)
@@ -54,11 +58,13 @@ public class UserApiImpl implements UserApi {
         userService.verifyUser(authToken, userId);
     }
 
+    @Override
     public UserResponseDto updateUser(@PathVariable Integer userId, @RequestBody UserUpdateRequestDto userUpdateRequestDto) throws Exception {
         userRequestValidator.validate(userUpdateRequestDto);
         return userService.updateUser(userUpdateRequestDto);
     }
 
+    @Override
     public void changePassword(@PathVariable Integer userId, @RequestBody ChangePasswordRequestDto changePasswordRequestDto) throws Exception {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         userRequestValidator.validate(changePasswordRequestDto);
@@ -74,7 +80,7 @@ public class UserApiImpl implements UserApi {
         response.sendError(HttpStatus.BAD_REQUEST.value());
     }
 
-    @ExceptionHandler({UserNotFoundException.class, EmailUnverifiedException.class})
+    @ExceptionHandler({UserNotFoundException.class, EmailUnverifiedException.class, NotAuthorizedException.class})
     private void userNotFound(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.UNAUTHORIZED.value());
     }
@@ -94,4 +100,8 @@ public class UserApiImpl implements UserApi {
         response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 
+    @ExceptionHandler({ForbiddenException.class, NotAuthenticatedException.class})
+    private void notAllowedAction(HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.FORBIDDEN.value());
+    }
 }

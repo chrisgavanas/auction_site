@@ -20,9 +20,11 @@ var profileController = router.controller('profileController', function($scope, 
 			
 			$scope.dateOfBirthConverted = $.datepicker.formatDate("M d, yy", new Date(response.data.dateOfBirth));
 			$scope.user.dateOfBirth = new Date(response.data.dateOfBirth);
+			
+			console.log($scope.user);
 
 		}, function errorCallback(response){
-			alert("error");
+			alert("error?");
 			
 			
 		});
@@ -33,7 +35,7 @@ var profileController = router.controller('profileController', function($scope, 
 				$scope.hasAuctions = true;
 			
 		}, function errorCallback(response){
-			alert("error");
+			alert("errorauction");
 		});
 		
 	}else

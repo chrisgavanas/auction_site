@@ -9,7 +9,6 @@ import com.webapplication.error.user.UserLogInError;
 import com.webapplication.error.user.UserRegisterError;
 import com.webapplication.exception.*;
 import com.webapplication.mapper.UserMapper;
-import com.webapplication.validator.user.ChangePasswordValidator;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,6 +30,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     @Autowired
     private Authenticator authenticator;
 
+    @Override
     public UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) throws Exception {
         User user = userRepository.findUserByUsernameOrEmailAndPassword(userLogInRequestDto.getUsername(), userLogInRequestDto.getEmail(), userLogInRequestDto.getPassword());
 
@@ -44,6 +44,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         return new UserLogInResponseDto(user.getUserId(), authToken);
     }
 
+    @Override
     public UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) throws Exception {
         User user = userRepository.findUserByUsernameOrEmail(userRegisterRequestDto.getUsername(), userRegisterRequestDto.getEmail());
         if (user != null)
@@ -56,14 +57,17 @@ public class UserServiceApiImpl implements UserServiceApi {
         return userMapper.userToRegisterResponse(user);
     }
 
+    @Override
     public UserResponseDto getUser(UUID authToken, Integer userId) throws Exception {
-        Optional.ofNullable(authenticator.getSession(authToken)).orElseThrow(() -> new NotAuthorizedException(UserError.UNAUTHORIZED));
+        SessionInfo sessionInfo = getActiveSession(authToken);
         User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new NotFoundException(UserError.USER_DOES_NOT_EXIST));
+        validateAuthorization(user.getUserId(), sessionInfo);
 
         return userMapper.userToUserResponse(user);
     }
 
+    @Override
     public void verifyUser(UUID authToken, Integer userId) throws Exception {
         SessionInfo sessionInfo = authenticator.getSession(authToken);
         Optional.ofNullable(sessionInfo).orElseThrow(() -> new NotAuthorizedException(UserError.UNAUTHORIZED));
@@ -79,6 +83,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         userRepository.save(user);
     }
 
+    @Override
     public UserResponseDto updateUser(UserUpdateRequestDto userUpdateRequestDto) throws Exception {
         User user = userRepository.findUserByUserId(userUpdateRequestDto.getUserId());
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
@@ -92,12 +97,27 @@ public class UserServiceApiImpl implements UserServiceApi {
         return userMapper.userToUserResponse(user);
     }
 
+    @Override
     public void changePassword(Integer userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception {
         User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
 
-        user.setPassword(changePasswordRequestDto.getPassword());
+        if (!user.getPassword().equals(changePasswordRequestDto.getOldPassword()))
+            throw new ForbiddenException(UserError.PASSWORD_MISSMATCH);
+
+        user.setPassword(changePasswordRequestDto.getNewPassword());
         userRepository.save(user);
+    }
+
+    private SessionInfo getActiveSession(UUID authToken) throws  NotAuthenticatedException {
+        SessionInfo sessionInfo = authenticator.getSession(authToken);
+        Optional.ofNullable(sessionInfo).orElseThrow(() -> new NotAuthenticatedException(UserError.NOT_AUTHENTICATED));
+        return sessionInfo;
+    }
+
+    private void validateAuthorization(Integer userId, SessionInfo sessionInfo) throws NotAuthorizedException {
+        if (!userId.equals(sessionInfo.getUserId()) && !sessionInfo.getIsAdmin())
+            throw new NotAuthorizedException(UserError.UNAUTHORIZED);
     }
 
 }

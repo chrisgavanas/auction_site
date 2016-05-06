@@ -40,7 +40,7 @@ public class Auctionitem implements Serializable {
     private Date startDate;
 
     @Transient
-    private GeoLocation geoLocation;
+    private GeoLocation geoLocation = new GeoLocation();
 
     public GeoLocation getGeoLocation() {
         geoLocation.setLatitude(latitude);
