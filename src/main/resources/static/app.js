@@ -1,5 +1,6 @@
 var router = angular.module('router', ['ui.router', 'ngResource', 'ngCookies', 'ngRoute', 'checklist-model']);
 
+
 router.config(function($stateProvider, $urlRouterProvider) {
     
     //$urlRouterProvider.otherwise('/welcome');
