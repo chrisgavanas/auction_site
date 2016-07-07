@@ -1,6 +1,6 @@
 package com.webapplication.dto.auctionitem;
 
-import com.webapplication.dto.user.GeoLocation;
+import com.webapplication.dto.user.GeoLocationDto;
 
 import java.util.Date;
 import java.util.List;
@@ -13,7 +13,7 @@ public class AddAuctionItemRequestDto {
     private Date startDate;
     private Date endDate;
     private String description;
-    private GeoLocation geoLocation;
+    private GeoLocationDto geoLocation;
     private Integer userId;
     private List<Integer> categories;
     private List<Byte[]> images;
@@ -66,11 +66,11 @@ public class AddAuctionItemRequestDto {
         this.description = description;
     }
 
-    public GeoLocation getGeoLocation() {
+    public GeoLocationDto getGeoLocation() {
         return geoLocation;
     }
 
-    public void setGeoLocation(GeoLocation geoLocation) {
+    public void setGeoLocation(GeoLocationDto geoLocation) {
         this.geoLocation = geoLocation;
     }
 

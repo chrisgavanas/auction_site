@@ -1,6 +1,6 @@
 package com.webapplication.dto.auctionitem;
 
-import com.webapplication.dto.user.GeoLocation;
+import com.webapplication.dto.user.GeoLocationDto;
 import com.webapplication.entity.Category;
 import com.webapplication.entity.Image;
 
@@ -18,7 +18,7 @@ public class AddAuctionItemResponseDto {
     private Date startDate;
     private Date endDate;
     private String description;
-    private GeoLocation geoLocation;
+    private GeoLocationDto geoLocationDto;
     private String username;
     private Float ratingAsSeller;
     private List<Category> categories;
@@ -96,12 +96,12 @@ public class AddAuctionItemResponseDto {
         this.description = description;
     }
 
-    public GeoLocation getGeoLocation() {
-        return geoLocation;
+    public GeoLocationDto getGeoLocationDto() {
+        return geoLocationDto;
     }
 
-    public void setGeoLocation(GeoLocation geoLocation) {
-        this.geoLocation = geoLocation;
+    public void setGeoLocationDto(GeoLocationDto geoLocationDto) {
+        this.geoLocationDto = geoLocationDto;
     }
 
     public String getUsername() {

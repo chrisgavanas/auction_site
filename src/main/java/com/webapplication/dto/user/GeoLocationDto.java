@@ -1,6 +1,6 @@
 package com.webapplication.dto.user;
 
-public class GeoLocation {
+public class GeoLocationDto {
 
     private Double latitude;
     private Double longitude;

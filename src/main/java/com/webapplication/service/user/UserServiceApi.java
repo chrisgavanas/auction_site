@@ -16,7 +16,7 @@ public interface UserServiceApi {
 
     void verifyUser(UUID authToken, Integer userId) throws Exception;
 
-    UserResponseDto updateUser(UserUpdateRequestDto userUpdateRequestDto) throws Exception;
+    UserResponseDto updateUser(Integer userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception;
 
     void changePassword(Integer userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
 }

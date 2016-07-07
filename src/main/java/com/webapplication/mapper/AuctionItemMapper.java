@@ -7,7 +7,7 @@ import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
-import com.webapplication.dto.user.GeoLocation;
+import com.webapplication.dto.user.GeoLocationDto;
 import com.webapplication.entity.Auctionitem;
 import com.webapplication.entity.Category;
 import com.webapplication.entity.Image;
@@ -22,6 +22,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class AuctionItemMapper {
+
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     @Autowired
     private UserRepository userRepository;
@@ -45,9 +48,9 @@ public class AuctionItemMapper {
         auctionItem.setStartDate(auctionItemRequestDto.getStartDate());
         auctionItem.setEndDate(auctionItemRequestDto.getEndDate());
         auctionItem.setDescription(auctionItemRequestDto.getDescription());
-        GeoLocation geoLocation = auctionItemRequestDto.getGeoLocation();
-        if (geoLocation != null)
-            auctionItem.setGeoLocation(geoLocation);
+        GeoLocationDto geoLocationDto = auctionItemRequestDto.getGeoLocation();
+        if (geoLocationDto != null)
+            auctionItem.setGeoLocationDto(geoLocationDto);
         User user = userRepository.findUserByUserId(auctionItemRequestDto.getUserId());
         auctionItem.setUser(user);
 
@@ -81,7 +84,7 @@ public class AuctionItemMapper {
         addAuctionItemResponseDto.setStartDate(auctionItem.getStartDate());
         addAuctionItemResponseDto.setEndDate(auctionItem.getEndDate());
         addAuctionItemResponseDto.setDescription(auctionItem.getDescription());
-        addAuctionItemResponseDto.setGeoLocation(auctionItem.getGeoLocation());
+        addAuctionItemResponseDto.setGeoLocationDto(auctionItem.getGeoLocationDto());
         Optional.ofNullable(auctionItem.getUser()).ifPresent(user -> {
             addAuctionItemResponseDto.setUsername(user.getUsername());
             addAuctionItemResponseDto.setRatingAsSeller(user.getRatingAsSeller());
@@ -117,7 +120,8 @@ public class AuctionItemMapper {
         auctionItemResponseDto.setDescription(auctionItem.getDescription());
         auctionItemResponseDto.setStartDate(auctionItem.getStartDate());
         auctionItemResponseDto.setEndDate(auctionItem.getEndDate());
-        auctionItemResponseDto.setGeoLocation(auctionItem.getGeoLocation());
+        auctionItemResponseDto.setGeoLocationDto(auctionItem.getGeoLocationDto());
+        auctionItemResponseDto.setCategoryResponseDtoList(categoryMapper.categoryListToCategoryResponseDto(auctionItem.getCategories()));
         auctionItemResponseDto.setUserId(auctionItem.getUser() == null ? null : auctionItem.getUser().getUserId());
 
         return auctionItemResponseDto;

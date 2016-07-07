@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -61,8 +63,12 @@ public class UserApiImpl implements UserApi {
 
     @Override
     public UserResponseDto updateUser(@PathVariable Integer userId, @RequestBody UserUpdateRequestDto userUpdateRequestDto) throws Exception {
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        if (userId <= 0)
+            throw new ValidationException(UserError.INVALID_DATA);
+
         userRequestValidator.validate(userUpdateRequestDto);
-        return userService.updateUser(userUpdateRequestDto);
+        return userService.updateUser(userId, userUpdateRequestDto);
     }
 
     @Override
@@ -76,8 +82,8 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public void check(@RequestBody MultiValueMap<String, String> formData) {
-        formData.forEach((k,v) -> System.out.print("Key: " + k + " Value: " + v));
+    public void check(@RequestBody List<MultipartFile> files) {
+        files.forEach(System.out::println);
     }
 
 
