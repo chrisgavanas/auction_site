@@ -17,14 +17,11 @@ public class UserUpdateRequestValidator implements Validator<UserUpdateRequestDt
     public void validate(UserUpdateRequestDto userUpdateRequestDto) throws ValidationException {
         Optional.ofNullable(userUpdateRequestDto).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
 
-        if (Arrays.asList(userUpdateRequestDto.getUserId(), userUpdateRequestDto.getEmail(), userUpdateRequestDto.getFirstName(),
+        if (Arrays.asList(userUpdateRequestDto.getEmail(), userUpdateRequestDto.getFirstName(),
                 userUpdateRequestDto.getLastName(), userUpdateRequestDto.getCountry(), userUpdateRequestDto.getMobileNumber(),
                 userUpdateRequestDto.getGender(), userUpdateRequestDto.getVat(), userUpdateRequestDto.getDateOfBirth())
                 .stream().anyMatch(Objects::isNull))
             throw new ValidationException(UserError.MISSING_DATA);
-
-        if (userUpdateRequestDto.getUserId() <= 0)
-            throw new ValidationException(UserError.INVALID_DATA);
 
         if (Arrays.asList(userUpdateRequestDto.getEmail(), userUpdateRequestDto.getFirstName(), userUpdateRequestDto.getLastName(),
                 userUpdateRequestDto.getCountry(), userUpdateRequestDto.getMobileNumber(), userUpdateRequestDto.getVat())

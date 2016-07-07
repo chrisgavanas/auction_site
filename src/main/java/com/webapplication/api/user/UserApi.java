@@ -3,7 +3,9 @@ package com.webapplication.api.user;
 import com.webapplication.dto.user.*;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -29,5 +31,5 @@ public interface UserApi {
     void changePassword(@PathVariable Integer userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
 
     @RequestMapping(path = "/check", method = RequestMethod.POST, consumes = "application/json")
-    void check(@RequestBody MultiValueMap<String,String> formData);
+    void check(@RequestBody List<MultipartFile> files);
 }

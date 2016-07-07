@@ -2,7 +2,7 @@ package com.webapplication.validator.auctionitem;
 
 
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
-import com.webapplication.dto.user.GeoLocation;
+import com.webapplication.dto.user.GeoLocationDto;
 import com.webapplication.error.auctionitem.AuctionItemError;
 import com.webapplication.exception.ValidationException;
 import com.webapplication.validator.Validator;
@@ -31,10 +31,10 @@ public class AuctionItemValidator implements Validator<AddAuctionItemRequestDto>
                 .stream().filter(Objects::nonNull).count() == 0)
             throw new ValidationException(AuctionItemError.MISSING_DATA);
 
-        GeoLocation geoLocation = request.getGeoLocation();
-        if (geoLocation != null) {
-            Double latitude = geoLocation.getLatitude();
-            Double longitude = geoLocation.getLongitude();
+        GeoLocationDto geoLocationDto = request.getGeoLocation();
+        if (geoLocationDto != null) {
+            Double latitude = geoLocationDto.getLatitude();
+            Double longitude = geoLocationDto.getLongitude();
             Optional.ofNullable(latitude).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
             Optional.ofNullable(longitude).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
 

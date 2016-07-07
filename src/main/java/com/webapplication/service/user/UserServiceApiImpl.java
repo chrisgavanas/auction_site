@@ -84,8 +84,8 @@ public class UserServiceApiImpl implements UserServiceApi {
     }
 
     @Override
-    public UserResponseDto updateUser(UserUpdateRequestDto userUpdateRequestDto) throws Exception {
-        User user = userRepository.findUserByUserId(userUpdateRequestDto.getUserId());
+    public UserResponseDto updateUser(Integer userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception {
+        User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
 
         if (!user.getEmail().equals(userUpdateRequestDto.getEmail()) && userRepository.countByEmail(userUpdateRequestDto.getEmail()) > 0)

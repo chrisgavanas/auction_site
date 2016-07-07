@@ -1,7 +1,7 @@
 package com.webapplication.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.webapplication.dto.user.GeoLocation;
+import com.webapplication.dto.user.GeoLocationDto;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -40,18 +40,18 @@ public class Auctionitem implements Serializable {
     private Date startDate;
 
     @Transient
-    private GeoLocation geoLocation = new GeoLocation();
+    private GeoLocationDto geoLocationDto = new GeoLocationDto();
 
-    public GeoLocation getGeoLocation() {
-        geoLocation.setLatitude(latitude);
-        geoLocation.setLongitude(longitude);
-        return geoLocation;
+    public GeoLocationDto getGeoLocationDto() {
+        geoLocationDto.setLatitude(latitude);
+        geoLocationDto.setLongitude(longitude);
+        return geoLocationDto;
     }
 
-    public void setGeoLocation(GeoLocation geoLocation) {
-        if (geoLocation != null) {
-            this.latitude = geoLocation.getLatitude();
-            this.longitude = geoLocation.getLongitude();
+    public void setGeoLocationDto(GeoLocationDto geoLocationDto) {
+        if (geoLocationDto != null) {
+            this.latitude = geoLocationDto.getLatitude();
+            this.longitude = geoLocationDto.getLongitude();
         }
     }
 

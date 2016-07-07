@@ -1,9 +1,11 @@
 package com.webapplication.dto.auctionitem;
 
 
-import com.webapplication.dto.user.GeoLocation;
+import com.webapplication.dto.category.CategoryResponseDto;
+import com.webapplication.dto.user.GeoLocationDto;
 
 import java.util.Date;
+import java.util.List;
 
 public class AuctionItemResponseDto {
 
@@ -16,7 +18,8 @@ public class AuctionItemResponseDto {
     private String description;
     private Date startDate;
     private Date endDate;
-    private GeoLocation geoLocation;
+    private GeoLocationDto geoLocationDto;
+    private List<CategoryResponseDto> categoryResponseDtoList;
     private Integer userId;
 
     public Integer getAuctionItemId() {
@@ -91,12 +94,20 @@ public class AuctionItemResponseDto {
         this.endDate = endDate;
     }
 
-    public GeoLocation getGeoLocation() {
-        return geoLocation;
+    public GeoLocationDto getGeoLocationDto() {
+        return geoLocationDto;
     }
 
-    public void setGeoLocation(GeoLocation geoLocation) {
-        this.geoLocation = geoLocation;
+    public void setGeoLocationDto(GeoLocationDto geoLocationDto) {
+        this.geoLocationDto = geoLocationDto;
+    }
+
+    public List<CategoryResponseDto> getCategoryResponseDtoList() {
+        return categoryResponseDtoList;
+    }
+
+    public void setCategoryResponseDtoList(List<CategoryResponseDto> categoryResponseDtoList) {
+        this.categoryResponseDtoList = categoryResponseDtoList;
     }
 
     public Integer getUserId() {
@@ -106,4 +117,5 @@ public class AuctionItemResponseDto {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+
 }
