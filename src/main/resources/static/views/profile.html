@@ -10,10 +10,61 @@
 </head>
 
 <style>
+
+#timer {
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  color: #999;
+  letter-spacing: -1px;
+}
+
+#timer span {
+  font-size: 60px;
+  color: #333;
+  margin: 0 3px 0 15px;
+}
+
+#timer span:first-child {
+  margin-left: 0;
+}
+  
+tr {
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    border-collapse: collapse;
+}
+
+table{
+    border: 1px solid black;
+ }  
+ 
+ table td{
+ 	background-color: white;
+ }
+ table th{
+ 
+ 	background-color:#bdceda;
+ }
+th, td {
+    padding: 5px;
+}
+
 input{
 	border: 1px solid #bcbcbc;
 
 	border-radius: 2px;
+}
+
+.menu{
+	text-align: left;
+	margin-top: 3%;
+	margin-left: 10%;
+	margin-right: 10%;
+	border: 1px solid #708b9e;
+	
+	border-radius: 5px;
+	
+	background-color: white;
 }
 
 </style>
@@ -233,10 +284,29 @@ input{
      	</div>
      
      <div ng-if="hasAuctions">
-     <div style="margin: 0 auto;  text-align: center;" >
-     	<h1>My auctions</h1>
+     
+     	<h2>My auctions</h2>
+     	
+     	<table style = "width:100%">
+     		<tr>
+     			<th>Name</th>
+     			<th>Current Price</th>
+     			<th>Buy it now!</th>
+     			<th>Bids</th>
+     			<th>Time Left</th>
+     		</tr>
+     		<tr ng-repeat = "item in items">
+     			<td><a href=""><u>{{item.name}}</u></a></td>
+     			<td>US ${{item.currentBid}}</td>
+     			<td ng-if="!item.hasBuyout">Not available</td>
+     			<td ng-if="item.hasBuyout">US ${{item.buyout}}</td>
+     			
+     			<td>{{item.bidsNo}}</td>
+     			<td>{{item.endDate}}</td>
+     		</tr>
+     	</table>
      	<button class="startButton" ng-click="newAuction()">Start a new auction</button>
-     </div>
+     
      </div>
      
      

@@ -36,10 +36,9 @@ router.factory('AuthenticationService', function($http, $cookies, userDataServic
 		data.phoneNumber = user.phoneNumber;
 		data.dateOfBirth = user.dateOfBirth;
 		data.vat = user.vat;
-		data.street = user.street;
-		data.city = user.city;
+		data.address = user.address;
 		data.country = user.country;
-		data.postalCode = user.postalCode;
+		
 		console.log(data);
 		var postData = {Integer: data.userId, UserUpdateRequestDto: data};
 		return $http.post('/api/user/'+user.userId, data)

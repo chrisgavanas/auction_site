@@ -19,7 +19,9 @@ var newAuctionController = router.controller('newAuctionController', function($s
 	{id: 9, text:'maria'}
 	];
 	
-	
+	if( $cookies.getObject('item') != null){
+		$scope.item = $cookies.getObject('item');
+	}
 	/*$http.get('/api/category').then(function successCallback(response){
 		console.log(response);
 	}), function errorCallback(response){
@@ -34,7 +36,8 @@ var newAuctionController = router.controller('newAuctionController', function($s
 	if($cookies.get('signedIn') === 'yes'){
 		$scope.user.userId = $cookies.get('userId');
 		$scope.signedIn = true;
-		$http.get('/api/user/'+ $scope.user.userId).then(function successCallback(response){
+		var token = $cookies.get('authToken');
+		$http.get('/api/user/'+ $scope.user.userId, {headers: {'authToken': token}}).then(function successCallback(response){
 			$scope.user.username = response.data.username;
 		}, function errorCallback(response){
 			alert("error");

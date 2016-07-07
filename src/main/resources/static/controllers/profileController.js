@@ -1,11 +1,12 @@
 var profileController = router.controller('profileController', function($scope, $state, $http,$cookies, $route, AuthenticationService){
 	$scope.user = {};
-	
+	$scope.hasBuyout = true;
 	$scope.signedIn = {};
 	if($cookies.get('signedIn') === 'yes'){
 		$scope.user.userId = $cookies.get('userId');
 		$scope.signedIn = true;
-		$http.get('/api/user/'+ $scope.user.userId).then(function successCallback(response){
+		var token = $cookies.get('authToken');
+		$http.get('/api/user/'+ $scope.user.userId, {headers: {'authToken': token}}).then(function successCallback(response){
 			$scope.user = angular.copy(response.data);
 			
 			if($scope.user.gender == "F")
@@ -33,7 +34,17 @@ var profileController = router.controller('profileController', function($scope, 
 			$scope.hasAuctions = false;
 			if(response.data.length != 0)
 				$scope.hasAuctions = true;
-			
+			$scope.items = {};
+			$scope.items = response.data;
+			var i;
+			for (i = 0; i < $scope.items.length; i++){
+				if($scope.items[i].buyout != null)
+					$scope.items[i].hasBuyout = true;
+				else
+					$scope.items[i].hasBuyout = false;
+			}
+			console.log($scope.items.length);
+			console.log($scope.items);
 		}, function errorCallback(response){
 			alert("errorauction");
 		});
@@ -80,4 +91,47 @@ var profileController = router.controller('profileController', function($scope, 
 	$scope.newAuction = function(){
 		$state.go("newAuction");
 	};
+	///////////////////////////////////////////////////////////////////////////
+	/*var timer;
+
+	var compareDate = new Date();
+	compareDate.setDate(compareDate.getDate() + 7); //just for this demo today + 7 days
+
+	timer = setInterval(function() {
+	  timeBetweenDates(compareDate);
+	}, 1000);
+
+	function timeBetweenDates(toDate) {
+	  var dateEntered = toDate;
+	  var now = new Date();
+	  var difference = dateEntered.getTime() - now.getTime();
+
+	  if (difference <= 0) {
+
+	    // Timer done
+	    clearInterval(timer);
+	  
+	  } else {
+	    
+	    var seconds = Math.floor(difference / 1000);
+	    var minutes = Math.floor(seconds / 60);
+	    var hours = Math.floor(minutes / 60);
+	    var days = Math.floor(hours / 24);
+
+	    hours %= 24;
+	    minutes %= 60;
+	    seconds %= 60;
+
+	    $("#days").text(days);
+	    $("#hours").text(hours);
+	    $("#minutes").text(minutes);
+	    $("#seconds").text(seconds);
+	  }*/
+	//}
+	/*<div id="timer">
+  						<span id="days"></span>days
+  						<span id="hours"></span>hours
+  						<span id="minutes"></span>minutes
+  						<span id="seconds"></span>seconds
+				</div>*/
 });

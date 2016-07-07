@@ -3,10 +3,12 @@ var welcomeController = router.controller('welcomeController', function($scope, 
 	console.log(data);
 	$scope.user = {};
 	$scope.signedIn = {};
+	var token = $cookies.get('authToken');
+	
 	if($cookies.get('signedIn') === 'yes'){
 		$scope.user.userId = $cookies.get('userId');
 		$scope.signedIn = true;
-		$http.get('/api/user/'+ $scope.user.userId).then(function successCallback(response){
+		$http.get('/api/user/'+ $scope.user.userId, {headers: {'authToken': token}}).then(function successCallback(response){
 			$scope.user.username = response.data.username;
 		}, function errorCallback(response){
 			alert("error");

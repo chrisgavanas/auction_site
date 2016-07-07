@@ -3,9 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="../styles/basic.css">
-<link rel="stylesheet" type="text/css" href="../styles/tabs.css">
 </head>
 <style>
+.menu{
+	text-align: center;
+	margin-top: 3%;
+	border: 1px solid #708b9e;
+	
+	border-radius: 5px;
+	margin-left: 50px;
+	margin-right: 50px;
+margin-left: 100px;
+	margin-right: 100px;
+	background-color: white;
+}
+
 .applyButton{
 	display : block;
 	border-radius: 3px;
@@ -95,7 +107,7 @@ h3{
 <div class="menu" >
 <h3>Preview your item</h3>
 
-<label>{{item.name}}</label>
+<h2>{{item.name}}</h2>
 <hr>
 <div>
 	Current bid: 
@@ -116,8 +128,8 @@ h3{
 	{{category}}
 	</div>
 </div>
-
-<button class="applyButton" ng-click="complete()">Complete Auction</button>
+<button class="applyButton" ng-click="goBack()">Back</button>
+<button class="applyButton" ng-click="complete()">Complete</button>
 </div>
 
 </body>
