@@ -13,13 +13,13 @@
 
 #timer {
   font-family: Arial, sans-serif;
-  font-size: 20px;
+  font-size: 1-px;
   color: #999;
   letter-spacing: -1px;
 }
 
 #timer span {
-  font-size: 60px;
+  font-size: 14px;
   color: #333;
   margin: 0 3px 0 15px;
 }
@@ -296,7 +296,7 @@ input{
      			<th>Time Left</th>
      		</tr>
      		<tr ng-repeat = "item in items">
-     			<td><a href=""><u>{{item.name}}</u></a></td>
+     			<td ng-click="showItem(item.auctionItemId)"><a><u>{{item.name}}</u></a></td>
      			<td>US ${{item.currentBid}}</td>
      			<td ng-if="!item.hasBuyout">Not available</td>
      			<td ng-if="item.hasBuyout">US ${{item.buyout}}</td>

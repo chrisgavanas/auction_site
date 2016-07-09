@@ -2,6 +2,7 @@ var profileController = router.controller('profileController', function($scope, 
 	$scope.user = {};
 	$scope.hasBuyout = true;
 	$scope.signedIn = {};
+	$scope.items = {};
 	if($cookies.get('signedIn') === 'yes'){
 		$scope.user.userId = $cookies.get('userId');
 		$scope.signedIn = true;
@@ -91,9 +92,13 @@ var profileController = router.controller('profileController', function($scope, 
 	$scope.newAuction = function(){
 		$state.go("newAuction");
 	};
+	
+	$scope.showItem = function(){
+		console.log("test");
+	}
 	///////////////////////////////////////////////////////////////////////////
 	/*var timer;
-
+	//console.log($scope.items[0]);
 	var compareDate = new Date();
 	compareDate.setDate(compareDate.getDate() + 7); //just for this demo today + 7 days
 
@@ -126,12 +131,13 @@ var profileController = router.controller('profileController', function($scope, 
 	    $("#hours").text(hours);
 	    $("#minutes").text(minutes);
 	    $("#seconds").text(seconds);
-	  }*/
-	//}
-	/*<div id="timer">
-  						<span id="days"></span>days
-  						<span id="hours"></span>hours
-  						<span id="minutes"></span>minutes
-  						<span id="seconds"></span>seconds
+	  }
+	}
+	<div id="timer">
+  						<span id="days"></span>d
+  						<span id="hours"></span>h
+  						<span id="minutes"></span>m
+  						<span id="seconds"></span>s
 				</div>*/
+	
 });
