@@ -92,7 +92,7 @@ public class UserApiImpl implements UserApi {
         response.sendError(HttpStatus.BAD_REQUEST.value());
     }
 
-    @ExceptionHandler({UserNotFoundException.class, EmailUnverifiedException.class, NotAuthorizedException.class})
+    @ExceptionHandler({EmailUnverifiedException.class, NotAuthorizedException.class})
     private void userNotFound(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.UNAUTHORIZED.value());
     }
@@ -102,7 +102,7 @@ public class UserApiImpl implements UserApi {
         response.sendError(HttpStatus.CONFLICT.value());
     }
 
-    @ExceptionHandler(NotFoundException.class)
+    @ExceptionHandler(UserNotFoundException.class)
     private void resourceNotFound(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.NOT_FOUND.value());
     }

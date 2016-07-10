@@ -19,8 +19,7 @@ public class AddAuctionItemResponseDto {
     private Date endDate;
     private String description;
     private GeoLocationDto geoLocationDto;
-    private String username;
-    private Float ratingAsSeller;
+    private Integer userId;
     private List<Category> categories;
     private List<Image> images;
 
@@ -104,20 +103,12 @@ public class AddAuctionItemResponseDto {
         this.geoLocationDto = geoLocationDto;
     }
 
-    public String getUsername() {
-        return username;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Float getRatingAsSeller() {
-        return ratingAsSeller;
-    }
-
-    public void setRatingAsSeller(Float ratingAsSeller) {
-        this.ratingAsSeller = ratingAsSeller;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public List<Category> getCategories() {

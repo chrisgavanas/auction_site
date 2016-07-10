@@ -41,31 +41,30 @@ public class AuctionItemMapper {
 
         Auctionitem auctionItem = new Auctionitem();
         auctionItem.setName(auctionItemRequestDto.getName());
-        auctionItem.setCurrentBid(auctionItemRequestDto.getCurrentBid());
+        auctionItem.setMinBid(auctionItemRequestDto.getMinBid());
         auctionItem.setBuyout(auctionItemRequestDto.getBuyout());
-        auctionItem.setMinBid(auctionItemRequestDto.getCurrentBid());
+        auctionItem.setCurrentBid(0D);
         auctionItem.setBidsNo(0);
         auctionItem.setStartDate(auctionItemRequestDto.getStartDate());
         auctionItem.setEndDate(auctionItemRequestDto.getEndDate());
         auctionItem.setDescription(auctionItemRequestDto.getDescription());
-        GeoLocationDto geoLocationDto = auctionItemRequestDto.getGeoLocation();
+        GeoLocationDto geoLocationDto = auctionItemRequestDto.getGeoLocationDto();
         if (geoLocationDto != null)
             auctionItem.setGeoLocationDto(geoLocationDto);
         User user = userRepository.findUserByUserId(auctionItemRequestDto.getUserId());
         auctionItem.setUser(user);
 
-        Optional.ofNullable(auctionItemRequestDto.getCategories()).ifPresent(categories -> {
-            List<Category> cat = Lists.newArrayList(categoryRepository.findAll(categories));
-            cat.forEach(category -> category.getAuctionitems().add(auctionItem));
-            auctionItem.setCategories(cat);
-        });
-        Optional.ofNullable(auctionItemRequestDto.getImages()).ifPresent(images -> auctionItem.setImages(images.stream()
-                .map(image -> {
-                    Image auctionItemImage = new Image(image, auctionItem);
-                    imageRepository.save(auctionItemImage);
-                    return auctionItemImage;
-                }).collect(Collectors.toList())
-        ));
+        List<Integer> categoriesId = auctionItemRequestDto.getCategories();
+        List<Category> categories = categoryRepository.findAll(categoriesId);
+        auctionItem.setCategories(categories);
+
+//        Optional.ofNullable(auctionItemRequestDto.getImages()).ifPresent(images -> auctionItem.setImages(images.stream()
+//                .map(image -> {
+//                    Image auctionItemImage = new Image(image, auctionItem);       // TODO: 10/7/2016 Images will be removed
+//                    imageRepository.save(auctionItemImage);
+//                    return auctionItemImage;
+//                }).collect(Collectors.toList())
+//        ));
 
         return auctionItem;
     }
@@ -85,12 +84,9 @@ public class AuctionItemMapper {
         addAuctionItemResponseDto.setEndDate(auctionItem.getEndDate());
         addAuctionItemResponseDto.setDescription(auctionItem.getDescription());
         addAuctionItemResponseDto.setGeoLocationDto(auctionItem.getGeoLocationDto());
-        Optional.ofNullable(auctionItem.getUser()).ifPresent(user -> {
-            addAuctionItemResponseDto.setUsername(user.getUsername());
-            addAuctionItemResponseDto.setRatingAsSeller(user.getRatingAsSeller());
-        });
+        Optional.ofNullable(auctionItem.getUser()).ifPresent(user -> addAuctionItemResponseDto.setUserId(user.getUserId()));
         Optional.ofNullable(auctionItem.getCategories()).ifPresent(addAuctionItemResponseDto::setCategories);
-        Optional.ofNullable(auctionItem.getImages()).ifPresent(addAuctionItemResponseDto::setImages);
+//        Optional.ofNullable(auctionItem.getImages()).ifPresent(addAuctionItemResponseDto::setImages);
 
         return addAuctionItemResponseDto;
     }

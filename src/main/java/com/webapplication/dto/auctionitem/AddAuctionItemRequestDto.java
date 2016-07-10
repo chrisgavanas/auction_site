@@ -8,12 +8,12 @@ import java.util.List;
 public class AddAuctionItemRequestDto {
 
     private String name;
-    private Double currentBid;
+    private Double minBid;
     private Double buyout;
     private Date startDate;
     private Date endDate;
     private String description;
-    private GeoLocationDto geoLocation;
+    private GeoLocationDto geoLocationDto;
     private Integer userId;
     private List<Integer> categories;
     private List<Byte[]> images;
@@ -26,12 +26,12 @@ public class AddAuctionItemRequestDto {
         this.name = name;
     }
 
-    public Double getCurrentBid() {
-        return currentBid;
+    public Double getMinBid() {
+        return minBid;
     }
 
-    public void setCurrentBid(Double currentBid) {
-        this.currentBid = currentBid;
+    public void setMinBid(Double currentBid) {
+        this.minBid = minBid;
     }
 
     public Double getBuyout() {
@@ -66,12 +66,12 @@ public class AddAuctionItemRequestDto {
         this.description = description;
     }
 
-    public GeoLocationDto getGeoLocation() {
-        return geoLocation;
+    public GeoLocationDto getGeoLocationDto() {
+        return geoLocationDto;
     }
 
-    public void setGeoLocation(GeoLocationDto geoLocation) {
-        this.geoLocation = geoLocation;
+    public void setGeoLocationDto(GeoLocationDto geoLocationDto) {
+        this.geoLocationDto = geoLocationDto;
     }
 
     public Integer getUserId() {

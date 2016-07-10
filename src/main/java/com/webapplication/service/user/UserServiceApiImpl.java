@@ -61,7 +61,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     public UserResponseDto getUser(UUID authToken, Integer userId) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
         User user = userRepository.findUserByUserId(userId);
-        Optional.ofNullable(user).orElseThrow(() -> new NotFoundException(UserError.USER_DOES_NOT_EXIST));
+        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
         validateAuthorization(user.getUserId(), sessionInfo);
 
         return userMapper.userToUserResponse(user);
