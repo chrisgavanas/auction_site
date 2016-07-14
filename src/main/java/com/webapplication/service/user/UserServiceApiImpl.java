@@ -34,7 +34,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     public UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) throws Exception {
         User user = userRepository.findUserByUsernameOrEmailAndPassword(userLogInRequestDto.getUsername(), userLogInRequestDto.getEmail(), userLogInRequestDto.getPassword());
 
-        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserLogInError.INVALID_CREDENTIALS));
+        Optional.ofNullable(user).orElseThrow(() -> new ForbiddenException(UserLogInError.INVALID_CREDENTIALS));
         if (!user.getIsVerified())
             throw new EmailUnverifiedException(UserLogInError.USER_NOT_EMAIL_VERIFIED);
 
