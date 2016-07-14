@@ -1,7 +1,7 @@
 var loginController = router.controller('loginController', function($scope, $http, $state, AuthenticationService) {
     $scope.user = {};
     $scope.login = function(user) {
-    	
+    	console.log("mphka");
     	AuthenticationService.login(user).then(function (user){
     		$state.go("welcome");
     	}, function (response) {
@@ -16,6 +16,7 @@ var loginController = router.controller('loginController', function($scope, $htt
                document.getElementById("donotmatchPanel").style.display = "block";
                
             }
+            
     	});
     };
     

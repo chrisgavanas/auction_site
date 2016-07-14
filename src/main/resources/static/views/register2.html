@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Registration Page</title>
+	<link rel="stylesheet" type="text/css" href="../styles/register.css">
+	<link rel="stylesheet" type="text/css" href="../styles/login.css">
+</head>
+
+<style>
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 50px;
+    border: 1px solid #888;
+    width: 30%; /* Could be more or less, depending on screen size */
+    height: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.chBox{
+	background-color: transparent;
+	border: none;
+	box-shadow: none;
+	webkit-box-shadow: none;
+}
+
+.myBtn{
+	background-color: #242d2c;
+	color: #e1eedd;
+
+}
+
+.myForm
+{
+  width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form-control{
+	text-align: center;
+}
+
+.ng-invalid.ng-dirty{
+
+	border-color: #FA787E;
+	border-radius: 2px;
+	
+}
+
+input{
+	border: 1px solid #bcbcbc;
+
+	border-radius: 2px;
+}
+
+input.ng-invalid.ng-dirty:focus { 
+    outline: none;
+    border-color: #FA787E;
+    box-shadow: 0 0 2px #FA787E;
+}
+
+#emailerror{
+	
+ 	color: #FA787E;
+}
+
+body {
+    font: 20px "Montserrat", sans-serif;
+    line-height: 1.8;
+
+}
+.navbar {
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    letter-spacing: 5px;
+}
+
+.navbar-nav li a:hover {
+    color: #1abc9c;
+}
+
+.container-fluid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+    text-align: center;
+}
+
+.bg-1 {
+	background-color: #6ecbc9;
+	color: ##242D2C;
+
+}
+
+.bg-2 {
+      background-color: #E1EEDD;
+      color: #242D2C;
+  }
+ 
+ .bg-3 { 
+    background-color: #242D2C;
+    color: #E1EEDD;
+}
+
+.bg-4 {
+	background-color: transparent;
+}
+</style>
+
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container">
+  
+  
+    <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+       
+      </button>
+      <a class="navbar-brand" href="#welcome">Home</a>
+    </div>
+    
+    <div class="collapse navbar-collapse" id="myNavbar">
+    
+    <div class="col-md-7">
+		<form class="navbar-form" role="search">
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+			
+			<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+			
+		</div>
+		</form>
+		</div>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#/register" ng-click="openModal()"><span class="glyphicon glyphicon-log-in">SIGN IN</a></li>
+        <li><a href="#/register"><span class="glyphicon glyphicon-user"></span>REGISTER</a></li>
+      
+      </ul>
+    </div>
+   
+  </div>
+</nav>
+<div class = "container-fluid bg-2 text-center">
+
+	<form name="registerform" class="myForm" role ="form" ng-controller="registerController" align="middle" ng-submit="registerform.$valid && register(user)"
+	novalidate>
+		
+		<h1>
+			<font size="4"><b>Registration Form</b></font>
+		</h1>
+		<font id="inUsePanel1" color= #FF0000 size= "2">
+    		Username already in use.
+    	</font>
+    	<font id="inUsePanel2" color= #FF0000 size = "2">
+    		E-mail already in use.
+    	</font>
+    	
+		<div class="row">
+			<div class="form-group col-md-12">
+				<input type="email" class="form-control" validate-email name="email" placeholder="E-mail" ng-model="user.email"  required>
+             
+			
+				<span id="emailerror"  ng-show="registerform.email.$invalid && registerform.email.$dirty">
+             	<i  class="fa fa-exclamation-circle" aria-hidden="true"></i> <font size = "2">Invalid e-mail</font></span>
+		
+			</div>
+			
+		</div>
+		
+		<div class="row">
+			<div class="form-group col-md-12">
+				<input type="text" class="form-control" name="username" placeholder="Username" ng-model="user.username" required>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="form-group col-md-6 ">
+				<input type="text" class="form-control" name="firstName" placeholder="First Name" ng-model="user.firstName" required>
+			</div>
+			<div class="form-group col-md-6 ">
+			     <input type="text" class="form-control" name="lastName" placeholder="Last Name" ng-model="user.lastName" required>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="form-group col-md-6">
+				<input type="password" class=" form-control" name="password" placeholder="Password" ng-model="user.password" required>
+			</div>
+			<div class="form-group col-md-6">
+				<input type="password" class="form-control" name="confirmPassword" placeholder="Re-type password" 
+            		ng-model="user.confirmPassword" required validate-pass="user.password">
+            	<span id="emailerror" ng-show="registerform.confirmPassword.$invalid && registerform.confirmPassword.$dirty">
+             	<i  class="fa fa-exclamation-circle" aria-hidden="true"></i> Passwords do not match</span>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="form-group col-md-6">
+				<input type="text" name="mobileNumber" class="form-control" placeholder="Mobile Number" ng-model="user.mobileNumber" required>
+			</div>
+			<div class="form-group col-md-6">
+            	<input type="text" name="phoneNumber" class="form-control" placeholder="Phone Number" ng-model="user.phoneNumber" required>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group ">
+				<div class="radio-inline">
+					<input type="radio" ng-model="user.gender" value="M"><font size="3">Male</font>
+				</div>
+				<div class="radio-inline">
+					<input type="radio" ng-model="user.gender" value="F"><font size="3">Female</font>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-12">
+				<input type="text" class="form-control" name="vat" placeholder="VAT" ng-model="user.vat" required>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-12">
+				<input type="date" class="form-control" name="dateOfBirth" placeholder="Date Of Birth" ng-model="user.dateOfBirth" required>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-12">
+				<input type="text" class='form-control' name="country" placeholder="Country" ng-model="user.country" required>
+			</div>
+			<div class="form-group col-md-12">
+				<input type="text" class="form-control" name="city" placeholder="City" ng-model="user.address.city">
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-12">
+				<input type="text" class="form-control" name="street" placeholder="Street" ng-model="user.address.street">
+			</div>
+			<div class="form-group col-md-12">
+				<input type="text" class="form-control" name="postalCode" placeholder="Postal Code" ng-model="user.address.postalCode">
+			</div>
+		</div>
+		<div class="checkbox form-control chBox">
+			<label><input type="checkbox" value="">I accept the Terms</label>
+		</div>
+		<div class="row">
+			<button class="btn btn-default myBtn" type="submit">Register</button>
+			
+		</div>
+	</form>
+
+
+</div>
+
+<footer class="container-fluid bg-3 text-center">
+  <p>Bootstrap Theme Made By FetaVideos</p> 
+</footer>
+
+
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">x</span>
+   
+	
+    <form role="form" align="middle" ng-controller="welcomeController" ng-submit="login(user)" >
+    	<h1>
+			<font size="4"><b>SIGN IN</b></font>
+		</h1>
+		<hr>
+    	<div id="donotmatchPanel">
+    		<font color=#FF0000 size="2">
+    			Username or e-mail and password do not match.
+    		</font>
+    	</div>
+  		<div class="form-group" >
+    		<label for="email"><font size="2">USERNAME OR EMAIL</font></label>
+    		<input type="text" class="form-control" id="email" ng-model="user.username">
+    		<div id="usernamePanel">
+    			<font color=#FF0000 size = "2">
+    				Required field is missing.
+    			</font>
+    		</div>
+  		</div>
+  		<div class="form-group">
+    		<label for="pwd"><font size="2">PASSWORD</font></label>
+    		<input type="password" class="form-control" id="pwd" ng-model="user.password">
+    		<div id="passwordPanel">
+    			<font color=#FF0000 size="2">
+    				Required field is missing.
+    			</font>
+    		</div>
+  		</div>
+  		<div class="form-group">
+  		<button type="submit" class="btn">Sign In</button>
+  		</div>
+  		<div class="form-group">
+  		<font size="2">New to this site?
+ 		<a href="/#/register">
+			Register here.</font>
+		</a>
+		</div>
+	</form>
+	
+  </div>
+
+</div>
+
+</body>
+
+
+</html>
+
