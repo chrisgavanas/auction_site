@@ -16,6 +16,15 @@
 
 
 <style>
+#nav .navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+}
+
+#nav .navbar .navbar-collapse {
+  text-align: center;
+} 
 
 .container-fluid {
     padding-top: 30px;
@@ -60,15 +69,16 @@
 
 <div class = "container-fluid bg-1 text-center">
 	<div>
-		<img src="./images/user.PNG">
+		<img src="./images/user.PNG" height="150" width="150">
 	</div>
+	<h2><font color="#e1eedd" >{{user.username}}</font></h2>
 </div>
 
-<div ng-controller="profileController">
+<div ng-controller="profileController" id="nav">
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
    	<div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar2">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -78,7 +88,7 @@
     </div>
     <div class="collaps navbar-collapse" ng-class="!navCollapsed && 'in'" id="myNavbar2">
     <ul class="nav navbar-nav">
-        <li ui-sref-active="active"><a ui-sref="profile.userInfo">User Info</a></li>
+      <li ng-class="{'active':$state.includes('profile')}" ng-click="collapseMenu()" ui-sref-active="active"><a ui-sref="profile.userInfo">User Info</a></li>
       <li ui-sref-active="active"><a ui-sref="profile.userAuctions">Auctions</a></li>
       <li ui-sref-active="active"><a ui-sref="profile.userBids">Bids</a></li> 
 			  

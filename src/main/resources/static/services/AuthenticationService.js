@@ -7,6 +7,7 @@ router.factory('AuthenticationService', function($http, $cookies, userDataServic
 					.then(function (response) {
 						userDataService.setUserId(response.data.useId);
 			        	userDataService.setAuthToken(response.data.authToken);
+			        	
 			        	$cookies.put('userId', response.data.useId);
 			        	$cookies.put('authToken', response.data.authToken);
 			        	$cookies.put('signedIn', 'yes');

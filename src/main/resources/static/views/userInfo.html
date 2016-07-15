@@ -1,10 +1,131 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Profile | Auction</title>
 </head>
+
+<style>
+
+.container-fluid {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 250px;
+    padding-right: 250px;
+ 	color: #e1edd;
+}
+
+hr{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+</style>
 <body>
-This is user info :)
+
+<div class="container-fluid">
+	<form ng-controller="userInfoController">
+	
+	<div class="row">
+			<div class="col-md-2">
+				<font size="2">Account Type</font>
+			</div>
+			<div class="col-md-8" align="middle">
+				<font size="2" color="#516462">{{user.type}}</font>
+			</div>
+			
+		
+		</div>
+		<hr>
+	<div class="row">
+			<div class="col-md-2">
+				<font size="2">Username</font>
+			</div>
+			<div class="col-md-8" align="middle">
+				<font size="2" color="#516462">{{user.username}}</font>
+			</div>
+			
+		
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">E-mail</font>
+			</div>
+			<div class="col-md-8" align="middle">
+				<font size="2" color="#516462">{{user.email}}</font>
+			</div>
+			<div class="col-md-2" align="right">
+				<font size="2">Edit</font>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">First Name</font>
+			</div>
+			<div class="col-md-8" align="middle">
+				<font size="2" color="#516462">{{user.firstName}}</font>
+			</div>
+			<div class="col-md-2" align="right">
+				<font size="2">Edit</font>
+			</div>
+		
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Last Name</font>
+			</div>
+			<div class="col-md-8" align="middle">
+				<font size="2" color="#516462">{{user.lastName}}</font>
+			</div>
+			<div class="col-md-2" align="right">
+				<font size="2">Edit</font>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Mobile No</font>
+			</div>
+			<div class="col-md-8" align="middle">
+				<font size="2" color="#516462">{{user.mobileNumber}}</font>
+			</div>
+			<div class="col-md-2" align="right">
+				<font size="2">Edit</font>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Telephone No</font>
+			</div>
+			<div class="col-md-8" align="middle">
+				<font size="2" color="#516462">{{user.phoneNumber}}</font>
+			</div>
+			<div class="col-md-2" align="right">
+				<font size="2">Edit</font>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Date of Birth</font>
+			</div>
+			<div class="col-md-8" align="middle">
+				<font size="2" color="#516462">{{dateOfBirthConverted}}</font>
+			</div>
+			<div class="col-md-2" align="right">
+				<font size="2">Edit</font>
+			</div>
+		</div>
+		<div class="row" align="middle">
+			<font size="1">Registered on {{registrationDateConverted}}</font>
+		</div>
+	</form>
+
+</div>
+
 </body>
+
 </html>

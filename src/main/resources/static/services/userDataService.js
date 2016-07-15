@@ -1,6 +1,8 @@
  var userDataService = router.service("userDataService", function () {
 	var userId = null;
 	var authToken = null;
+	var user = {};
+	
 	
 	var setUserId = function (id){
 		userId = id;
@@ -18,10 +20,20 @@
 		return authToken;
 	};
 	
-	 return {
+	var setUser = function(user){
+		this.user = user;
+	}
+	
+	var getUser = function(){
+		return user;
+	}
+	
+	return {
 		    setUserId : setUserId,
 		    getUserId: getUserId,
 		    setAuthToken: setAuthToken,
-		    getAuthToken: getAuthToken
+		    getAuthToken: getAuthToken,
+		    setUser: setUser,
+		    getUser: getUser
 	 };
 });
