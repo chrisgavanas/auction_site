@@ -78,15 +78,19 @@
     </div>
     <div class="collaps navbar-collapse" ng-class="!navCollapsed && 'in'" id="myNavbar2">
     <ul class="nav navbar-nav">
-        <li class="active"><a href="#/profile">User Info</a></li>
-      <li><a href="#/profile">Auctions</a></li>
-      <li><a href="#/profile">Bids</a></li> 
+        <li ui-sref-active="active"><a ui-sref="profile.userInfo">User Info</a></li>
+      <li ui-sref-active="active"><a ui-sref="profile.userAuctions">Auctions</a></li>
+      <li ui-sref-active="active"><a ui-sref="profile.userBids">Bids</a></li> 
 			  
      
     </ul>
   </div>
   </div>
 </nav>
+
+
+<div ui-view=menuview></div>
+
 </div>
 </body>
 </html>
