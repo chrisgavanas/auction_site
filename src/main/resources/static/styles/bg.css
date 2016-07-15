@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+
+.bg-1 {
+	background-color: #6ecbc9;
+	color: ##242D2C;
+
+}
+
+.bg-2 {
+      background-color: #E1EEDD;
+      color: #242D2C;
+  }
+ 
+ .bg-3 { 
+    background-color: #242D2C;
+    color: #E1EEDD;
+}
+
+.bg-4 {
+	background-color: transparent;
+}

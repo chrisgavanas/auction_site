@@ -1,53 +1,192 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Auction</title>
+	<link rel="stylesheet" type="text/css" href="../styles/login.css">
 	
 	<link rel="stylesheet" type="text/css" href="../styles/basic.css">
-
- 
-
+	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
+	<link rel="stylesheet" type="text/css" href="../styles/dropdown.css">
+	<link rel="stylesheet" type="text/css" href="../styles/NavBar.css">
+	<link rel="stylesheet" type="text/css" href="../styles/modal.css">
+	
 </head>
+
+<style>
+
+.container-fluid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+
+</style>
 <body>
 
-<div id="headerBar"></div>
-
-
-  <div class="container-4" id="main">
-  <a href="/#/welcome">
-		<img class="img" src="http://i765.photobucket.com/albums/xx295/yiotappl/logonew_zpstit9bcvx.png"  style="width:150px;height:50px;"/img>
-	  </a>
-      <input type="search" id="search" placeholder="Search..." />
-      <select class="select">
-      	<option>Categories</option>
-      	<option>Appliancies</option>
-      	<option>Gadgets</option>
-      	<option>Hardware</option>
-      	
-      
-      </select>
-      <button class="icon"><i class="fa fa-search"></i></button>
-       <div id="ifcase" ng-if="signedIn">
+<nav class="navbar navbar-default">
+  <div class="container">
+  
+  <div ng-if="!signedIn">
+    <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
        
-       <div class="dropdown">
-  <button class="dropbtn">Welcome, {{user.username}} <i class="fa fa-angle-down"></i></button>
-  <div class="dropdown-content">
-    <a href="" ng-click="myProfile()">My Profile</a>
-    <a href="" ng-click="logout()">Sign Out</a>
+      </button>
+      <a class="navbar-brand" href="#welcome">Home</a>
+    </div>
+    
+    <div class="collapse navbar-collapse" id="myNavbar">
+    
+    
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#/welcome" ng-click="openModal()"><span class="glyphicon glyphicon-log-in">SIGN IN</a></li>
+        <li><a href="#/register"><span class="glyphicon glyphicon-user"></span>REGISTER</a></li>
+      
+      </ul>
+    </div>
+   </div>
    
+   
+   <div ng-if="signedIn">
+   	<div class="navbar-header">
+   	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+   
+       
+      </button>
+      <a class="navbar-brand" href="#welcome">Home</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+       <div class="dropdown">
+  			<button class="btn dropdown-toggle btn-link" type="button" data-toggle="dropdown">Welcome, {{user.username}} 
+  			<span class="caret"></span></button>
+  			<ul class="nav navbar-nav  dropdown-menu">
+    			<li><a href="" ng-click="myProfile()">My Profile</a></li>
+    			<li><a href="" ng-click="logout()">Sign Out</a></li>
+   			</ul>
+  			
+		</div>
+      
+     </ul>
+    </div>
+   
+   
+   </div>
+  </div>
+</nav>
+
+<div class = "container-fluid bg-1 text-center">
+	
+	<div>
+		<img src="./images/logo1.PNG">
+	</div>
+	<form class="form-inline">
+		<input type="search" class="form-control" size="50" placeholder="Search..." />
+	
+		<button class="btn btn-default"><i class="fa fa-search"></i> Search</button>
+	</form>
+</div>
+
+<div class="container-fluid bg-2 text-center"> 
+  <h3>Browse by Category</h3>
+  <div class="row">
+    <div class="col-md-4 bg-4">
+      <div class="pad">
+      	<h2>Appliances</h2>
+      	<img src="./images/appliances.PNG">
+      </div>
+    </div>
+    <div class="col-md-4 bg-4">
+    	<div class ="pad">
+      <h2>Hardware</h2>
+      <img src="./images/hardware2.PNG">
+      </div>
+    </div>
+    <div class="col-md-4 bg-4">
+    	<div class ="pad"> 
+      <h2>Gadgets</h2>
+      <img src="./images/gadgets.PNG">
+    </div>
+    </div>
+     <div class="col-md-4 bg-4">
+    	<div class ="pad"> 
+      <h2>Music</h2>
+      <img src="./images/gadgets.PNG">
+    </div>
+    </div>
+     <div class="col-md-4 bg-4">
+    	<div class ="pad"> 
+      <h2>Art</h2>
+      <img src="./images/gadgets.PNG">
+    </div>
+    </div>
+     <div class="col-md-4 bg-4">
+    	<div class ="pad"> 
+      <h2>Hobbies</h2>
+      <img src="./images/gadgets.PNG">
+    </div>
+    </div>
   </div>
 </div>
-       </div>
-       <div ng-if="!signedIn">
-	  		<button  class="buttonR " type="button" ng-click="redirectRegister()">Register</button>
-	  		<hr class="vertical"/>
-      		<button  class="buttonL " type="button"  ng-click="redirectLogin()" >Sign In</button>
-      	</div>
-	  
+
+<footer class="container-fluid bg-3 text-center">
+  <p>Bootstrap Theme Made By FetaVideos</p> 
+</footer>
+
+
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">x</span>
+   
+	
+    <form role="form" align="middle" ng-controller="modalController" ng-submit="login(user)" >
+    	<h1>
+			<font size="4"><b>SIGN IN</b></font>
+		</h1>
+		<hr>
+    	<div id="donotmatchPanel">
+    		<font color=#FF0000 size="2">
+    			Username or e-mail and password do not match.
+    		</font>
+    	</div>
+  		<div class="form-group" >
+    		<label for="email"><font size="2">USERNAME OR EMAIL</font></label>
+    		<input type="text" class="form-control" id="email" ng-model="user.username">
+    		<div id="usernamePanel">
+    			<font color=#FF0000 size = "2">
+    				Required field is missing.
+    			</font>
+    		</div>
+  		</div>
+  		<div class="form-group">
+    		<label for="pwd"><font size="2">PASSWORD</font></label>
+    		<input type="password" class="form-control" id="pwd" ng-model="user.password">
+    		<div id="passwordPanel">
+    			<font color=#FF0000 size="2">
+    				Required field is missing.
+    			</font>
+    		</div>
+  		</div>
+  		<div class="form-group">
+  		<button type="submit" class="btn">Sign In</button>
+  		</div>
+  		<div class="form-group">
+  		<font size="2">New to this site?
+ 		<a href="/#/register">
+			Register here.</font>
+		</a>
+		</div>
+	</form>
+	
   </div>
 
-
-
-
+</div>
 
 </body>
 </html>

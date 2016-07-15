@@ -10,22 +10,18 @@ router.config(function($stateProvider, $urlRouterProvider) {
     	.state('welcome', {
     		url: '/welcome',
     		controller: 'welcomeController',
-    		templateUrl: 'views/welcome2.html'
+    		templateUrl: 'views/welcome.html'
     	})
-    	//.state('login', {
-        //    url: '/login',
-       //     controller: 'loginController',
-       //    templateUrl: 'views/login.html'
-       // })
+    	
         .state('register', {
         	url: '/register',
         	controller: 'registerController',
-        	templateUrl: 'views/register2.html'
+        	templateUrl: 'views/register.html'
         })
         .state('profile', {
         	url: '/profile',
         	controller: 'profileController',
-        	templateUrl: 'views/profile.html'
+        	templateUrl: 'views/profile2.html'
 
         })
         .state('newAuction', {

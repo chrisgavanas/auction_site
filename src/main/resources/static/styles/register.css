@@ -8,37 +8,68 @@
 	display:none;
 }
 
-form div{
-	text-align: centered;
-}
 
-h1  {
-	color:#636363;
-	margin-bottom: 10px; 
-	margin-top: -10px
+.chBox{
+	background-color: transparent;
+	border: none;
+	box-shadow: none;
+	webkit-box-shadow: none;
 }
 
 
-hr {
-	width: 50%;
-    border: 0;
-    border-top: 1px solid #989898;
+.myBtn{
+	background-color: #242d2c;
+	color: #e1eedd;
+
 }
 
-button.button {
-    background-color: #b30000;
-    border: none;
-    color: white;
-    padding: 8px 25px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 4px;
-    margin-top: 10px;
+
+.myForm
+{
+  width: 480px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.padded{
-	padding: 5px;
+
+.form-control{
+	text-align: center;
 }
+
+
+.ng-invalid.ng-dirty{
+
+	border-color: #FA787E;
+	border-radius: 2px;
+	
+}
+
+
+input{
+	border: 1px solid #bcbcbc;
+
+	border-radius: 2px;
+}
+
+
+input.ng-invalid.ng-dirty:focus { 
+    outline: none;
+    border-color: #FA787E;
+    box-shadow: 0 0 2px #FA787E;
+}
+
+
+#emailerror{
+	
+ 	color: #FA787E;
+}
+
+
+#accepterror{
+	display: none;
+	color: #FA787E;
+}
+
+
+
 

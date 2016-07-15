@@ -1,0 +1,40 @@
+@CHARSET "UTF-8";
+.btn-link {
+    background-color: transparent;
+    color: blackwhite;
+    height: 35px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-menu a {
+    
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown:hover .btn {
+    background-color: transparent;
+}
+
+
+.btn-link:focus, .btn-link:hover {
+   
+    text-decoration: none;
+  
+}
