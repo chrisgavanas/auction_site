@@ -19,12 +19,23 @@ hr{
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+
+.btn-link{
+	margin-top: 0;
+}
+
+.passwordform{
+	width: 600px;
+}
 </style>
 <body>
 
-<div class="container-fluid">
+<div class="container-fluid" align="middle">
 	<form ng-controller="userInfoController">
-	
+	<div class="row" align="middle">
+		<font size="4">Personal Information</font>
+	</div>
+	<br>
 	<div class="row">
 			<div class="col-md-2">
 				<font size="2">Account Type</font>
@@ -54,9 +65,7 @@ hr{
 			<div class="col-md-8" align="middle">
 				<font size="2" color="#516462">{{user.email}}</font>
 			</div>
-			<div class="col-md-2" align="right">
-				<font size="2">Edit</font>
-			</div>
+			
 		</div>
 		<hr>
 		<div class="row">
@@ -67,7 +76,7 @@ hr{
 				<font size="2" color="#516462">{{user.firstName}}</font>
 			</div>
 			<div class="col-md-2" align="right">
-				<font size="2">Edit</font>
+				<button class="btn btn-link" ng-click="show('firstName')"><font size="2">Edit</font></button>
 			</div>
 		
 		</div>
@@ -80,7 +89,7 @@ hr{
 				<font size="2" color="#516462">{{user.lastName}}</font>
 			</div>
 			<div class="col-md-2" align="right">
-				<font size="2">Edit</font>
+				<button class="btn btn-link" ng-click="show('lastName')"><font size="2">Edit</font></button>
 			</div>
 		</div>
 		<hr>
@@ -92,7 +101,7 @@ hr{
 				<font size="2" color="#516462">{{user.mobileNumber}}</font>
 			</div>
 			<div class="col-md-2" align="right">
-				<font size="2">Edit</font>
+				<button class="btn btn-link" ng-click="show('mobileNumber')"><font size="2">Edit</font></button>
 			</div>
 		</div>
 		<hr>
@@ -104,7 +113,7 @@ hr{
 				<font size="2" color="#516462">{{user.phoneNumber}}</font>
 			</div>
 			<div class="col-md-2" align="right">
-				<font size="2">Edit</font>
+				<button class="btn btn-link" ng-click="show('phoneNumber')"><font size="2">Edit</font></button>
 			</div>
 		</div>
 		<hr>
@@ -116,13 +125,50 @@ hr{
 				<font size="2" color="#516462">{{dateOfBirthConverted}}</font>
 			</div>
 			<div class="col-md-2" align="right">
-				<font size="2">Edit</font>
+				<button class="btn btn-link" ng-click="show('dateOfBirth')"><font size="2">Edit</font></button>
 			</div>
 		</div>
 		<div class="row" align="middle">
 			<font size="1">Registered on {{registrationDateConverted}}</font>
 		</div>
+		
+		<br>
 	</form>
+	<form ng-controller="userInfoController" class="passwordform" >
+		<div class="row" align="middle">
+			<font size="4">Change Password</font>
+		</div>
+		<br>
+		
+		<div class="row">
+			<dv class="col-md-4" align="right">
+				<font size="2">Current</font>
+			</dv>
+			<div class="col-md-4">
+				<input class="form-control">
+			</div>
+		</div>
+		<div class="row">
+			<dv class="col-md-4" align="right">
+				<font size="2">New</font>
+			</dv>
+			<div class="col-md-4">
+				<input class="form-control">
+			</div>
+		</div>
+		<div class="row">
+			<dv class="col-md-4" align="right">
+				<font size="2">Re-type</font>
+			</dv>
+			<div class="col-md-4">
+				<input class="form-control">
+			</div>
+		</div>
+		<div class="row">
+			<button class="btn btn-default">Save</button>
+		</div>
+	</form>
+	
 
 </div>
 

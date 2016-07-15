@@ -41,6 +41,14 @@ router.controller('userInfoController', function($state, $scope, $cookies, $http
 			
 			
 		});
+		
+		$scope.show = function(field){
+			
+			document.getElementById(field+"Form").style.display = "block";
+			document.getElementById(field+"Cont").style.backgroundColor = "#edf1f4";
+			document.getElementById(field+"But").style.display = "none";
+			document.getElementById(field+"Field").style.display = "none";
+		};
 	}
 	
 });
