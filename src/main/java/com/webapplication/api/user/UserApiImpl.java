@@ -72,7 +72,8 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public void changePassword(@PathVariable Integer userId, @RequestBody ChangePasswordRequestDto changePasswordRequestDto) throws Exception {
+    public void changePassword(@RequestHeader UUID authToken, @PathVariable Integer userId, @RequestBody ChangePasswordRequestDto changePasswordRequestDto) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         userRequestValidator.validate(changePasswordRequestDto);
         if (userId <= 0)

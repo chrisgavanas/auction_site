@@ -6,7 +6,6 @@ public class ChangePasswordRequestDto {
 
     private String oldPassword;
     private String newPassword;
-    private UUID authToken;
 
     public String getOldPassword() {
         return oldPassword;
@@ -24,11 +23,4 @@ public class ChangePasswordRequestDto {
         this.newPassword = newPassword;
     }
 
-    public UUID getAuthToken() {
-        return authToken;
-    }
-
-    public void setAuthToken(UUID authToken) {
-        this.authToken = authToken;
-    }
 }

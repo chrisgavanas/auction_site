@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @Component
@@ -16,7 +17,7 @@ public class ChangePasswordValidator implements Validator<ChangePasswordRequestD
     @Override
     public void validate(ChangePasswordRequestDto request) throws ValidationException {
         Optional.ofNullable(request).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
-        if (Stream.of(request.getOldPassword(), request.getNewPassword(), request.getAuthToken()).anyMatch(Objects::isNull))
+        if (Stream.of(request.getOldPassword(), request.getNewPassword()).anyMatch(Objects::isNull))
             throw new ValidationException(UserError.MISSING_DATA);
 
         if (Stream.of(request.getOldPassword(), request.getNewPassword()).anyMatch(String::isEmpty))
