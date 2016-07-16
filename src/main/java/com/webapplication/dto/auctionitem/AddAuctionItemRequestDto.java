@@ -30,7 +30,7 @@ public class AddAuctionItemRequestDto {
         return minBid;
     }
 
-    public void setMinBid(Double currentBid) {
+    public void setMinBid(Double minBid) {
         this.minBid = minBid;
     }
 

@@ -3,6 +3,7 @@ package com.webapplication.validator.user;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Component;
 
@@ -19,12 +20,10 @@ public class UserLogInValidator implements Validator<UserLogInRequestDto> {
         Optional.ofNullable(request).orElseThrow(() -> new ValidationException(UserLogInError.MISSING_DATA));
         Optional.ofNullable(request.getPassword()).orElseThrow(() -> new ValidationException(UserLogInError.MISSING_DATA));
 
-        if (Arrays.asList(request.getUsername(), request.getEmail())
-                .stream().filter(Objects::nonNull).count() == 0)
+        if (Stream.of(request.getUsername(), request.getEmail()).filter(Objects::nonNull).count() == 0)
             throw new ValidationException(UserLogInError.MISSING_DATA);
 
-        if (Arrays.asList(request.getUsername(), request.getEmail(), request.getPassword())
-                .stream().filter(Objects::nonNull).anyMatch(String::isEmpty))
+        if (Stream.of(request.getUsername(), request.getEmail(), request.getPassword()).filter(Objects::nonNull).anyMatch(String::isEmpty))
             throw new ValidationException(UserLogInError.INVALID_DATA);
 
     }
