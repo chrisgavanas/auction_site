@@ -72,7 +72,7 @@ var profileController = router.controller('profileController', function($scope, 
 	$scope.show = function(field){
 	
 		document.getElementById(field+"Form").style.display = "block";
-		document.getElementById(field+"Cont").style.backgroundColor = "#edf1f4";
+		//document.getElementById(field+"Cont").style.backgroundColor = "#edf1f4";
 		document.getElementById(field+"But").style.display = "none";
 		document.getElementById(field+"Field").style.display = "none";
 	};

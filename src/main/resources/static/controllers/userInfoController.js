@@ -1,4 +1,4 @@
-router.controller('userInfoController', function($state, $scope, $cookies, $http, userDataService){
+router.controller('userInfoController', function($state, $scope, $cookies, $http, userDataService, AuthenticationService){
 	$scope.user = {};
 	$scope.hasBuyout = true;
 	$scope.signedIn = {};
@@ -43,11 +43,22 @@ router.controller('userInfoController', function($state, $scope, $cookies, $http
 		});
 		
 		$scope.show = function(field){
-			
+			console.log(field+"Form");
 			document.getElementById(field+"Form").style.display = "block";
-			document.getElementById(field+"Cont").style.backgroundColor = "#edf1f4";
 			document.getElementById(field+"But").style.display = "none";
 			document.getElementById(field+"Field").style.display = "none";
+		};
+		
+		$scope.applyChanges = function(user){
+			AuthenticationService.updateUser(user).then(function (response){
+				console.log(response);
+				
+				
+			}, function(response){
+				console.log(response);
+			});
+			$state.go($state.current, {}, {reload: true});
+			
 		};
 	}
 	
