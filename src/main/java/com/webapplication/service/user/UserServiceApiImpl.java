@@ -109,7 +109,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         userRepository.save(user);
     }
 
-    private SessionInfo getActiveSession(UUID authToken) throws  NotAuthenticatedException {
+    private SessionInfo getActiveSession(UUID authToken) throws NotAuthenticatedException {
         SessionInfo sessionInfo = authenticator.getSession(authToken);
         Optional.ofNullable(sessionInfo).orElseThrow(() -> new NotAuthenticatedException(UserError.NOT_AUTHENTICATED));
         return sessionInfo;

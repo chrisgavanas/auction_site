@@ -3,7 +3,7 @@ router.controller('userInfoController', function($state, $scope, $cookies, $http
 	$scope.hasBuyout = true;
 	$scope.signedIn = {};
 	$scope.items = {};
-	
+	$scope.paswords = {};
 	$scope.collapseMenu = function() {
 		if ($(window).width() <= 768) {
 			console.log('hiding');
@@ -15,6 +15,7 @@ router.controller('userInfoController', function($state, $scope, $cookies, $http
 	if($cookies.get('signedIn') === 'yes'){
 		$scope.user.userId = $cookies.get('userId');
 		$scope.signedIn = true;
+		var userId = $scope.user.userId;
 		var token = $cookies.get('authToken');
 		$http.get('/api/user/'+ $scope.user.userId, {headers: {'authToken': token}}).then(function successCallback(response){
 			$scope.user = angular.copy(response.data);
@@ -58,6 +59,19 @@ router.controller('userInfoController', function($state, $scope, $cookies, $http
 				console.log(response);
 			});
 			$state.go($state.current, {}, {reload: true});
+			
+		};
+		
+		$scope.changePassword = function(passwords){
+			AuthenticationService.changePassword(passwords, userId, token).then(function(response){
+				$state.go($state.current, {}, {reload:true});
+			}, function(response){
+				if(response.data.message === "Password is Invalid"){
+					document.getElementById("invalidPass").style.display = block;
+					
+				}
+				
+			});
 			
 		};
 	}

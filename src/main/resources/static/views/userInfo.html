@@ -12,6 +12,12 @@
 	text-align:center;
 }
 
+input.ng-invalid.ng-dirty:focus { 
+    outline: none;
+    border-color: #FA787E;
+    box-shadow: 0 0 2px #FA787E;
+}
+
 .container-fluid {
     padding-top: 30px;
     padding-bottom: 30px;
@@ -29,12 +35,22 @@ hr{
 	margin-top: 0;
 }
 
+
 .btn-link:focus{
 	border: none;
 }
 
-.passwordform{
+.passform{
 	width: 600px;
+}
+
+#passwords{
+	color:red;
+}
+
+#invalidPass{
+	color:red;
+	display: none;
 }
 </style>
 <body>
@@ -269,18 +285,29 @@ hr{
 		</div>
 		<br>
 	</form>
-	<form ng-controller="userInfoController" class="passwordform" >
+	
+	<form name="passwordForm" ng-controller="userInfoController" class="passform"  ng-submit="passwordForm.$valid && changePassword(passwords)"
+	novalidate>
 		<div class="row" align="middle">
 			<font size="4">Change Password</font>
 		</div>
 		<br>
+		<div class="row" align="middle">
+            	<span  id="invalidPass" >
+             	<i  class="fa fa-exclamation-circle"aria-hidden="true"></i> <font size = "2" >Invalid password</font></span>
 		
+		</div>
+		<div class="row" align="middle">
+            	<span  id="passwords" ng-show="passwordForm.confirmPassword.$invalid && passwordForm.confirmPassword.$dirty">
+             	<i  class="fa fa-exclamation-circle"aria-hidden="true"></i> <font size = "2" >Passwords do not match</font></span>
+		
+		</div>
 		<div class="row">
 			<dv class="col-md-4" align="right">
 				<font size="2">Current</font>
 			</dv>
 			<div class="col-md-4">
-				<input class="form-control">
+				<input type="password" name="oldPassword" class="form-control" ng-model="passwords.oldPassword" required>
 			</div>
 		</div>
 		<div class="row">
@@ -288,7 +315,7 @@ hr{
 				<font size="2">New</font>
 			</dv>
 			<div class="col-md-4">
-				<input class="form-control">
+				<input type="password" class="form-control" name="newPassword" ng-model="passwords.newPassword" required>
 			</div>
 		</div>
 		<div class="row">
@@ -296,11 +323,11 @@ hr{
 				<font size="2">Re-type</font>
 			</dv>
 			<div class="col-md-4">
-				<input class="form-control">
+				<input type="password" class="form-control" ng-model="passwords.confirmPassword" name="confirmPassword" required validate-pass="passwords.newPassword">
 			</div>
 		</div>
 		<div class="row">
-			<button class="btn btn-default">Save</button>
+			<button class="btn btn-default" type="submit">Save</button>
 		</div>
 	</form>
 	

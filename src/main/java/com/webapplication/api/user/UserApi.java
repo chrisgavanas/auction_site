@@ -28,7 +28,7 @@ public interface UserApi {
     void verifyUser(@RequestHeader UUID authToken, @PathVariable Integer userId) throws Exception;
 
     @RequestMapping(path = "/user/{userId}/change-password", method = RequestMethod.POST, consumes = "application/json")
-    void changePassword(@PathVariable Integer userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
+    void changePassword(@RequestHeader UUID authToken, @PathVariable Integer userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
 
     @RequestMapping(path = "/check", method = RequestMethod.POST, consumes = "application/json")
     void check(@RequestBody List<MultipartFile> files);

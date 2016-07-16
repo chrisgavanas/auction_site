@@ -148,4 +148,54 @@ class UserApiImplSpec extends Specification {
         1 * mockUserService.updateUser(userId, updateRequestDto) >> userResponseDto
         0 * _
     }
+
+    @Unroll
+    def "Change user's password fails due to invalid userId"() {
+        given:
+        Integer userId = id
+        UUID authToken = UUID.randomUUID()
+        ChangePasswordRequestDto changePasswordRequestDto = new ChangePasswordRequestDto()
+
+        when:
+        userApi.changePassword(authToken, userId, changePasswordRequestDto)
+
+        then:
+        ValidationException e = thrown()
+        e.localizedMessage == error
+
+        where:
+        id | error
+        null   | UserError.MISSING_DATA.description
+        -1     | UserError.INVALID_DATA.description
+        0      | UserError.INVALID_DATA.description
+    }
+
+    def "Change user's password fails as user did not provide an authentication token"() {
+        given:
+        Integer userId = 4
+        UUID authToken = null
+        ChangePasswordRequestDto changePasswordRequestDto = new ChangePasswordRequestDto()
+
+        when:
+        userApi.changePassword(authToken, userId, changePasswordRequestDto)
+
+        then:
+        ValidationException e = thrown()
+        e.localizedMessage == UserError.MISSING_DATA.description
+    }
+
+    def "User changes password successfully"() {
+        given:
+        Integer userId = 4
+        UUID authToken = UUID.randomUUID()
+        ChangePasswordRequestDto changePasswordRequestDto = new ChangePasswordRequestDto()
+
+        when:
+        userApi.changePassword(authToken, userId, changePasswordRequestDto)
+
+        then:
+        1 * mockUserRequestValidator.validate(changePasswordRequestDto)
+        1 * mockUserService.changePassword(userId, changePasswordRequestDto)
+        0 * _
+    }
 }

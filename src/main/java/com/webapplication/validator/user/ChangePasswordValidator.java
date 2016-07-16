@@ -6,9 +6,10 @@ import com.webapplication.exception.ValidationException;
 import com.webapplication.validator.Validator;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Stream;
 
 @Component
 public class ChangePasswordValidator implements Validator<ChangePasswordRequestDto> {
@@ -16,12 +17,10 @@ public class ChangePasswordValidator implements Validator<ChangePasswordRequestD
     @Override
     public void validate(ChangePasswordRequestDto request) throws ValidationException {
         Optional.ofNullable(request).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
-        if (Arrays.asList(request.getOldPassword(), request.getNewPassword(), request.getAuthToken())
-                .stream().anyMatch(Objects::isNull))
+        if (Stream.of(request.getOldPassword(), request.getNewPassword()).anyMatch(Objects::isNull))
             throw new ValidationException(UserError.MISSING_DATA);
 
-        if (Arrays.asList(request.getOldPassword(), request.getNewPassword())
-                .stream().anyMatch(String::isEmpty))
+        if (Stream.of(request.getOldPassword(), request.getNewPassword()).anyMatch(String::isEmpty))
             throw new ValidationException(UserError.INVALID_DATA);
 
         if (request.getOldPassword().equals(request.getNewPassword()))

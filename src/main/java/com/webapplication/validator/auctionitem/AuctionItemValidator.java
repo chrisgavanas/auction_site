@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Component
 public class AuctionItemValidator implements Validator<AddAuctionItemRequestDto> {
@@ -24,18 +25,25 @@ public class AuctionItemValidator implements Validator<AddAuctionItemRequestDto>
     public void validate(AddAuctionItemRequestDto request) throws ValidationException {
         Optional.ofNullable(request).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
 
-        if (Arrays.asList(request.getName(), request.getStartDate(), request.getEndDate(),
-                request.getUserId()).stream().anyMatch(Objects::isNull))
+        if (Stream.of(request.getName(), request.getStartDate(), request.getEndDate(),
+                request.getUserId()).anyMatch(Objects::isNull))
             throw new ValidationException(AuctionItemError.MISSING_DATA);
 
-        if (Arrays.asList(request.getMinBid(), request.getBuyout())
-                .stream().filter(Objects::nonNull).count() == 0)
+        if (Stream.of(request.getMinBid(), request.getBuyout()).filter(Objects::nonNull).count() == 0)
             throw new ValidationException(AuctionItemError.MISSING_DATA);
 
+        if (request.getName().isEmpty())
+            throw new ValidationException(AuctionItemError.INVALID_DATA);
 
-        if (Arrays.asList(request.getMinBid(), request.getBuyout()).stream()
+        if (request.getUserId() <= 0)
+            throw new ValidationException(AuctionItemError.INVALID_DATA);
+
+        if (Stream.of(request.getMinBid(), request.getBuyout())
                 .filter(Objects::nonNull)
                 .anyMatch(value -> value <= 0))
+            throw new ValidationException(AuctionItemError.INVALID_DATA);
+
+        if (request.getMinBid() > request.getBuyout())
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
         if (request.getStartDate().after(request.getEndDate()))
