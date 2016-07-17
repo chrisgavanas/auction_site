@@ -141,7 +141,7 @@ class UserMapperSpec extends Specification {
                 postalCode == '17672'
             }
             phoneNumber == '2109595959'
-            ratingasBidder == 4.9.floatValue()
+            ratingAsBidder == 4.9.floatValue()
             ratingAsSeller == 2.12.floatValue()
         }
     }
@@ -153,12 +153,12 @@ class UserMapperSpec extends Specification {
         AddressDto userUpdateAddressDto = new AddressDto(city: 'Athens', street: 'Davakh', postalCode: '17672')
         User user = new User(username: 'chris', firstName: 'Chris', lastName: 'Gavanas',
                 country: 'Greece', mobileNumber: '6988888888', registrationDate: date, gender: Gender.M, isAdmin: false,
-                vat: '1234567890', dateOfBirth: date, address: userAddressDto , phoneNumber: '2109595959', ratingAsBidder: 4.9,
+                vat: '1234567890', dateOfBirth: date, address: userAddressDto, phoneNumber: '2109595959', ratingAsBidder: 4.9,
                 ratingAsSeller: 2.12)
 
-        UserUpdateRequestDto userUpdateRequestDto  = new UserUpdateRequestDto(email: 'chrisgavanas@gmail.com', firstName: 'Chris', lastName: 'Gavanas',
-        country: 'Greece', mobileNumber: '6977777777', gender: Gender.M, vat: '1234567890', dateOfBirth: date, address: userUpdateAddressDto,
-        phoneNumber: '2109596978')
+        UserUpdateRequestDto userUpdateRequestDto = new UserUpdateRequestDto(email: 'chrisgavanas@gmail.com', firstName: 'Chris', lastName: 'Gavanas',
+                country: 'Greece', mobileNumber: '6977777777', gender: Gender.M, vat: '1234567890', dateOfBirth: date, address: userUpdateAddressDto,
+                phoneNumber: '2109596978')
 
         when:
         userMapper.update(user, userUpdateRequestDto)
@@ -186,26 +186,64 @@ class UserMapperSpec extends Specification {
         }
     }
 
-//    def "Convert userList to userResponseList"() {
-//        given:
-//        List<User> userList = [
-//                new User(username: 'chris', firstName: 'Chris', lastName: 'Gavanas',
-//                        country: 'Greece', mobileNumber: '6988888888', registrationDate: date, gender: Gender.M, isAdmin: false,
-//                        vat: '1234567890', dateOfBirth: date, address: userAddressDto , phoneNumber: '2109595959', ratingAsBidder: 4.9,
-//                        ratingAsSeller: 2.12),
-//                new User(username: 'chris2', firstName: 'Chris2', lastName: 'Gavanas',
-//                        country: 'Greece', mobileNumber: '6988888888', registrationDate: date, gender: Gender.M, isAdmin: false,
-//                        vat: '1234567890', dateOfBirth: date, address: userAddressDto , phoneNumber: '2109595959', ratingAsBidder: 4.9,
-//                        ratingAsSeller: 2.12)
-//        ]
-//
-//        when:
-//        List<UserResponseDto> userResponseDtoList = userMapper.userListToUserResponseList(userList)
-//
-//        then:
-//        with(userResponseDtoList[0]) {
-//            userId == 1
-//        }
-//    }
+    def "Convert userList to userResponseList"() {
+        given:
+        AddressDto addressDto1 = new AddressDto(city: 'Kallithea', postalCode: '17672', street: 'Andromahis')
+        AddressDto addressDto2 = new AddressDto(city: 'Kallithea2', postalCode: '176722', street: 'Andromahis2')
+        List<User> userList = [
+                new User(username: 'chris', firstName: 'Chris', lastName: 'Gavanas',
+                        country: 'Greece', mobileNumber: '6988888888', registrationDate: new Date(123), gender: Gender.M, isAdmin: false,
+                        vat: '1234567890', dateOfBirth: new Date(123), address: addressDto1, phoneNumber: '2109595959', ratingAsBidder: 4.9,
+                        ratingAsSeller: 2.12),
+                new User(username: 'chris2', firstName: 'Chris2', lastName: 'Gavanas2',
+                        country: 'Greece2', mobileNumber: '69888888882', registrationDate: new Date(124), gender: Gender.M, isAdmin: true,
+                        vat: '12345678902', dateOfBirth: new Date(124), address: addressDto2, phoneNumber: '21095959592', ratingAsBidder: 2.9,
+                        ratingAsSeller: 4.12)
+        ]
+
+        when:
+        List<UserResponseDto> userResponseDtoList = userMapper.userListToUserResponseList(userList)
+
+        then:
+        with(userResponseDtoList[0]) {
+            username == 'chris'
+            firstName == 'Chris'
+            lastName == 'Gavanas'
+            country == 'Greece'
+            mobileNumber == '6988888888'
+            registrationDate == new Date(123)
+            gender == Gender.M
+            vat == '1234567890'
+            dateOfBirth == new Date(123)
+            phoneNumber == '2109595959'
+            ratingAsBidder == 4.9.floatValue()
+            ratingAsSeller == 2.12.floatValue()
+            with(address) {
+                city == 'Kallithea'
+                postalCode == '17672'
+                street == 'Andromahis'
+            }
+        }
+        with(userResponseDtoList[1]) {
+            username == 'chris2'
+            firstName == 'Chris2'
+            lastName == 'Gavanas2'
+            country == 'Greece2'
+            mobileNumber == '69888888882'
+            registrationDate == new Date(124)
+            gender == Gender.M
+            vat == '12345678902'
+            dateOfBirth == new Date(124)
+            phoneNumber == '21095959592'
+            ratingAsBidder == 2.9.floatValue()
+            ratingAsSeller == 4.12.floatValue()
+            with(address) {
+                city == 'Kallithea2'
+                postalCode == '176722'
+                street == 'Andromahis2'
+            }
+
+        }
+    }
 
 }

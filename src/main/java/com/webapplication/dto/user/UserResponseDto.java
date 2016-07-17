@@ -20,7 +20,7 @@ public class UserResponseDto {
     private AddressDto address;
     private String phoneNumber;
     private Float ratingAsSeller;
-    private Float ratingasBidder;
+    private Float ratingAsBidder;
 
     public String getUsername() {
         return username;
@@ -150,12 +150,12 @@ public class UserResponseDto {
         this.ratingAsSeller = ratingAsSeller;
     }
 
-    public Float getRatingasBidder() {
-        return ratingasBidder;
+    public Float getRatingAsBidder() {
+        return ratingAsBidder;
     }
 
-    public void setRatingasBidder(Float ratingasBidder) {
-        this.ratingasBidder = ratingasBidder;
+    public void setRatingAsBidder(Float ratingAsBidder) {
+        this.ratingAsBidder = ratingAsBidder;
     }
 
 

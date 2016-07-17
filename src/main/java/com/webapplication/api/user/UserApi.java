@@ -29,7 +29,7 @@ public interface UserApi {
 
     @RequestMapping(path = "/user/{userId}/change-password", method = RequestMethod.POST, consumes = "application/json")
     void changePassword(@RequestHeader UUID authToken, @PathVariable Integer userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
-
+    
     @RequestMapping(path = "/user/unverified/{from}-{to}", method = RequestMethod.GET, produces = "application/json")
     List<UserResponseDto> getUnverifiedUsers(@RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception;
 
