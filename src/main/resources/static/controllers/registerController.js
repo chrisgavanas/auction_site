@@ -7,7 +7,7 @@ var registerController = router.controller('registerController', function($scope
     	user.registrationDate = new Date();
     	if($scope.checked){
     		AuthenticationService.register(user).then(function (user){
-    			$state.go("welcome");
+    			$state.go("main.welcome");
     		}, function (response) {
     			alert(response.data.message);
     			if (response.data.message === "Username is already in use.") 
@@ -23,16 +23,6 @@ var registerController = router.controller('registerController', function($scope
     };
     
     
-    $scope.redirectLogin = function(){
-		$state.go("login");
-	
-	};	
-	$scope.redirectRegister = function(){
-		$state.go("register");
-	};	
-	
-	$scope.openModal = function(){
-		$rootScope.$emit("CallParentMethod", {});
-	}
+    
 	
 });

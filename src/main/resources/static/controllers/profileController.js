@@ -53,26 +53,12 @@ var profileController = router.controller('profileController', function($scope, 
 	}else
 		$scope.signedIn = false;
 	
+
 	
-	$scope.redirectLogin = function(){
-		 $state.go("login");
-		
-	};	
-	$scope.redirectRegister = function(){
-		$state.go("register");
-	};	
-	
-	$scope.logout = function(){
-		$cookies.remove('userId');
-		$cookies.remove('authToken');
-		$cookies.put('signedIn', 'no');
-		$state.go("welcome"); 
-	};
 	
 	$scope.show = function(field){
 	
 		document.getElementById(field+"Form").style.display = "block";
-		//document.getElementById(field+"Cont").style.backgroundColor = "#edf1f4";
 		document.getElementById(field+"But").style.display = "none";
 		document.getElementById(field+"Field").style.display = "none";
 	};
@@ -90,7 +76,7 @@ var profileController = router.controller('profileController', function($scope, 
 	};
 	
 	$scope.newAuction = function(){
-		$state.go("newAuction");
+		$state.go("main.newAuction");
 	};
 	
 	$scope.showItem = function(){

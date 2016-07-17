@@ -1,14 +1,55 @@
-var modalController = router.controller('modalController', function($scope, $rootScope, $http, $state, AuthenticationService) {
-	// Get the modal
+router.controller('navBarController', function($state, $scope, $rootScope, $cookies, $http, userDataService, AuthenticationService){
+	var data = new FormData();
+	$scope.user = {};
+	$scope.signedIn = {};
+	var token = $cookies.get('authToken');
+	
+	if($cookies.get('signedIn') === 'yes'){
+		$scope.user.userId = $cookies.get('userId');
+		$scope.signedIn = true;
+		$http.get('/api/user/'+ $scope.user.userId, {headers: {'authToken': token}}).then(function successCallback(response){
+			$scope.user.username = response.data.username;
+		}, function errorCallback(response){
+			alert("error");
+			
+			
+		});
+		
+		
+		
+	}else
+		$scope.signedIn = false;
+	 
+	
+	$scope.redirectRegister = function(){
+		$state.go("main.register");
+	}
+	
+	$scope.logout = function(){
+		$cookies.remove('userId');
+		$cookies.remove('authToken');
+		$cookies.put('signedIn', 'no');
+		if($state.current.name != 'main.welcome'){
+			console.log("current");
+		
+			$state.go('main.welcome', {}, {reload: true});
+		}else
+			$state.go($state.current, {}, {reload: true});	
+	}
+	
+	$scope.myProfile = function(){
+		$state.go("main.profile");
+	}
+	
+	
+	
 	var modal = document.getElementById('myModal');
 
 	// Get the <span> element that closes the modal
 	var span = document.getElementsByClassName("close")[0];
 
 	// When the user clicks on the button, open the modal
-	$rootScope.$on("CallParentMethod", function(){
-		$scope.openModal();
-	});
+	
 	$scope.openModal = function() {
 		
 	    modal.style.display = "block";
@@ -28,15 +69,16 @@ var modalController = router.controller('modalController', function($scope, $roo
 	
 	$scope.user = {};
     $scope.login = function(user) {
-    	console.log("mhak)");
     	AuthenticationService.login(user).then(function (user){
     	
-    		if($state.current.name == "welcome"){
+    		if($state.current.name == "main.welcome"){
     			$state.go($state.current, {}, {reload: true}); 
     		}else{
-    			$state.go("welcome");
+    		
+    			$state.go("main.welcome", {}, {reload: true});
     		}
     	}, function (response) {
+    		
     		if (response.status == 400){
         		if($scope.user.username === "" | $scope.user.username === undefined)
         			document.getElementById("usernamePanel").style.display = "block";
@@ -44,11 +86,14 @@ var modalController = router.controller('modalController', function($scope, $roo
         			document.getElementById("passwordPanel").style.display = "block";
         		
         	}
-            if (response.status == 401 || response.status == 404) {
+            if (response.status == 401 || response.status == 403) {
                document.getElementById("donotmatchPanel").style.display = "block";
                
             }
             
     	});
     };
+	
+	
+	
 });

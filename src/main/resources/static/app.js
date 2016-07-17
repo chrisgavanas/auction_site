@@ -7,24 +7,38 @@ router.config(function($stateProvider, $urlRouterProvider) {
     
     $stateProvider
         
-    	.state('welcome', {
+    .state('main', {
+    	abstract: true,
+    	views: { 'navBar': {
+    							templateUrl: './views/navBar.html',
+    							controller: 'navBarController'
+    			},
+    			'': {
+    				templateUrl: './views/main.html'
+    			}
+    						
+    	}
+    })
+    	.state('main.welcome', {
     		url: '/welcome',
     		controller: 'welcomeController',
-    		templateUrl: 'views/welcome.html'
+			templateUrl: 'views/welcome.html',
+    		
+    		
     	})
     	
-        .state('register', {
+        .state('main.register', {
         	url: '/register',
         	controller: 'registerController',
         	templateUrl: 'views/register.html'
         })
-        .state('profile', {
+        .state('main.profile', {
         	url: '/profile',
         	controller: 'profileController',
         	templateUrl: 'views/profile2.html'
 
         })
-        .state('profile.userInfo',{
+        .state('main.profile.userInfo',{
         	url: '/userInfo',
         	views: { 'menuview': {
         		controller: 'userInfoController',
@@ -32,7 +46,8 @@ router.config(function($stateProvider, $urlRouterProvider) {
         		}
         	}
         })
-        .state('profile.userAuctions',{
+       
+        .state('main.profile.userAuctions',{
         	url: '/userAuctions',
         	views: { 'menuview': {
         		controller: 'userAuctionsController',
@@ -41,7 +56,7 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	}
         })
         
-        .state('profile.userBids',{
+        .state('main.profile.userBids',{
         	url: '/userBids',
         	views: { 'menuview': {
         		controller: 'userBidsController',
@@ -49,12 +64,19 @@ router.config(function($stateProvider, $urlRouterProvider) {
         		}
         	}
         })
-        .state('newAuction', {
+        
+        .state('main.admin', {
+    			url: '/adminOptions',
+    			controller: 'adminOptionsController',
+    			templateUrl: 'views/adminOptions.html'
+    	})
+    
+        .state('main.newAuction', {
         	url: '/newAuction',
         	controller: 'newAuctionController',
         	templateUrl: 'views/newAuction.html'
         })
-        .state('itemPreview',{
+        .state('main.itemPreview',{
         	url: '/newAuction/itemPreview',
         	controller: 'itemPreviewController',
         	templateUrl: 'views/itemPreview.html'

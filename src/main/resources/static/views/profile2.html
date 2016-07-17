@@ -37,35 +37,7 @@
 
 <body>
 
-<nav class="navbar navbar-default">
-  <div class="container">
-  
-  
-   <div class="navbar-header">
-   	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-   
-       
-      </button>
-      <a class="navbar-brand" href="#welcome">Home</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav navbar-right">
-       <div class="dropdown">
-  			<button class="btn dropdown-toggle btn-link" type="button" data-toggle="dropdown">Welcome, {{user.username}} 
-  			<span class="caret"></span></button>
-  			<ul class="nav navbar-nav  dropdown-menu">
-    			<li><a href="" ng-click="myProfile()">My Profile</a></li>
-    			<li><a href="" ng-click="logout()">Sign Out</a></li>
-   			</ul>
-  			
-		</div>
-      
-     </ul>
-    </div>
-   
-  </div>
-</nav>
+
 
 <div class = "container-fluid bg-1 text-center">
 	<div>
@@ -88,9 +60,9 @@
     </div>
     <div class="collaps navbar-collapse" ng-class="!navCollapsed && 'in'" id="myNavbar2">
     <ul class="nav navbar-nav">
-      <li ng-class="{'active':$state.includes('profile')}" ng-click="collapseMenu()" ui-sref-active="active"><a ui-sref="profile.userInfo">User Info</a></li>
-      <li ui-sref-active="active"><a ui-sref="profile.userAuctions">Auctions</a></li>
-      <li ui-sref-active="active"><a ui-sref="profile.userBids">Bids</a></li> 
+      <li ng-class="{'active':$state.includes('profile')}" ng-click="collapseMenu()" ui-sref-active="active"><a ui-sref="main.profile.userInfo">User Info</a></li>
+      <li ui-sref-active="active"><a ui-sref="main.profile.userAuctions">Auctions</a></li>
+      <li ui-sref-active="active"><a ui-sref="main.profile.userBids">Bids</a></li> 
 			  
      
     </ul>
@@ -100,6 +72,7 @@
 
 
 <div ui-view=menuview></div>
+<div ui-view=navbarview></div>
 
 </div>
 

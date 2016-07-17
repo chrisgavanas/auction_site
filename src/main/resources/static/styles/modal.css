@@ -37,3 +37,8 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+
+.form-control{
+	text-align: center;
+}

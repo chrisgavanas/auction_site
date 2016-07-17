@@ -52,7 +52,7 @@ var newAuctionController = router.controller('newAuctionController', function($s
 	
 	
 	$scope.myProfile = function(){
-		$state.go("profile");
+		$state.go("main.profile");
 	};
 
 	$scope.cont = function(){
@@ -60,7 +60,7 @@ var newAuctionController = router.controller('newAuctionController', function($s
 		$scope.item.userId = $scope.user.userId;
 		$scope.item.images = [];
 		$cookies.putObject('item', $scope.item);
-		$state.go('itemPreview');
+		$state.go('main.itemPreview');
 		
 	};
 	

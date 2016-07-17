@@ -52,11 +52,9 @@ router.controller('userInfoController', function($state, $scope, $cookies, $http
 		
 		$scope.applyChanges = function(user){
 			AuthenticationService.updateUser(user).then(function (response){
-				console.log(response);
-				
 				
 			}, function(response){
-				console.log(response);
+				
 			});
 			$state.go($state.current, {}, {reload: true});
 			
@@ -66,14 +64,20 @@ router.controller('userInfoController', function($state, $scope, $cookies, $http
 			AuthenticationService.changePassword(passwords, userId, token).then(function(response){
 				$state.go($state.current, {}, {reload:true});
 			}, function(response){
-				if(response.data.message === "Password is Invalid"){
-					document.getElementById("invalidPass").style.display = block;
+				if(response.data.message == "Password is invalid"){
+					document.getElementById("invalidPass").style.display = "block";
 					
+				}else if(response.data.message == "New password must differ with the old password."){
+					document.getElementById("differentPass").style.display = "block";
 				}
 				
 			});
 			
 		};
 	}
+	
+	$scope.adminOptions = function(){
+		$state.go('main.admin');
+	};
 	
 });

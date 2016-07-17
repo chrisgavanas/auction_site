@@ -21,10 +21,6 @@ var loginController = router.controller('loginController', function($scope, $htt
     };
     
  
-    $scope.redirectLogin = function(){
-		$state.go("login");
-	
-	};
 	$scope.redirectRegister = function(){
 		$state.go("register");
 	};	
