@@ -3,6 +3,7 @@ package com.webapplication.service.user;
 import com.webapplication.dto.user.*;
 import com.webapplication.validator.user.ChangePasswordValidator;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -19,4 +20,7 @@ public interface UserServiceApi {
     UserResponseDto updateUser(Integer userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception;
 
     void changePassword(Integer userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
+
+    List<UserResponseDto> getUnverifiedUsers(UUID authToken, Integer from, Integer to) throws Exception;
+
 }

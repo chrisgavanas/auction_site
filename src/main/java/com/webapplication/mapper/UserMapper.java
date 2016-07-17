@@ -5,6 +5,9 @@ import org.springframework.stereotype.Component;
 
 import com.webapplication.entity.User;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class UserMapper {
 
@@ -87,6 +90,13 @@ public class UserMapper {
         userResponse.setAddress(user.getAddress());
 
         return userResponse;
+    }
+
+    public List<UserResponseDto> userListToUserResponseList(List<User> users) {
+        if (users == null)
+            return null;
+
+        return users.stream().map(user -> userToUserResponse(user)).collect(Collectors.toList());
     }
 
     public void update(User user, UserUpdateRequestDto userUpdateRequestDto) {

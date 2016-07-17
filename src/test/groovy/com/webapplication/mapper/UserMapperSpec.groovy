@@ -184,7 +184,28 @@ class UserMapperSpec extends Specification {
             ratingAsBidder == 4.9.floatValue()
             ratingAsSeller == 2.12.floatValue()
         }
-
     }
+
+//    def "Convert userList to userResponseList"() {
+//        given:
+//        List<User> userList = [
+//                new User(username: 'chris', firstName: 'Chris', lastName: 'Gavanas',
+//                        country: 'Greece', mobileNumber: '6988888888', registrationDate: date, gender: Gender.M, isAdmin: false,
+//                        vat: '1234567890', dateOfBirth: date, address: userAddressDto , phoneNumber: '2109595959', ratingAsBidder: 4.9,
+//                        ratingAsSeller: 2.12),
+//                new User(username: 'chris2', firstName: 'Chris2', lastName: 'Gavanas',
+//                        country: 'Greece', mobileNumber: '6988888888', registrationDate: date, gender: Gender.M, isAdmin: false,
+//                        vat: '1234567890', dateOfBirth: date, address: userAddressDto , phoneNumber: '2109595959', ratingAsBidder: 4.9,
+//                        ratingAsSeller: 2.12)
+//        ]
+//
+//        when:
+//        List<UserResponseDto> userResponseDtoList = userMapper.userListToUserResponseList(userList)
+//
+//        then:
+//        with(userResponseDtoList[0]) {
+//            userId == 1
+//        }
+//    }
 
 }

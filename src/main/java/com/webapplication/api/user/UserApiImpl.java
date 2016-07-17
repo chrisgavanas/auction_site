@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -83,6 +84,19 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
+    public List<UserResponseDto> getUnverifiedUsers(@RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception {
+        Optional.ofNullable(from).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(to).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        if (from <= 0 || to <= 0)
+            throw new ValidationException(UserError.INVALID_DATA);
+
+        if (from > to)
+            throw new ValidationException(UserError.INVALID_PAGINATION_VALUES);
+
+        return userService.getUnverifiedUsers(authToken, from, to);
+    }
+
+    @Override
     public void check(@RequestBody List<MultipartFile> files) {
         files.forEach(System.out::println);
     }
@@ -93,13 +107,13 @@ public class UserApiImpl implements UserApi {
         response.sendError(HttpStatus.BAD_REQUEST.value());
     }
 
-    @ExceptionHandler({EmailUnverifiedException.class, NotAuthorizedException.class})
+    @ExceptionHandler(NotAuthenticatedException.class)
     private void userNotFound(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.UNAUTHORIZED.value());
     }
 
     @ExceptionHandler({UserAlreadyExistsException.class, UserAlreadyVerifiedException.class, EmailAlreadyInUseException.class})
-    private void userAlreadyExists(HttpServletResponse response) throws IOException {
+    private void conflict(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.CONFLICT.value());
     }
 
@@ -108,13 +122,13 @@ public class UserApiImpl implements UserApi {
         response.sendError(HttpStatus.NOT_FOUND.value());
     }
 
+    @ExceptionHandler({NotAuthorizedException.class, ForbiddenException.class, EmailUnverifiedException.class})
+    private void forbiddenAction(HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.FORBIDDEN.value());
+    }
+
     @ExceptionHandler(Exception.class)
     private void genericError(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value());
-    }
-
-    @ExceptionHandler({ForbiddenException.class, NotAuthenticatedException.class})
-    private void notAllowedAction(HttpServletResponse response) throws IOException {
-        response.sendError(HttpStatus.FORBIDDEN.value());
     }
 }
