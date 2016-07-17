@@ -3,9 +3,20 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Profile | Auction</title>
+	<link rel="stylesheet" type="text/css" href="../styles/profile.css">
 </head>
 
 <style>
+#firstNameInput,#lastNameInput,#vatInput,#mobileInput,#telephoneInput,#dateInput,#cityInput,#streetInput,#postalCodeInput,#countryInput.form-control{
+	width: 200px;
+	text-align:center;
+}
+
+input.ng-invalid.ng-dirty:focus { 
+    outline: none;
+    border-color: #FA787E;
+    box-shadow: 0 0 2px #FA787E;
+}
 
 .container-fluid {
     padding-top: 30px;
@@ -24,8 +35,22 @@ hr{
 	margin-top: 0;
 }
 
-.passwordform{
+
+.btn-link:focus{
+	border: none;
+}
+
+.passform{
 	width: 600px;
+}
+
+#passwords{
+	color:red;
+}
+
+#invalidPass{
+	color:red;
+	display: none;
 }
 </style>
 <body>
@@ -43,7 +68,9 @@ hr{
 			<div class="col-md-8" align="middle">
 				<font size="2" color="#516462">{{user.type}}</font>
 			</div>
-			
+			<div class="col-md-2" align="right" id="cityBut">
+				<button class="btn btn-link" ><font size="2">Admin Options</font></button>
+			</div>
 		
 		</div>
 		<hr>
@@ -72,10 +99,13 @@ hr{
 			<div class="col-md-2">
 				<font size="2">First Name</font>
 			</div>
-			<div class="col-md-8" align="middle">
-				<font size="2" color="#516462">{{user.firstName}}</font>
+			<div class="col-md-8" align="middle" id="firstNameField">
+				<font size="2" color="#516462" >{{user.firstName}}</font>
 			</div>
-			<div class="col-md-2" align="right">
+			<div class="col-md-8" align="middle"  id="firstNameForm">
+				<input  type="text" class="form-control" id="firstNameInput" ng-model="user.firstName" >
+			</div>
+			<div class="col-md-2" align="right" id="firstNameBut">
 				<button class="btn btn-link" ng-click="show('firstName')"><font size="2">Edit</font></button>
 			</div>
 		
@@ -85,11 +115,34 @@ hr{
 			<div class="col-md-2">
 				<font size="2">Last Name</font>
 			</div>
-			<div class="col-md-8" align="middle">
+			<div class="col-md-8" align="middle" id="lastNameField">
 				<font size="2" color="#516462">{{user.lastName}}</font>
 			</div>
-			<div class="col-md-2" align="right">
+			<div class="col-md-8" align="middle"  id="lastNameForm">
+				<input  type="text" class="form-control" id="lastNameInput" ng-model="user.lastName" >
+			</div>
+			<div class="col-md-2" align="right" id="lastNameBut">
 				<button class="btn btn-link" ng-click="show('lastName')"><font size="2">Edit</font></button>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Gender</font>
+			</div>
+			<div class="col-md-8" align="middle" id="genderField">
+				<font size="2" color="#516462">{{gender}}</font>
+			</div>
+			<div class="col-md-8" align="middle"  id="genderForm">
+				<div class="radio-inline">
+					<input type="radio" ng-model="user.gender" value="M"><font size="3">Male</font>
+				</div>
+				<div class="radio-inline">
+					<input type="radio" ng-model="user.gender" value="F"><font size="3">Female</font>
+				</div>		
+            </div>
+			<div class="col-md-2" align="right" id="genderBut">
+				<button class="btn btn-link" ng-click="show('gender')"><font size="2">Edit</font></button>
 			</div>
 		</div>
 		<hr>
@@ -97,11 +150,14 @@ hr{
 			<div class="col-md-2">
 				<font size="2">Mobile No</font>
 			</div>
-			<div class="col-md-8" align="middle">
+			<div class="col-md-8" align="middle" id="mobileField">
 				<font size="2" color="#516462">{{user.mobileNumber}}</font>
 			</div>
-			<div class="col-md-2" align="right">
-				<button class="btn btn-link" ng-click="show('mobileNumber')"><font size="2">Edit</font></button>
+			<div class="col-md-8" align="middle"  id="mobileForm">
+				<input  type="text" class="form-control" id="mobileInput" ng-model="user.mobileNumber">
+			</div>
+			<div class="col-md-2" align="right" id="mobileBut">
+				<button class="btn btn-link" ng-click="show('mobile')" ><font size="2">Edit</font></button>
 			</div>
 		</div>
 		<hr>
@@ -109,11 +165,29 @@ hr{
 			<div class="col-md-2">
 				<font size="2">Telephone No</font>
 			</div>
-			<div class="col-md-8" align="middle">
+			<div class="col-md-8" align="middle" id="telephoneField">
 				<font size="2" color="#516462">{{user.phoneNumber}}</font>
 			</div>
-			<div class="col-md-2" align="right">
-				<button class="btn btn-link" ng-click="show('phoneNumber')"><font size="2">Edit</font></button>
+			<div class="col-md-8" align="middle"  id="telephoneForm">
+				<input  type="text" class="form-control" id="telephoneInput" ng-model="user.phoneNumber">
+			</div>
+			<div class="col-md-2" align="right" id="telephoneBut">
+				<button class="btn btn-link" ng-click="show('telephone')"><font size="2">Edit</font></button>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">VAT</font>
+			</div>
+			<div class="col-md-8" align="middle" id="vatField">
+				<font size="2" color="#516462">{{user.vat}}</font>
+			</div>
+			<div class="col-md-8" align="middle"  id="vatForm">
+				<input  type="text" class="form-control" id="vatInput" ng-model="user.vat">
+			</div>
+			<div class="col-md-2" align="right" id="vatBut">
+				<button class="btn btn-link" ng-click="show('vat')"><font size="2">Edit</font></button>
 			</div>
 		</div>
 		<hr>
@@ -121,31 +195,119 @@ hr{
 			<div class="col-md-2">
 				<font size="2">Date of Birth</font>
 			</div>
-			<div class="col-md-8" align="middle">
+			<div class="col-md-8" align="middle" id="dateField">
 				<font size="2" color="#516462">{{dateOfBirthConverted}}</font>
 			</div>
-			<div class="col-md-2" align="right">
-				<button class="btn btn-link" ng-click="show('dateOfBirth')"><font size="2">Edit</font></button>
+			<div class="col-md-8" align="middle"  id="dateForm">
+				<input  type="date" class="form-control" id="dateInput" ng-model="user.dateOfBirth">
+			</div>
+			<div class="col-md-2" align="right" id="dateBut">
+				<button class="btn btn-link" ng-click="show('date')"><font size="2">Edit</font></button>
 			</div>
 		</div>
 		<div class="row" align="middle">
 			<font size="1">Registered on {{registrationDateConverted}}</font>
 		</div>
+		<div class="row" align="middle">
+			<button class="btn btn-default" ng-click="applyChanges(user)">Save</button>
+		</div>
+		<br>
 		
+		<div class="row" align="middle">
+			<font size = "4">Address and Country</font>
+		</div>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Street</font>
+			</div>
+			<div class="col-md-8" align="middle" id="streetField">
+				<font size="2" color="#516462" >{{user.address.street}}</font>
+			</div>
+			<div class="col-md-8" align="middle"  id="streetForm">
+				<input  type="text" class="form-control" id="streetInput" ng-model="user.address.street" >
+			</div>
+			<div class="col-md-2" align="right" id="streetBut">
+				<button class="btn btn-link" ng-click="show('street')"><font size="2">Edit</font></button>
+			</div>
+		
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">City</font>
+			</div>
+			<div class="col-md-8" align="middle" id="cityField">
+				<font size="2" color="#516462" >{{user.address.city}}</font>
+			</div>
+			<div class="col-md-8" align="middle"  id="cityForm">
+				<input  type="text" class="form-control" id="cityInput" ng-model="user.address.city" >
+			</div>
+			<div class="col-md-2" align="right" id="cityBut">
+				<button class="btn btn-link" ng-click="show('city')"><font size="2">Edit</font></button>
+			</div>
+		
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Postal Code</font>
+			</div>
+			<div class="col-md-8" align="middle" id="postalCodeField">
+				<font size="2" color="#516462" >{{user.address.postalCode}}</font>
+			</div>
+			<div class="col-md-8" align="middle"  id="postalCodeForm">
+				<input  type="text" class="form-control" id="postalCodeInput" ng-model="user.address.postalCode" >
+			</div>
+			<div class="col-md-2" align="right" id="postalCodeBut">
+				<button class="btn btn-link" ng-click="show('postalCode')"><font size="2">Edit</font></button>
+			</div>
+		
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Country</font>
+			</div>
+			<div class="col-md-8" align="middle" id="countryField">
+				<font size="2" color="#516462" >{{user.country}}</font>
+			</div>
+			<div class="col-md-8" align="middle"  id="countryForm">
+				<input  type="text" class="form-control" id="countryInput" ng-model="user.country" >
+			</div>
+			<div class="col-md-2" align="right" id="countryBut">
+				<button class="btn btn-link" ng-click="show('country')"><font size="2">Edit</font></button>
+			</div>
+		
+		</div>
+		<hr>
+		<div class="row" align="middle">
+			<button class="btn btn-default" ng-click="applyChanges(user)">Save</button>
+		</div>
 		<br>
 	</form>
-	<form ng-controller="userInfoController" class="passwordform" >
+	
+	<form name="passwordForm" ng-controller="userInfoController" class="passform"  ng-submit="passwordForm.$valid && changePassword(passwords)"
+	novalidate>
 		<div class="row" align="middle">
 			<font size="4">Change Password</font>
 		</div>
 		<br>
+		<div class="row" align="middle">
+            	<span  id="invalidPass" >
+             	<i  class="fa fa-exclamation-circle"aria-hidden="true"></i> <font size = "2" >Invalid password</font></span>
 		
+		</div>
+		<div class="row" align="middle">
+            	<span  id="passwords" ng-show="passwordForm.confirmPassword.$invalid && passwordForm.confirmPassword.$dirty">
+             	<i  class="fa fa-exclamation-circle"aria-hidden="true"></i> <font size = "2" >Passwords do not match</font></span>
+		
+		</div>
 		<div class="row">
 			<dv class="col-md-4" align="right">
 				<font size="2">Current</font>
 			</dv>
 			<div class="col-md-4">
-				<input class="form-control">
+				<input type="password" name="oldPassword" class="form-control" ng-model="passwords.oldPassword" required>
 			</div>
 		</div>
 		<div class="row">
@@ -153,7 +315,7 @@ hr{
 				<font size="2">New</font>
 			</dv>
 			<div class="col-md-4">
-				<input class="form-control">
+				<input type="password" class="form-control" name="newPassword" ng-model="passwords.newPassword" required>
 			</div>
 		</div>
 		<div class="row">
@@ -161,11 +323,11 @@ hr{
 				<font size="2">Re-type</font>
 			</dv>
 			<div class="col-md-4">
-				<input class="form-control">
+				<input type="password" class="form-control" ng-model="passwords.confirmPassword" name="confirmPassword" required validate-pass="passwords.newPassword">
 			</div>
 		</div>
 		<div class="row">
-			<button class="btn btn-default">Save</button>
+			<button class="btn btn-default" type="submit">Save</button>
 		</div>
 	</form>
 	

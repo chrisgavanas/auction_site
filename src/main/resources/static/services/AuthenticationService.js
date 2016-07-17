@@ -46,7 +46,21 @@ router.factory('AuthenticationService', function($http, $cookies, userDataServic
 					.then(function(response){
 						return response.data;
 					});
-	}
+	};
+	
+	authService.changePassword = function(passwords, userId, token){
+		var data = {};
+		data.oldPassword = passwords.oldPassword;
+		data.newPassword = passwords.newPassword;
+		console.log(data.oldPassword + " " + data.newPassword +" "+userId+" " + token);
+		return $http.post('/api/user/'+userId+'/change-password', data, {headers: {'authToken': token}})
+					.then(function(response){
+						return response.data;
+					});
+	};
+		
+		
+	
 	authService.isAuntenticated = function () {
 		return !!userDataService.getUserId();
 		
