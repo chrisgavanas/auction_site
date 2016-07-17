@@ -10,6 +10,7 @@ import com.webapplication.error.user.UserRegisterError
 import com.webapplication.exception.*
 import com.webapplication.mapper.UserMapper
 import org.joda.time.DateTime
+import org.springframework.data.domain.PageRequest
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -387,6 +388,64 @@ class UserServiceApiImplSpec extends Specification {
             password == changePasswordRequestDto.newPassword
         }
         0 * _
+    }
+
+    def "Not logged in user without admin privileges asks for unverified users"() {
+        given:
+        UUID authToken = UUID.randomUUID()
+        Integer from = 1
+        Integer to = 2
+
+        when:
+        userServiceApiImpl.getUnverifiedUsers(authToken, from, to)
+
+        then:
+        1 * mockAuthenticator.getSession(authToken) >> null
+        NotAuthenticatedException e = thrown()
+        e.localizedMessage == UserError.NOT_AUTHENTICATED.description
+    }
+
+    def "Logged in user without admin privileges asks for unverified users"() {
+        given:
+        UUID authToken = UUID.randomUUID()
+        Integer from = 1
+        Integer to = 2
+        SessionInfo sessionInfo = new SessionInfo(5, DateTime.now(), false)
+
+        when:
+        userServiceApiImpl.getUnverifiedUsers(authToken, from, to)
+
+        then:
+        1 * mockAuthenticator.getSession(authToken) >> sessionInfo
+        NotAuthorizedException e = thrown()
+        e.localizedMessage == UserError.UNAUTHORIZED.description
+    }
+
+    def "Admin requests for a specific number of unverified users"() {
+        given:
+        UUID authToken = UUID.randomUUID()
+        Integer from = 1
+        Integer to = 2
+        List<User> userList = [new User(userId: 1), new User(userId: 2)]
+        SessionInfo sessionInfo = new SessionInfo(5, DateTime.now(), true)
+
+        when:
+        List<UserResponseDto> userResponseDtoList = userServiceApiImpl.getUnverifiedUsers(authToken, from, to)
+
+        then:
+        1 * mockAuthenticator.getSession(authToken) >> sessionInfo
+        1 * mockUserRepository.findUserByIsVerified(false, new PageRequest(from - 1, to - 1)) >> userList
+        1 * mockUserMapper.userListToUserResponseList(userList) >> { args ->
+            assert args[0][0].userId == userList[0].userId
+            assert args[0][1].userId == userList[1].userId
+            return [new UserResponseDto(userId: 1), new UserResponseDto(userId: 2)]
+        }
+        with (userResponseDtoList[0]) {
+            userId == 1
+        }
+        with (userResponseDtoList[1]) {
+            userId == 2
+        }
     }
 
 }

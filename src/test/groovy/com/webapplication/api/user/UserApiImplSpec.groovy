@@ -8,6 +8,8 @@ import com.webapplication.validator.user.UserRequestValidator
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import javax.validation.Valid
+
 class UserApiImplSpec extends Specification {
 
     UserApiImpl userApi
@@ -164,10 +166,10 @@ class UserApiImplSpec extends Specification {
         e.localizedMessage == error
 
         where:
-        id | error
-        null   | UserError.MISSING_DATA.description
-        -1     | UserError.INVALID_DATA.description
-        0      | UserError.INVALID_DATA.description
+        id   | error
+        null | UserError.MISSING_DATA.description
+        -1   | UserError.INVALID_DATA.description
+        0    | UserError.INVALID_DATA.description
     }
 
     def "Change user's password fails as user did not provide an authentication token"() {
@@ -196,6 +198,65 @@ class UserApiImplSpec extends Specification {
         then:
         1 * mockUserRequestValidator.validate(changePasswordRequestDto)
         1 * mockUserService.changePassword(userId, changePasswordRequestDto)
+        0 * _
+    }
+
+    @Unroll
+    def "Admin requests for a specific number of unverified users with missing data"() {
+        given:
+        UUID authToken = UUID.randomUUID()
+        Integer from = fromValue
+        Integer to = toValue
+
+        when:
+        userApi.getUnverifiedUsers(authToken, from, to)
+
+        then:
+        ValidationException e = thrown()
+        e.localizedMessage == UserError.MISSING_DATA.description
+
+        where:
+        fromValue | toValue
+        null      | null
+        null      | 2
+        2         | null
+    }
+
+    @Unroll
+    def "Admin requests for a specific number of unverified users with invalid data"() {
+        given:
+        UUID authToken = UUID.randomUUID()
+        Integer from = fromValue
+        Integer to = toValue
+
+        when:
+        userApi.getUnverifiedUsers(authToken, fromValue, toValue)
+
+        then:
+        ValidationException e = thrown()
+        e.localizedMessage == error
+
+        where:
+        fromValue | toValue | error
+        -1        | 2       | UserError.INVALID_DATA.description
+        0         | 3       | UserError.INVALID_DATA.description
+        1         | -3      | UserError.INVALID_DATA.description
+        5         | 0       | UserError.INVALID_DATA.description
+        2         | 1       | UserError.INVALID_PAGINATION_VALUES.description
+    }
+
+    def "Admin requests for a specific number of unverified users successfully"() {
+        given:
+        UUID authToken = UUID.randomUUID()
+        Integer from = 2
+        Integer to = 12
+
+        when:
+        userApi.getUnverifiedUsers(authToken, from, to)
+
+        then:
+        ValidationException e = notThrown()
+        1 * mockUserService.getUnverifiedUsers(authToken, from, to)
         0 * _
     }
 }

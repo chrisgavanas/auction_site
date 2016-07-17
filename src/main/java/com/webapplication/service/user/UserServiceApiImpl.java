@@ -2,18 +2,35 @@ package com.webapplication.service.user;
 
 import com.webapplication.authentication.Authenticator;
 import com.webapplication.dao.UserRepository;
-import com.webapplication.dto.user.*;
+import com.webapplication.dto.user.ChangePasswordRequestDto;
+import com.webapplication.dto.user.SessionInfo;
+import com.webapplication.dto.user.UserLogInRequestDto;
+import com.webapplication.dto.user.UserLogInResponseDto;
+import com.webapplication.dto.user.UserRegisterRequestDto;
+import com.webapplication.dto.user.UserRegisterResponseDto;
+import com.webapplication.dto.user.UserResponseDto;
+import com.webapplication.dto.user.UserUpdateRequestDto;
 import com.webapplication.entity.User;
 import com.webapplication.error.user.UserError;
 import com.webapplication.error.user.UserLogInError;
 import com.webapplication.error.user.UserRegisterError;
-import com.webapplication.exception.*;
+import com.webapplication.exception.EmailAlreadyInUseException;
+import com.webapplication.exception.EmailUnverifiedException;
+import com.webapplication.exception.ForbiddenException;
+import com.webapplication.exception.NotAuthenticatedException;
+import com.webapplication.exception.NotAuthorizedException;
+import com.webapplication.exception.UserAlreadyExistsException;
+import com.webapplication.exception.UserAlreadyVerifiedException;
+import com.webapplication.exception.UserNotFoundException;
 import com.webapplication.mapper.UserMapper;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -109,6 +126,15 @@ public class UserServiceApiImpl implements UserServiceApi {
         userRepository.save(user);
     }
 
+    @Override
+    public List<UserResponseDto> getUnverifiedUsers(UUID authToken, Integer from, Integer to) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        validateAuthorization(sessionInfo);
+        List<User> users = userRepository.findUserByIsVerified(false, new PageRequest(from - 1, to - 1));
+
+        return userMapper.userListToUserResponseList(users);
+    }
+
     private SessionInfo getActiveSession(UUID authToken) throws NotAuthenticatedException {
         SessionInfo sessionInfo = authenticator.getSession(authToken);
         Optional.ofNullable(sessionInfo).orElseThrow(() -> new NotAuthenticatedException(UserError.NOT_AUTHENTICATED));
@@ -117,6 +143,11 @@ public class UserServiceApiImpl implements UserServiceApi {
 
     private void validateAuthorization(Integer userId, SessionInfo sessionInfo) throws NotAuthorizedException {
         if (!userId.equals(sessionInfo.getUserId()) && !sessionInfo.getIsAdmin())
+            throw new NotAuthorizedException(UserError.UNAUTHORIZED);
+    }
+
+    private void validateAuthorization(SessionInfo sessionInfo) throws NotAuthorizedException {
+        if (!sessionInfo.getIsAdmin())
             throw new NotAuthorizedException(UserError.UNAUTHORIZED);
     }
 

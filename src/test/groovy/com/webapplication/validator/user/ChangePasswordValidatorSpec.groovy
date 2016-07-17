@@ -10,8 +10,6 @@ import spock.lang.Unroll
 
 class ChangePasswordValidatorSpec extends Specification {
 
-    @Shared
-    UUID uuid = UUID.randomUUID()
     ChangePasswordValidator changePasswordValidator
 
     def setup() {
@@ -34,7 +32,7 @@ class ChangePasswordValidatorSpec extends Specification {
     def "User requests for a password change with missing data"() {
         given:
         ChangePasswordRequestDto changePasswordRequestDto = new ChangePasswordRequestDto(oldPassword: oldPassword,
-                newPassword: newPassword, authToken: authToken)
+                newPassword: newPassword)
 
         when:
         changePasswordValidator.validate(changePasswordRequestDto)
@@ -44,21 +42,17 @@ class ChangePasswordValidatorSpec extends Specification {
         e.localizedMessage == UserError.MISSING_DATA.description
 
         where:
-        oldPassword | newPassword | authToken
-        null        | "newPass"   | uuid
-        "oldPass"   | null        | uuid
-        "oldPass"   | "newPass"   | null
-        null        | null        | uuid
-        null        | "newPass"   | null
-        "oldPass"   | null        | null
-        null        | null        | null
+        oldPassword | newPassword
+        null        | "newPass"
+        "oldPass"   | null
+        null        | null
     }
 
     @Unroll
     def "User requests for a password change with empty data"() {
         given:
         ChangePasswordRequestDto changePasswordRequestDto = new ChangePasswordRequestDto(oldPassword: oldPassword,
-                newPassword: newPassword, authToken: authToken)
+                newPassword: newPassword)
 
         when:
         changePasswordValidator.validate(changePasswordRequestDto)
@@ -68,16 +62,16 @@ class ChangePasswordValidatorSpec extends Specification {
         e.localizedMessage == UserError.INVALID_DATA.description
 
         where:
-        oldPassword | newPassword | authToken
-        ""          | "newPass"   | uuid
-        "oldPass"   | ""          | uuid
-        ""          | ""          | uuid
+        oldPassword | newPassword
+        ""          | "newPass"
+        "oldPass"   | ""
+        ""          | ""
     }
 
     def "User requests for a password change with the new password to be the same with the old one"() {
         given:
         ChangePasswordRequestDto changePasswordRequestDto = new ChangePasswordRequestDto(oldPassword: "A password",
-                newPassword: "A password", authToken: uuid)
+                newPassword: "A password")
 
         when:
         changePasswordValidator.validate(changePasswordRequestDto)
@@ -90,7 +84,7 @@ class ChangePasswordValidatorSpec extends Specification {
     def "User requests for a password change successfully"() {
         given:
         ChangePasswordRequestDto changePasswordRequestDto = new ChangePasswordRequestDto(oldPassword: "A password",
-                newPassword: "Another password", authToken: uuid)
+                newPassword: "Another password")
 
         when:
         changePasswordValidator.validate(changePasswordRequestDto)
