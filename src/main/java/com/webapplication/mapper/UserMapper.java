@@ -86,7 +86,7 @@ public class UserMapper {
         userResponse.setDateOfBirth(user.getDateOfBirth());
         userResponse.setPhoneNumber(user.getPhoneNumber());
         userResponse.setRatingAsSeller(user.getRatingAsSeller());
-        userResponse.setRatingasBidder(user.getRatingAsBidder());
+        userResponse.setRatingAsBidder(user.getRatingAsBidder());
         userResponse.setAddress(user.getAddress());
 
         return userResponse;
