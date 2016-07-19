@@ -13,7 +13,6 @@ public class UserRegisterRequestDto {
     private String mobileNumber;
     private Date registrationDate;
     private Gender gender;
-    private Boolean isAdmin;
     private String vat;
     private Date dateOfBirth;
     private AddressDto address;
@@ -89,14 +88,6 @@ public class UserRegisterRequestDto {
 
     public void setGender(Gender gender) {
         this.gender = gender;
-    }
-
-    public Boolean getIsAdmin() {
-        return isAdmin;
-    }
-
-    public void setIsAdmin(Boolean isAdmin) {
-        this.isAdmin = isAdmin;
     }
 
     public String getVat() {
