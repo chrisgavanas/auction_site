@@ -43,7 +43,7 @@ public class AuctionItemMapper {
         auctionItem.setName(auctionItemRequestDto.getName());
         auctionItem.setMinBid(auctionItemRequestDto.getMinBid());
         auctionItem.setBuyout(auctionItemRequestDto.getBuyout());
-        auctionItem.setCurrentBid(0D);
+        auctionItem.setCurrentBid(auctionItemRequestDto.getMinBid());
         auctionItem.setBidsNo(0);
         auctionItem.setStartDate(auctionItemRequestDto.getStartDate());
         auctionItem.setEndDate(auctionItemRequestDto.getEndDate());

@@ -9,7 +9,7 @@ var profileController = router.controller('profileController', function($scope, 
 		var token = $cookies.get('authToken');
 		$http.get('/api/user/'+ $scope.user.userId, {headers: {'authToken': token}}).then(function successCallback(response){
 			$scope.user = angular.copy(response.data);
-			
+			$state.go('main.profile.userInfo');
 			if($scope.user.gender == "F")
 				$scope.gender = "Female";
 			else
@@ -23,10 +23,15 @@ var profileController = router.controller('profileController', function($scope, 
 			$scope.dateOfBirthConverted = $.datepicker.formatDate("M d, yy", new Date(response.data.dateOfBirth));
 			$scope.user.dateOfBirth = new Date(response.data.dateOfBirth);
 			
-			console.log($scope.user);
+		
 
 		}, function errorCallback(response){
-			alert("error?");
+			
+			$cookies.remove('userId');
+			$cookies.remove('authToken');
+			$cookies.put('signedIn', 'no');
+			$state.go('main.welcome');
+			
 			
 			
 		});
@@ -50,9 +55,7 @@ var profileController = router.controller('profileController', function($scope, 
 			alert("errorauction");
 		});
 		
-	}else
-		$scope.signedIn = false;
-	
+	}
 
 	
 	

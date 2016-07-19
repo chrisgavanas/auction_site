@@ -5,7 +5,8 @@ var newAuctionController = router.controller('newAuctionController', function($s
 	$scope.item ={
 		categories: []
 	};
-	$scope.item.geoLocation = {};
+	$scope.item.geoLocationDto = {};
+	
 	
 	$scope.categories = [
 	{id: 1, text:'Appliances'}, 
@@ -19,15 +20,6 @@ var newAuctionController = router.controller('newAuctionController', function($s
 	{id: 9, text:'maria'}
 	];
 	
-	if( $cookies.getObject('item') != null){
-		$scope.item = $cookies.getObject('item');
-	}
-	/*$http.get('/api/category').then(function successCallback(response){
-		console.log(response);
-	}), function errorCallback(response){
-		alert("error");
-		
-	}*/
 	
 	
 	
@@ -59,6 +51,7 @@ var newAuctionController = router.controller('newAuctionController', function($s
 		console.log($scope.item);
 		$scope.item.userId = $scope.user.userId;
 		$scope.item.images = [];
+		$scope.item.categories.push($scope.selectedCat.id);
 		$cookies.putObject('item', $scope.item);
 		$state.go('main.itemPreview');
 		
