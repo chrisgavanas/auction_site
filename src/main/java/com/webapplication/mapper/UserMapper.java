@@ -25,8 +25,8 @@ public class UserMapper {
         user.setMobileNumber(userRegisterDto.getMobileNumber());
         user.setRegistrationDate(userRegisterDto.getRegistrationDate());
         user.setGender(userRegisterDto.getGender());
-        user.setIsAdmin(userRegisterDto.getIsAdmin() == null ? false : userRegisterDto.getIsAdmin());
         user.setIsVerified(false);
+        user.setIsAdmin(false);
         user.setVat(userRegisterDto.getVat());
         user.setDateOfBirth(userRegisterDto.getDateOfBirth());
         user.setPhoneNumber(userRegisterDto.getPhoneNumber());

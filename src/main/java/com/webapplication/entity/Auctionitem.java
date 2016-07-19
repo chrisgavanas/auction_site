@@ -3,18 +3,33 @@ package com.webapplication.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.webapplication.dto.user.GeoLocationDto;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+@XmlRootElement(name = "Item")
 @Entity
-@NamedQuery(name="Auctionitem.findAll", query="SELECT a FROM Auctionitem a")
+@NamedQuery(name = "Auctionitem.findAll", query = "SELECT a FROM Auctionitem a")
 public class Auctionitem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int auctionItemId;
 
     private Integer bidsNo;
@@ -56,17 +71,17 @@ public class Auctionitem implements Serializable {
     }
 
     @ManyToOne
-    @JoinColumn(name="UserId")
+    @JoinColumn(name = "UserId")
     private User user;
 
-    @ManyToMany(mappedBy="auctionitems")
+    @ManyToMany(mappedBy = "auctionitems")
     @JsonIgnore
     private List<Category> categories;
 
-    @OneToMany(mappedBy="auctionitem")
+    @OneToMany(mappedBy = "auctionitem")
     private List<Bid> bids;
 
-    @OneToMany(mappedBy="auctionitem")
+    @OneToMany(mappedBy = "auctionitem")
     private List<Image> images;
 
     public Auctionitem() {
@@ -76,13 +91,16 @@ public class Auctionitem implements Serializable {
         return this.auctionItemId;
     }
 
+    @XmlAttribute(name = "ItemID")
     public void setAuctionItemId(Integer auctionItemId) {
         this.auctionItemId = auctionItemId;
     }
+
     public Integer getBidsNo() {
         return this.bidsNo;
     }
 
+    @XmlElement(name = "Number_of_Bids")
     public void setBidsNo(Integer bidsNo) {
         this.bidsNo = bidsNo;
     }
@@ -91,6 +109,7 @@ public class Auctionitem implements Serializable {
         return this.buyout;
     }
 
+    @XmlElement(name = "Buy_Price")
     public void setBuyout(Double buyout) {
         this.buyout = buyout;
     }
@@ -99,6 +118,7 @@ public class Auctionitem implements Serializable {
         return this.currentBid;
     }
 
+    @XmlElement(name = "Currently")
     public void setCurrentBid(Double currentBid) {
         this.currentBid = currentBid;
     }
@@ -107,6 +127,7 @@ public class Auctionitem implements Serializable {
         return this.description;
     }
 
+    @XmlElement(name = "Description")
     public void setDescription(String description) {
         this.description = description;
     }
@@ -115,13 +136,16 @@ public class Auctionitem implements Serializable {
         return this.endDate;
     }
 
+    @XmlElement(name = "Ends")
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
     public Double getLatitude() {
         return this.latitude;
     }
 
+//    @XmlElement(name = "")
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
@@ -130,6 +154,7 @@ public class Auctionitem implements Serializable {
         return this.longitude;
     }
 
+//    @XmlElement(name = "")
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
@@ -138,6 +163,7 @@ public class Auctionitem implements Serializable {
         return this.minBid;
     }
 
+    @XmlElement(name = "First_Bid")
     public void setMinBid(Double minBid) {
         this.minBid = minBid;
     }
@@ -146,6 +172,7 @@ public class Auctionitem implements Serializable {
         return this.name;
     }
 
+    @XmlElement(name = "Name")
     public void setName(String name) {
         this.name = name;
     }
@@ -154,6 +181,7 @@ public class Auctionitem implements Serializable {
         return this.startDate;
     }
 
+    @XmlElement(name = "Started")
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
@@ -165,10 +193,12 @@ public class Auctionitem implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+
     public List<Category> getCategories() {
         return this.categories;
     }
 
+//    @XmlElementWrapper(name="email-addresses")
     public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
@@ -194,6 +224,7 @@ public class Auctionitem implements Serializable {
 
         return bid;
     }
+
     public List<Image> getImages() {
         return this.images;
     }
@@ -216,4 +247,25 @@ public class Auctionitem implements Serializable {
         return image;
     }
 
+    @Override
+    public String toString() {
+        return "Auctionitem{" +
+                "auctionItemId=" + auctionItemId + "\n" +
+                ", bidsNo=" + bidsNo + "\n" +
+                ", buyout=" + buyout + "\n" +
+                ", currentBid=" + currentBid + "\n" +
+                ", description='" + description + '\'' + "\n" +
+                ", endDate=" + endDate + "\n" +
+                ", latitude=" + latitude + "\n" +
+                ", longitude=" + longitude + "\n" +
+                ", minBid=" + minBid + "\n" +
+                ", name='" + name + '\'' + "\n" +
+                ", startDate=" + startDate + "\n" +
+                ", geoLocationDto=" + geoLocationDto + "\n" +
+                ", user=" + user + "\n" +
+                ", categories=" + categories + "\n" +
+                ", bids=" + bids + "\n" +
+                ", images=" + images + "\n" +
+                '}';
+    }
 }
