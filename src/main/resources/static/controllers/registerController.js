@@ -7,7 +7,7 @@ var registerController = router.controller('registerController', function($scope
     	user.registrationDate = new Date();
     	if($scope.checked){
     		AuthenticationService.register(user).then(function (user){
-    			$state.go("main.welcome");
+    			$state.go("main.verification");
     		}, function (response) {
     			alert(response.data.message);
     			if (response.data.message === "Username is already in use.") 

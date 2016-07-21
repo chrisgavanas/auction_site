@@ -31,8 +31,8 @@ hr{
 .container-fluid {
     padding-top: 20px;
     padding-bottom: 20px;
-    padding-left: 450px;
-    padding-right: 450px;
+    padding-left: 500px;
+    padding-right: 500px;
 }
 
 </style>
@@ -44,15 +44,14 @@ hr{
 		<h3>List of users pending verification.</h3>
 	</div>
 </div>
-<div class="container-fluid">
+<div class="container-fluid text-center">
 	<div ng-repeat="user in unverified">
 	<div class="row">
-		<div class="col-md-6">
-			<font size="2">{{user.username}}</font>
-		</div>
-		<div class="col-md-6" align="right">
-			<button class="btn btn-link" ng-click="verify(user.username)"><font size="2">Verify</font></button>
-		</div>
+		
+		<button class="btn btn-link" ng-click="showUser(user.username)" ><font size="2">{{user.username}}</font></button>
+		<div ui-view=userview></div>
+		
+			
 		
 	</div>
 	<hr>
