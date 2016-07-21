@@ -10,15 +10,29 @@
 </head>
 
 <style>
+.btn-link:focus{
+	border: none;
+}
+
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    cursor: default;
+    
+}
+
+hr{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
 
 .pager{
 	display: block;
 }
 .container-fluid {
-    padding-top: 70px;
-    padding-bottom: 70px;
-    padding-left: 400px;
-    padding-right: 400px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 450px;
+    padding-right: 450px;
 }
 
 </style>
@@ -27,23 +41,35 @@
 
 <div class="container-fluid bg-2">
 	<div class="row text-center">
-		<h4>List of users pending verification.</h4>
+		<h3>List of users pending verification.</h3>
 	</div>
+</div>
+<div class="container-fluid">
+	<div ng-repeat="user in unverified">
 	<div class="row">
 		<div class="col-md-6">
-			<font size="3">skatoulhs</font>
+			<font size="2">{{user.username}}</font>
 		</div>
 		<div class="col-md-6" align="right">
-			<font size="3">Verify</font>
+			<button class="btn btn-link" ng-click="verify(user.username)"><font size="2">Verify</font></button>
 		</div>
+		
+	</div>
+	<hr>
+	</div>
 	
+	<div class="row" align="middle">
+		<div class="btn-group">
+  			<button type="button" class="btn btn-primary" ng-click='previousPage()' ng-disabled='pageCounter == 1'>Back</button>
+  			<button type="button" class="btn btn-primary" ng-click='nextPage()' ng-disabled='unverified.length < 10'>Next</button>
+  		</div>
 	</div>
-	<ul class="pager">
-  		<li><a href="#"><font size="3">Previous</font></a></li>
-  		<li><a href="#"><font size="3">Next</font></a></li>
-	</ul>
+	<br>
+	<div class="row" align="middle">
+		<a href="/#/profile"><h6>Back to my profile.</h6></a>
+	</div>
 
-	</div>
+</div>
 
 
 

@@ -1,17 +1,98 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../styles/profile.css">
+	
 </head>
+<style>
+
+.container-fluid{
+	padding-left: 250px;
+	padding-right: 250px;
+
+}
+
+.panel-heading{
+	font-size: 14px;
+	text-align: center;
+}
+
+.panel-body{
+	font-size: 12px;
+	text-align: center;
+	
+}
+
+hr{
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+</style>
+
 <body>
-this is user auctions :/
-<br>S
-<br>K
-<br>A
-<br>T
-<br>I
-<br>A
-<br>:)
+
+<div class="container-fluid">
+	<div align="center">
+		<h5><p>Here is a list of your active auctions.</p>
+		<p>To start a new auction <a href="/#/newAuction">click here.</a></p></h5>
+	</div>
+	<br>
+	<div class="panel panel-default">
+		
+		<div class="panel-heading">
+			<div class="row" align="middle">
+				<div class="col-md-3">
+					Current Price
+				</div>
+				<div class="col-md-3">
+					Buy Out Price
+				</div>
+				<div class="col-md-3">
+					Bids
+				</div>
+				<div class="col-md-3">
+					Time Left
+				</div>
+	
+			</div>
+		</div>
+		
+		<div class="panel-body">
+		<div ng-repeat="item in items">
+			<div class="row">
+				<a href="#"><u>{{item.name}}</u></a>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-3">
+					{{item.currentBid}}$
+				</div>
+				<div class="col-md-3">
+					{{item.buyout}}$
+				</div>
+				<div class="col-md-3">
+					{{item.bidsNo}}
+				</div>
+				<div class="col-md-3">
+					3d 4h 33m 27s
+				</div>
+			</div>
+			<hr>
+		</div>
+			
+		
+		
+		
+		</div>
+	</div>
+	
+</div>
+
+
+
+
 </body>
+
+
 </html>

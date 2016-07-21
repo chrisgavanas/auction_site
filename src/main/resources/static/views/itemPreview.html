@@ -1,136 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="../styles/basic.css">
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../styles/basic.css">
+	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
 </head>
+
 <style>
-.menu{
-	text-align: center;
-	margin-top: 3%;
-	border: 1px solid #708b9e;
-	
-	border-radius: 5px;
-	margin-left: 50px;
-	margin-right: 50px;
-margin-left: 100px;
-	margin-right: 100px;
-	background-color: white;
-}
 
-.applyButton{
-	display : block;
-	border-radius: 3px;
-	border: none;
-	background-color: #43637b;
-	color: white;
-	text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 18px;
-  	margin: 0 auto;
-	text-align: center;
-	padding: 5px;
-	padding-right: 7px;
-	padding-left: 7px;
-	
-	
-	margin-top: 10px;
-	margin-bottom: 2%;
+.container-fluid{
+	padding-left: 200px;
+	padding-right: 200px;
+	padding-top: 50px;
+	padding-bottom: 50px;
 
 }
 
-hr {
-	width: 50%;
-    border: 0;
-    border-top: 1px solid #989898;
-}
-
-.menu{
-	
-	margin-top: 3%;
-	border: 1px solid #708b9e;
-	
-	border-radius: 5px;
-	margin-left: 50px;
-	margin-right: 50px;
-	margin-left: 100px;
-	margin-right: 100px;
-	background-color: white;
-}
-
-h3{
-	background-color: #708b9e;
-	color: white;
-	border-radius: 3px;
-	margin-top: 0;
-    font-weight: bold;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
 </style>
+
 <body>
-<div id="headerBar"></div>
 
-
-<div class="container-4" id="main">
-	<a href="/#/welcome">
-		<img class="img" src="http://i765.photobucket.com/albums/xx295/yiotappl/logonew_zpstit9bcvx.png"  style="width:150px;height:50px;">
-	</a>
-	<input type="search" id="search" placeholder="Search..." />
-	<select class="select">
-		<option>Categories</option>
-		<option>Appliancies</option>
-		<option>Gadgets</option>
-		<option>Hardware</option>
-	</select>
-	<button class="icon"><i class="fa fa-search"></i></button>
-	<div id="ifcase" ng-if="signedIn">
-		<div class="dropdown">
-			<button class="dropbtn">Welcome, {{user.username}} <i class="fa fa-angle-down"></i></button>
-			<div class="dropdown-content">
-				<a href="" ng-click="myProfile()">My Profile</a>
-				<a href="" ng-click="logout()">Sign Out</a>
-			</div>
-  		</div>
-		
-	</div>
-	<div ng-if="!signedIn">
-		<button  class="buttonR " type="button" ng-click="redirectRegister()">Register</button>
-		<hr class="vertical"/>
-		<button  class="buttonL " type="button"  ng-click="redirectLogin()" >Sign In</button>
-		<box>Oops, you are not signed in!</box>
-		
-	</div>
-	  
-</div>
-<div class="menu" >
-<h3>Preview your item</h3>
-
-<h2>{{item.name}}</h2>
-<hr>
-<div>
-	Current bid: 
-	<label>US ${{item.currentBid}}</label>
-</div>
-<div>
-	Buy out price:
-	<label>US ${{item.buyout}}</label>
+<div class="container-fluid text-center">
+	<img src="./images/logo1.png"  height="114" width="260">
+	<div class="panel panel-default">
 	
-</div>
-<div>
-	Description:
-	<label>{{item.description}}</label>
-</div>
-<div>
-	Categories
-	<div ng-repeat="category in item.categories">
-	{{category}}
+  		<div class="panel-heading">Preview your item.</div>
+  		
+  		<div class="panel-body">
+  			<div class="row">
+  				<h4>{{item.name}}</h4>
+  			</div>
+  			<hr>
+  			
+  			<div class="row">
+  				<h5>{{item.description}}</h5>
+  			</div>
+  			<button class="btn btn-primary" ng-click="complete()">Complete Auction</button>
+  		</div>
 	</div>
+
 </div>
-<button class="applyButton" ng-click="goBack()">Back</button>
-<button class="applyButton" ng-click="complete()">Complete</button>
-</div>
+
+
 
 </body>
+
 </html>

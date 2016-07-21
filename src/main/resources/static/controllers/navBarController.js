@@ -10,7 +10,14 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 		$http.get('/api/user/'+ $scope.user.userId, {headers: {'authToken': token}}).then(function successCallback(response){
 			$scope.user.username = response.data.username;
 		}, function errorCallback(response){
-			alert("error");
+		
+			$cookies.remove('userId');
+			$cookies.remove('authToken');
+			$cookies.put('signedIn', 'no');
+			$scope.signedIn = false;
+			$state.go('main.welcome');
+			
+			
 			
 			
 		});
@@ -19,7 +26,7 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 		
 	}else
 		$scope.signedIn = false;
-	 
+	
 	
 	$scope.redirectRegister = function(){
 		$state.go("main.register");
