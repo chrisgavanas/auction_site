@@ -1,19 +1,22 @@
 package com.webapplication.dto.category;
 
 public class CategoryResponseDto {
-    private Integer categoryId;
+    private String categoryId;
     private String description;
 
-    public CategoryResponseDto(Integer categoryId, String description) {
+    public CategoryResponseDto() {
+    }
+
+    public CategoryResponseDto(String categoryId, String description) {
         this.categoryId = categoryId;
         this.description = description;
     }
 
-    public Integer getCategoryId() {
+    public String getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 

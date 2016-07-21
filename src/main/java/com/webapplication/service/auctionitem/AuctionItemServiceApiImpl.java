@@ -1,16 +1,21 @@
 package com.webapplication.service.auctionitem;
 
 import com.webapplication.dao.AuctionItemRepository;
+import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
-import com.webapplication.entity.Auctionitem;
+import com.webapplication.entity.AuctionItem;
+import com.webapplication.entity.User;
+import com.webapplication.error.auctionitem.AuctionItemError;
+import com.webapplication.exception.UserNotFoundException;
 import com.webapplication.mapper.AuctionItemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @Component
@@ -20,19 +25,24 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     private AuctionItemRepository auctionItemRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private AuctionItemMapper auctionItemMapper;
 
     @Override
     public AddAuctionItemResponseDto addAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
-        Auctionitem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(auctionItemRequestDto);
+        AuctionItem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(auctionItemRequestDto);
+        User user = userRepository.findUserByUserId(auctionItem.getUserId());
+        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(AuctionItemError.USER_NOT_FOUND));
         auctionItemRepository.save(auctionItem);
 
         return auctionItemMapper.auctionItemToAddAuctionItemResponseDto(auctionItem);
     }
 
     @Override
-    public List<AuctionItemResponseDto> getAuctionItemsOfUser(Integer userId) throws Exception {
-        List<Auctionitem> auctionItems = auctionItemRepository.findAuctionitemByUser(userId);
+    public List<AuctionItemResponseDto> getAuctionItemsOfUser(String userId) throws Exception {
+        List<AuctionItem> auctionItems = auctionItemRepository.findAuctionItemByUserId(userId);
 
         return auctionItemMapper.auctionItemsToAuctionItemResponseDto(auctionItems);
     }

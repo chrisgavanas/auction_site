@@ -6,7 +6,6 @@ import com.webapplication.error.user.UserLogInError;
 import com.webapplication.error.user.UserRegisterError;
 
 public class ValidationException extends Exception {
-    private static final long serialVersionUID = 1L;
 
     public ValidationException(UserRegisterError error) {
         super(error.getDescription());
@@ -19,9 +18,9 @@ public class ValidationException extends Exception {
     public ValidationException(UserError error) {
         super(error.getDescription());
     }
-    
+
     public ValidationException(AuctionItemError error) {
-    	super(error.getDescription());
+        super(error.getDescription());
     }
 
 }

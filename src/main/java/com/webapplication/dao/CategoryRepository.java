@@ -1,19 +1,19 @@
 package com.webapplication.dao;
 
 import com.webapplication.entity.Category;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface CategoryRepository extends CrudRepository<Category, Integer> {
+public interface CategoryRepository extends MongoRepository<Category, String> {
 
-    Category findCategoryByCategoryId(Integer categoryId);
+    Category findCategoryByCategoryId(@Param("categoryId") String categoryId);
 
-    List<Category> findAll();
+    @Query("{'categoryId' : { $in : ?0 } }")
+    List<Category> findCategoriesByIds(List<String> categoryIds);
 
-    @Query("select c from Category c where c.categoryId in ?1")
-    List<Category> findAll(List<Integer> categoryIds);
 }

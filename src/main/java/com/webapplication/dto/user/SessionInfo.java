@@ -4,17 +4,17 @@ import org.joda.time.DateTime;
 
 public class SessionInfo {
 
-    private final Integer userId;
+    private final String userId;
     private final DateTime date;
     private final Boolean isAdmin;
 
-    public SessionInfo(Integer userId, DateTime date, Boolean isAdmin) {
+    public SessionInfo(String userId, DateTime date, Boolean isAdmin) {
         this.userId = userId;
         this.date = date;
         this.isAdmin = isAdmin;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 

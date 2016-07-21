@@ -49,13 +49,12 @@ class AuctionItemApiImplSpec extends Specification {
         where:
         userId | error
         null   | AuctionItemError.MISSING_DATA
-        -1     | AuctionItemError.INVALID_DATA
-        0      | AuctionItemError.INVALID_DATA
+        ""     | AuctionItemError.INVALID_DATA
     }
 
     def "Get user's auctions sucessfully"() {
         given:
-        Integer userId = 1
+        String userId = "578f9c605a61fe0aa84fe8e5"
         List<AuctionItemResponseDto> auctionItemResponseDtoList = []
 
         when:

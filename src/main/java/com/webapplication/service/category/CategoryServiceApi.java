@@ -1,8 +1,8 @@
 package com.webapplication.service.category;
 
-import java.util.List;
-
 import com.webapplication.dto.category.CategoryResponseDto;
+
+import java.util.List;
 
 public interface CategoryServiceApi {
 

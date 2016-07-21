@@ -1,5 +1,4 @@
-package com.webapplication.api.category
-
+import com.webapplication.api.category.CategoryApiImpl
 import com.webapplication.dto.category.CategoryResponseDto
 import com.webapplication.service.category.CategoryServiceApi
 import spock.lang.Specification

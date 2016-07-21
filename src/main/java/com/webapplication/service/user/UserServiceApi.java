@@ -13,13 +13,13 @@ public interface UserServiceApi {
 
     UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) throws Exception;
 
-    UserResponseDto getUser(UUID authToken, Integer userId) throws Exception;
+    UserResponseDto getUser(UUID authToken, String userId) throws Exception;
 
-    void verifyUser(UUID authToken, Integer userId) throws Exception;
+    void verifyUser(UUID authToken, String userId) throws Exception;
 
-    UserResponseDto updateUser(Integer userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception;
+    UserResponseDto updateUser(String userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception;
 
-    void changePassword(Integer userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
+    void changePassword(String userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
 
     List<UserResponseDto> getUnverifiedUsers(UUID authToken, Integer from, Integer to) throws Exception;
 

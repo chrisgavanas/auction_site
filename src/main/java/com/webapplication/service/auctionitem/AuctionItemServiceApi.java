@@ -10,5 +10,6 @@ public interface AuctionItemServiceApi {
 
     AddAuctionItemResponseDto addAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception;
 
-    List<AuctionItemResponseDto> getAuctionItemsOfUser(Integer userId) throws Exception;
+    List<AuctionItemResponseDto> getAuctionItemsOfUser(String userId) throws Exception;
+
 }
