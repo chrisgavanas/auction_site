@@ -41,7 +41,7 @@ public class AuctionItemApiImpl implements AuctionItemApi {
         if (userId.isEmpty())
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
-        return auctionItemService.getAuctionItemsOfUser(userId) ;
+        return auctionItemService.getAuctionItemsOfUser(userId);
     }
 
     @ExceptionHandler(ValidationException.class)
