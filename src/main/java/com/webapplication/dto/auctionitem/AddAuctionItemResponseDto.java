@@ -1,15 +1,14 @@
 package com.webapplication.dto.auctionitem;
 
+import com.webapplication.dto.category.CategoryResponseDto;
 import com.webapplication.dto.user.GeoLocationDto;
-import com.webapplication.entity.Category;
-import com.webapplication.entity.Image;
 
 import java.util.Date;
 import java.util.List;
 
 public class AddAuctionItemResponseDto {
 
-    private Integer auctionItemId;
+    private String auctionItemId;
     private String name;
     private Double currentBid;
     private Double buyout;
@@ -19,15 +18,14 @@ public class AddAuctionItemResponseDto {
     private Date endDate;
     private String description;
     private GeoLocationDto geoLocationDto;
-    private Integer userId;
-    private List<Category> categories;
-    private List<Image> images;
+    private String userId;
+    private List<CategoryResponseDto> categories;
 
-    public Integer getAuctionItemId() {
+    public String getAuctionItemId() {
         return auctionItemId;
     }
 
-    public void setAuctionItemId(Integer auctionItemId) {
+    public void setAuctionItemId(String auctionItemId) {
         this.auctionItemId = auctionItemId;
     }
 
@@ -103,28 +101,20 @@ public class AddAuctionItemResponseDto {
         this.geoLocationDto = geoLocationDto;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public List<Category> getCategories() {
+    public List<CategoryResponseDto> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Category> categories) {
+    public void setCategories(List<CategoryResponseDto> categories) {
         this.categories = categories;
-    }
-
-    public List<Image> getImages() {
-        return images;
-    }
-
-    public void setImages(List<Image> images) {
-        this.images = images;
     }
 
 }

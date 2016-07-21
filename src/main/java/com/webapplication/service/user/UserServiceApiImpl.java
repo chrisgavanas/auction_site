@@ -29,7 +29,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -75,7 +74,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     }
 
     @Override
-    public UserResponseDto getUser(UUID authToken, Integer userId) throws Exception {
+    public UserResponseDto getUser(UUID authToken, String userId) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
         User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
@@ -85,7 +84,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     }
 
     @Override
-    public void verifyUser(UUID authToken, Integer userId) throws Exception {
+    public void verifyUser(UUID authToken, String userId) throws Exception {
         SessionInfo sessionInfo = authenticator.getSession(authToken);
         Optional.ofNullable(sessionInfo).orElseThrow(() -> new NotAuthorizedException(UserError.UNAUTHORIZED));
         if (!sessionInfo.getIsAdmin())
@@ -101,7 +100,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     }
 
     @Override
-    public UserResponseDto updateUser(Integer userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception {
+    public UserResponseDto updateUser(String userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception {
         User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
 
@@ -115,7 +114,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     }
 
     @Override
-    public void changePassword(Integer userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception {
+    public void changePassword(String userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception {
         User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
 
@@ -141,7 +140,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         return sessionInfo;
     }
 
-    private void validateAuthorization(Integer userId, SessionInfo sessionInfo) throws NotAuthorizedException {
+    private void validateAuthorization(String userId, SessionInfo sessionInfo) throws NotAuthorizedException {
         if (!userId.equals(sessionInfo.getUserId()) && !sessionInfo.getIsAdmin())
             throw new NotAuthorizedException(UserError.UNAUTHORIZED);
     }

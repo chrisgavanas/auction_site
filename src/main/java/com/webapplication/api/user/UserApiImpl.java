@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,27 +44,27 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public UserResponseDto getUser(@RequestHeader UUID authToken, @PathVariable Integer userId) throws Exception {
+    public UserResponseDto getUser(@RequestHeader UUID authToken, @PathVariable String userId) throws Exception {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
-        if (userId <= 0)
+        if (userId.isEmpty())
             throw new ValidationException(UserError.INVALID_DATA);
 
         return userService.getUser(authToken, userId);
     }
 
     @Override
-    public void verifyUser(@RequestHeader UUID authToken, @PathVariable Integer userId) throws Exception {
+    public void verifyUser(@RequestHeader UUID authToken, @PathVariable String userId) throws Exception {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
-        if (userId <= 0)
+        if (userId.isEmpty())
             throw new ValidationException(UserError.INVALID_DATA);
 
         userService.verifyUser(authToken, userId);
     }
 
     @Override
-    public UserResponseDto updateUser(@PathVariable Integer userId, @RequestBody UserUpdateRequestDto userUpdateRequestDto) throws Exception {
+    public UserResponseDto updateUser(@PathVariable String userId, @RequestBody UserUpdateRequestDto userUpdateRequestDto) throws Exception {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
-        if (userId <= 0)
+        if (userId.isEmpty())
             throw new ValidationException(UserError.INVALID_DATA);
 
         userRequestValidator.validate(userUpdateRequestDto);
@@ -73,11 +72,11 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public void changePassword(@RequestHeader UUID authToken, @PathVariable Integer userId, @RequestBody ChangePasswordRequestDto changePasswordRequestDto) throws Exception {
+    public void changePassword(@RequestHeader UUID authToken, @PathVariable String userId, @RequestBody ChangePasswordRequestDto changePasswordRequestDto) throws Exception {
         Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         userRequestValidator.validate(changePasswordRequestDto);
-        if (userId <= 0)
+        if (userId.isEmpty())
             throw new ValidationException(UserError.INVALID_DATA);
 
         userService.changePassword(userId, changePasswordRequestDto);

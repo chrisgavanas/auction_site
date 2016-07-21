@@ -1,12 +1,11 @@
 package com.webapplication.api.category;
 
-import java.util.List;
-
+import com.webapplication.dto.category.CategoryResponseDto;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.webapplication.dto.category.CategoryResponseDto;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api")

@@ -8,8 +8,6 @@ import com.webapplication.validator.user.UserRequestValidator
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import javax.validation.Valid
-
 class UserApiImplSpec extends Specification {
 
     UserApiImpl userApi
@@ -66,14 +64,13 @@ class UserApiImplSpec extends Specification {
         where:
         userId | error
         null   | UserError.MISSING_DATA.description
-        -1     | UserError.INVALID_DATA.description
-        0      | UserError.INVALID_DATA.description
+        ""     | UserError.INVALID_DATA.description
     }
 
     def "Fetching a user successfully"() {
         given:
         UUID uuid = UUID.randomUUID()
-        Integer userId = 4
+        String userId = "578f9c605a61fe0aa84fe8e5"
         UserResponseDto userResponseDto = new UserResponseDto()
 
         when:
@@ -99,14 +96,13 @@ class UserApiImplSpec extends Specification {
         where:
         userId | error
         null   | UserError.MISSING_DATA.description
-        -1     | UserError.INVALID_DATA.description
-        0      | UserError.INVALID_DATA.description
+        ""     | UserError.INVALID_DATA.description
     }
 
     def "VerifyUser a user successfully"() {
         given:
         UUID uuid = UUID.randomUUID()
-        Integer userId = 4
+        String userId = "578f9c605a61fe0aa84fe8e5"
 
         when:
         userApi.verifyUser(uuid, userId)
@@ -119,7 +115,7 @@ class UserApiImplSpec extends Specification {
     @Unroll
     def "Updates a user fails due to invalid userId"() {
         given:
-        UserUpdateRequestDto updateRequestDto
+        UserUpdateRequestDto updateRequestDto = new UserUpdateRequestDto()
 
         when:
         userApi.updateUser(userId, updateRequestDto)
@@ -131,14 +127,12 @@ class UserApiImplSpec extends Specification {
         where:
         userId | error
         null   | UserError.MISSING_DATA.description
-        -1     | UserError.INVALID_DATA.description
-        0      | UserError.INVALID_DATA.description
-
+        ""     | UserError.INVALID_DATA.description
     }
 
     def "Update a user successfully"() {
         given:
-        Integer userId = 4
+        String userId = "578f9c605a61fe0aa84fe8e5"
         UserUpdateRequestDto updateRequestDto = new UserUpdateRequestDto()
         UserResponseDto userResponseDto = new UserResponseDto()
 
@@ -154,7 +148,6 @@ class UserApiImplSpec extends Specification {
     @Unroll
     def "Change user's password fails due to invalid userId"() {
         given:
-        Integer userId = id
         UUID authToken = UUID.randomUUID()
         ChangePasswordRequestDto changePasswordRequestDto = new ChangePasswordRequestDto()
 
@@ -166,15 +159,14 @@ class UserApiImplSpec extends Specification {
         e.localizedMessage == error
 
         where:
-        id   | error
-        null | UserError.MISSING_DATA.description
-        -1   | UserError.INVALID_DATA.description
-        0    | UserError.INVALID_DATA.description
+        userId | error
+        null   | UserError.MISSING_DATA.description
+        ""     | UserError.INVALID_DATA.description
     }
 
     def "Change user's password fails as user did not provide an authentication token"() {
         given:
-        Integer userId = 4
+        String userId = "578f9c605a61fe0aa84fe8e5"
         UUID authToken = null
         ChangePasswordRequestDto changePasswordRequestDto = new ChangePasswordRequestDto()
 
@@ -188,7 +180,7 @@ class UserApiImplSpec extends Specification {
 
     def "User changes password successfully"() {
         given:
-        Integer userId = 4
+        String userId = "578f9c605a61fe0aa84fe8e5"
         UUID authToken = UUID.randomUUID()
         ChangePasswordRequestDto changePasswordRequestDto = new ChangePasswordRequestDto()
 
@@ -226,23 +218,21 @@ class UserApiImplSpec extends Specification {
     def "Admin requests for a specific number of unverified users with invalid data"() {
         given:
         UUID authToken = UUID.randomUUID()
-        Integer from = fromValue
-        Integer to = toValue
 
         when:
-        userApi.getUnverifiedUsers(authToken, fromValue, toValue)
+        userApi.getUnverifiedUsers(authToken, from, to)
 
         then:
         ValidationException e = thrown()
         e.localizedMessage == error
 
         where:
-        fromValue | toValue | error
-        -1        | 2       | UserError.INVALID_DATA.description
-        0         | 3       | UserError.INVALID_DATA.description
-        1         | -3      | UserError.INVALID_DATA.description
-        5         | 0       | UserError.INVALID_DATA.description
-        2         | 1       | UserError.INVALID_PAGINATION_VALUES.description
+        from | to | error
+        -1   | 2  | UserError.INVALID_DATA.description
+        0    | 3  | UserError.INVALID_DATA.description
+        1    | -3 | UserError.INVALID_DATA.description
+        5    | 0  | UserError.INVALID_DATA.description
+        2    | 1  | UserError.INVALID_PAGINATION_VALUES.description
     }
 
     def "Admin requests for a specific number of unverified users successfully"() {

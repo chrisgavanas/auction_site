@@ -1,109 +1,55 @@
 package com.webapplication.entity;
 
-import com.webapplication.dto.user.AddressDto;
 import com.webapplication.dto.user.Gender;
+import org.mongodb.morphia.annotations.Embedded;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 
-@Entity
-@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
-public class User implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Document(collection = "User")
+public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int userId;
-
-    private String city;
-
+    private String userId;
     private String country;
-
-    @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfBirth;
-
     private String email;
-
     private String firstName;
-
-    @Enumerated(EnumType.STRING)
     private Gender gender;
-
     private Boolean isAdmin;
-
     private Boolean isVerified;
-
     private String lastName;
-
     private String mobileNumber;
-
     private String password;
-
     private String phoneNumber;
-
-    private String postalCode;
-
-    private float ratingAsBidder;
-
-    private float ratingAsSeller;
-
-    @Temporal(TemporalType.TIMESTAMP)
+    private Integer ratingAsBidder;
+    private Integer ratingAsSeller;
     private Date registrationDate;
-
-    private String street;
-
     private String username;
-
     private String vat;
 
-    @Transient
-    private AddressDto address = new AddressDto();
+    @Embedded
+    private Address address;
 
-    public AddressDto getAddress() {
-        address.setStreet(street);
-        address.setPostalCode(postalCode);
-        address.setCity(city);
-        return address;
-    }
-
-    public void setAddress(AddressDto address) {
-        if (address != null) {
-            this.street = address.getStreet();
-            this.city = address.getCity();
-            this.postalCode = address.getPostalCode();
-        }
-    }
-
-    @OneToMany(mappedBy = "user")
-    private List<Bid> bids;
-
-    @OneToMany(mappedBy = "user")
-    private List<Auctionitem> auctionitems;
+    private List<String> auctionItemIds;
+    private List<String> bidIds;
 
     public User() {
     }
 
-    public int getUserId() {
-        return this.userId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public String getCity() {
-        return this.city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getCountry() {
-        return this.country;
+        return country;
     }
 
     public void setCountry(String country) {
@@ -111,7 +57,7 @@ public class User implements Serializable {
     }
 
     public Date getDateOfBirth() {
-        return this.dateOfBirth;
+        return dateOfBirth;
     }
 
     public void setDateOfBirth(Date dateOfBirth) {
@@ -119,7 +65,7 @@ public class User implements Serializable {
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public void setEmail(String email) {
@@ -127,7 +73,7 @@ public class User implements Serializable {
     }
 
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -135,7 +81,7 @@ public class User implements Serializable {
     }
 
     public Gender getGender() {
-        return this.gender;
+        return gender;
     }
 
     public void setGender(Gender gender) {
@@ -143,7 +89,7 @@ public class User implements Serializable {
     }
 
     public Boolean getIsAdmin() {
-        return this.isAdmin;
+        return isAdmin;
     }
 
     public void setIsAdmin(Boolean isAdmin) {
@@ -151,7 +97,7 @@ public class User implements Serializable {
     }
 
     public Boolean getIsVerified() {
-        return this.isVerified;
+        return isVerified;
     }
 
     public void setIsVerified(Boolean isVerified) {
@@ -159,7 +105,7 @@ public class User implements Serializable {
     }
 
     public String getLastName() {
-        return this.lastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
@@ -167,7 +113,7 @@ public class User implements Serializable {
     }
 
     public String getMobileNumber() {
-        return this.mobileNumber;
+        return mobileNumber;
     }
 
     public void setMobileNumber(String mobileNumber) {
@@ -175,7 +121,7 @@ public class User implements Serializable {
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public void setPassword(String password) {
@@ -183,55 +129,39 @@ public class User implements Serializable {
     }
 
     public String getPhoneNumber() {
-        return this.phoneNumber;
+        return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPostalCode() {
-        return this.postalCode;
+    public Integer getRatingAsBidder() {
+        return ratingAsBidder;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public float getRatingAsBidder() {
-        return this.ratingAsBidder;
-    }
-
-    public void setRatingAsBidder(float ratingAsBidder) {
+    public void setRatingAsBidder(Integer ratingAsBidder) {
         this.ratingAsBidder = ratingAsBidder;
     }
 
-    public float getRatingAsSeller() {
-        return this.ratingAsSeller;
+    public Integer getRatingAsSeller() {
+        return ratingAsSeller;
     }
 
-    public void setRatingAsSeller(float ratingAsSeller) {
+    public void setRatingAsSeller(Integer ratingAsSeller) {
         this.ratingAsSeller = ratingAsSeller;
     }
 
     public Date getRegistrationDate() {
-        return this.registrationDate;
+        return registrationDate;
     }
 
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
     }
 
-    public String getStreet() {
-        return this.street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
     public String getUsername() {
-        return this.username;
+        return username;
     }
 
     public void setUsername(String username) {
@@ -239,55 +169,51 @@ public class User implements Serializable {
     }
 
     public String getVat() {
-        return this.vat;
+        return vat;
     }
 
     public void setVat(String vat) {
         this.vat = vat;
     }
 
-    public List<Bid> getBids() {
-        return this.bids;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setBids(List<Bid> bids) {
-        this.bids = bids;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public Bid addBid(Bid bid) {
-        getBids().add(bid);
-        bid.setUser(this);
-
-        return bid;
+    public Boolean getAdmin() {
+        return isAdmin;
     }
 
-    public Bid removeBid(Bid bid) {
-        getBids().remove(bid);
-        bid.setUser(null);
-
-        return bid;
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
     }
 
-    public List<Auctionitem> getAuctionitems() {
-        return this.auctionitems;
+    public Boolean getVerified() {
+        return isVerified;
     }
 
-    public void setAuctionitems(List<Auctionitem> auctionitems) {
-        this.auctionitems = auctionitems;
+    public void setVerified(Boolean verified) {
+        isVerified = verified;
     }
 
-    public Auctionitem addAuctionitem(Auctionitem auctionitem) {
-        getAuctionitems().add(auctionitem);
-        auctionitem.setUser(this);
-
-        return auctionitem;
+    public List<String> getAuctionItemIds() {
+        return auctionItemIds;
     }
 
-    public Auctionitem removeAuctionitem(Auctionitem auctionitem) {
-        getAuctionitems().remove(auctionitem);
-        auctionitem.setUser(null);
+    public void setAuctionItemIds(List<String> auctionItemIds) {
+        this.auctionItemIds = auctionItemIds;
+    }
 
-        return auctionitem;
+    public List<String> getBidIds() {
+        return bidIds;
+    }
+
+    public void setBidIds(List<String> bidIds) {
+        this.bidIds = bidIds;
     }
 
 }

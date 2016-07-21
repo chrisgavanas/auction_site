@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class UserResponseDto {
 
-    private Integer userId;
+    private String userId;
     private String username;
     private String email;
     private String firstName;
@@ -19,8 +19,8 @@ public class UserResponseDto {
     private Date dateOfBirth;
     private AddressDto address;
     private String phoneNumber;
-    private Float ratingAsSeller;
-    private Float ratingAsBidder;
+    private Integer ratingAsSeller;
+    private Integer ratingAsBidder;
 
     public String getUsername() {
         return username;
@@ -126,11 +126,11 @@ public class UserResponseDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -142,21 +142,20 @@ public class UserResponseDto {
         this.isVerified = isVerified;
     }
 
-    public Float getRatingAsSeller() {
+    public Integer getRatingAsSeller() {
         return ratingAsSeller;
     }
 
-    public void setRatingAsSeller(Float ratingAsSeller) {
+    public void setRatingAsSeller(Integer ratingAsSeller) {
         this.ratingAsSeller = ratingAsSeller;
     }
 
-    public Float getRatingAsBidder() {
+    public Integer getRatingAsBidder() {
         return ratingAsBidder;
     }
 
-    public void setRatingAsBidder(Float ratingAsBidder) {
+    public void setRatingAsBidder(Integer ratingAsBidder) {
         this.ratingAsBidder = ratingAsBidder;
     }
-
 
 }

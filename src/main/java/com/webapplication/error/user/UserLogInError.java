@@ -5,9 +5,9 @@ public enum UserLogInError {
 	INVALID_DATA("Invalid data."),
 	INVALID_CREDENTIALS("Username and password do not match."),
 	USER_NOT_EMAIL_VERIFIED("User has not been verified yet.");
-	
+
 	private final String description;
-	
+
 	UserLogInError( String description) {
 		this.description = description;
 	}

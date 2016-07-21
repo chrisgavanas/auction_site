@@ -19,17 +19,17 @@ public interface UserApi {
     UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) throws Exception;
 
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET, produces = "application/json")
-    UserResponseDto getUser(@RequestHeader UUID authToken, @PathVariable Integer userId) throws Exception;
+    UserResponseDto getUser(@RequestHeader UUID authToken, @PathVariable String userId) throws Exception;
 
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    UserResponseDto updateUser(@PathVariable Integer userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception;
+    UserResponseDto updateUser(@PathVariable String userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception;
 
     @RequestMapping(path = "/user/{userId}/verify-user", method = RequestMethod.POST)
-    void verifyUser(@RequestHeader UUID authToken, @PathVariable Integer userId) throws Exception;
+    void verifyUser(@RequestHeader UUID authToken, @PathVariable String userId) throws Exception;
 
     @RequestMapping(path = "/user/{userId}/change-password", method = RequestMethod.POST, consumes = "application/json")
-    void changePassword(@RequestHeader UUID authToken, @PathVariable Integer userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
-    
+    void changePassword(@RequestHeader UUID authToken, @PathVariable String userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
+
     @RequestMapping(path = "/user/unverified/{from}-{to}", method = RequestMethod.GET, produces = "application/json")
     List<UserResponseDto> getUnverifiedUsers(@RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception;
 

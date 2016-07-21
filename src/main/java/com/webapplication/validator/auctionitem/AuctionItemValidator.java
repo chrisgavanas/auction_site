@@ -1,6 +1,7 @@
 package com.webapplication.validator.auctionitem;
 
 
+import com.google.common.base.Strings;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.user.GeoLocationDto;
 import com.webapplication.error.auctionitem.AuctionItemError;
@@ -26,16 +27,13 @@ public class AuctionItemValidator implements Validator<AddAuctionItemRequestDto>
         Optional.ofNullable(request).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
 
         if (Stream.of(request.getName(), request.getStartDate(), request.getEndDate(),
-                request.getUserId()).anyMatch(Objects::isNull))
+                request.getUserId(), request.getDescription()).anyMatch(Objects::isNull))
             throw new ValidationException(AuctionItemError.MISSING_DATA);
 
         if (Stream.of(request.getMinBid(), request.getBuyout()).filter(Objects::nonNull).count() == 0)
             throw new ValidationException(AuctionItemError.MISSING_DATA);
 
-        if (request.getName().isEmpty())
-            throw new ValidationException(AuctionItemError.INVALID_DATA);
-
-        if (request.getUserId() <= 0)
+        if (Stream.of(request.getUserId(), request.getName(), request.getDescription()).anyMatch(Strings::isNullOrEmpty))
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
         if (Stream.of(request.getMinBid(), request.getBuyout())
@@ -61,11 +59,11 @@ public class AuctionItemValidator implements Validator<AddAuctionItemRequestDto>
 
         }
 
-        List<Integer> categories = request.getCategories();
+        List<String> categories = request.getCategories();
         Optional.ofNullable(categories).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         if (categories.isEmpty())
             throw new ValidationException(AuctionItemError.MISSING_DATA);
-        if (categories.stream().anyMatch(category -> Integer.compare(1, category) > 0))
+        if (categories.stream().anyMatch(Strings::isNullOrEmpty))
             throw new ValidationException(AuctionItemError.INVALID_DATA);
     }
 

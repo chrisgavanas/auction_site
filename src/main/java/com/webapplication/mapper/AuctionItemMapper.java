@@ -2,22 +2,21 @@ package com.webapplication.mapper;
 
 import com.google.common.collect.Lists;
 import com.webapplication.dao.CategoryRepository;
-import com.webapplication.dao.ImageRepository;
-import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.user.GeoLocationDto;
-import com.webapplication.entity.Auctionitem;
+import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.Category;
-import com.webapplication.entity.Image;
-import com.webapplication.entity.User;
+import com.webapplication.entity.GeoLocation;
+import com.webapplication.error.category.CategoryError;
+import com.webapplication.exception.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,19 +26,13 @@ public class AuctionItemMapper {
     private CategoryMapper categoryMapper;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private CategoryRepository categoryRepository;
 
-    @Autowired
-    private ImageRepository imageRepository;
-
-    public Auctionitem addAuctionItemRequestDtoToAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) {
+    public AuctionItem addAuctionItemRequestDtoToAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
         if (auctionItemRequestDto == null)
             return null;
 
-        Auctionitem auctionItem = new Auctionitem();
+        AuctionItem auctionItem = new AuctionItem();
         auctionItem.setName(auctionItemRequestDto.getName());
         auctionItem.setMinBid(auctionItemRequestDto.getMinBid());
         auctionItem.setBuyout(auctionItemRequestDto.getBuyout());
@@ -49,27 +42,23 @@ public class AuctionItemMapper {
         auctionItem.setEndDate(auctionItemRequestDto.getEndDate());
         auctionItem.setDescription(auctionItemRequestDto.getDescription());
         GeoLocationDto geoLocationDto = auctionItemRequestDto.getGeoLocationDto();
-        if (geoLocationDto != null)
-            auctionItem.setGeoLocationDto(geoLocationDto);
-        User user = userRepository.findUserByUserId(auctionItemRequestDto.getUserId());
-        auctionItem.setUser(user);
-
-        List<Integer> categoriesId = auctionItemRequestDto.getCategories();
-        List<Category> categories = categoryRepository.findAll(categoriesId);
-        auctionItem.setCategories(categories);
-
-//        Optional.ofNullable(auctionItemRequestDto.getImages()).ifPresent(images -> auctionItem.setImages(images.stream()
-//                .map(image -> {
-//                    Image auctionItemImage = new Image(image, auctionItem);       // TODO: 10/7/2016 Images will be removed
-//                    imageRepository.save(auctionItemImage);
-//                    return auctionItemImage;
-//                }).collect(Collectors.toList())
-//        ));
+        if (geoLocationDto != null) {
+            GeoLocation geoLocation = new GeoLocation(geoLocationDto.getLatitude(), geoLocationDto.getLongitude());
+            auctionItem.setGeoLocation(geoLocation);
+        }
+        auctionItem.setUserId(auctionItemRequestDto.getUserId());
+        List<String> categoryIds = auctionItemRequestDto.getCategories();
+        List<Category> categories = categoryRepository.findCategoriesByIds(categoryIds);
+        if (categoryIds.size() != categories.size())
+            throw new CategoryNotFoundException(CategoryError.CATEGORY_NOT_FOUND);
+        auctionItem.setCategories(categoryIds);
+        auctionItem.setBids(new ArrayList<>());
+        auctionItem.setImages(new ArrayList<>());       //TODO
 
         return auctionItem;
     }
 
-    public AddAuctionItemResponseDto auctionItemToAddAuctionItemResponseDto(Auctionitem auctionItem) {
+    public AddAuctionItemResponseDto auctionItemToAddAuctionItemResponseDto(AuctionItem auctionItem) {
         if (auctionItem == null)
             return null;
 
@@ -83,15 +72,20 @@ public class AuctionItemMapper {
         addAuctionItemResponseDto.setStartDate(auctionItem.getStartDate());
         addAuctionItemResponseDto.setEndDate(auctionItem.getEndDate());
         addAuctionItemResponseDto.setDescription(auctionItem.getDescription());
-        addAuctionItemResponseDto.setGeoLocationDto(auctionItem.getGeoLocationDto());
-        Optional.ofNullable(auctionItem.getUser()).ifPresent(user -> addAuctionItemResponseDto.setUserId(user.getUserId()));
-        Optional.ofNullable(auctionItem.getCategories()).ifPresent(addAuctionItemResponseDto::setCategories);
-//        Optional.ofNullable(auctionItem.getImages()).ifPresent(addAuctionItemResponseDto::setImages);
+        GeoLocation geoLocation = auctionItem.getGeoLocation();
+        if (geoLocation != null) {
+            GeoLocationDto geoLocationDto = new GeoLocationDto(geoLocation.getLatitude(), geoLocation.getLongitude());
+            addAuctionItemResponseDto.setGeoLocationDto(geoLocationDto);
+        }
+        addAuctionItemResponseDto.setUserId(auctionItem.getUserId());
+        List<Category> categories = categoryRepository.findCategoriesByIds(auctionItem.getCategories());
+        addAuctionItemResponseDto.setCategories(categoryMapper.categoryListToCategoryResponseDto(categories));
+//        Optional.ofNullable(auctionItem.getImages()).ifPresent(addAuctionItemResponseDto::setImages); //TODO
 
         return addAuctionItemResponseDto;
     }
 
-    public List<AuctionItemResponseDto> auctionItemsToAuctionItemResponseDto(List<Auctionitem> auctionItems) {
+    public List<AuctionItemResponseDto> auctionItemsToAuctionItemResponseDto(List<AuctionItem> auctionItems) {
         if (auctionItems == null)
             return Lists.newArrayList();
 
@@ -102,7 +96,7 @@ public class AuctionItemMapper {
     }
 
 
-    private AuctionItemResponseDto auctionItemToAuctionitemResponseDto(Auctionitem auctionItem) {
+    private AuctionItemResponseDto auctionItemToAuctionitemResponseDto(AuctionItem auctionItem) {
         if (auctionItem == null)
             return null;
 
@@ -116,9 +110,15 @@ public class AuctionItemMapper {
         auctionItemResponseDto.setDescription(auctionItem.getDescription());
         auctionItemResponseDto.setStartDate(auctionItem.getStartDate());
         auctionItemResponseDto.setEndDate(auctionItem.getEndDate());
-        auctionItemResponseDto.setGeoLocationDto(auctionItem.getGeoLocationDto());
-        auctionItemResponseDto.setCategoryResponseDtoList(categoryMapper.categoryListToCategoryResponseDto(auctionItem.getCategories()));
-        auctionItemResponseDto.setUserId(auctionItem.getUser() == null ? null : auctionItem.getUser().getUserId());
+        GeoLocation geoLocation = auctionItem.getGeoLocation();
+        if (geoLocation != null) {
+            GeoLocationDto geoLocationDto = new GeoLocationDto(geoLocation.getLatitude(), geoLocation.getLongitude());
+            auctionItemResponseDto.setGeoLocationDto(geoLocationDto);
+        }
+        List<Category> categories = categoryRepository.findCategoriesByIds(auctionItem.getCategories());
+        auctionItemResponseDto.setCategoryResponseDtoList(categoryMapper.categoryListToCategoryResponseDto(categories));
+        auctionItemResponseDto.setUserId(auctionItem.getUserId());
+        //TODO images
 
         return auctionItemResponseDto;
     }

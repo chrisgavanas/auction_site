@@ -10,11 +10,22 @@ import java.util.stream.Collectors;
 @Component
 public class CategoryMapper {
 
+    public CategoryResponseDto categoryToCategoryResponseDto(Category category) {
+        if (category == null)
+            return null;
+
+        CategoryResponseDto categoryResponseDto = new CategoryResponseDto();
+        categoryResponseDto.setCategoryId(category.getCategoryId());
+        categoryResponseDto.setDescription(category.getDescription());
+
+        return categoryResponseDto;
+    }
+
     public List<CategoryResponseDto> categoryListToCategoryResponseDto(List<Category> categories) {
         if (categories == null)
             return null;
 
-        return categories.stream().map(category -> new CategoryResponseDto(category.getCategoryId(), category.getDescription()))
+        return categories.stream().map(this::categoryToCategoryResponseDto)
                 .collect(Collectors.toList());
     }
 

@@ -131,7 +131,7 @@ class UserServiceApiImplSpec extends Specification {
 
     def "User fails to fetch a user's info as his session has expired"() {
         given:
-        Integer userId = 2
+        String userId = '578f869f5a61a77b7915252a'
         UUID authToken = UUID.randomUUID()
 
         when:
@@ -146,7 +146,7 @@ class UserServiceApiImplSpec extends Specification {
 
     def "User fails to fetch a user's info as he does not exist"() {
         given:
-        Integer userId = 2
+        String userId = '578f869f5a61a77b7915252a'
         UUID authToken = UUID.randomUUID()
         SessionInfo sessionInfo = new SessionInfo(userId, DateTime.now(), false)
 
@@ -163,10 +163,10 @@ class UserServiceApiImplSpec extends Specification {
 
     def "User fails to fetch another user's info as he's not admin"() {
         given:
-        Integer userId = 2
+        String userId = '578f869f5a61a77b79123123b'
         UUID authToken = UUID.randomUUID()
-        SessionInfo sessionInfo = new SessionInfo(userId, DateTime.now(), false)
-        User user = new User()
+        SessionInfo sessionInfo = new SessionInfo('578f869f5a61a77b7915252a', DateTime.now(), false)
+        User user = new User(userId: userId)
 
         when:
         userServiceApiImpl.getUser(authToken, userId)
@@ -182,7 +182,7 @@ class UserServiceApiImplSpec extends Specification {
     @Unroll
     def "User fetches user's info successfully"() {
         given:
-        Integer userId = 2
+        String userId = '578f869f5a61a77b79123123b'
         UUID authToken = UUID.randomUUID()
         SessionInfo sessionInfo = new SessionInfo(sessionUserId, DateTime.now(), isAdmin)
         User user = new User(userId: userId)
@@ -198,15 +198,15 @@ class UserServiceApiImplSpec extends Specification {
         0 * _
 
         where:
-        sessionUserId | isAdmin
-        123           | true
-        2             | false
+        sessionUserId               | isAdmin
+        '578f869f5a61a77b7918fa81c' | true
+        '578f869f5a61a77b79123123b' | false
 
     }
 
     def "Admin fails to verify a user as his session has expired"() {
         given:
-        Integer userId = 2
+        String userId = '578f869f5a61a77b79123123b'
         UUID authToken = UUID.randomUUID()
 
         when:
@@ -221,9 +221,9 @@ class UserServiceApiImplSpec extends Specification {
 
     def "User fails to verify a user as he is not an admin"() {
         given:
-        Integer userId = 2
+        String userId = '578f869f5a61a77b79123123b'
         UUID authToken = UUID.randomUUID()
-        SessionInfo sessionInfo = new SessionInfo(4, DateTime.now(), false)
+        SessionInfo sessionInfo = new SessionInfo('578f869f5a61a77b79fffaff', DateTime.now(), false)
 
         when:
         userServiceApiImpl.verifyUser(authToken, userId)
@@ -237,9 +237,9 @@ class UserServiceApiImplSpec extends Specification {
 
     def "Admin fails to verify a user as he does not exist"() {
         given:
-        Integer userId = 2
+        String userId = '578f869f5a61a77b79123123b'
         UUID authToken = UUID.randomUUID()
-        SessionInfo sessionInfo = new SessionInfo(5, DateTime.now(), true)
+        SessionInfo sessionInfo = new SessionInfo('578f869f5a61a77b79ffffff', DateTime.now(), true)
 
         when:
         userServiceApiImpl.verifyUser(authToken, userId)
@@ -254,9 +254,9 @@ class UserServiceApiImplSpec extends Specification {
 
     def "Admin fails to verify a user as he's already verified"() {
         given:
-        Integer userId = 2
+        String userId = '578f869f5a61a77b79123123b'
         UUID authToken = UUID.randomUUID()
-        SessionInfo sessionInfo = new SessionInfo(5, DateTime.now(), true)
+        SessionInfo sessionInfo = new SessionInfo('578f869f5a61a77b79ffffff', DateTime.now(), true)
         User user = new User(isVerified: true)
 
         when:
@@ -272,9 +272,9 @@ class UserServiceApiImplSpec extends Specification {
 
     def "Admin verifies a user successfully"() {
         given:
-        Integer userId = 2
+        String userId = '578f869f5a61a77b79123123b'
         UUID authToken = UUID.randomUUID()
-        SessionInfo sessionInfo = new SessionInfo(5, DateTime.now(), true)
+        SessionInfo sessionInfo = new SessionInfo('578f869f5a61a77b79ffffff', DateTime.now(), true)
         User user = new User(isVerified: false)
 
         when:
@@ -285,14 +285,14 @@ class UserServiceApiImplSpec extends Specification {
         1 * mockUserRepository.findUserByUserId(userId) >> user
         1 * mockUserRepository.save(user)
         with(user) {
-            isVerified == true
+            isVerified
         }
         0 * _
     }
 
     def "User fails to update a non existing user"() {
         given:
-        Integer userId = 2
+        String userId = '578f869f5a61a77b79123123b'
         UserUpdateRequestDto userUpdateRequestDto = new UserUpdateRequestDto()
 
         when:
@@ -307,7 +307,7 @@ class UserServiceApiImplSpec extends Specification {
 
     def "User fails to change his email because it's already in use"() {
         given:
-        Integer userId = 2
+        String userId = '578f869f5a61a77b79123123b'
         UserUpdateRequestDto userUpdateRequestDto = new UserUpdateRequestDto(email: 'chrisgavanas@gmail.com')
         User user = new User(email: 'chris@gmail.com')
 
@@ -324,7 +324,7 @@ class UserServiceApiImplSpec extends Specification {
 
     def "User updates his info successfully"() {
         given:
-        Integer userId = 2
+        String userId = '578f869f5a61a77b79123123b'
         UserUpdateRequestDto userUpdateRequestDto = new UserUpdateRequestDto(email: 'chrisgavanas@gmail.com')
         User user = new User(email: 'chris@gmail.com')
         UserResponseDto userResponseDto = new UserResponseDto()
@@ -343,7 +343,7 @@ class UserServiceApiImplSpec extends Specification {
 
     def "User fails to change a password of a non existent user"() {
         given:
-        Integer userId = 2
+        String userId = '578f869f5a61a77b79123123b'
         ChangePasswordRequestDto changePasswordRequestDto = new ChangePasswordRequestDto()
 
         when:
@@ -358,7 +358,7 @@ class UserServiceApiImplSpec extends Specification {
 
     def "User fails to change password as he didn't insert correctly his old password"() {
         given:
-        Integer userId = 2
+        String userId = '578f869f5a61a77b79123123b'
         ChangePasswordRequestDto changePasswordRequestDto = new ChangePasswordRequestDto(oldPassword: 'some password')
         User user = new User(password: 'some other password')
 
@@ -374,7 +374,7 @@ class UserServiceApiImplSpec extends Specification {
 
     def "User successfully changes his password"() {
         given:
-        Integer userId = 2
+        String userId = '578f869f5a61a77b79123123b'
         ChangePasswordRequestDto changePasswordRequestDto = new ChangePasswordRequestDto(oldPassword: 'some password', newPassword: 'new password')
         User user = new User(password: 'some password')
 
@@ -410,7 +410,7 @@ class UserServiceApiImplSpec extends Specification {
         UUID authToken = UUID.randomUUID()
         Integer from = 1
         Integer to = 2
-        SessionInfo sessionInfo = new SessionInfo(5, DateTime.now(), false)
+        SessionInfo sessionInfo = new SessionInfo('578f869f5a61a77b79123123b', DateTime.now(), false)
 
         when:
         userServiceApiImpl.getUnverifiedUsers(authToken, from, to)
@@ -427,7 +427,7 @@ class UserServiceApiImplSpec extends Specification {
         Integer from = 1
         Integer to = 2
         List<User> userList = [new User(userId: 1), new User(userId: 2)]
-        SessionInfo sessionInfo = new SessionInfo(5, DateTime.now(), true)
+        SessionInfo sessionInfo = new SessionInfo('578f869f5a61a77b79123123b', DateTime.now(), true)
 
         when:
         List<UserResponseDto> userResponseDtoList = userServiceApiImpl.getUnverifiedUsers(authToken, from, to)
@@ -438,13 +438,13 @@ class UserServiceApiImplSpec extends Specification {
         1 * mockUserMapper.userListToUserResponseList(userList) >> { args ->
             assert args[0][0].userId == userList[0].userId
             assert args[0][1].userId == userList[1].userId
-            return [new UserResponseDto(userId: 1), new UserResponseDto(userId: 2)]
+            return [new UserResponseDto(userId: '578f869f5a61a77b79123123b'), new UserResponseDto(userId: '578f869f5a61a77b79ffffff')]
         }
-        with (userResponseDtoList[0]) {
-            userId == 1
+        with(userResponseDtoList[0]) {
+            userId == '578f869f5a61a77b79123123b'
         }
-        with (userResponseDtoList[1]) {
-            userId == 2
+        with(userResponseDtoList[1]) {
+            userId == '578f869f5a61a77b79ffffff'
         }
     }
 

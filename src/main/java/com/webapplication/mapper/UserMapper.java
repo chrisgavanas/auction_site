@@ -1,10 +1,15 @@
 package com.webapplication.mapper;
 
-import com.webapplication.dto.user.*;
+import com.webapplication.dto.user.AddressDto;
+import com.webapplication.dto.user.UserRegisterRequestDto;
+import com.webapplication.dto.user.UserRegisterResponseDto;
+import com.webapplication.dto.user.UserResponseDto;
+import com.webapplication.dto.user.UserUpdateRequestDto;
+import com.webapplication.entity.Address;
+import com.webapplication.entity.User;
 import org.springframework.stereotype.Component;
 
-import com.webapplication.entity.User;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,8 +38,12 @@ public class UserMapper {
         user.setRatingAsSeller(0);
         user.setRatingAsBidder(0);
         AddressDto addressDto = userRegisterDto.getAddress();
-        if (addressDto != null)
-            user.setAddress(addressDto);
+        if (addressDto != null) {
+            Address address = new Address(addressDto.getCity(), addressDto.getPostalCode(), addressDto.getStreet());
+            user.setAddress(address);
+        }
+        user.setAuctionItemIds(new ArrayList<>());
+        user.setBidIds(new ArrayList<>());
 
         return user;
     }
@@ -57,14 +66,17 @@ public class UserMapper {
         userResponse.setIsVerified(user.getIsVerified());
         userResponse.setVat(user.getVat());
         userResponse.setDateOfBirth(user.getDateOfBirth());
-        userResponse.setAddress(user.getAddress());
+        Address address = user.getAddress();
+        if (address != null) {
+            AddressDto addressDto = new AddressDto(address.getCity(), address.getStreet(), address.getPostalCode());
+            userResponse.setAddress(addressDto);
+        }
         userResponse.setPhoneNumber(user.getPhoneNumber());
         userResponse.setRatingAsSeller(user.getRatingAsSeller());
-        userResponse.setRatingasBidder(user.getRatingAsBidder());
+        userResponse.setRatingAsBidder(user.getRatingAsBidder());
 
         return userResponse;
     }
-
 
     public UserResponseDto userToUserResponse(User user) {
         if (user == null)
@@ -87,7 +99,11 @@ public class UserMapper {
         userResponse.setPhoneNumber(user.getPhoneNumber());
         userResponse.setRatingAsSeller(user.getRatingAsSeller());
         userResponse.setRatingAsBidder(user.getRatingAsBidder());
-        userResponse.setAddress(user.getAddress());
+        Address address = user.getAddress();
+        if (address != null) {
+            AddressDto addressDto = new AddressDto(address.getCity(), address.getStreet(), address.getPostalCode());
+            userResponse.setAddress(addressDto);
+        }
 
         return userResponse;
     }
@@ -109,8 +125,10 @@ public class UserMapper {
         user.setVat(userUpdateRequestDto.getVat());
         user.setDateOfBirth(userUpdateRequestDto.getDateOfBirth());
         AddressDto addressDto = userUpdateRequestDto.getAddress();
-        if (addressDto != null)
-            user.setAddress(addressDto);
+        if (addressDto != null) {
+            Address address = new Address(addressDto.getCity(), addressDto.getPostalCode(), addressDto.getStreet());
+            user.setAddress(address);
+        }
         user.setPhoneNumber(userUpdateRequestDto.getPhoneNumber());
     }
 

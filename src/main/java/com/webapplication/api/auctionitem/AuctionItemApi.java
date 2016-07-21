@@ -18,5 +18,5 @@ public interface AuctionItemApi {
     AddAuctionItemResponseDto addAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception;
 
     @RequestMapping(path = "/auctionitem/user/{userId}", method = RequestMethod.GET, produces = "application/json")
-    List<AuctionItemResponseDto> getAuctionItemsOfUser(@PathVariable Integer userId) throws Exception;
+    List<AuctionItemResponseDto> getAuctionItemsOfUser(@PathVariable String userId) throws Exception;
 }

@@ -1,11 +1,7 @@
 package com.webapplication.mapper
 
-import com.webapplication.dto.user.AddressDto
-import com.webapplication.dto.user.Gender
-import com.webapplication.dto.user.UserRegisterRequestDto
-import com.webapplication.dto.user.UserRegisterResponseDto
-import com.webapplication.dto.user.UserResponseDto
-import com.webapplication.dto.user.UserUpdateRequestDto
+import com.webapplication.dto.user.*
+import com.webapplication.entity.Address
 import com.webapplication.entity.User
 import spock.lang.Specification
 
@@ -46,8 +42,8 @@ class UserMapperSpec extends Specification {
         Date date = new Date()
         AddressDto addressDto = new AddressDto(city: 'Athens', street: 'Andromahis', postalCode: '17672')
         UserRegisterRequestDto userRegisterRequestDto = new UserRegisterRequestDto(username: 'chris', password: '123123', firstName: 'Chris', lastName: 'Gavanas',
-                country: 'Greece', mobileNumber: '6988888888', registrationDate: date, gender: Gender.M, isAdmin: false, vat: '1234567890',
-                dateOfBirth: date, address: addressDto, phoneNumber: '2109595959')
+                country: 'Greece', mobileNumber: '6988888888', registrationDate: date, gender: Gender.M, vat: '1234567890',
+                dateOfBirth: date, address: addressDto, phoneNumber: '2109595959', email: 'chrisgavanas@gmail.com')
 
         when:
         User user = userMapper.registerRequestToUser(userRegisterRequestDto)
@@ -56,6 +52,84 @@ class UserMapperSpec extends Specification {
         with(user) {
             username == 'chris'
             password == '123123'
+            firstName == 'Chris'
+            lastName == 'Gavanas'
+            email == 'chrisgavanas@gmail.com'
+            country == 'Greece'
+            mobileNumber == '6988888888'
+            registrationDate == date
+            gender == Gender.M
+            !isAdmin
+            !isVerified
+            vat == '1234567890'
+            dateOfBirth == date
+            with(address) {
+                city == 'Athens'
+                street == 'Andromahis'
+                postalCode == '17672'
+            }
+            phoneNumber == '2109595959'
+            ratingAsBidder == 0
+            ratingAsSeller == 0
+            auctionItemIds == []
+            bidIds == []
+        }
+    }
+
+    def "Convert User to UserRegisterResponseDto"() {
+        given:
+        Date date = new Date()
+        Address address = new Address(city: 'Athens', street: 'Andromahis', postalCode: '17672')
+        User user = new User(userId: '578f869f5a61a77b7915252a', username: 'chris', firstName: 'Chris', lastName: 'Gavanas',
+                country: 'Greece', mobileNumber: '6988888888', registrationDate: date, gender: Gender.M, isAdmin: false,
+                vat: '1234567890', dateOfBirth: date, address: address, phoneNumber: '2109595959', ratingAsBidder: 123,
+                ratingAsSeller: 234, email: 'chrisgavanas@gmail.com', isVerified: false)
+
+        when:
+        UserRegisterResponseDto userRegisterResponseDto = userMapper.userToRegisterResponse(user)
+
+        then:
+        with(userRegisterResponseDto) {
+            userId == '578f869f5a61a77b7915252a'
+            username == 'chris'
+            firstName == 'Chris'
+            lastName == 'Gavanas'
+            email == 'chrisgavanas@gmail.com'
+            country == 'Greece'
+            mobileNumber == '6988888888'
+            registrationDate == date
+            gender == Gender.M
+            !isAdmin
+            !isVerified
+            vat == '1234567890'
+            dateOfBirth == date
+            with(address) {
+                city == 'Athens'
+                street == 'Andromahis'
+                postalCode == '17672'
+            }
+            phoneNumber == '2109595959'
+            ratingAsBidder == 123
+            ratingAsSeller == 234
+        }
+    }
+
+    def "Convert User to UserResponseDto"() {
+        given:
+        Date date = new Date()
+        Address address = new Address(city: 'Athens', street: 'Andromahis', postalCode: '17672')
+        User user = new User(userId: '578f869f5a61a77b7915252a', username: 'chris', firstName: 'Chris', lastName: 'Gavanas',
+                country: 'Greece', mobileNumber: '6988888888', registrationDate: date, gender: Gender.M, isAdmin: false,
+                vat: '1234567890', dateOfBirth: date, address: address, phoneNumber: '2109595959', ratingAsBidder: 123,
+                ratingAsSeller: 234, isVerified: true, email: 'chrisgavanas@gmail.com')
+
+        when:
+        UserResponseDto userResponseDto = userMapper.userToUserResponse(user)
+
+        then:
+        with(userResponseDto) {
+            userId == '578f869f5a61a77b7915252a'
+            username == 'chris'
             firstName == 'Chris'
             lastName == 'Gavanas'
             country == 'Greece'
@@ -71,93 +145,25 @@ class UserMapperSpec extends Specification {
                 postalCode == '17672'
             }
             phoneNumber == '2109595959'
-            ratingAsBidder == 0.floatValue()
-            ratingAsSeller == 0.floatValue()
-        }
-    }
-
-    def "Convert User to UserRegisterResponseDto"() {
-        given:
-        Date date = new Date()
-        AddressDto addressDto = new AddressDto(city: 'Athens', street: 'Andromahis', postalCode: '17672')
-        User user = new User(username: 'chris', firstName: 'Chris', lastName: 'Gavanas',
-                country: 'Greece', mobileNumber: '6988888888', registrationDate: date, gender: Gender.M, isAdmin: false,
-                vat: '1234567890', dateOfBirth: date, address: addressDto, phoneNumber: '2109595959', ratingAsBidder: 4.9,
-                ratingAsSeller: 2.12)
-
-        when:
-        UserRegisterResponseDto userRegisterResponseDto = userMapper.userToRegisterResponse(user)
-
-        then:
-        with(userRegisterResponseDto) {
-            username == 'chris'
-            firstName == 'Chris'
-            lastName == 'Gavanas'
-            country == 'Greece'
-            mobileNumber == '6988888888'
-            registrationDate == date
-            gender == Gender.M
-            !isAdmin
-            vat == '1234567890'
-            dateOfBirth == date
-            with(addressDto) {
-                city == 'Athens'
-                street == 'Andromahis'
-                postalCode == '17672'
-            }
-            phoneNumber == '2109595959'
-            ratingasBidder == 4.9.floatValue()
-            ratingAsSeller == 2.12.floatValue()
-        }
-    }
-
-    def "Convert User to UserResponseDto"() {
-        given:
-        Date date = new Date()
-        AddressDto addressDto = new AddressDto(city: 'Athens', street: 'Andromahis', postalCode: '17672')
-        User user = new User(username: 'chris', firstName: 'Chris', lastName: 'Gavanas',
-                country: 'Greece', mobileNumber: '6988888888', registrationDate: date, gender: Gender.M, isAdmin: false,
-                vat: '1234567890', dateOfBirth: date, address: addressDto, phoneNumber: '2109595959', ratingAsBidder: 4.9,
-                ratingAsSeller: 2.12)
-
-        when:
-        UserResponseDto userResponseDto = userMapper.userToUserResponse(user)
-
-        then:
-        with(userResponseDto) {
-            username == 'chris'
-            firstName == 'Chris'
-            lastName == 'Gavanas'
-            country == 'Greece'
-            mobileNumber == '6988888888'
-            registrationDate == date
-            gender == Gender.M
-            !isAdmin
-            vat == '1234567890'
-            dateOfBirth == date
-            with(addressDto) {
-                city == 'Athens'
-                street == 'Andromahis'
-                postalCode == '17672'
-            }
-            phoneNumber == '2109595959'
-            ratingAsBidder == 4.9.floatValue()
-            ratingAsSeller == 2.12.floatValue()
+            ratingAsBidder == 123
+            ratingAsSeller == 234
+            isVerified
+            email == 'chrisgavanas@gmail.com'
         }
     }
 
     def "Updates a user entity from a UserUpdateRequestDto"() {
         given:
         Date date = new Date()
-        AddressDto userAddressDto = new AddressDto(city: 'Athens', street: 'Andromahis', postalCode: '17672')
-        AddressDto userUpdateAddressDto = new AddressDto(city: 'Athens', street: 'Davakh', postalCode: '17672')
+        Address address = new Address(city: 'Athens', street: 'Andromahis', postalCode: '17672')
+        AddressDto addressDto = new AddressDto(city: 'Athens', street: 'Davakh', postalCode: '17672')
         User user = new User(username: 'chris', firstName: 'Chris', lastName: 'Gavanas',
                 country: 'Greece', mobileNumber: '6988888888', registrationDate: date, gender: Gender.M, isAdmin: false,
-                vat: '1234567890', dateOfBirth: date, address: userAddressDto, phoneNumber: '2109595959', ratingAsBidder: 4.9,
-                ratingAsSeller: 2.12)
+                vat: '1234567890', dateOfBirth: date, address: address, phoneNumber: '2109595959', ratingAsBidder: 123,
+                ratingAsSeller: 234)
 
         UserUpdateRequestDto userUpdateRequestDto = new UserUpdateRequestDto(email: 'chrisgavanas@gmail.com', firstName: 'Chris', lastName: 'Gavanas',
-                country: 'Greece', mobileNumber: '6977777777', gender: Gender.M, vat: '1234567890', dateOfBirth: date, address: userUpdateAddressDto,
+                country: 'Greece', mobileNumber: '6977777777', gender: Gender.M, vat: '1234567890', dateOfBirth: date, address: addressDto,
                 phoneNumber: '2109596978')
 
         when:
@@ -175,30 +181,30 @@ class UserMapperSpec extends Specification {
             !isAdmin
             vat == '1234567890'
             dateOfBirth == date
-            with(address) {
+            with(user.address) {
                 city == 'Athens'
                 street == 'Davakh'
                 postalCode == '17672'
             }
             phoneNumber == '2109596978'
-            ratingAsBidder == 4.9.floatValue()
-            ratingAsSeller == 2.12.floatValue()
+            ratingAsBidder == 123
+            ratingAsSeller == 234
         }
     }
 
     def "Convert userList to userResponseList"() {
         given:
-        AddressDto addressDto1 = new AddressDto(city: 'Kallithea', postalCode: '17672', street: 'Andromahis')
-        AddressDto addressDto2 = new AddressDto(city: 'Kallithea2', postalCode: '176722', street: 'Andromahis2')
+        Address address1 = new Address(city: 'Kallithea', postalCode: '17672', street: 'Andromahis')
+        Address address2 = new Address(city: 'Kallithea2', postalCode: '176722', street: 'Andromahis2')
         List<User> userList = [
                 new User(username: 'chris', firstName: 'Chris', lastName: 'Gavanas',
                         country: 'Greece', mobileNumber: '6988888888', registrationDate: new Date(123), gender: Gender.M, isAdmin: false,
-                        vat: '1234567890', dateOfBirth: new Date(123), address: addressDto1, phoneNumber: '2109595959', ratingAsBidder: 4.9,
-                        ratingAsSeller: 2.12),
+                        vat: '1234567890', dateOfBirth: new Date(123), address: address1, phoneNumber: '2109595959', ratingAsBidder: 123,
+                        ratingAsSeller: 234),
                 new User(username: 'chris2', firstName: 'Chris2', lastName: 'Gavanas2',
                         country: 'Greece2', mobileNumber: '69888888882', registrationDate: new Date(124), gender: Gender.M, isAdmin: true,
-                        vat: '12345678902', dateOfBirth: new Date(124), address: addressDto2, phoneNumber: '21095959592', ratingAsBidder: 2.9,
-                        ratingAsSeller: 4.12)
+                        vat: '12345678902', dateOfBirth: new Date(124), address: address2, phoneNumber: '21095959592', ratingAsBidder: 234,
+                        ratingAsSeller: 345)
         ]
 
         when:
@@ -216,8 +222,8 @@ class UserMapperSpec extends Specification {
             vat == '1234567890'
             dateOfBirth == new Date(123)
             phoneNumber == '2109595959'
-            ratingAsBidder == 4.9.floatValue()
-            ratingAsSeller == 2.12.floatValue()
+            ratingAsBidder == 123
+            ratingAsSeller == 234
             with(address) {
                 city == 'Kallithea'
                 postalCode == '17672'
@@ -235,8 +241,8 @@ class UserMapperSpec extends Specification {
             vat == '12345678902'
             dateOfBirth == new Date(124)
             phoneNumber == '21095959592'
-            ratingAsBidder == 2.9.floatValue()
-            ratingAsSeller == 4.12.floatValue()
+            ratingAsBidder == 234
+            ratingAsSeller == 345
             with(address) {
                 city == 'Kallithea2'
                 postalCode == '176722'

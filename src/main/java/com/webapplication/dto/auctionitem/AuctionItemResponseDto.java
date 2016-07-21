@@ -9,7 +9,7 @@ import java.util.List;
 
 public class AuctionItemResponseDto {
 
-    private Integer auctionItemId;
+    private String auctionItemId;
     private String name;
     private Double currentBid;
     private Double buyout;
@@ -19,14 +19,15 @@ public class AuctionItemResponseDto {
     private Date startDate;
     private Date endDate;
     private GeoLocationDto geoLocationDto;
+    private String userId;
     private List<CategoryResponseDto> categoryResponseDtoList;
-    private Integer userId;
+    private List<Byte[]> images;
 
-    public Integer getAuctionItemId() {
+    public String getAuctionItemId() {
         return auctionItemId;
     }
 
-    public void setAuctionItemId(Integer auctionItemId) {
+    public void setAuctionItemId(String auctionItemId) {
         this.auctionItemId = auctionItemId;
     }
 
@@ -110,12 +111,20 @@ public class AuctionItemResponseDto {
         this.categoryResponseDtoList = categoryResponseDtoList;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public List<Byte[]> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Byte[]> images) {
+        this.images = images;
     }
 
 }

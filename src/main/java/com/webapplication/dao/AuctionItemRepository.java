@@ -1,16 +1,14 @@
 package com.webapplication.dao;
 
-import com.webapplication.entity.Auctionitem;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import com.webapplication.entity.AuctionItem;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface AuctionItemRepository extends CrudRepository<Auctionitem, Integer> {
+public interface AuctionItemRepository extends MongoRepository<AuctionItem, String> {
 
-    @Query("select a from Auctionitem a where a.user.userId = ?1")
-    List<Auctionitem> findAuctionitemByUser(Integer userId);
+    List<AuctionItem> findAuctionItemByUserId(String userId);
 
 }

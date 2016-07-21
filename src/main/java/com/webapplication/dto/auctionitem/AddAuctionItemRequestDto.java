@@ -14,8 +14,8 @@ public class AddAuctionItemRequestDto {
     private Date endDate;
     private String description;
     private GeoLocationDto geoLocationDto;
-    private Integer userId;
-    private List<Integer> categories;
+    private String userId;
+    private List<String> categories;
     private List<Byte[]> images;
 
     public String getName() {
@@ -74,19 +74,19 @@ public class AddAuctionItemRequestDto {
         this.geoLocationDto = geoLocationDto;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public List<Integer> getCategories() {
+    public List<String> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Integer> categories) {
+    public void setCategories(List<String> categories) {
         this.categories = categories;
     }
 
