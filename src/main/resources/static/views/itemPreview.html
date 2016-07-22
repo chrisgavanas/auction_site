@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="../styles/basic.css">
 	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
 </head>
@@ -9,8 +10,8 @@
 <style>
 
 .container-fluid{
-	padding-left: 200px;
-	padding-right: 200px;
+	padding-left: 100px;
+	padding-right: 100px;
 	padding-top: 50px;
 	padding-bottom: 50px;
 
@@ -21,20 +22,101 @@
 <body>
 
 <div class="container-fluid text-center">
-	<img src="./images/logo1.png"  height="114" width="260">
+	<img src="./images/logo1.png"  height="114" width="230">
 	<div class="panel panel-default">
 	
   		<div class="panel-heading">Preview your item.</div>
   		
   		<div class="panel-body">
   			<div class="row">
-  				<h4>{{item.name}}</h4>
+  				<div class="col-md-4">
+  					<img src="./images/item.png" width="300" height="300">
+  					
+  				</div>
+  				<div class="col-md-8">
+  					<div class="row">
+							{{item.name}}  					
+  					</div>
+  					<hr>
+  					<div class="row">
+  						
+  						<div class="col-md-6">
+  							<div class="row">
+  								<font size="3">Product Info</font>
+  							</div>
+  							<div class="row">
+  								<div class="col-md-4">
+  									<font size="2">Current Bid:</font>
+  								</div>
+  								<div class="col-md-4" align="left">
+  									<font size="3">${{item.minBid}}</font>
+  								</div>
+  								<div class="col-md-4" align="left">
+  									<font size="1">(0 Bids)</font>
+  								</div>
+  							</div>
+  							<div class="row">
+  								<div class="col-md-4">
+  									<button class="btn btn-primary">Place bid</button>
+  								</div>
+  								<div class="col-md-4" align="left">
+  									<input class="form-control">
+  								</div>
+  								
+  							</div>
+  							<div class="row">
+  								<font size="1">Time left: 3d 3h 27m 28s</font>
+  							</div>
+  							<hr ng-show="hasBuyout">
+  							<div class="row" ng-show="hasBuyout">
+  								<font size="3">Buy it now!</font>
+  							</div>
+  							<div class="row" ng-show="hasBuyout">
+  								<div class="col-md-4">
+  									<font size="2">Price:</font>
+  								</div>
+  								<div class="col-md-4" align="left">
+  									<font size="3">${{item.buyout}}</font>
+  								</div>
+  								
+  							</div>
+  							<div class="row"  ng-show="hasBuyout">
+  								<button class="btn btn-primary">Buy it now</button>
+  							</div>
+  						</div>
+  						<div class="col-md-6" align="left">
+  							<div class="panel panel-default">
+  								<div class="panel-body">
+  									<font size="3">Seller Info</font>
+  									<p><font size="2">{{user.username}} ({{user.ratingAsSeller}}<span class="glyphicon glyphicon-star"></span>)</font></p>
+  									<p><font size="1">From {{user.country}}</font></p>
+  									<p><font size="1"><a href="#">See other items.</a></font></p>
+  								</div>
+							</div>
+  						</div>
+  					</div>
+  				</div>
   			</div>
   			<hr>
-  			
   			<div class="row">
-  				<h5>{{item.description}}</h5>
+  				<div class="col-md-8" align="left">
+  					<div class="row">
+  						<font size="3">Description</font>
+  					
+  					</div>
+  					<div class="row" align="left">
+  						<font size="2">{{item.description}}</font>
+  					</div>
+  				</div>
+  				<div class="col-md-4">
+  					<div ng-show="hasLatLon" id="mapholder"></div>
+  				</div>
+  			
   			</div>
+  			
+  			
+  			<hr>
+  			<br>
   			<button class="btn btn-primary" ng-click="complete()">Complete Auction</button>
   		</div>
 	</div>

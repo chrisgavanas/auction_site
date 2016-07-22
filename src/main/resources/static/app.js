@@ -32,6 +32,12 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	controller: 'registerController',
         	templateUrl: 'views/register.html'
         })
+        
+        .state('main.verification',{
+        	url: '/pendingMessage',
+        	templateUrl: 'views/verificationPending.html'
+        })
+        
         .state('main.profile', {
         	url: '/profile',
         	controller: 'profileController',
@@ -71,6 +77,13 @@ router.config(function($stateProvider, $urlRouterProvider) {
     			templateUrl: 'views/adminOptions.html'
     	})
     
+    	.state('main.admin.viewUser', {
+    			url: '/userview',
+    			views:{ 'userview':{
+    				templateUrl: 'views/userPreview.html'
+    			}
+    			}
+    	})
         .state('main.newAuction', {
         	url: '/newAuction',
         	controller: 'newAuctionController',

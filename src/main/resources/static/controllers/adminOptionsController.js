@@ -93,4 +93,8 @@ router.controller('adminOptionsController', function($state, $scope, $cookies, $
 		});
 	}
 	
+	$scope.showUser = function(username){
+		//document.getElementById('userInfo').style.display = "block";
+		
+	}
 });
