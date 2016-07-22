@@ -12,7 +12,7 @@ public class Seller {
     private Integer rating;
 
     @XmlAttribute(name = "UserID")
-    private String userId;
+    private String username;
 
     public Integer getRating() {
         return rating;
@@ -22,12 +22,12 @@ public class Seller {
         this.rating = rating;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }

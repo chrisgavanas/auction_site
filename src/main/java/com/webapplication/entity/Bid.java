@@ -14,6 +14,12 @@ public class Bid {
     public Bid() {
     }
 
+    public Bid(Double amount, Date bidDate, String userId) {
+        this.amount = amount;
+        this.bidDate = bidDate;
+        this.userId = userId;
+    }
+
     public Double getAmount() {
         return amount;
     }

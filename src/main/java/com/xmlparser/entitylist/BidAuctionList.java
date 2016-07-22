@@ -1,7 +1,7 @@
 package com.xmlparser.entitylist;
 
 
-import com.xmlparser.entity.Bid;
+import com.xmlparser.entity.BidAuction;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,16 +11,20 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Bids")
-public class BidList {
+public class BidAuctionList {
     @XmlElement(name = "Bid")
-    private List<Bid> bids;
+    private List<BidAuction> bids;
 
-    public List<Bid> getBids() {
+    public List<BidAuction> getBids() {
         return bids;
     }
 
-    public void setBids(List<Bid> bids) {
+    public void setBids(List<BidAuction> bids) {
         this.bids = bids;
+    }
+
+    public Boolean isEmpty() {
+        return bids == null;
     }
 
 }

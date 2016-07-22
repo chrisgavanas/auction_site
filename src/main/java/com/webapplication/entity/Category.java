@@ -14,6 +14,10 @@ public class Category {
     public Category() {
     }
 
+    public Category(String description) {
+        this.description = description;
+    }
+
     public String getCategoryId() {
         return categoryId;
     }

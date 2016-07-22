@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends MongoRepository<Category, String> {
 
-    Category findCategoryByCategoryId(@Param("categoryId") String categoryId);
+    Category findCategoryByDescription(String description);
 
     @Query("{'categoryId' : { $in : ?0 } }")
     List<Category> findCategoriesByIds(List<String> categoryIds);
