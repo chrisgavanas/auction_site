@@ -1,7 +1,7 @@
 package com.xmlparser.entity;
 
 
-import com.xmlparser.entitylist.BidList;
+import com.xmlparser.entitylist.BidAuctionList;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Item")
-public class AuctionItem {
+public class Auction {
     @XmlAttribute(name = "ItemID")
     private Integer auctionItemId;
 
@@ -32,7 +32,7 @@ public class AuctionItem {
     private Integer bidsNo;
 
     @XmlElement(name = "Bids")
-    private BidList bids;
+    private BidAuctionList bids;
 
     @XmlElement(name = "Country")
     private String country;
@@ -138,6 +138,22 @@ public class AuctionItem {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public BidAuctionList getBids() {
+        return bids;
+    }
+
+    public void setBids(BidAuctionList bids) {
+        this.bids = bids;
+    }
+
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
     }
 
 }

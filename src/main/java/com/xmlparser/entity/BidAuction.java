@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Bid")
-public class Bid {
+public class BidAuction {
     @XmlElement(name = "Bidder")
     private Bidder bidder;
 

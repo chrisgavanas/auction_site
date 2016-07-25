@@ -1,7 +1,7 @@
 package com.xmlparser.entitylist;
 
 
-import com.xmlparser.entity.AuctionItem;
+import com.xmlparser.entity.Auction;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -13,16 +13,15 @@ import java.util.List;
 @XmlRootElement(name = "Items")
 public class AuctionItemList {
     @XmlElement(name = "Item")
-    private List<AuctionItem> auctionItemList;
+    private List<Auction> auctionList;
 
-    public List<AuctionItem> getAuctionItemList() {
-        return auctionItemList;
+    public List<Auction> getAuctionList() {
+        return auctionList;
     }
 
-    public void setAuctionItemList(List<AuctionItem> auctionItemList) {
-        this.auctionItemList = auctionItemList;
+    public void setAuctionList(List<Auction> auctionList) {
+        this.auctionList = auctionList;
     }
-
 
 }
 
