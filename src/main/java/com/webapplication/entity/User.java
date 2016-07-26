@@ -40,14 +40,14 @@ public class User {
     public User() {
     }
 
-    public User(String username, Integer ratingAsSeller, Boolean isVerified) {     //Needed for XML marshall/unmarshall
+    public User(String username, Integer ratingAsSeller, Boolean isVerified) {     //Needed for XML unmarshall/unmarshall
         this.username = username;
         this.ratingAsSeller = ratingAsSeller;
         this.isVerified = isVerified;
         this.isAdmin = false;
     }
 
-    public User(String username, Integer ratingAsBidder, String country, Address address, Boolean isVerified) { //Needed for XML marshall/unmarshall
+    public User(String username, Integer ratingAsBidder, String country, Address address, Boolean isVerified) { //Needed for XML unmarshall/unmarshall
         this.username = username;
         this.ratingAsBidder = ratingAsBidder;
         this.country = country;

@@ -33,6 +33,4 @@ public interface UserApi {
     @RequestMapping(path = "/user/unverified/{from}-{to}", method = RequestMethod.GET, produces = "application/json")
     List<UserResponseDto> getUnverifiedUsers(@RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception;
 
-    @RequestMapping(path = "/check", method = RequestMethod.POST, consumes = "application/json")
-    void check(@RequestBody List<MultipartFile> files);
 }

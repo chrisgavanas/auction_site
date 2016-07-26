@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -19,4 +20,9 @@ public interface AuctionItemApi {
 
     @RequestMapping(path = "/auctionitem/user/{userId}", method = RequestMethod.GET, produces = "application/json")
     List<AuctionItemResponseDto> getAuctionItemsOfUser(@PathVariable String userId) throws Exception;
+
+
+    @RequestMapping(path = "/auctionitem-as-xml", method = RequestMethod.GET)
+    void exportAuctionsAsXmlFile(HttpServletResponse response) throws Exception;
+
 }

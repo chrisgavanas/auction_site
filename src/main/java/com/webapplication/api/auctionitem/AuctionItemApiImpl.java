@@ -9,6 +9,8 @@ import com.webapplication.exception.UserNotFoundException;
 import com.webapplication.exception.ValidationException;
 import com.webapplication.service.auctionitem.AuctionItemServiceApi;
 import com.webapplication.validator.auctionitem.AuctionItemValidator;
+import com.xmlparser.XmlParser;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -17,7 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,13 +49,19 @@ public class AuctionItemApiImpl implements AuctionItemApi {
         return auctionItemService.getAuctionItemsOfUser(userId);
     }
 
+    @Override
+    public void exportAuctionsAsXmlFile(HttpServletResponse response) throws Exception {
+        auctionItemService.exportAuctionsAsXmlFile(response);
+    }
+
     @ExceptionHandler(ValidationException.class)
     private void invalidData(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value());
     }
 
-    @ExceptionHandler({UserNotFoundException.class, CategoryNotFoundException.class})
-    private void userNotFound(HttpServletResponse response) throws IOException {
+    @ExceptionHandler({UserNotFoundException.class, CategoryNotFoundException.class, IOException.class})
+    private void
+    userNotFound(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.NOT_FOUND.value());
     }
 
