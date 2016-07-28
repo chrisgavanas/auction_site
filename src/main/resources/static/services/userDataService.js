@@ -2,8 +2,15 @@
 	var userId = null;
 	var authToken = null;
 	var user = {};
+	var username = null;
 	
+	var setUsername = function(u){
+		username = u;
+	}
 	
+	var getUsername = function(){
+		return username;
+	}
 	var setUserId = function (id){
 		userId = id;
 	};
@@ -34,6 +41,8 @@
 		    setAuthToken: setAuthToken,
 		    getAuthToken: getAuthToken,
 		    setUser: setUser,
-		    getUser: getUser
+		    getUser: getUser,
+		    setUsername: setUsername,
+		    getUsername: getUsername
 	 };
 });

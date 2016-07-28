@@ -1,14 +1,185 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="../styles/profile.css">
 </head>
-<body>
-koula
+<style>
+.container-fluid {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 250px;
+    padding-right: 250px;
+ 	color: #e1edd;
+}
 
-<br>
-<br>
-MARIA PETNAGIOTIASA
+hr{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.btn-default{
+	background-color: #242d2c;
+	color: #e1eedd;
+}
+</style>
+
+<body>
+
+<div class="container-fluid" align="middle">
+	
+	
+	<br>
+	
+	<div class="row">
+			<div class="col-md-2">
+				<font size="2">Username</font>
+			</div>
+			<div class="col-md-8" align="middle">
+				<font size="2" color="#516462">{{user.username}}</font>
+			</div>
+			
+		
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">E-mail</font>
+			</div>
+			<div class="col-md-8" align="middle">
+				<font size="2" color="#516462">{{user.email}}</font>
+			</div>
+			
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">First Name</font>
+			</div>
+			<div class="col-md-8" align="middle" id="firstNameField">
+				<font size="2" color="#516462" >{{user.firstName}}</font>
+			</div>
+			
+		
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Last Name</font>
+			</div>
+			<div class="col-md-8" align="middle" id="lastNameField">
+				<font size="2" color="#516462">{{user.lastName}}</font>
+			</div>
+			
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Gender</font>
+			</div>
+			<div class="col-md-8" align="middle" id="genderField">
+				<font size="2" color="#516462">{{gender}}</font>
+			</div>
+			
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Mobile No</font>
+			</div>
+			<div class="col-md-8" align="middle" id="mobileField">
+				<font size="2" color="#516462">{{user.mobileNumber}}</font>
+			</div>
+			
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Telephone No</font>
+			</div>
+			<div class="col-md-8" align="middle" id="telephoneField">
+				<font size="2" color="#516462">{{user.phoneNumber}}</font>
+			</div>
+			
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">VAT</font>
+			</div>
+			<div class="col-md-8" align="middle" id="vatField">
+				<font size="2" color="#516462">{{user.vat}}</font>
+			</div>
+			
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Date of Birth</font>
+			</div>
+			<div class="col-md-8" align="middle" id="dateField">
+				<font size="2" color="#516462">{{dateOfBirthConverted}}</font>
+			</div>
+			
+		</div>
+		<div class="row" align="middle">
+			<font size="1">Registered on {{registrationDateConverted}}</font>
+		</div>
+		
+		<br>
+		
+		
+		<div class="row" align="middle">
+			<font size = "4">Address and Country</font>
+		</div>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Street</font>
+			</div>
+			<div class="col-md-8" align="middle" id="streetField">
+				<font size="2" color="#516462" >{{user.address.street}}</font>
+			</div>
+		
+		
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">City</font>
+			</div>
+			<div class="col-md-8" align="middle" id="cityField">
+				<font size="2" color="#516462" >{{user.address.city}}</font>
+			</div>
+			
+		
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Postal Code</font>
+			</div>
+			<div class="col-md-8" align="middle" id="postalCodeField">
+				<font size="2" color="#516462" >{{user.address.postalCode}}</font>
+			</div>
+			
+		
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<font size="2">Country</font>
+			</div>
+			<div class="col-md-8" align="middle" id="countryField">
+				<font size="2" color="#516462" >{{user.country}}</font>
+			</div>
+			
+		
+		</div>
+		<hr>
+		
+		<br>
+		<button class="btn btn-default" ng-click="verify()">Verify</button>
+
 </body>
 </html>

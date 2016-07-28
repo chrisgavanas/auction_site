@@ -53,6 +53,12 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	}
         })
        
+        .state('main.item', {
+    		url: '/item?id',
+    		controller: 'itemController',
+    		templateUrl: 'views/item.html'
+    	})
+    	
         .state('main.profile.userAuctions',{
         	url: '/userAuctions',
         	views: { 'menuview': {
@@ -71,19 +77,19 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	}
         })
         
+        .state('main.userpreview', {
+    		url: '/userpreview?id',
+    		controller: 'userpreviewController',
+    		templateUrl: 'views/userPreview.html'
+    	})
+    	
         .state('main.admin', {
     			url: '/adminOptions',
     			controller: 'adminOptionsController',
     			templateUrl: 'views/adminOptions.html'
     	})
     
-    	.state('main.admin.viewUser', {
-    			url: '/userview',
-    			views:{ 'userview':{
-    				templateUrl: 'views/userPreview.html'
-    			}
-    			}
-    	})
+    
         .state('main.newAuction', {
         	url: '/newAuction',
         	controller: 'newAuctionController',

@@ -48,9 +48,7 @@ hr{
 	<div ng-repeat="user in unverified">
 	<div class="row">
 		
-		<button class="btn btn-link" ng-click="showUser(user.username)" ><font size="2">{{user.username}}</font></button>
-		<div ui-view=userview></div>
-		
+		<a ui-sref="main.userpreview({id: user.userId})">{{user.userId}}</a>	
 			
 		
 	</div>

@@ -79,7 +79,7 @@ hr{
 				<font size="2" color="#516462">{{user.type}}</font>
 			</div>
 			<div class="col-md-2" align="right" id="cityBut">
-				<button class="myBtn btn btn-link" ng-click="adminOptions()"><font size="2">Admin Options</font></button>
+				<button class="myBtn btn btn-link" ng-click="adminOptions()" ng-show="user.isAdmin"><font size="2">Admin Options</font></button>
 			</div>
 		
 		</div>
@@ -222,7 +222,8 @@ hr{
 			<button class="btn btn-default myBtn" ng-click="applyChanges(user)">Save</button>
 		</div>
 		<br>
-		
+		</form>
+		<form ng-controller="userInfoController">
 		<div class="row" align="middle">
 			<font size = "4">Address and Country</font>
 		</div>

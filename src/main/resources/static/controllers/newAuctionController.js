@@ -6,20 +6,10 @@ var newAuctionController = router.controller('newAuctionController', function($s
 		categories: []
 	};
 	$scope.item.geoLocationDto = {};
+	$scope.categories = {};
 	
 	
-	$scope.categories = [
-	{id: 1, text:'Appliances'}, 
-	{id: 2, text:'Gadgets'},
-	{id: 3, text:'Hardware'},
-	{id: 4, text:'koula'},
-	{id: 5, text:'mitsos'},
-	{id: 6, text:'takis'},
-	{id: 7, text:'aleksis'}, 
-	{id: 8, text:'kristo'},
-	{id: 9, text:'maria'}
-	];
-	
+
 	
 	
 	
@@ -31,6 +21,15 @@ var newAuctionController = router.controller('newAuctionController', function($s
 		var token = $cookies.get('authToken');
 		$http.get('/api/user/'+ $scope.user.userId, {headers: {'authToken': token}}).then(function successCallback(response){
 			$scope.user.username = response.data.username;
+			$http.get('/api/category', {headers: {'authToken': token}}).then(function successCallback(response){
+				$scope.categories = angular.copy(response.data);
+				console.log($scope.categories[0].description);
+			}, function errorCallback(response){
+				alert("error");
+				
+				
+			});
+			
 		}, function errorCallback(response){
 			alert("error");
 			
@@ -51,7 +50,7 @@ var newAuctionController = router.controller('newAuctionController', function($s
 		console.log($scope.item);
 		$scope.item.userId = $scope.user.userId;
 		$scope.item.images = [];
-		$scope.item.categories.push($scope.selectedCat.id);
+		$scope.item.categories.push($scope.selectedCat.categoryId);
 		$cookies.putObject('item', $scope.item);
 		$state.go('main.itemPreview');
 		

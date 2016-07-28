@@ -1,6 +1,6 @@
-router.controller('adminOptionsController', function($state, $scope, $cookies, $http){
+router.controller('adminOptionsController', function($state, $scope, $cookies, $http, userDataService){
 	$scope.user = {};
-	
+	$scope.nouminaia = "nouminaia";
 	$scope.signedIn = {};
 
 	$scope.unverified = {};
@@ -28,7 +28,7 @@ router.controller('adminOptionsController', function($state, $scope, $cookies, $
 		
 		$http.get('/api/user/unverified/1-10', {headers: {'authToken': token}} ).then(function successCallback(response){
 			$scope.unverified = angular.copy(response.data);
-			
+			console.log($scope.unverified.length);
 			var i;
 			for(i = 0; i < $scope.unverified.length; i ++){
 				$scope.usernamesAndIds.push( { id: $scope.unverified[i].userId, text: $scope.unverified[i].username } );
@@ -38,6 +38,7 @@ router.controller('adminOptionsController', function($state, $scope, $cookies, $
 			alert('error sthn unverified');
 			
 		});
+		
 	}
 	
 	$scope.nextPage = function(){
@@ -94,7 +95,9 @@ router.controller('adminOptionsController', function($state, $scope, $cookies, $
 	}
 	
 	$scope.showUser = function(username){
-		//document.getElementById('userInfo').style.display = "block";
+		
+		userDataService.setUsername(username);
+		$state.go('main.userpreview');
 		
 	}
 });

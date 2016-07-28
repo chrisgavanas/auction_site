@@ -61,7 +61,7 @@ hr{
 		<div class="panel-body">
 		<div ng-repeat="item in items">
 			<div class="row">
-				<a href="#"><u>{{item.name}}</u></a>
+				<a ui-sref="main.item({id: item.auctionItemId})"><u>{{item.name}}</u></a>
 			</div>
 			
 			<div class="row">

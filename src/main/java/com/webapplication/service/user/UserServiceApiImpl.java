@@ -129,7 +129,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     public List<UserResponseDto> getUnverifiedUsers(UUID authToken, Integer from, Integer to) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
         validateAuthorization(sessionInfo);
-        List<User> users = userRepository.findUserByIsVerified(false, new PageRequest(from - 1, to - 1));
+        List<User> users = userRepository.findUserByIsVerified(false, new PageRequest(from - 1, to - from + 1));
 
         return userMapper.userListToUserResponseList(users);
     }
