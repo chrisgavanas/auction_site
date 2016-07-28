@@ -10,10 +10,16 @@ import com.webapplication.entity.User;
 import com.webapplication.error.auctionitem.AuctionItemError;
 import com.webapplication.exception.UserNotFoundException;
 import com.webapplication.mapper.AuctionItemMapper;
+import com.xmlparser.XmlParser;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +36,9 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     @Autowired
     private AuctionItemMapper auctionItemMapper;
 
+    @Autowired
+    private XmlParser xmlParser;
+
     @Override
     public AddAuctionItemResponseDto addAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
         AuctionItem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(auctionItemRequestDto);
@@ -45,6 +54,19 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         List<AuctionItem> auctionItems = auctionItemRepository.findAuctionItemByUserId(userId);
 
         return auctionItemMapper.auctionItemsToAuctionItemResponseDto(auctionItems);
+    }
+
+    @Override
+    public void exportAuctionsAsXmlFile(HttpServletResponse response) throws Exception {
+        xmlParser.marshall();
+        File xmlFile = new File("auctions.xml");
+        InputStream stream = new FileInputStream(xmlFile);
+        response.addHeader("Content-disposition", "attachment;filename=auctions.xml");
+        response.setContentType("xml");
+        IOUtils.copy(stream, response.getOutputStream());
+        stream.close();
+        xmlFile.delete();
+        response.flushBuffer();
     }
 
 }

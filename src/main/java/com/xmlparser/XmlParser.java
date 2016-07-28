@@ -12,8 +12,10 @@ import com.webapplication.entity.User;
 import com.xmlparser.entity.Auction;
 import com.xmlparser.entity.BidAuction;
 import com.xmlparser.entity.Bidder;
+import com.xmlparser.entity.Location;
 import com.xmlparser.entity.Seller;
 import com.xmlparser.entitylist.AuctionItemList;
+import com.xmlparser.entitylist.BidAuctionList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,14 +23,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Transactional
 @Component
@@ -49,10 +57,12 @@ public class XmlParser {
     @Value("${path}")
     private String path;
 
-    private SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yy HH:mm:ss");
+    private SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yy HH:mm:ss", Locale.ENGLISH);
+    private Map<String, User> users;
+    private Map<String, Category> categories;
 
 
-    public void parse() {
+    public void unmarshall() {
         if (load == null || !load || path == null)
             return;
 
@@ -91,6 +101,131 @@ public class XmlParser {
                 System.err.println("Xml parsing of file " + xmlDataset + " failed. Please check the input format.");
             }
         });
+        System.out.println("Xml parsing is completed.");
+    }
+
+    public void marshall() throws IOException {
+        try {
+            File xmlFile = new File("auctions.xml");
+            xmlFile.createNewFile();
+            FileOutputStream os = new FileOutputStream(xmlFile);
+            users = new HashMap<>();
+            categories = new HashMap<>();
+            AuctionItemList auctionItemList = getAuctionItems();
+            JAXBContext jaxbContext = JAXBContext.newInstance(AuctionItemList.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.marshal(auctionItemList, os);
+            os.close();
+        } catch (JAXBException e) {
+            System.err.print("Could not export auctions to xml.");
+        } finally {
+            users = null;
+            categories = null;
+        }
+    }
+
+    private AuctionItemList getAuctionItems() {
+        AuctionItemList auctionItemList = new AuctionItemList();
+        auctionItemList.setAuctionList(new LinkedList<>());
+        List<AuctionItem> auctionItems = auctionItemRepository.findAll();
+        auctionItems.forEach(auctionItem -> auctionItemList.getAuctionList().add(createAuction(auctionItem)));
+
+        return auctionItemList;
+    }
+
+    private Auction createAuction(AuctionItem auctionItem) {
+        Auction auction = new Auction();
+        auction.setName(auctionItem.getName());
+        List<String> categories = getCategories(auctionItem.getCategories());
+        auction.setCategories(categories);
+        auction.setMinBid("$" + auctionItem.getMinBid());
+        auction.setBidsNo(auctionItem.getBidsNo());
+        BidAuctionList bidAuctionList = getBids(auctionItem);
+        auction.setBids(bidAuctionList);
+        Location location = new Location();
+        GeoLocation geoLocation = auctionItem.getGeoLocation();
+        if (geoLocation != null) {
+            location.setLatitude(geoLocation.getLatitude());
+            location.setLongitude(geoLocation.getLongitude());
+        }
+        User user = users.get(auctionItem.getUserId());
+        if (user == null) {
+            user = userRepository.findUserByUserId(auctionItem.getUserId());
+            users.put(user.getUserId(), user);
+        }
+        Address address = user.getAddress();
+        if (address != null) {
+            location.setCity(address.getCity());
+            auction.setCountry(auction.getCountry());
+        }
+        auction.setStartDate(sdf.format(auctionItem.getStartDate()));
+        auction.setEndDate(sdf.format(auctionItem.getEndDate()));
+        Seller seller = createSeller(user);
+        auction.setSeller(seller);
+        auction.setDescription(auctionItem.getDescription());
+
+        return auction;
+    }
+
+    private BidAuctionList getBids(AuctionItem auctionItem) {
+        BidAuctionList bidAuctionList = new BidAuctionList();
+        List<BidAuction> bidAuctions = new LinkedList<>();
+        auctionItem.getBids().forEach(bid -> bidAuctions.add(createBidAuction(bid)));
+        bidAuctionList.setBids(bidAuctions);
+        return bidAuctionList;
+    }
+
+    private BidAuction createBidAuction(Bid bid) {
+        BidAuction bidAuction = new BidAuction();
+        bidAuction.setAmount("$" + bid.getAmount());
+        bidAuction.setDate(sdf.format(bid.getBidDate()));
+        Bidder bidder = createBidder(bid.getUserId());
+        bidAuction.setBidder(bidder);
+        return bidAuction;
+    }
+
+    private Bidder createBidder(String userId) {
+        Bidder bidder = new Bidder();
+        User user = users.get(userId);
+
+        if (user == null) {
+            user = userRepository.findUserByUserId(userId);
+            users.put(userId, user);
+        }
+        bidder.setUsername(user.getUsername());
+        bidder.setRating(user.getRatingAsBidder());
+
+        Location location = new Location();
+        Address address = user.getAddress();
+        if (address != null) {
+            bidder.setCountry(user.getCountry());
+            location.setCity(address.getCity());
+        }
+        bidder.setLocation(location);
+        return bidder;
+    }
+
+    private List<String> getCategories(List<String> categories) {
+        List<String> rv = new LinkedList<>();
+
+        categories.forEach(category -> {
+            Category categoryEntity = this.categories.get(category);
+            if (categoryEntity == null) {
+                categoryEntity = categoryRepository.findCategoryByCategoryId(category);
+                this.categories.put(category, categoryEntity);
+            }
+            rv.add(categoryEntity.getDescription());
+        });
+
+        return rv;
+    }
+
+    private Seller createSeller(User user) {
+        Seller seller = new Seller();
+        seller.setRating(user.getRatingAsSeller());
+        seller.setUsername(user.getUsername());
+        return seller;
     }
 
     private void addAuctions(Auction auction, List<String> categoryIds, List<Bid> bids, String sellerId) {
@@ -110,7 +245,7 @@ public class XmlParser {
         try {
             auctionItem.setStartDate(sdf.parse(auction.getStartDate()));
             auctionItem.setEndDate(sdf.parse(auction.getEndDate()));
-        } catch (ParseException e) {
+        } catch (ParseException ignored) {
         }
         auctionItem.setUserId(sellerId);
         auctionItem.setDescription(auction.getDescription());
@@ -129,28 +264,30 @@ public class XmlParser {
     private String addUserIfNotExists(Seller seller) {
         User user;
         if ((user = userRepository.findUserByUsername(seller.getUsername())) == null)
-            user = userRepository.save(new User(seller.getUsername(), seller.getRating(), false));
+            user = userRepository.save(new User(seller.getUsername(), seller.getRating(), true));
 
         return user.getUserId();
     }
 
     private Bid addUserIfNotExistsAndGetBids(BidAuction bidAuction) {
-        addBidderIfNotExists(bidAuction.getBidder());
+        String userId = addBidderIfNotExists(bidAuction.getBidder());
         Date bidTime;
-        String username = bidAuction.getBidder().getUsername();
         Double amount = Double.valueOf(bidAuction.getAmount().replace(",", "").substring(1));
         try {
             bidTime = sdf.parse(bidAuction.getDate());
         } catch (ParseException e) {
             bidTime = null;
         }
-        return new Bid(amount, bidTime, username);
+        return new Bid(amount, bidTime, userId);
     }
 
-    private void addBidderIfNotExists(Bidder bidder) {
+    private String addBidderIfNotExists(Bidder bidder) {
+        User user;
         Address address = new Address(bidder.getLocation() == null ? null : bidder.getLocation().getCity(), null, null);
-        if (userRepository.findUserByUsername(bidder.getUsername()) == null)
-            userRepository.save(new User(bidder.getUsername(), bidder.getRating(), bidder.getCountry(), address, false));
+        if ((user = userRepository.findUserByUsername(bidder.getUsername())) == null)
+            user = userRepository.save(new User(bidder.getUsername(), bidder.getRating(), bidder.getCountry(), address, true));
+
+        return user.getUserId();
     }
 
 }

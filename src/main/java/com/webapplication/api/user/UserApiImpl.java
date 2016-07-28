@@ -95,12 +95,6 @@ public class UserApiImpl implements UserApi {
         return userService.getUnverifiedUsers(authToken, from, to);
     }
 
-    @Override
-    public void check(@RequestBody List<MultipartFile> files) {
-        files.forEach(System.out::println);
-    }
-
-
     @ExceptionHandler(ValidationException.class)
     private void invalidAttributes(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value());

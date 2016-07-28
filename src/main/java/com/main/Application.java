@@ -17,6 +17,6 @@ public class Application {
         ConfigurableApplicationContext app = SpringApplication.run(Application.class, args);
 
         XmlParser xmlParser = app.getBean(XmlParser.class);
-        xmlParser.parse();
+        xmlParser.unmarshall();
     }
 }
