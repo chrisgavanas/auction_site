@@ -90,13 +90,13 @@ public class AuctionItemMapper {
             return Lists.newArrayList();
 
         return auctionItems.stream()
-                .map(this::auctionItemToAuctionitemResponseDto)
+                .map(this::auctionItemToAuctionItemResponseDto)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
 
-    private AuctionItemResponseDto auctionItemToAuctionitemResponseDto(AuctionItem auctionItem) {
+    public AuctionItemResponseDto auctionItemToAuctionItemResponseDto(AuctionItem auctionItem) {
         if (auctionItem == null)
             return null;
 

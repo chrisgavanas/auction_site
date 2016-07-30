@@ -5,26 +5,29 @@ import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.Status;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.User;
 import com.webapplication.error.auctionitem.AuctionItemError;
+import com.webapplication.exception.AuctionItemNotFoundException;
 import com.webapplication.exception.UserNotFoundException;
 import com.webapplication.mapper.AuctionItemMapper;
 import com.xmlparser.XmlParser;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Transactional
-@Component
+@Service
 public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
 
     @Autowired
@@ -50,8 +53,9 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     @Override
-    public List<AuctionItemResponseDto> getAuctionItemsOfUser(String userId) throws Exception {
-        List<AuctionItem> auctionItems = auctionItemRepository.findAuctionItemByUserId(userId);
+    public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(String userId, Status status) throws Exception {
+        List<AuctionItem> auctionItems = status.equals(Status.ACTIVE) ?
+                auctionItemRepository.findActiveAuctionsOfUser(userId, new Date()) : auctionItemRepository.findInactiveAuctionsOfUser(userId, new Date());
 
         return auctionItemMapper.auctionItemsToAuctionItemResponseDto(auctionItems);
     }
@@ -67,6 +71,14 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         stream.close();
         xmlFile.delete();
         response.flushBuffer();
+    }
+
+    @Override
+    public AuctionItemResponseDto getAuctionItemById(String auctionItemId) throws Exception {
+        AuctionItem auctionItem = auctionItemRepository.findAuctionItemByAuctionItemId(auctionItemId);
+        Optional.ofNullable(auctionItem).orElseThrow(() -> new AuctionItemNotFoundException(AuctionItemError.AUCTION_ITEM_NOT_FOUND));
+
+        return auctionItemMapper.auctionItemToAuctionItemResponseDto(auctionItem);
     }
 
 }

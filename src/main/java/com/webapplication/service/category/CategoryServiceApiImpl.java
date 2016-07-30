@@ -5,13 +5,13 @@ import com.webapplication.dto.category.CategoryResponseDto;
 import com.webapplication.entity.Category;
 import com.webapplication.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Transactional
-@Component
+@Service
 public class CategoryServiceApiImpl implements CategoryServiceApi {
 
     @Autowired

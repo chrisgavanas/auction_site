@@ -3,26 +3,24 @@ package com.webapplication.api.auctionitem;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.Status;
 import com.webapplication.error.auctionitem.AuctionItemError;
+import com.webapplication.exception.AuctionItemNotFoundException;
 import com.webapplication.exception.CategoryNotFoundException;
 import com.webapplication.exception.UserNotFoundException;
 import com.webapplication.exception.ValidationException;
 import com.webapplication.service.auctionitem.AuctionItemServiceApi;
 import com.webapplication.validator.auctionitem.AuctionItemValidator;
-import com.xmlparser.XmlParser;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,12 +39,13 @@ public class AuctionItemApiImpl implements AuctionItemApi {
     }
 
     @Override
-    public List<AuctionItemResponseDto> getAuctionItemsOfUser(@PathVariable String userId) throws Exception {
+    public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(@PathVariable String userId, @RequestParam("status") Status status) throws Exception {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        Optional.ofNullable(status).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         if (userId.isEmpty())
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
-        return auctionItemService.getAuctionItemsOfUser(userId);
+        return auctionItemService.getAuctionItemsOfUserByStatus(userId, status);
     }
 
     @Override
@@ -54,12 +53,21 @@ public class AuctionItemApiImpl implements AuctionItemApi {
         auctionItemService.exportAuctionsAsXmlFile(response);
     }
 
+    @Override
+    public AuctionItemResponseDto getAuctionItemById(@PathVariable String auctionItemId) throws Exception {
+        Optional.ofNullable(auctionItemId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        if (auctionItemId.isEmpty())
+            throw new ValidationException(AuctionItemError.INVALID_DATA);
+
+        return auctionItemService.getAuctionItemById(auctionItemId);
+    }
+
     @ExceptionHandler(ValidationException.class)
     private void invalidData(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value());
     }
 
-    @ExceptionHandler({UserNotFoundException.class, CategoryNotFoundException.class, IOException.class})
+    @ExceptionHandler({UserNotFoundException.class, CategoryNotFoundException.class, IOException.class, AuctionItemNotFoundException.class})
     private void
     userNotFound(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.NOT_FOUND.value());
