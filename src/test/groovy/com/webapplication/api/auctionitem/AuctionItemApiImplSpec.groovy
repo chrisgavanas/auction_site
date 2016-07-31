@@ -3,10 +3,13 @@ package com.webapplication.api.auctionitem
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto
+import com.webapplication.dto.auctionitem.StartAuctionDto
 import com.webapplication.dto.auctionitem.Status
+import com.webapplication.entity.AuctionItem
 import com.webapplication.error.auctionitem.AuctionItemError
 import com.webapplication.exception.ValidationException
 import com.webapplication.service.auctionitem.AuctionItemServiceApi
+import com.webapplication.validator.auctionitem.AuctionItemRequestValidator
 import com.webapplication.validator.auctionitem.AuctionItemValidator
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -15,13 +18,13 @@ class AuctionItemApiImplSpec extends Specification {
 
     AuctionItemApiImpl auctionItemApi
     AuctionItemServiceApi mockAuctionItemService
-    AuctionItemValidator mockAuctionItemValidator
+    AuctionItemRequestValidator mockAuctionItemRequestValidator
 
     def setup() {
         mockAuctionItemService = Mock(AuctionItemServiceApi)
-        mockAuctionItemValidator = Mock(AuctionItemValidator)
+        mockAuctionItemRequestValidator = Mock(AuctionItemRequestValidator)
 
-        auctionItemApi = new AuctionItemApiImpl(auctionItemService: mockAuctionItemService, auctionItemValidator: mockAuctionItemValidator)
+        auctionItemApi = new AuctionItemApiImpl(auctionItemService: mockAuctionItemService, auctionItemRequestValidator: mockAuctionItemRequestValidator)
     }
 
     def "Add auction item successfully"() {
@@ -33,7 +36,7 @@ class AuctionItemApiImplSpec extends Specification {
         auctionItemApi.addAuctionItem(addAuctionItemRequestDto)
 
         then:
-        1 * mockAuctionItemValidator.validate(addAuctionItemRequestDto)
+        1 * mockAuctionItemRequestValidator.validate(addAuctionItemRequestDto)
         1 * mockAuctionItemService.addAuctionItem(addAuctionItemRequestDto) >> addAuctionItemResponseDto
         0 * _
     }
@@ -100,5 +103,46 @@ class AuctionItemApiImplSpec extends Specification {
         1 * mockAuctionItemService.getAuctionItemById(auctionItemId)
         0 * _
     }
+
+    def "User tries to start his auction with missing auctionItemId"() {
+        given:
+        String auctionItemId = null
+        StartAuctionDto startAuctionDto = new StartAuctionDto()
+
+        when:
+        auctionItemApi.startAuction(auctionItemId, startAuctionDto)
+
+        then:
+        ValidationException e = thrown()
+        e.localizedMessage == AuctionItemError.MISSING_DATA.description
+    }
+
+    def "User tries to start his auction with invalid auctionItemId"() {
+        given:
+        String auctionItemId = ''
+        StartAuctionDto startAuctionDto = new StartAuctionDto()
+
+        when:
+        auctionItemApi.startAuction(auctionItemId, startAuctionDto)
+
+        then:
+        ValidationException e = thrown()
+        e.localizedMessage == AuctionItemError.INVALID_DATA.description
+    }
+
+    def "User starts his auction"() {
+        given:
+        String auctionItemId = '578f9c605a61fe0aa84fe8e5'
+        StartAuctionDto startAuctionDto = new StartAuctionDto()
+
+        when:
+        auctionItemApi.startAuction(auctionItemId, startAuctionDto)
+
+        then:
+        1 * mockAuctionItemRequestValidator.validate(startAuctionDto)
+        1 * mockAuctionItemService.startAuction(auctionItemId, startAuctionDto)
+        0 * _
+    }
+
 
 }

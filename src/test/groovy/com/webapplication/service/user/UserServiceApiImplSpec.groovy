@@ -38,7 +38,7 @@ class UserServiceApiImplSpec extends Specification {
 
         then:
         1 * mockUserRepository.findUserByUsernameOrEmailAndPassword(userLogInRequestDto.username, userLogInRequestDto.email, userLogInRequestDto.getPassword()) >> null
-        ForbiddenException e = thrown()
+        NotAuthenticatedException e = thrown()
         e.localizedMessage == UserLogInError.INVALID_CREDENTIALS.description
         0 * _
 

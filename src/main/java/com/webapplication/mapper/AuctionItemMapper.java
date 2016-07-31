@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -38,8 +39,6 @@ public class AuctionItemMapper {
         auctionItem.setBuyout(auctionItemRequestDto.getBuyout());
         auctionItem.setCurrentBid(auctionItemRequestDto.getMinBid());
         auctionItem.setBidsNo(0);
-        auctionItem.setStartDate(auctionItemRequestDto.getStartDate());
-        auctionItem.setEndDate(auctionItemRequestDto.getEndDate());
         auctionItem.setDescription(auctionItemRequestDto.getDescription());
         GeoLocationDto geoLocationDto = auctionItemRequestDto.getGeoLocationDto();
         if (geoLocationDto != null) {
@@ -69,8 +68,6 @@ public class AuctionItemMapper {
         addAuctionItemResponseDto.setBuyout(auctionItem.getBuyout());
         addAuctionItemResponseDto.setMinBid(auctionItem.getMinBid());
         addAuctionItemResponseDto.setBidsNo(auctionItem.getBidsNo());
-        addAuctionItemResponseDto.setStartDate(auctionItem.getStartDate());
-        addAuctionItemResponseDto.setEndDate(auctionItem.getEndDate());
         addAuctionItemResponseDto.setDescription(auctionItem.getDescription());
         GeoLocation geoLocation = auctionItem.getGeoLocation();
         if (geoLocation != null) {
@@ -121,6 +118,11 @@ public class AuctionItemMapper {
         //TODO images
 
         return auctionItemResponseDto;
+    }
+
+    public void update(AuctionItem auctionItem, Date startDate, Date endDate) {
+        auctionItem.setStartDate(startDate);
+        auctionItem.setEndDate(endDate);
     }
 
 }

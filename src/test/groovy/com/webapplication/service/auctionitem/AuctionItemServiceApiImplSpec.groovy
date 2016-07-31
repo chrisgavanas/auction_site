@@ -5,13 +5,18 @@ import com.webapplication.dao.UserRepository
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto
+import com.webapplication.dto.auctionitem.StartAuctionDto
 import com.webapplication.dto.auctionitem.Status
 import com.webapplication.entity.AuctionItem
 import com.webapplication.entity.User
 import com.webapplication.error.auctionitem.AuctionItemError
+import com.webapplication.exception.AuctionAlreadyInProgressException
+import com.webapplication.exception.AuctionDurationTooShortException
 import com.webapplication.exception.AuctionItemNotFoundException
 import com.webapplication.exception.UserNotFoundException
 import com.webapplication.mapper.AuctionItemMapper
+import com.xmlparser.entity.Auction
+import org.joda.time.DateTime
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -109,5 +114,68 @@ class AuctionItemServiceApiImplSpec extends Specification {
         1 * mockAuctionItemMapper.auctionItemToAuctionItemResponseDto(auctionItem) >> auctionItemResponseDto
         0 * _
     }
+
+    def "User starts auction with a non existent auction item id"() {
+        given:
+        String auctionItemId = '578f9c605a61fe0aa84fe8e5'
+        StartAuctionDto startAuctionDto = new StartAuctionDto()
+
+        when:
+        auctionItemServiceImpl.startAuction(auctionItemId, startAuctionDto)
+
+        then:
+        1 * mockAuctionItemRepository.findAuctionItemByAuctionItemId(auctionItemId) >> null
+        AuctionItemNotFoundException e = thrown()
+        e.localizedMessage == AuctionItemError.AUCTION_ITEM_NOT_FOUND.description
+    }
+
+    def "User starts auction which is already started"() {
+        given:
+        String auctionItemId = '578f9c605a61fe0aa84fe8e5'
+        StartAuctionDto startAuctionDto = new StartAuctionDto()
+        AuctionItem auctionItem = new AuctionItem(startDate: new Date())
+
+        when:
+        auctionItemServiceImpl.startAuction(auctionItemId, startAuctionDto)
+
+        then:
+        1 * mockAuctionItemRepository.findAuctionItemByAuctionItemId(auctionItemId) >> auctionItem
+        AuctionAlreadyInProgressException e = thrown()
+        e.localizedMessage == AuctionItemError.AUCTION_ALREADY_IN_PROGRESS.description
+    }
+
+    def "User starts auction with duration less than an hour"() {
+        given:
+        String auctionItemId = '578f9c605a61fe0aa84fe8e5'
+        StartAuctionDto startAuctionDto = new StartAuctionDto(endDate: DateTime.now().plusMinutes(55).toDate())
+        AuctionItem auctionItem = new AuctionItem(startDate: null)
+
+        when:
+        auctionItemServiceImpl.startAuction(auctionItemId, startAuctionDto)
+
+        then:
+        1 * mockAuctionItemRepository.findAuctionItemByAuctionItemId(auctionItemId) >> auctionItem
+        AuctionDurationTooShortException e = thrown()
+        e.localizedMessage == AuctionItemError.AUCTION_DURATION_TOO_SHORT.description
+    }
+
+    def "User starts his auction"() {
+        given:
+        String auctionItemId = '578f9c605a61fe0aa84fe8e5'
+        StartAuctionDto startAuctionDto = new StartAuctionDto(endDate: DateTime.now().plusMinutes(61).toDate())
+        AuctionItem auctionItem = new AuctionItem(startDate: null)
+        AuctionItemResponseDto auctionItemResponseDto = new AuctionItemResponseDto()
+
+        when:
+        auctionItemServiceImpl.startAuction(auctionItemId, startAuctionDto)
+
+        then:
+        1 * mockAuctionItemRepository.findAuctionItemByAuctionItemId(auctionItemId) >> auctionItem
+        1 * mockAuctionItemMapper.update(auctionItem, _ as Date, startAuctionDto.endDate)
+        1 * mockAuctionItemRepository.save(auctionItem) >> auctionItem
+        1 * mockAuctionItemMapper.auctionItemToAuctionItemResponseDto(auctionItem) >> auctionItemResponseDto
+        0 * _
+    }
+
 
 }

@@ -49,8 +49,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     @Override
     public UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) throws Exception {
         User user = userRepository.findUserByUsernameOrEmailAndPassword(userLogInRequestDto.getUsername(), userLogInRequestDto.getEmail(), userLogInRequestDto.getPassword());
-
-        Optional.ofNullable(user).orElseThrow(() -> new ForbiddenException(UserLogInError.INVALID_CREDENTIALS));
+        Optional.ofNullable(user).orElseThrow(() -> new NotAuthenticatedException(UserLogInError.INVALID_CREDENTIALS));
         if (!user.getIsVerified())
             throw new EmailUnverifiedException(UserLogInError.USER_NOT_EMAIL_VERIFIED);
 
@@ -76,8 +75,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     @Override
     public UserResponseDto getUser(UUID authToken, String userId) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
-        User user = userRepository.findUserByUserId(userId);
-        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
+        User user = getUser(userId);
         validateAuthorization(user.getUserId(), sessionInfo);
 
         return userMapper.userToUserResponse(user);
@@ -90,8 +88,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         if (!sessionInfo.getIsAdmin())
             throw new NotAuthorizedException(UserError.UNAUTHORIZED);
 
-        User user = userRepository.findUserByUserId(userId);
-        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
+        User user = getUser(userId);
         if (user.getIsVerified())
             throw new UserAlreadyVerifiedException(UserError.USER_ALREADY_VERIFIED);
 
@@ -101,8 +98,7 @@ public class UserServiceApiImpl implements UserServiceApi {
 
     @Override
     public UserResponseDto updateUser(String userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception {
-        User user = userRepository.findUserByUserId(userId);
-        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
+        User user = getUser(userId);
 
         if (!user.getEmail().equals(userUpdateRequestDto.getEmail()) && userRepository.countByEmail(userUpdateRequestDto.getEmail()) > 0)
             throw new EmailAlreadyInUseException(UserError.EMAIL_ALREADY_IN_USE);
@@ -115,8 +111,7 @@ public class UserServiceApiImpl implements UserServiceApi {
 
     @Override
     public void changePassword(String userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception {
-        User user = userRepository.findUserByUserId(userId);
-        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
+        User user = getUser(userId);
 
         if (!user.getPassword().equals(changePasswordRequestDto.getOldPassword()))
             throw new ForbiddenException(UserError.PASSWORD_MISSMATCH);
@@ -148,6 +143,13 @@ public class UserServiceApiImpl implements UserServiceApi {
     private void validateAuthorization(SessionInfo sessionInfo) throws NotAuthorizedException {
         if (!sessionInfo.getIsAdmin())
             throw new NotAuthorizedException(UserError.UNAUTHORIZED);
+    }
+
+    private User getUser(String userId) throws Exception {
+        User user = userRepository.findUserByUserId(userId);
+        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
+
+        return user;
     }
 
 }

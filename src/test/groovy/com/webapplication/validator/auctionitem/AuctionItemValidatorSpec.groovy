@@ -33,8 +33,8 @@ class AuctionItemValidatorSpec extends Specification {
         given:
         GeoLocationDto geoLocationDto = new GeoLocationDto(latitude: latitude, longitude: longitude)
         AddAuctionItemRequestDto addAuctionItemRequestDto = new AddAuctionItemRequestDto(name: name,
-                startDate: startDate, endDate: endDate, userId: userId, minBid: minBid,
-                buyout: buyout, geoLocationDto: geoLocationDto, categories: categories)
+                userId: userId, minBid: minBid, buyout: buyout, geoLocationDto: geoLocationDto,
+                categories: categories)
 
         when:
         auctionItemValidator.validate(addAuctionItemRequestDto)
@@ -44,17 +44,14 @@ class AuctionItemValidatorSpec extends Specification {
         e.localizedMessage == AuctionItemError.MISSING_DATA.description
 
         where:
-        name   | startDate  | endDate    | userId                       | minBid | buyout | latitude | longitude | categories
-        null   | new Date() | new Date() | ['578f869f5a61a77b7915252a'] | 0      | 1      | 2        | 3         | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
-        "name" | null       | new Date() | ['578f869f5a61a77b7915252a'] | 0      | 1      | 2        | 3         | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
-        "name" | new Date() | null       | ['578f869f5a61a77b7915252a'] | 0      | 1      | 2        | 3         | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
-        "name" | new Date() | new Date() | ['578f869f5a61a77b7915252a'] | null   | null   | 52.2     | 51.2      | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
-        "name" | new Date() | new Date() | ['578f869f5a61a77b7915252a'] | 20.1   | 41     | 52.2     | 51.2      | null
-        "name" | new Date() | new Date() | ['578f869f5a61a77b7915252a'] | 20.1   | 41     | 52.2     | 51.2      | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
-        "name" | new Date() | new Date() | ['578f869f5a61a77b7915252a'] | 20.1   | 41     | null     | null      | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
-        "name" | new Date() | new Date() | ['578f869f5a61a77b7915252a'] | 20.1   | 41     | 50.12    | null      | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
-        "name" | new Date() | new Date() | ['578f869f5a61a77b7915252a'] | 20.1   | 41     | null     | 30.1      | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
-        null   | null       | null       | null                         | null   | null   | null     | null      | null
+        name   | userId                       | minBid | buyout | latitude | longitude | categories
+        null   | ['578f869f5a61a77b7915252a'] | 0      | 1      | 2        | 3         | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
+        "name" | ['578f869f5a61a77b7915252a'] | null   | null   | 52.2     | 51.2      | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
+        "name" | ['578f869f5a61a77b7915252a'] | 20.1   | 41     | 52.2     | 51.2      | null
+        "name" | ['578f869f5a61a77b7915252a'] | 20.1   | 41     | null     | null      | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
+        "name" | ['578f869f5a61a77b7915252a'] | 20.1   | 41     | 50.12    | null      | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
+        "name" | ['578f869f5a61a77b7915252a'] | 20.1   | 41     | null     | 30.1      | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
+        null   | null                         | null   | null   | null     | null      | null
     }
 
     @Unroll
@@ -62,8 +59,8 @@ class AuctionItemValidatorSpec extends Specification {
         given:
         GeoLocationDto geoLocationDto = new GeoLocationDto(latitude: latitude, longitude: longitude)
         AddAuctionItemRequestDto addAuctionItemRequestDto = new AddAuctionItemRequestDto(name: name,
-                startDate: startDate, endDate: endDate, userId: userId, minBid: minBid,
-                buyout: buyout, geoLocationDto: geoLocationDto, categories: categories, description: description)
+                userId: userId, minBid: minBid, buyout: buyout, geoLocationDto: geoLocationDto,
+                categories: categories, description: description)
 
         when:
         auctionItemValidator.validate(addAuctionItemRequestDto)
@@ -87,8 +84,8 @@ class AuctionItemValidatorSpec extends Specification {
         given:
         GeoLocationDto geoLocationDto = new GeoLocationDto(latitude: latitude, longitude: longitude)
         AddAuctionItemRequestDto addAuctionItemRequestDto = new AddAuctionItemRequestDto(name: name,
-                startDate: startDate, endDate: endDate, userId: userId, minBid: minBid,
-                buyout: buyout, geoLocationDto: geoLocationDto, categories: categories, description: description)
+                userId: userId, minBid: minBid, buyout: buyout, geoLocationDto: geoLocationDto,
+                categories: categories, description: description)
 
         when:
         auctionItemValidator.validate(addAuctionItemRequestDto)
@@ -100,7 +97,6 @@ class AuctionItemValidatorSpec extends Specification {
         where:
         name   | startDate     | endDate       | userId                     | description   | minBid | buyout | latitude | longitude | categories
         "name" | new Date(123) | new Date(124) | '578f869f5a61a77b7915252a' | 'description' | 2      | 1      | 2        | 3         | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
-        "name" | new Date(500) | new Date(200) | '578f869f5a61a77b7915252a' | 'description' | 1      | 2      | 2        | 3         | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
         "name" | new Date(123) | new Date(124) | '578f869f5a61a77b7915252a' | 'description' | 1      | 2      | -91      | 3         | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
         "name" | new Date(123) | new Date(124) | '578f869f5a61a77b7915252a' | 'description' | 1      | 2      | 92       | 3         | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
         "name" | new Date(123) | new Date(124) | '578f869f5a61a77b7915252a' | 'description' | 1      | 2      | 2        | -195      | ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21']
@@ -113,8 +109,8 @@ class AuctionItemValidatorSpec extends Specification {
         given:
         GeoLocationDto geoLocationDto = new GeoLocationDto(latitude: 20, longitude: 30)
         AddAuctionItemRequestDto addAuctionItemRequestDto = new AddAuctionItemRequestDto(name: "name",
-                startDate: new Date(123), endDate: new Date(124), userId: 1, minBid: 10, description: 'description',
-                buyout: 10.1, geoLocationDto: geoLocationDto, categories: ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21'])
+                userId: 1, minBid: 10, description: 'description', buyout: 10.1, geoLocationDto: geoLocationDto,
+                categories: ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21'])
 
         when:
         auctionItemValidator.validate(addAuctionItemRequestDto)
