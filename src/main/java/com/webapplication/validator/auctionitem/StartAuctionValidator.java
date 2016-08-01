@@ -4,10 +4,12 @@ import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.error.auctionitem.AuctionItemError;
 import com.webapplication.exception.ValidationException;
 import com.webapplication.validator.Validator;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Optional;
 
+@Component
 public class StartAuctionValidator implements Validator<StartAuctionDto> {
 
     @Override

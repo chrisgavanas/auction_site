@@ -19,6 +19,7 @@ import com.xmlparser.XmlParser;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +46,9 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
 
     @Autowired
     private XmlParser xmlParser;
+
+    @Value("${minAuctionDurationInHours}")
+    private Integer minAuctionDurationInHours;
 
     @Override
     public AddAuctionItemResponseDto addAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
@@ -98,7 +102,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     private Date validateDates(Date endDate) throws Exception {
-        Date date = DateTime.now().plusHours(1).toDate();
+        Date date = DateTime.now().plusHours(minAuctionDurationInHours).toDate();
         if (date.after(endDate))
             throw new AuctionDurationTooShortException(AuctionItemError.AUCTION_DURATION_TOO_SHORT);
         return date;
