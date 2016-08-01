@@ -39,7 +39,8 @@ public class AuctionItemValidator implements Validator<AddAuctionItemRequestDto>
                 .anyMatch(value -> value <= 0))
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
-        if (request.getMinBid() > request.getBuyout())
+        if (Stream.of(request.getMinBid(), request.getBuyout()).filter(Objects::nonNull).count() == 2
+                && request.getMinBid() > request.getBuyout())
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
         GeoLocationDto geoLocationDto = request.getGeoLocationDto();
