@@ -9,7 +9,9 @@ var newAuctionController = router.controller('newAuctionController', function($s
 	$scope.categories = {};
 	
 	
-
+	if($cookies.getObject('item') != undefined){
+		$scope.item = $cookies.getObject('item');
+	}
 	
 	
 	
