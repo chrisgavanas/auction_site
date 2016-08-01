@@ -6,7 +6,7 @@ import com.webapplication.dto.user.UserLogInRequestDto;
 import com.webapplication.dto.user.UserRegisterRequestDto;
 import com.webapplication.dto.user.UserUpdateRequestDto;
 import com.webapplication.exception.ValidationException;
-import com.webapplication.validator.UserRequestValidatorWrapper;
+import com.webapplication.validator.ValidatorWrapper.UserRequestValidatorWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

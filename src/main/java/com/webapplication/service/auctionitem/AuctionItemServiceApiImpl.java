@@ -5,26 +5,33 @@ import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.StartAuctionDto;
+import com.webapplication.dto.auctionitem.Status;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.User;
 import com.webapplication.error.auctionitem.AuctionItemError;
+import com.webapplication.exception.AuctionAlreadyInProgressException;
+import com.webapplication.exception.AuctionDurationTooShortException;
+import com.webapplication.exception.AuctionItemNotFoundException;
 import com.webapplication.exception.UserNotFoundException;
 import com.webapplication.mapper.AuctionItemMapper;
 import com.xmlparser.XmlParser;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Transactional
-@Component
+@Service
 public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
 
     @Autowired
@@ -50,8 +57,9 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     @Override
-    public List<AuctionItemResponseDto> getAuctionItemsOfUser(String userId) throws Exception {
-        List<AuctionItem> auctionItems = auctionItemRepository.findAuctionItemByUserId(userId);
+    public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(String userId, Status status) throws Exception {
+        List<AuctionItem> auctionItems = status.equals(Status.ACTIVE) ?
+                auctionItemRepository.findActiveAuctionsOfUser(userId, new Date()) : auctionItemRepository.findInactiveAuctionsOfUser(userId, new Date());
 
         return auctionItemMapper.auctionItemsToAuctionItemResponseDto(auctionItems);
     }
@@ -67,6 +75,40 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         stream.close();
         xmlFile.delete();
         response.flushBuffer();
+    }
+
+    @Override
+    public AuctionItemResponseDto getAuctionItemById(String auctionItemId) throws Exception {
+        AuctionItem auctionItem = getAuctionItem(auctionItemId);
+
+        return auctionItemMapper.auctionItemToAuctionItemResponseDto(auctionItem);
+    }
+
+    @Override
+    public AuctionItemResponseDto startAuction(String auctionItemId, StartAuctionDto startAuctionDto) throws Exception {
+        AuctionItem auctionItem = getAuctionItem(auctionItemId);
+        if (auctionItem.getStartDate() != null)
+            throw new AuctionAlreadyInProgressException(AuctionItemError.AUCTION_ALREADY_IN_PROGRESS);
+
+        Date startDate = validateDates(startAuctionDto.getEndDate());
+        auctionItemMapper.update(auctionItem, startDate, startAuctionDto.getEndDate());
+        auctionItemRepository.save(auctionItem);
+
+        return auctionItemMapper.auctionItemToAuctionItemResponseDto(auctionItem);
+    }
+
+    private Date validateDates(Date endDate) throws Exception {
+        Date date = DateTime.now().plusHours(1).toDate();
+        if (date.after(endDate))
+            throw new AuctionDurationTooShortException(AuctionItemError.AUCTION_DURATION_TOO_SHORT);
+        return date;
+    }
+
+    private AuctionItem getAuctionItem(String auctionItemId) throws Exception {
+        AuctionItem auctionItem = auctionItemRepository.findAuctionItemByAuctionItemId(auctionItemId);
+        Optional.ofNullable(auctionItem).orElseThrow(() -> new AuctionItemNotFoundException(AuctionItemError.AUCTION_ITEM_NOT_FOUND));
+
+        return auctionItem;
     }
 
 }

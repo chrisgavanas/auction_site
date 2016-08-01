@@ -38,7 +38,7 @@ class UserServiceApiImplSpec extends Specification {
 
         then:
         1 * mockUserRepository.findUserByUsernameOrEmailAndPassword(userLogInRequestDto.username, userLogInRequestDto.email, userLogInRequestDto.getPassword()) >> null
-        ForbiddenException e = thrown()
+        NotAuthenticatedException e = thrown()
         e.localizedMessage == UserLogInError.INVALID_CREDENTIALS.description
         0 * _
 
@@ -434,7 +434,7 @@ class UserServiceApiImplSpec extends Specification {
 
         then:
         1 * mockAuthenticator.getSession(authToken) >> sessionInfo
-        1 * mockUserRepository.findUserByIsVerified(false, new PageRequest(from - 1, to - 1)) >> userList
+        1 * mockUserRepository.findUserByIsVerified(false, new PageRequest(from - 1, to - from + 1)) >> userList
         1 * mockUserMapper.userListToUserResponseList(userList) >> { args ->
             assert args[0][0].userId == userList[0].userId
             assert args[0][1].userId == userList[1].userId

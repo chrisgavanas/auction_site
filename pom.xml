@@ -17,7 +17,6 @@
     </properties>
 
     <dependencies>
-
         <!-- MongoDB -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,11 +71,15 @@
             <version>2.4.4</version>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>com.athaydes</groupId>-->
-        <!--<artifactId>spock-reports</artifactId>-->
-        <!--<scope>test</scope>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.athaydes</groupId>
+            <artifactId>spock-reports</artifactId>
+            <version>1.2.12</version>
+            <scope>test</scope>
+        </dependency>
+
+
+
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
@@ -85,7 +88,7 @@
     </dependencies>
 
 
-    <!-- Plugins -->
+    <!-- Plugins for mvn clean test -->
     <build>
         <plugins>
             <plugin>

@@ -64,8 +64,8 @@ class AuctionItemMapperSpec extends Specification {
         given:
         GeoLocationDto geoLocationDto = new GeoLocationDto(latitude: 15.2, longitude: 123.12341)
         AddAuctionItemRequestDto addAuctionItemRequestDto = new AddAuctionItemRequestDto(name: 'An auction',
-                minBid: 20.1, buyout: 40, startDate: new Date(), endDate: new Date(),
-                description: "some description", geoLocationDto: geoLocationDto, userId: 5, categories: ["578f8a542e5a3a48cfbfb070", "578f8a542e5a3a48ca3a3124"])
+                minBid: 20.1, buyout: 40, description: "some description", geoLocationDto: geoLocationDto,
+                userId: 5, categories: ["578f8a542e5a3a48cfbfb070", "578f8a542e5a3a48ca3a3124"])
 
         when:
         AuctionItem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(addAuctionItemRequestDto)
@@ -77,8 +77,8 @@ class AuctionItemMapperSpec extends Specification {
             buyout == addAuctionItemRequestDto.buyout
             currentBid == addAuctionItemRequestDto.minBid
             description == addAuctionItemRequestDto.description
-            startDate == addAuctionItemRequestDto.startDate
-            endDate == addAuctionItemRequestDto.endDate
+            startDate == null
+            endDate == null
             geoLocation.latitude == geoLocationDto.latitude
             geoLocationDto.longitude == geoLocationDto.longitude
             minBid == addAuctionItemRequestDto.minBid
@@ -91,8 +91,8 @@ class AuctionItemMapperSpec extends Specification {
         given:
         GeoLocationDto geoLocationDto = new GeoLocationDto(latitude: 15.2, longitude: 123.12341)
         AddAuctionItemRequestDto addAuctionItemRequestDto = new AddAuctionItemRequestDto(name: 'An auction',
-                minBid: 20.1, buyout: 40, startDate: new Date(), endDate: new Date(),
-                description: "some description", geoLocationDto: geoLocationDto, userId: 5, categories: ["578f8a542e5a3a48cfbfb070", "578f8a542e5a3a48ca3a3124"])
+                minBid: 20.1, buyout: 40, description: "some description", geoLocationDto: geoLocationDto,
+                userId: 5, categories: ["578f8a542e5a3a48cfbfb070", "578f8a542e5a3a48ca3a3124"])
 
         when:
         AuctionItem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(addAuctionItemRequestDto)
@@ -108,8 +108,8 @@ class AuctionItemMapperSpec extends Specification {
         GeoLocation geoLocation = new GeoLocation(latitude: 12.51, longitude: -20.11)
         AuctionItem auctionItem = new AuctionItem(auctionItemId: "421das12dada1d1d1", bidsNo: 12, buyout: 150,
                 currentBid: 44.2, description: 'Some description', geoLocation: geoLocation,
-                minBid: 10.0, name: 'PokemonGoApk', startDate: new Date(), endDate: new Date(),
-                userId: "578f869f5a61a77b7915252a", categories: ["578f8a542e5a3a48cfbfb070", "578f8a542e5a3a48ca3a3124"])
+                minBid: 10.0, name: 'PokemonGoApk', userId: "578f869f5a61a77b7915252a",
+                categories: ["578f8a542e5a3a48cfbfb070", "578f8a542e5a3a48ca3a3124"])
         List<Category> categoriesList = [new Category(), new Category()]
         List<CategoryResponseDto> categoryResponseDtoList = [new CategoryResponseDto(), new CategoryResponseDto()]
 
@@ -126,8 +126,6 @@ class AuctionItemMapperSpec extends Specification {
             buyout == auctionItem.buyout
             minBid == auctionItem.minBid
             bidsNo == auctionItem.bidsNo
-            startDate == auctionItem.startDate
-            endDate == auctionItem.endDate
             description == auctionItem.description
             geoLocationDto.latitude == auctionItem.geoLocation.latitude
             geoLocationDto.longitude == auctionItem.geoLocation.longitude
@@ -195,6 +193,37 @@ class AuctionItemMapperSpec extends Specification {
             auctionItemResponseDto[1].categoryResponseDtoList == categoryResponseDtoList
         }
         0 * _
+    }
+
+    def "AuctionItem update"() {
+        given:
+        Date startDate = new Date(123)
+        Date endDate = new Date(123123)
+        GeoLocation geoLocation = new GeoLocation(latitude: 90, longitude: 180)
+        List<String> categoryList = ["578f8a542e5a3a48cfbfb070", "578f8a542e5a3a48ca3a3124"]
+        AuctionItem auctionItem = new AuctionItem(auctionItemId: "421das12dada1d1d1", bidsNo: 12, buyout: 150,
+                currentBid: 44.2, description: 'Some description', geoLocation: geoLocation,
+                minBid: 10.0, name: 'PokemonGoApk', startDate: new Date(), endDate: new Date(),
+                userId: '578f869f5a61a77b7915252a', categories: categoryList)
+
+        when:
+        auctionItemMapper.update(auctionItem, startDate, endDate)
+
+        then:
+        with(auctionItem) {
+            auctionItemId == '421das12dada1d1d1'
+            bidsNo == 12
+            buyout == 150.doubleValue()
+            currentBid == 44.2.doubleValue()
+            description == 'Some description'
+            auctionItem.geoLocation == geoLocation
+            minBid == 10.0.doubleValue()
+            name == 'PokemonGoApk'
+            auctionItem.startDate == startDate
+            auctionItem.endDate == endDate
+            userId == '578f869f5a61a77b7915252a'
+            categories == categoryList
+        }
     }
 
 }

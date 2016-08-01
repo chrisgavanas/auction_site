@@ -1,4 +1,4 @@
-package com.webapplication.validator;
+package com.webapplication.validator.ValidatorWrapper;
 
 import com.webapplication.dto.user.ChangePasswordRequestDto;
 import com.webapplication.dto.user.UserLogInRequestDto;

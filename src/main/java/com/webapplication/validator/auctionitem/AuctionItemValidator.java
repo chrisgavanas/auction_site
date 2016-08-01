@@ -10,7 +10,6 @@ import com.webapplication.validator.Validator;
 import org.springframework.data.domain.Range;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -26,8 +25,7 @@ public class AuctionItemValidator implements Validator<AddAuctionItemRequestDto>
     public void validate(AddAuctionItemRequestDto request) throws ValidationException {
         Optional.ofNullable(request).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
 
-        if (Stream.of(request.getName(), request.getStartDate(), request.getEndDate(),
-                request.getUserId(), request.getDescription()).anyMatch(Objects::isNull))
+        if (Stream.of(request.getName(), request.getUserId(), request.getDescription()).anyMatch(Objects::isNull))
             throw new ValidationException(AuctionItemError.MISSING_DATA);
 
         if (Stream.of(request.getMinBid(), request.getBuyout()).filter(Objects::nonNull).count() == 0)
@@ -44,9 +42,6 @@ public class AuctionItemValidator implements Validator<AddAuctionItemRequestDto>
         if (request.getMinBid() > request.getBuyout())
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
-        if (request.getStartDate().after(request.getEndDate()))
-            throw new ValidationException(AuctionItemError.INVALID_DATA);
-
         GeoLocationDto geoLocationDto = request.getGeoLocationDto();
         if (geoLocationDto != null) {
             Double latitude = geoLocationDto.getLatitude();
@@ -56,7 +51,6 @@ public class AuctionItemValidator implements Validator<AddAuctionItemRequestDto>
 
             if (!latitudeRange.contains(latitude) || !longitudeRange.contains(longitude))
                 throw new ValidationException(AuctionItemError.INVALID_DATA);
-
         }
 
         List<String> categories = request.getCategories();

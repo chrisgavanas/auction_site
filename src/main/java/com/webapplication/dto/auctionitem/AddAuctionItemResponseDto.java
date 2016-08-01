@@ -3,7 +3,6 @@ package com.webapplication.dto.auctionitem;
 import com.webapplication.dto.category.CategoryResponseDto;
 import com.webapplication.dto.user.GeoLocationDto;
 
-import java.util.Date;
 import java.util.List;
 
 public class AddAuctionItemResponseDto {
@@ -14,8 +13,6 @@ public class AddAuctionItemResponseDto {
     private Double buyout;
     private Double minBid;
     private Integer bidsNo;
-    private Date startDate;
-    private Date endDate;
     private String description;
     private GeoLocationDto geoLocationDto;
     private String userId;
@@ -67,22 +64,6 @@ public class AddAuctionItemResponseDto {
 
     public void setBidsNo(Integer bidsNo) {
         this.bidsNo = bidsNo;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
     }
 
     public String getDescription() {

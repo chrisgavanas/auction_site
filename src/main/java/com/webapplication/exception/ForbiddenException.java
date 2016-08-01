@@ -10,7 +10,4 @@ public class ForbiddenException extends Exception {
         super(error.getDescription());
     }
 
-    public ForbiddenException(UserLogInError error) {
-        super(error.getDescription());
-    }
 }
