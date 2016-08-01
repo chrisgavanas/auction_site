@@ -21,7 +21,7 @@ router.controller('userAuctionsController', function($state, $scope, $http, $coo
 	
 	
 	var getAuctionItems = function(){
-		$http.get('api/auctionitem/user/'+ $scope.user.userId).then(function successCallback(response){
+		$http.get('api/auctionitem/user/'+ $scope.user.userId+"?status=ACTIVE").then(function successCallback(response){
 			if(response.data.length != 0)
 				$scope.hasAuctions = true;
 			$scope.items = {};
@@ -31,8 +31,11 @@ router.controller('userAuctionsController', function($state, $scope, $http, $coo
 			console.log($scope.items.length);
 			console.log($scope.items);
 		}, function errorCallback(response){
-			alert("errorauction");
+			console.log(response);
 		});
 		
 	}
+	$scope.newAuction = function(){
+		$state.go("main.newAuction");
+	};
 });

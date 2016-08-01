@@ -36,55 +36,17 @@ var profileController = router.controller('profileController', function($scope, 
 			
 		});
 	
-		$http.get('api/auctionitem/user/'+ $scope.user.userId).then(function successCallback(response){
-			$scope.hasAuctions = false;
-			if(response.data.length != 0)
-				$scope.hasAuctions = true;
-			$scope.items = {};
-			$scope.items = response.data;
-			var i;
-			for (i = 0; i < $scope.items.length; i++){
-				if($scope.items[i].buyout != null)
-					$scope.items[i].hasBuyout = true;
-				else
-					$scope.items[i].hasBuyout = false;
-			}
-			console.log($scope.items.length);
-			console.log($scope.items);
-		}, function errorCallback(response){
-			alert("errorauction");
-		});
+		
 		
 	}
 
 	
 	
-	$scope.show = function(field){
 	
-		document.getElementById(field+"Form").style.display = "block";
-		document.getElementById(field+"But").style.display = "none";
-		document.getElementById(field+"Field").style.display = "none";
-	};
 	
-	$scope.applyChanges = function(user){
-		AuthenticationService.updateUser(user).then(function (response){
-			console.log(response);
-			
-			
-		}, function(response){
-			console.log(response);
-		});
-		$state.go($state.current, {}, {reload: true});
-		
-	};
 	
-	$scope.newAuction = function(){
-		$state.go("main.newAuction");
-	};
 	
-	$scope.showItem = function(){
-		console.log("test");
-	}
+	
 	///////////////////////////////////////////////////////////////////////////
 	 
 	

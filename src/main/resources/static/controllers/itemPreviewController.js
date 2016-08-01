@@ -22,7 +22,7 @@ var itemPreviewController = router.controller('itemPreviewController', function(
 	
 	latlon = new google.maps.LatLng(lat, lon)
     mapholder = document.getElementById('mapholder')
-    mapholder.style.height = '150px';
+    mapholder.style.height = '300px';
     mapholder.style.width = '300px';
 
     var myOptions = {
