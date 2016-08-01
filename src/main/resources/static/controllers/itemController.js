@@ -54,4 +54,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 			
 			
 	}
+	$scope.edit = function(){
+		$state.go('main.newAuction');
+	}
 })

@@ -58,7 +58,7 @@ hr{
 	display: none;
 }
 
-.btn-default{
+#saveBtn1,#saveBtn2,#saveBtn3.btn-default{
 	background-color: #242d2c;
 	color: #e1eedd;
 }
@@ -219,7 +219,7 @@ hr{
 			<font size="1">Registered on {{registrationDateConverted}}</font>
 		</div>
 		<div class="row" align="middle">
-			<button class="btn btn-default myBtn" ng-click="applyChanges(user)">Save</button>
+			<button id="saveBtn3" class="btn btn-default myBtn" ng-click="applyChanges(user)">Save</button>
 		</div>
 		<br>
 		</form>
@@ -292,7 +292,7 @@ hr{
 		</div>
 		<hr>
 		<div class="row" align="middle">
-			<button class="btn btn-default myBtn" ng-click="applyChanges(user)">Save</button>
+			<button id="saveBtn1" class="btn btn-default myBtn" ng-click="applyChanges(user)">Save</button>
 		</div>
 		<br>
 	</form>
@@ -343,7 +343,7 @@ hr{
 			</div>
 		</div>
 		<div class="row">
-			<button class="btn btn-default myBtn" type="submit">Save</button>
+			<button id="saveBtn2" class="btn btn-default myBtn" type="submit">Save</button>
 		</div>
 	</form>
 	

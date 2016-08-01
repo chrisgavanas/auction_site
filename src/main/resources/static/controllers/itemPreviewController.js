@@ -56,8 +56,9 @@ var itemPreviewController = router.controller('itemPreviewController', function(
 	$scope.complete = function(){
 		console.log($scope.item);
 		$http.post('/api/auctionitem', $scope.item).then (function successCallback(response){
-			alert("egine post");
+			$cookies.remove('item');
 			$state.go('main.profile.userAuctions');
+			
 		}, function errorCallback(response){
 			console.log(response);
 		});
