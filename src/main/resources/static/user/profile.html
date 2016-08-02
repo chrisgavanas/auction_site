@@ -35,7 +35,7 @@
 
 </style>
 
-<body>
+<body ng-controller="profileController">
 
 
 
@@ -46,7 +46,7 @@
 	<h2><font color="#e1eedd" >{{user.username}}</font></h2>
 </div>
 
-<div ng-controller="profileController" id="nav">
+<div  id="nav">
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
    	<div class="navbar-header">
@@ -60,7 +60,7 @@
     </div>
     <div class="collaps navbar-collapse" ng-class="!navCollapsed && 'in'" id="myNavbar2">
     <ul class="nav navbar-nav">
-      <li ng-class="{'active':$state.includes('main.profile.userInfo')}" ng-click="collapseMenu()" ui-sref-active="active"><a ui-sref="main.profile.userInfo">User Info</a></li>
+      <li ng-class="{'active':$state.includes('main.profile.userInfo')}" ui-sref-active="active"><a ui-sref="main.profile.userInfo">User Info</a></li>
       <li ui-sref-active="active"><a ui-sref="main.profile.userBids">Bids</a></li> 
       <li ui-sref-active="active"><a ui-sref="main.profile.userAuctions">Auctions</a></li>
 			  

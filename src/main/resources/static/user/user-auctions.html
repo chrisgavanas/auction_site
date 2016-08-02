@@ -61,7 +61,7 @@ hr{
 		<div class="panel-body">
 		<div ng-repeat="item in items">
 			<div class="row">
-				<a ui-sref="main.item({id: item.auctionItemId})"><u>{{item.name}}</u></a>
+				<a ui-sref="main.item({id: item.auctionItemId})"><u><font size="3">{{item.name}}</font></u></a>
 			</div>
 			
 			<div class="row">
@@ -85,6 +85,58 @@ hr{
 		
 		
 		</div>
+	</div>
+	<br>
+	<br>
+	
+	<div align="center">
+		<h5><p>Here is a list of your auctions pending activation.</p>
+		<p>To start an auction click on the start button.</p></h5>
+	</div>
+	<br>
+	<div class="panel panel-default">
+		
+		<div class="panel-heading">
+			<div class="row" align="middle">
+				<div class="col-md-3">
+					Current Price
+				</div>
+				<div class="col-md-3">
+					Buy Out Price
+				</div>
+				<div class="col-md-3">
+					Bids
+				</div>
+	
+			</div>
+		</div>
+		
+		<div class="panel-body">
+				<div ng-repeat="item in itemsPending">
+					<div class="row">
+						<a ui-sref="main.item({id: item.auctionItemId})"><u><font size="3">{{item.name}}</font></u></a>
+					</div>
+
+					<div class="row">
+						<div class="col-md-3">{{item.currentBid}}$</div>
+						<div class="col-md-3">{{item.buyout}}$</div>
+						<div class="col-md-3">
+							{{item.bidsNo}}
+						</div>
+						<div class="col-md-3" align="right">
+							<button class="btn btn-primary" >Edit</button>
+						
+						
+							<button class="btn btn-primary">Start</button>
+						</div>
+					</div>
+					<hr>
+				</div>
+
+
+
+
+			</div>
 	</div>
 	
 </div>

@@ -14,6 +14,9 @@ public interface AuctionItemRepository extends MongoRepository<AuctionItem, Stri
     @Query("{'userId' : '?0', 'endDate' : {'$gte' : '?1'} }")
     List<AuctionItem> findActiveAuctionsOfUser(String userId, Date date);
 
+    @Query("{'userId' : '?0', 'startDate' : null }")
+    List<AuctionItem> findPendingAuctionsOfUser(String userId);
+
     @Query("{'userId' : '?0', 'endDate' : {'$lt' : '?1'} }")
     List<AuctionItem> findInactiveAuctionsOfUser(String userId, Date date);
 

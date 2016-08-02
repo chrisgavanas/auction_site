@@ -1,0 +1,34 @@
+var profileController = router.controller('profileController', function($scope, $state, $http,$cookies, $route, AuthenticationService){
+	$scope.user = {};
+	$scope.signedIn = {};
+
+	if($cookies.get('signedIn') === 'yes'){
+		$scope.user.userId = $cookies.get('userId');
+		$scope.signedIn = true;
+	
+		var token = $cookies.get('authToken');
+		
+		AuthenticationService.getUser($scope.user.userId, token).then(function(response){
+			$scope.user = response.data;
+			$state.go('main.profile.userInfo');
+			
+		}, function errorCallback(response){
+			$cookies.remove('userId');
+			$cookies.remove('authToken');
+			$cookies.put('signedIn', 'no');
+			$state.go('main.welcome');
+		});
+	
+		
+		
+	}
+
+	
+	
+	
+	
+	
+	
+		 
+	
+});

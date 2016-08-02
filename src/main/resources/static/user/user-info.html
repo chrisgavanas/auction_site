@@ -63,10 +63,10 @@ hr{
 	color: #e1eedd;
 }
 </style>
-<body>
+<body  ng-controller="userInfoController">
 
 <div class="container-fluid" align="middle">
-	<form ng-controller="userInfoController">
+	<form>
 	<div class="row" align="middle">
 		<font size="4">Personal Information</font>
 	</div>
@@ -223,7 +223,7 @@ hr{
 		</div>
 		<br>
 		</form>
-		<form ng-controller="userInfoController">
+		<form >
 		<div class="row" align="middle">
 			<font size = "4">Address and Country</font>
 		</div>
@@ -297,7 +297,7 @@ hr{
 		<br>
 	</form>
 	
-	<form name="passwordForm" ng-controller="userInfoController" class="passform"  ng-submit="passwordForm.$valid && changePassword(passwords)"
+	<form name="passwordForm"class="passform"  ng-submit="passwordForm.$valid && changePassword(passwords)"
 	novalidate>
 		<div class="row" align="middle">
 			<font size="4">Change Password</font>

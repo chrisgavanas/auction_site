@@ -26,13 +26,15 @@ class AuctionItemServiceApiImplSpec extends Specification {
     AuctionItemMapper mockAuctionItemMapper
     UserRepository mockUserRepository
     AuctionItemServiceApi auctionItemServiceImpl
+    Integer minAuctionDurationInHours
 
     def setup() {
         mockAuctionItemRepository = Mock(AuctionItemRepository)
         mockAuctionItemMapper = Mock(AuctionItemMapper)
         mockUserRepository = Mock(UserRepository)
+        minAuctionDurationInHours = 1
 
-        auctionItemServiceImpl = new AuctionItemServiceApiImpl(auctionItemRepository: mockAuctionItemRepository, auctionItemMapper: mockAuctionItemMapper, userRepository: mockUserRepository)
+        auctionItemServiceImpl = new AuctionItemServiceApiImpl(auctionItemRepository: mockAuctionItemRepository, auctionItemMapper: mockAuctionItemMapper, userRepository: mockUserRepository, minAuctionDurationInHours: minAuctionDurationInHours)
     }
 
     def "Add an auction item"() {
@@ -80,11 +82,12 @@ class AuctionItemServiceApiImplSpec extends Specification {
 
         then:
         (status == Status.ACTIVE ? 1 : 0) * mockAuctionItemRepository.findActiveAuctionsOfUser(userId, *_) >> auctionItemList
+        (status == Status.PENDING ? 1 : 0) * mockAuctionItemRepository.findPendingAuctionsOfUser(userId) >> auctionItemList
         (status == Status.INACTIVE ? 1 : 0) * mockAuctionItemRepository.findInactiveAuctionsOfUser(userId, *_)  >> auctionItemList
         1 * mockAuctionItemMapper.auctionItemsToAuctionItemResponseDto(auctionItemList) >> auctionItemResponseDtoList
 
         where:
-        status << [Status.ACTIVE, Status.INACTIVE]
+        status << [Status.ACTIVE, Status.PENDING, Status.INACTIVE]
     }
 
     def "Get auction item by auctionItemId that doesn't exist"() {

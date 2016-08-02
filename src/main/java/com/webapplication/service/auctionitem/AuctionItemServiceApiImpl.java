@@ -62,8 +62,18 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
 
     @Override
     public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(String userId, Status status) throws Exception {
-        List<AuctionItem> auctionItems = status.equals(Status.ACTIVE) ?
-                auctionItemRepository.findActiveAuctionsOfUser(userId, new Date()) : auctionItemRepository.findInactiveAuctionsOfUser(userId, new Date());
+        List<AuctionItem> auctionItems = null;
+        switch (status) {
+            case ACTIVE:
+                auctionItems = auctionItemRepository.findActiveAuctionsOfUser(userId, new Date());
+                break;
+            case PENDING:
+                auctionItems = auctionItemRepository.findPendingAuctionsOfUser(userId);
+                break;
+            case INACTIVE:
+                auctionItems = auctionItemRepository.findInactiveAuctionsOfUser(userId, new Date());
+                break;
+        }
 
         return auctionItemMapper.auctionItemsToAuctionItemResponseDto(auctionItems);
     }

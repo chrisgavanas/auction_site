@@ -1,4 +1,4 @@
-router.controller('navBarController', function($state, $scope, $rootScope, $cookies, $http, userDataService, AuthenticationService){
+router.controller('navBarController', function($state, $scope, $rootScope, $cookies, $http, AuthenticationService){
 	var data = new FormData();
 	$scope.user = {};
 	$scope.signedIn = {};

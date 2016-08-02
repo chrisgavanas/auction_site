@@ -1,13 +1,9 @@
-router.factory('AuthenticationService', function($http, $cookies, userDataService) {
+router.factory('AuthenticationService', function($http, $cookies) {
 	var authService = {};
 	
 	authService.login = function(user){
-		console.log('mhak anth');
 		return $http.post('/api/login', user)
 					.then(function (response) {
-						userDataService.setUserId(response.data.useId);
-			        	userDataService.setAuthToken(response.data.authToken);
-			        	
 			        	$cookies.put('userId', response.data.useId);
 			        	$cookies.put('authToken', response.data.authToken);
 			        	$cookies.put('signedIn', 'yes');
@@ -26,8 +22,9 @@ router.factory('AuthenticationService', function($http, $cookies, userDataServic
 	};
 	
 	authService.updateUser = function(user){
-		var data = {};
-		data.userId = user.userId;
+		//var data = {};
+		//data = user;
+		/*data.userId = user.userId;
 		
 		data.email = user.email;
 		data.firstName = user.firstName;
@@ -38,11 +35,11 @@ router.factory('AuthenticationService', function($http, $cookies, userDataServic
 		data.dateOfBirth = user.dateOfBirth;
 		data.vat = user.vat;
 		data.address = user.address;
-		data.country = user.country;
+		data.country = user.country;*/
 		
-		console.log(data);
-		var postData = {Integer: data.userId, UserUpdateRequestDto: data};
-		return $http.post('/api/user/'+user.userId, data)
+		
+		var postData = {Integer: user.userId, UserUpdateRequestDto: user};
+		return $http.post('/api/user/'+user.userId, user)
 					.then(function(response){
 						return response.data;
 					});
@@ -52,19 +49,19 @@ router.factory('AuthenticationService', function($http, $cookies, userDataServic
 		var data = {};
 		data.oldPassword = passwords.oldPassword;
 		data.newPassword = passwords.newPassword;
-		console.log(data.oldPassword + " " + data.newPassword +" "+userId+" " + token);
 		return $http.post('/api/user/'+userId+'/change-password', data, {headers: {'authToken': token}})
 					.then(function(response){
 						return response.data;
 					});
 	};
-		
-		
 	
-	authService.isAuntenticated = function () {
-		return !!userDataService.getUserId();
-		
+	authService.getUser = function(userId, token){
+		return $http.get('/api/user/'+ userId, {headers: {'authToken': token}})
+					.then(function successCallback(response){
+						return response;
+					});
 	};
+	
 	
 	return authService;
 })

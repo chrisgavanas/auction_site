@@ -33,6 +33,17 @@ router.controller('userAuctionsController', function($state, $scope, $http, $coo
 		}, function errorCallback(response){
 			console.log(response);
 		});
+		$http.get('api/auctionitem/user/'+ $scope.user.userId+"?status=PENDING").then(function successCallback(response){
+			if(response.data.length != 0)
+				$scope.hasAuctions = true;
+			$scope.itemsPending = {};
+			$scope.itemsPending = response.data;
+			var i;
+			
+			
+		}, function errorCallback(response){
+			console.log(response);
+		});
 		
 	}
 	$scope.newAuction = function(){

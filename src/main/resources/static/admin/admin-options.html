@@ -41,14 +41,14 @@ hr{
 
 <div class="container-fluid bg-2">
 	<div class="row text-center">
-		<h3>List of users pending verification.</h3>
+		<h4>List of users pending verification.</h4>
 	</div>
 </div>
 <div class="container-fluid text-center">
 	<div ng-repeat="user in unverified">
 	<div class="row">
 		
-		<a ui-sref="main.userpreview({id: user.userId})">{{user.userId}}</a>	
+		<a ui-sref="main.verificationPreview({id: user.userId})">{{user.username}}</a>	
 			
 		
 	</div>

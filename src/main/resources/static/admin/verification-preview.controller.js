@@ -1,4 +1,4 @@
-router.controller('userpreviewController', function($state, $scope, $cookies, $http, $stateParams){
+router.controller('verificationPreviewController', function($state, $scope, $cookies, $http, $stateParams){
 	$scope.userId = $stateParams.id;
 	console.log($scope.userId);
 	$scope.user = {}

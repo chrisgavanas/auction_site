@@ -1,4 +1,4 @@
-router.controller('adminOptionsController', function($state, $scope, $cookies, $http, userDataService){
+router.controller('adminOptionsController', function($state, $scope, $cookies, $http){
 	$scope.user = {};
 	$scope.nouminaia = "nouminaia";
 	$scope.signedIn = {};
@@ -13,7 +13,7 @@ router.controller('adminOptionsController', function($state, $scope, $cookies, $
 		$scope.user.userId = $cookies.get('userId');
 		$scope.signedIn = true;
 		var token = $cookies.get('authToken');
-		console.log(token);
+		
 		$http.get('/api/user/'+ $scope.user.userId, {headers: {'authToken': token}}).then(function successCallback(response){
 			$scope.user = angular.copy(response.data);
 
@@ -28,7 +28,7 @@ router.controller('adminOptionsController', function($state, $scope, $cookies, $
 		
 		$http.get('/api/user/unverified/1-10', {headers: {'authToken': token}} ).then(function successCallback(response){
 			$scope.unverified = angular.copy(response.data);
-			console.log($scope.unverified.length);
+			
 			var i;
 			for(i = 0; i < $scope.unverified.length; i ++){
 				$scope.usernamesAndIds.push( { id: $scope.unverified[i].userId, text: $scope.unverified[i].username } );

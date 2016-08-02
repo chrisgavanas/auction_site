@@ -54,7 +54,7 @@ var newAuctionController = router.controller('newAuctionController', function($s
 		$scope.item.images = [];
 		$scope.item.categories.push($scope.selectedCat.categoryId);
 		$cookies.putObject('item', $scope.item);
-		$state.go('main.itemPreview');
+		$state.go('main.profile.userAuctions');
 		
 	};
 	

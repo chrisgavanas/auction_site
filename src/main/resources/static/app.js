@@ -10,11 +10,11 @@ router.config(function($stateProvider, $urlRouterProvider) {
     .state('main', {
     	abstract: true,
     	views: { 'navBar': {
-    							templateUrl: './views/navBar.html',
+    							templateUrl: './components/nav-bar.html',
     							controller: 'navBarController'
     			},
     			'': {
-    				templateUrl: './views/main.html'
+    				templateUrl: './main/main.html'
     			}
     						
     	}
@@ -22,7 +22,7 @@ router.config(function($stateProvider, $urlRouterProvider) {
     	.state('main.welcome', {
     		url: '/welcome',
     		controller: 'welcomeController',
-			templateUrl: 'views/welcome.html',
+			templateUrl: 'main/welcome.html',
     		
     		
     	})
@@ -30,25 +30,25 @@ router.config(function($stateProvider, $urlRouterProvider) {
         .state('main.register', {
         	url: '/register',
         	controller: 'registerController',
-        	templateUrl: 'views/register.html'
+        	templateUrl: 'register/register.html'
         })
         
         .state('main.verification',{
         	url: '/pendingMessage',
-        	templateUrl: 'views/verificationPending.html'
+        	templateUrl: 'messeges/verification-pending.html'
         })
         
         .state('main.profile', {
         	url: '/profile',
         	controller: 'profileController',
-        	templateUrl: 'views/profile2.html'
+        	templateUrl: 'user/profile.html'
 
         })
         .state('main.profile.userInfo',{
         	url: '/userInfo',
         	views: { 'menuview': {
         		controller: 'userInfoController',
-        	   templateUrl: '/views/userInfo.html'
+        	    templateUrl: '/user/user-info.html'
         		}
         	}
         })
@@ -56,14 +56,14 @@ router.config(function($stateProvider, $urlRouterProvider) {
         .state('main.item', {
     		url: '/item?id',
     		controller: 'itemController',
-    		templateUrl: 'views/item.html'
+    		templateUrl: 'auctions/item.html'
     	})
     	
         .state('main.profile.userAuctions',{
         	url: '/userAuctions',
         	views: { 'menuview': {
         		controller: 'userAuctionsController',
-        	   templateUrl: '/views/userAuctions.html'
+        	    templateUrl: '/user/user-auctions.html'
         		}
         	}
         })
@@ -72,34 +72,31 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	url: '/userBids',
         	views: { 'menuview': {
         		controller: 'userBidsController',
-        	   templateUrl: '/views/userBids.html'
+        	   templateUrl: '/user/user-bids.html'
         		}
         	}
         })
         
-        .state('main.userpreview', {
-    		url: '/userpreview?id',
-    		controller: 'userpreviewController',
-    		templateUrl: 'views/userPreview.html'
-    	})
+    
     	
         .state('main.admin', {
     			url: '/adminOptions',
     			controller: 'adminOptionsController',
-    			templateUrl: 'views/adminOptions.html'
+    			templateUrl: 'admin/admin-options.html'
     	})
     
     
         .state('main.newAuction', {
         	url: '/newAuction',
         	controller: 'newAuctionController',
-        	templateUrl: 'views/newAuction.html'
+        	templateUrl: 'auctions/new-auction.html'
         })
-        .state('main.itemPreview',{
-        	url: '/newAuction/itemPreview',
-        	controller: 'itemPreviewController',
-        	templateUrl: 'views/itemPreview.html'
-        })
+        
+        .state('main.verificationPreview', {
+        	url: '/verify?id',
+        	controller: 'verificationPreviewController',
+        	templateUrl: 'admin/verification-preview.html'
+        })	
        
         
 });
