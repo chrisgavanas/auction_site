@@ -56,7 +56,7 @@ router.config(function($stateProvider, $urlRouterProvider) {
         .state('main.item', {
     		url: '/item?id',
     		controller: 'itemController',
-    		templateUrl: 'auctions/item.html'
+    		templateUrl: 'auctions/auction-item.html'
     	})
     	
         .state('main.profile.userAuctions',{

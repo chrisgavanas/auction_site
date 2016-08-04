@@ -1,4 +1,4 @@
-var newAuctionController = router.controller('newAuctionController', function($scope, $state, $http,$cookies, $route, AuthenticationService, itemDataService){
+var newAuctionController = router.controller('newAuctionController', function($scope, $state, $http,$cookies, $route, AuthenticationService){
 	$scope.user = {};
 	$scope.signedIn = {};
 	$scope.item = {};
@@ -8,15 +8,7 @@ var newAuctionController = router.controller('newAuctionController', function($s
 	$scope.item.geoLocationDto = {};
 	$scope.categories = {};
 	
-	
-	//if($cookies.getObject('item') != undefined){
-	//	$scope.item = $cookies.getObject('item');
-	//}
-	
-	
-	
-	
-	
+
 	if($cookies.get('signedIn') === 'yes'){
 		$scope.user.userId = $cookies.get('userId');
 		$scope.signedIn = true;
@@ -59,6 +51,7 @@ var newAuctionController = router.controller('newAuctionController', function($s
 	};
 	
 	var formdata = new FormData();
+	
 	$scope.getTheFiles = function($files){
 		console.log($files);
 		angular.forEach($files, function(value, key){

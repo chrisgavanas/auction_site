@@ -1,15 +1,16 @@
-router.controller('itemController', function($scope, $state, $http,$cookies, $route, AuthenticationService){
-
+router.controller('itemController', function($scope, $state, $http,$cookies, $route, $stateParams, AuthenticationService){
 	$scope.item = {};
+	var auctionItemId = $stateParams.id;
+	
 	$scope.user = {};
 	$scope.hasLatLon = null;
 	$scope.hasBuyout = null;
 	
-	$scope.item = $cookies.getObject('item');
-	var lat = $scope.item.geoLocationDto.latitude;
-	var lon = $scope.item.geoLocationDto.longitude;
-
-	if(lat == null || lon == null){
+	$http.get('/api/auctionitem/'+ auctionItemId).then(function(response){
+		$scope.item = response.data;
+		var lat = $scope.item.geoLocationDto.latitude;
+		var lon = $scope.item.geoLocationDto.longitude;
+		if(lat == null || lon == null){
 			$scope.hasLatLon = false;
 		
 	}else
@@ -35,6 +36,14 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
     
     var map = new google.maps.Map(document.getElementById("mapholder"), myOptions);
     var marker = new google.maps.Marker({position:latlon,map:map,title:"You are here!"});
+	
+		console.log($scope.item);
+	}, function(response){
+		
+	});
+	
+	
+
 	
 	$scope.signedIn = false;
 	if($cookies.get('signedIn') === 'yes'){

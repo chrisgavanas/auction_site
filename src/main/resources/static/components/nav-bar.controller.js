@@ -15,7 +15,7 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 			$cookies.remove('authToken');
 			$cookies.put('signedIn', 'no');
 			$scope.signedIn = false;
-			$state.go('main.welcome');
+			$state.go('main.welcome',{},{reload: true});
 			
 			
 			
