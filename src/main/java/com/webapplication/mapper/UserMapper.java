@@ -128,7 +128,9 @@ public class UserMapper {
         if (addressDto != null) {
             Address address = new Address(addressDto.getCity(), addressDto.getPostalCode(), addressDto.getStreet());
             user.setAddress(address);
-        }
+        } else
+            user.setAddress(null);
+
         user.setPhoneNumber(userUpdateRequestDto.getPhoneNumber());
     }
 

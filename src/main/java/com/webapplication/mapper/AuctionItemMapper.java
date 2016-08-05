@@ -5,6 +5,7 @@ import com.webapplication.dao.CategoryRepository;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.user.GeoLocationDto;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.Category;
@@ -47,9 +48,7 @@ public class AuctionItemMapper {
         }
         auctionItem.setUserId(auctionItemRequestDto.getUserId());
         List<String> categoryIds = auctionItemRequestDto.getCategories();
-        List<Category> categories = categoryRepository.findCategoriesByIds(categoryIds);
-        if (categoryIds.size() != categories.size())
-            throw new CategoryNotFoundException(CategoryError.CATEGORY_NOT_FOUND);
+        validateCategoryIds(auctionItemRequestDto.getCategories());
         auctionItem.setCategories(categoryIds);
         auctionItem.setBids(new ArrayList<>());
         auctionItem.setImages(new ArrayList<>());       //TODO
@@ -123,6 +122,29 @@ public class AuctionItemMapper {
     public void update(AuctionItem auctionItem, Date startDate, Date endDate) {
         auctionItem.setStartDate(startDate);
         auctionItem.setEndDate(endDate);
+    }
+
+    public void update(AuctionItem auctionItem, AuctionItemUpdateRequestDto auctionItemUpdateRequestDto) throws Exception {
+        auctionItem.setBuyout(auctionItemUpdateRequestDto.getBuyout());
+        auctionItem.setDescription(auctionItemUpdateRequestDto.getDescription());
+        auctionItem.setMinBid(auctionItemUpdateRequestDto.getMinBid());
+        auctionItem.setName(auctionItemUpdateRequestDto.getName());
+        GeoLocationDto geoLocationDto = auctionItemUpdateRequestDto.getGeoLocationDto();
+        if (geoLocationDto != null) {
+            GeoLocation geoLocation = new GeoLocation();
+            geoLocation.setLatitude(geoLocationDto.getLatitude());
+            geoLocation.setLongitude(geoLocationDto.getLongitude());
+        } else
+            auctionItem.setGeoLocation(null);
+        validateCategoryIds(auctionItemUpdateRequestDto.getCategories());
+        auctionItem.setCategories(auctionItemUpdateRequestDto.getCategories());
+        //TODO images
+    }
+
+    private void validateCategoryIds(List<String> categoryIds) throws Exception {
+        List<Category> categories = categoryRepository.findCategoriesByIds(categoryIds);
+        if (categoryIds.size() != categories.size())
+            throw new CategoryNotFoundException(CategoryError.CATEGORY_NOT_FOUND);
     }
 
 }
