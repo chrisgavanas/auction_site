@@ -1,23 +1,30 @@
-router.controller('userAuctionsController', function($state, $scope, $http, $cookies){
+router.controller('userAuctionsActiveController', function($state, $scope, $http, $cookies, AuthenticationService){
 	$scope.user = {};
 	$scope.signedIn = {};
 	$scope.items = {};
 	$scope.hasAuctions = false;
 	
+	
 	if($cookies.get('signedIn') === 'yes'){
 		$scope.user.userId = $cookies.get('userId');
 		$scope.signedIn = true;
+	
 		var token = $cookies.get('authToken');
-		$http.get('/api/user/'+ $scope.user.userId, {headers: {'authToken': token}}).then(function successCallback(response){
-			$state.go('main.profile.userAuctions.active');
-		}, function errorCallback(response){
+		
+		AuthenticationService.getUser($scope.user.userId, token).then(function(response){
+			getAuctionItems();
 			
+		}, function errorCallback(response){
 			$cookies.remove('userId');
 			$cookies.remove('authToken');
 			$cookies.put('signedIn', 'no');
 			$state.go('main.welcome');
 		});
+	
+		
+		
 	}
+
 	
 	
 	var getAuctionItems = function(){
@@ -33,28 +40,14 @@ router.controller('userAuctionsController', function($state, $scope, $http, $coo
 		}, function errorCallback(response){
 			console.log(response);
 		});
-		$http.get('api/auctionitem/user/'+ $scope.user.userId+"?status=PENDING").then(function successCallback(response){
-			if(response.data.length != 0)
-				$scope.hasAuctions = true;
-			$scope.itemsPending = {};
-			$scope.itemsPending = response.data;
-			var i;
-			
-			
-		}, function errorCallback(response){
-			console.log(response);
-		});
+		
 		
 	}
-	$scope.newAuction = function(){
-		$state.go("main.newAuction");
-	};
-	
 	
 	$scope.timeUntil = function(stDate) {
 
-	
-	 
+		
+		 
 	    var d = new Date(stDate);
 	    var diff = d - new Date();
 	    
@@ -78,4 +71,5 @@ router.controller('userAuctionsController', function($state, $scope, $http, $coo
 	      }
 	      $scope.$apply();
 	  }, 1000);
-});
+	
+})

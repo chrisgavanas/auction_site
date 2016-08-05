@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
+</head>
+<style>
+
+.row{
+	padding: 15px;
+	border: 1px solid #ccc;
+
+}
+.container-fluid{
+	padding-left: 50px;
+	padding-right: 50px;
+
+}
+
+.panel-heading{
+	font-size: 14px;
+	text-align: center;
+}
+
+.panel-body{
+	font-size: 12px;
+	text-align: center;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 15px;
+	padding-right: 15px;
+	
+}
+
+hr{
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+</style>
+<body>
+
+
+
+<div align="center">
+		
+
+
+	<div class="panel panel-default">
+		
+		<div class="bg-1 panel-heading ">
+			Active Selling
+		</div>
+		
+		<div class="panel-body">
+		<div class="row" align="middle">
+				<div class="col-md-5"></div>
+				<div class="col-md-1">
+					<font color="#8b0000">Price</font>
+				</div>
+				<div class="col-md-1">
+					<font color="#8b0000">Buy Out</font>
+				</div>
+				<div class="col-md-1">
+					<font color="#8b0000">Bids</font>
+				</div>
+				<div class="col-md-2">
+					<font color="#8b0000">Time Left</font>
+				</div>
+				
+	
+			</div>
+			
+		<div ng-repeat="item in items">
+			<div class="row">
+				<div class="col-md-5">
+					<a ui-sref="main.item({id: item.auctionItemId})"><u><font size="3">{{item.name}}</font></u></a>
+				</div>
+			
+			
+				<div class="col-md-1">
+					{{item.currentBid}}$
+				</div>
+				<div class="col-md-1">
+					{{item.buyout}}$
+				</div>
+				<div class="col-md-1">
+					{{item.bidsNo}}
+				</div>
+				<div class="col-md-2">
+					{{_timeLeft[$index]}}
+				</div>
+				<div class="col-md-2">
+					
+					
+						<div class="dropdown">
+  						<button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown"><font size="2">Actions</font>
+  						<span class="caret"></span></button>
+ 						 <ul class="dropdown-menu">
+    						<li><a href="#">See offers</a></li>
+    						<li><a href="#">Edit</a></li>
+    						
+  						</ul>
+						</div>
+					
+				</div>
+			</div>
+			
+		</div>
+			
+		
+		
+		
+		</div>
+	</div>
+</body>
+</html>

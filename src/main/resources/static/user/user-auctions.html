@@ -7,20 +7,25 @@
 </head>
 <style>
 
+#main.row{
+	border: none;
+}
+
 .row{
 	padding: 15px;
 	border: 1px solid #ccc;
 
 }
 .container-fluid{
-	padding-left: 150px;
-	padding-right: 150px;
+	padding-left: 50px;
+	padding-right: 50px;
 
 }
 
 .panel-heading{
 	font-size: 14px;
 	text-align: center;
+	
 }
 
 .panel-body{
@@ -42,144 +47,23 @@ hr{
 <body>
 
 <div class="container-fluid">
-	<div align="center">
-		<h5><p>Here is a list of your active auctions.</p>
-		<p>To start a new auction <a href="/#/newAuction">click here.</a></p></h5>
-	</div>
-	<br>
-	<div class="panel panel-default">
-		
-		<div class="panel-heading">
-			Active Selling
-		</div>
-		
-		<div class="panel-body">
-		<div class="row" align="middle">
-				<div class="col-md-5"></div>
-				<div class="col-md-1">
-					Price
-				</div>
-				<div class="col-md-1">
-					Buy Out
-				</div>
-				<div class="col-md-1">
-					Bids
-				</div>
-				<div class="col-md-2">
-					Time Left
-				</div>
-				
-	
+	<div class ="row" id="main">
+		<div class="col-md-3">
+			<div class="row" id="main">
+				<ul class="list-group">
+  					<a ng-class="{'active':$state.includes('main.profile.userAuctions.active')}" ui-sref="main.profile.userAuctions.active"  class="list-group-item"><font size = "3">Active Selling</font></a>
+ 					<a ui-sref="main.profile.userAuctions.pending"  class="list-group-item"><font size = "3">Inactive Selling</font></a>
+  					<a ui-sref="main.profile.userAuctions.new-auction"  class="list-group-item"><font size = "3">Sold</font></a>
+				</ul>
 			</div>
-			
-		<div ng-repeat="item in items">
-			<div class="row">
-				<div class="col-md-5">
-					<a ui-sref="main.item({id: item.auctionItemId})"><u><font size="3">{{item.name}}</font></u></a>
-				</div>
-			
-			
-				<div class="col-md-1">
-					{{item.currentBid}}$
-				</div>
-				<div class="col-md-1">
-					{{item.buyout}}$
-				</div>
-				<div class="col-md-1">
-					{{item.bidsNo}}
-				</div>
-				<div class="col-md-2">
-					3d 4h 33m 27s
-				</div>
-				<div class="col-md-2">
-					
-					
-						<div class="dropdown">
-  						<button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown"><font size="2">Actions</font>
-  						<span class="caret"></span></button>
- 						 <ul class="dropdown-menu">
-    						<li><a href="#">See offers</a></li>
-    						<li><a href="#">Edit</a></li>
-    						
-  						</ul>
-						</div>
-					
-				</div>
+			<div class="row" align="middle" id="main">
+				<button ng-click="newAuction()" class="btn btn-primary">New Auction</button>
 			</div>
-			
 		</div>
-			
-		
-		
-		
+		<div class="col-md-9">
+			<div ui-view=auctionview></div>
 		</div>
 	</div>
-	<br>
-	<br>
-	
-	<div class="panel panel-default">
-		
-		<div class="panel-heading">
-			Inactive Auctions
-		</div>
-		
-		<div class="panel-body" id="inactive">
-		<div class="row" align="middle">
-				<div class="col-md-5"></div>
-				<div class="col-md-1">
-					Price
-				</div>
-				<div class="col-md-1">
-					Buy Out
-				</div>
-				<div class="col-md-1">
-					Bids
-				</div>
-			
-				
-	
-			</div>
-		
-		<div ng-repeat="item in itemsPending">
-			<div class="row">
-				<div class="col-md-5">
-					<a ui-sref="main.item({id: item.auctionItemId})"><u><font size="3">{{item.name}}</font></u></a>
-				</div>
-			
-			
-				<div class="col-md-1">
-					{{item.currentBid}}$
-				</div>
-				<div class="col-md-1">
-					{{item.buyout}}$
-				</div>
-				<div class="col-md-1">
-					{{item.bidsNo}}
-				</div>
-				
-				<div class="col-md-2">
-					
-					
-					<button class="btn btn-primary">Edit</button>
-					
-				</div>
-				<div class="col-md-2">
-					
-					
-					<button class="btn btn-primary">Start</button>
-					
-				</div>
-			</div>
-		
-		</div>
-			
-		
-		
-		
-		</div>
-	</div>
-
-	
 </div>
 
 

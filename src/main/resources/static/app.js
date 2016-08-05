@@ -53,6 +53,14 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	}
         })
        
+        .state('main.profile.userMesseges',{
+        	url: '/messeges',
+        	views: { 'menuview': {
+        		controller: 'userMessegesController',
+        	    templateUrl: '/user/user-messeges.html'
+        		}
+        	}
+        })
         .state('main.item', {
     		url: '/item?id',
     		controller: 'itemController',
@@ -68,6 +76,32 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	}
         })
         
+        .state('main.profile.userAuctions.active',{
+        	url: '/active',
+        	views: { 'auctionview': {
+        		controller: 'userAuctionsActiveController',
+        	    templateUrl: '/user/user-auctions-active.html'
+        		}
+        	}
+        })
+        
+        .state('main.profile.userAuctions.pending',{
+        	url: '/pending',
+        	views: { 'auctionview': {
+        		controller: 'userAuctionsPendingController',
+        	    templateUrl: '/user/user-auctions-pending.html'
+        		}
+        	}
+        })
+        
+        .state('main.profile.userAuctions.sold',{
+        	url: '/sold',
+        	views: { 'auctionview': {
+        		controller: 'userAuctionsSoldController',
+        	    templateUrl: '/user/user-auctions-sold.html'
+        		}
+        	}
+        })
         .state('main.profile.userBids',{
         	url: '/userBids',
         	views: { 'menuview': {

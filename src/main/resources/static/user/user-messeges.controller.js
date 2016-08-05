@@ -1,0 +1,6 @@
+router.controller('userMessegesController', function(){
+	
+	
+	
+	
+});
