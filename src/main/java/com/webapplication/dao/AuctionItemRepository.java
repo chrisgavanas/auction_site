@@ -1,6 +1,7 @@
 package com.webapplication.dao;
 
 import com.webapplication.entity.AuctionItem;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -21,5 +22,8 @@ public interface AuctionItemRepository extends MongoRepository<AuctionItem, Stri
     List<AuctionItem> findInactiveAuctionsOfUser(String userId, Date date);
 
     AuctionItem findAuctionItemByAuctionItemId(String auctionItemId);
+
+    @Query("{'endDate' : {'$gte' : '?0'} }")
+    List<AuctionItem> findActiveAuctions(Date endDate, Pageable pageable);
 
 }

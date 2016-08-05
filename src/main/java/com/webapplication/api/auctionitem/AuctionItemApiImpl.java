@@ -3,6 +3,7 @@ package com.webapplication.api.auctionitem;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.dto.auctionitem.Status;
 import com.webapplication.error.auctionitem.AuctionItemError;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -68,13 +68,33 @@ public class AuctionItemApiImpl implements AuctionItemApi {
     }
 
     @Override
-    public AuctionItemResponseDto startAuction(@PathVariable String auctionItemId, @RequestPart StartAuctionDto startAuctionDto) throws Exception {
+    public AuctionItemResponseDto startAuction(@PathVariable String auctionItemId, @RequestBody StartAuctionDto startAuctionDto) throws Exception {
         auctionItemRequestValidator.validate(startAuctionDto);
         Optional.ofNullable(auctionItemId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         if (auctionItemId.isEmpty())
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
         return auctionItemService.startAuction(auctionItemId, startAuctionDto);
+    }
+
+    public AuctionItemResponseDto updateAuctionItem(@PathVariable String auctionItemId,@RequestBody AuctionItemUpdateRequestDto auctionItemUpdateRequestDto) throws Exception {
+        Optional.ofNullable(auctionItemId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        auctionItemRequestValidator.validate(auctionItemUpdateRequestDto);
+
+        return auctionItemService.updateAuctionItem(auctionItemId, auctionItemUpdateRequestDto);
+    }
+
+    @Override
+    public List<AuctionItemResponseDto> getActiveAuctionItems(@PathVariable Integer from, @PathVariable Integer to) throws Exception {
+        Optional.ofNullable(from).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        Optional.ofNullable(to).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        if (from <= 0 || to <= 0)
+            throw new ValidationException(AuctionItemError.INVALID_DATA);
+
+        if (from > to)
+            throw new ValidationException(AuctionItemError.INVALID_PAGINATION_VALUES);
+
+        return auctionItemService.getActiveAuctionItems(from, to);
     }
 
     @ExceptionHandler(ValidationException.class)
