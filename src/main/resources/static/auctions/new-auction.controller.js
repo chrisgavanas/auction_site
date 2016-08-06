@@ -19,7 +19,7 @@ router.controller('newAuctionController', function($scope, $state, $http,$cookie
 						});
 
 	$scope.cont = function(){
-		console.log($scope.item);
+	
 		$scope.item.userId = $scope.user.userId;
 		$scope.item.images = [];
 		$scope.item.categories.push($scope.selectedCat.categoryId);
@@ -28,7 +28,7 @@ router.controller('newAuctionController', function($scope, $state, $http,$cookie
 							.then(function(response){
 								$state.go('main.profile.userAuctions');
 							}, function(response){
-								alert("error");
+								console.log(response);
 							});
 	};
 	
