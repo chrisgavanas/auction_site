@@ -48,7 +48,7 @@ hr{
 
 <div class="container-fluid">
 	<div class ="row" id="main">
-		<div class="col-md-3">
+		<div class="col-md-2">
 			<div class="row" id="main">
 				<ul class="list-group">
   					<a ng-class="{'active':$state.includes('main.profile.userAuctions.active')}" ui-sref="main.profile.userAuctions.active"  class="list-group-item"><font size = "3">Active Selling</font></a>
@@ -60,7 +60,7 @@ hr{
 				<button ng-click="newAuction()" class="btn btn-primary">New Auction</button>
 			</div>
 		</div>
-		<div class="col-md-9">
+		<div class="col-md-10">
 			<div ui-view=auctionview></div>
 		</div>
 	</div>

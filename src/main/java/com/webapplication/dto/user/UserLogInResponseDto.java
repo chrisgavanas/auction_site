@@ -5,8 +5,10 @@ import java.util.UUID;
 public class UserLogInResponseDto {
     private String userId;
     private UUID authToken;
-
-    public UserLogInResponseDto(String userId, UUID authToken) {
+    private Boolean isAdmin;
+    
+    public UserLogInResponseDto(String userId, UUID authToken, Boolean isAdmin) {
+    	this.isAdmin = isAdmin;
         this.userId = userId;
         this.authToken = authToken;
     }
@@ -25,5 +27,13 @@ public class UserLogInResponseDto {
 
     public void setAuthToken(UUID authToken) {
         this.authToken = authToken;
+    }
+    
+    public void setIsAdmin(Boolean isAdmin){
+    	this.isAdmin = isAdmin;
+    }
+    
+    public Boolean getIsAdmin(){
+    	return this.isAdmin;
     }
 }

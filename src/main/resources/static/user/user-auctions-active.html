@@ -7,6 +7,16 @@
 </head>
 <style>
 
+#info.alert {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-align: left;
+}
+
 .row{
 	padding: 15px;
 	border: 1px solid #ccc;
@@ -37,6 +47,11 @@ hr{
 	margin-top: 15px;
 	margin-bottom: 15px;
 }
+
+
+#offers,#edit.btn{
+	    padding: 3px 17px;	
+}
 </style>
 <body>
 
@@ -46,20 +61,24 @@ hr{
 		
 
 
-	<div class="panel panel-default">
+	
+	<div class="alert alert-info" id="info" >
+		<font size="2"><strong>Info!</strong> Auctions that have recieved no offers yet can still be edited.</font>
+	</div>
+	<div class="panel panel-default" >
 		
 		<div class="bg-1 panel-heading ">
-			Active Selling
+			Active Selling <span class="badge">{{items.length}}</span>
 		</div>
 		
 		<div class="panel-body">
 		<div class="row" align="middle">
-				<div class="col-md-5"></div>
+				<div class="col-md-4"></div>
 				<div class="col-md-1">
 					<font color="#8b0000">Price</font>
 				</div>
-				<div class="col-md-1">
-					<font color="#8b0000">Buy Out</font>
+				<div class="col-md-2">
+					<font color="#8b0000">Buy Now!</font>
 				</div>
 				<div class="col-md-1">
 					<font color="#8b0000">Bids</font>
@@ -73,7 +92,7 @@ hr{
 			
 		<div ng-repeat="item in items">
 			<div class="row">
-				<div class="col-md-5">
+				<div class="col-md-4">
 					<a ui-sref="main.item({id: item.auctionItemId})"><u><font size="3">{{item.name}}</font></u></a>
 				</div>
 			
@@ -81,8 +100,11 @@ hr{
 				<div class="col-md-1">
 					{{item.currentBid}}$
 				</div>
-				<div class="col-md-1">
+				<div class="col-md-2" ng-show="item.hasBuyout">
 					{{item.buyout}}$
+				</div>
+				<div class="col-md-2" ng-show="!item.hasBuyout">
+					<i>Not available</i>
 				</div>
 				<div class="col-md-1">
 					{{item.bidsNo}}
@@ -90,21 +112,17 @@ hr{
 				<div class="col-md-2">
 					{{_timeLeft[$index]}}
 				</div>
-				<div class="col-md-2">
-					
-					
-						<div class="dropdown">
-  						<button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown"><font size="2">Actions</font>
-  						<span class="caret"></span></button>
- 						 <ul class="dropdown-menu">
-    						<li><a href="#">See offers</a></li>
-    						<li><a href="#">Edit</a></li>
-    						
-  						</ul>
-						</div>
+				<div class="col-md-1">
+					<button id="offers" class="btn btn-default" ng-disabled="item.bidsNo == 0" data-toggle="popover" data-trigger="hover" data-content="Some content">Offers</button>
+				</div>
+				<div class="col-md-1">	
+					<button ui-sref="main.editAuction({id: item.auctionItemId})" id="edit" class="btn btn-default" ng-disabled="item.bidsNo != 0" >Edit</button>
+						
 					
 				</div>
+				
 			</div>
+			
 			
 		</div>
 			

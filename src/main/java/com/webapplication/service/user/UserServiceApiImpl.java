@@ -56,7 +56,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         SessionInfo session = new SessionInfo(user.getUserId(), DateTime.now().plusMinutes(Authenticator.SESSION_TIME_OUT_MINUTES), user.getIsAdmin());
         UUID authToken = authenticator.createSession(session);
 
-        return new UserLogInResponseDto(user.getUserId(), authToken);
+        return new UserLogInResponseDto(user.getUserId(), authToken, user.getIsAdmin());
     }
 
     @Override

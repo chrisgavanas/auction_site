@@ -3,31 +3,28 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 	$scope.user = {};
 	$scope.signedIn = {};
 	var token = $cookies.get('authToken');
+	$scope.user.userId = $cookies.get('userId');
 	
-	if($cookies.get('signedIn') === 'yes'){
-		$scope.user.userId = $cookies.get('userId');
+	
+	if($cookies.get('signedIn') == 'yes')
 		$scope.signedIn = true;
-		$http.get('/api/user/'+ $scope.user.userId, {headers: {'authToken': token}}).then(function successCallback(response){
-			$scope.user.username = response.data.username;
-		}, function errorCallback(response){
-		
-			$cookies.remove('userId');
-			$cookies.remove('authToken');
-			$cookies.put('signedIn', 'no');
-			$scope.signedIn = false;
-			$state.go('main.welcome',{},{reload: true});
-			
-			
-			
-			
-		});
-		
-		
-		
-	}else
+	else
 		$scope.signedIn = false;
 	
 	
+	if($scope.signedIn == true)
+		AuthenticationService.getUser($scope.user.userId, token)
+								.then(function(response){
+								$scope.user = response.data;
+							}, function errorCallback(response){
+								console.log(ressonse);
+								$cookies.remove('userId');
+								$cookies.remove('authToken');
+								$cookies.put('signedIn', 'no');
+								$state.go('main.welcome', {}, {reload: true});
+							});
+		
+		
 	$scope.redirectRegister = function(){
 		$state.go("main.register");
 	}
@@ -37,15 +34,13 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 		$cookies.remove('authToken');
 		$cookies.put('signedIn', 'no');
 		if($state.current.name != 'main.welcome'){
-			console.log("current");
-		
 			$state.go('main.welcome', {}, {reload: true});
 		}else
 			$state.go($state.current, {}, {reload: true});	
 	}
 	
 	$scope.myProfile = function(){
-		$state.go("main.profile");
+		$state.go("main.profile", {}, {reload: true});
 	}
 	
 	
@@ -76,29 +71,30 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 	
 	$scope.user = {};
     $scope.login = function(user) {
-    	AuthenticationService.login(user).then(function (user){
-    	
-    		if($state.current.name == "main.welcome"){
-    			$state.go($state.current, {}, {reload: true}); 
-    		}else{
-    		
-    			$state.go("main.welcome", {}, {reload: true});
-    		}
-    	}, function (response) {
-    		
-    		if (response.status == 400){
-        		if($scope.user.username === "" | $scope.user.username === undefined)
-        			document.getElementById("usernamePanel").style.display = "block";
-        		if($scope.user.password === "" | $scope.user.password === undefined)
-        			document.getElementById("passwordPanel").style.display = "block";
+    	AuthenticationService.login(user, token)
+    							.then(function (response){
+    								$scope.user = response;
+    								if($scope.user.isAdmin == true)
+    									$state.go('main.admin', {} , {reload: true});
+    								else
+    									$state.go('main.welcome', {}, {reload: true});
+    							}, function (response) {
+    								if (response.status == 400){
+    									if($scope.user.username === "" | $scope.user.username === undefined)
+    										document.getElementById("usernamePanel").style.display = "block";
+    									if($scope.user.password === "" | $scope.user.password === undefined)
+    										document.getElementById("passwordPanel").style.display = "block";
         		
-        	}
-            if (response.status == 401 || response.status == 403) {
-               document.getElementById("donotmatchPanel").style.display = "block";
+    								}
+    								if (response.status == 401 || response.status == 403) {
+    									document.getElementById("donotmatchPanel").style.display = "block";
                
-            }
+    								}
             
-    	});
+    							});
+    	
+    	
+
     };
 	
 	

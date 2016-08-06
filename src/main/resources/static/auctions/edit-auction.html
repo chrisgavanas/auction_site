@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="../styles/newAuction.css">
 	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
 	
+</head>
 <style>
 
 hr{
@@ -39,24 +40,26 @@ hr{
 	padding-bottom: 50px;
 
 }
-</style>
+
+ </style>
 
 <body>
 
-
 <div class="container-fluid text-center">
+
 	<img src="./images/logo1.png"  height="114" width="230">
 	<div class="panel panel-default">
 	
-  		<div class="panel-heading">Start a new Auction</div>
+  		<div class="panel-heading">Edit your Auction</div>
   		
   		<div class="panel-body">
-  			<form name="auctionItemForm" role="form" ng-controller="newAuctionController" ng-submit="cont()">
+  			<form name="auctionItemForm" role="form" ng-controller="editAuctionController" ng-submit="cont()">
   				<div class="row">
   					<h5>Enter a title.</h5>
   			
   				</div>
   				<div class="row" align="middle">
+  	
   					<input type="text" class="form-control" id="title" ng-model="item.name">
   				</div>
   				<hr>
@@ -126,4 +129,5 @@ hr{
 	</div>
 
 </div>
+</body>
 </html>

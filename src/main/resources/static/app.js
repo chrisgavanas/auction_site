@@ -126,11 +126,32 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	templateUrl: 'auctions/new-auction.html'
         })
         
+         .state('main.editAuction', {
+        	url: '/editAuction?id',
+        	controller: 'editAuctionController',
+        	templateUrl: 'auctions/edit-auction.html'
+        })
+        
         .state('main.verificationPreview', {
         	url: '/verify?id',
         	controller: 'verificationPreviewController',
         	templateUrl: 'admin/verification-preview.html'
         })	
        
+        .state('main.startAuction', {
+        	url: '/startAuction?id',
+        	views: {
+        		'':{ controller: 'userAuctionsStartController',
+                	templateUrl: '/user/user-auctions-start.html'},
+                	
+                'preview@main.startAuction': { templateUrl: '/auctions/auction-item.html',
+                					controller: 'itemController'}
+                }
+        	
+        	
+        	
+        });
+        
+        
         
 });

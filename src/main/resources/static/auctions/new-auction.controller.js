@@ -1,4 +1,4 @@
-var newAuctionController = router.controller('newAuctionController', function($scope, $state, $http,$cookies, $route, AuthenticationService){
+router.controller('newAuctionController', function($scope, $state, $http,$cookies, $route, AuthenticationService, AuctionItemService){
 	$scope.user = {};
 	$scope.signedIn = {};
 	$scope.item = {};
@@ -9,45 +9,26 @@ var newAuctionController = router.controller('newAuctionController', function($s
 	$scope.categories = {};
 	
 
-	if($cookies.get('signedIn') === 'yes'){
-		$scope.user.userId = $cookies.get('userId');
-		$scope.signedIn = true;
-		var token = $cookies.get('authToken');
-		$http.get('/api/user/'+ $scope.user.userId, {headers: {'authToken': token}}).then(function successCallback(response){
-			$scope.user.username = response.data.username;
-			$http.get('/api/category', {headers: {'authToken': token}}).then(function successCallback(response){
-				$scope.categories = angular.copy(response.data);
-				console.log($scope.categories[0].description);
-			}, function errorCallback(response){
-				alert("error");
-				
-				
-			});
-			
-		}, function errorCallback(response){
-			alert("error");
-			
-			
-		});
-		
-		
-		
-	}else
-		$scope.signedIn = false;
 	
-	
-	$scope.myProfile = function(){
-		$state.go("main.profile");
-	};
+	AuctionItemService.getCategories(token)
+						.then(function(response){
+							$scope.categories = angular.copy(response.data);
+						}, function(response){
+							console.log(response);
+						});
 
 	$scope.cont = function(){
 		console.log($scope.item);
 		$scope.item.userId = $scope.user.userId;
 		$scope.item.images = [];
 		$scope.item.categories.push($scope.selectedCat.categoryId);
-		$cookies.putObject('item', $scope.item);
-		$state.go('main.profile.userAuctions');
 		
+		AuctionItemService.addAuctionItem(token, $scope.item)
+							.then(function(response){
+								$state.go('main.profile.userAuctions');
+							}, function(response){
+								alert("error");
+							});
 	};
 	
 	var formdata = new FormData();

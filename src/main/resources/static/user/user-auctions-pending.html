@@ -7,6 +7,8 @@
 
 <style>
 
+
+
 #main.row{
 	border: none;
 }
@@ -40,23 +42,28 @@ hr{
 	margin-top: 15px;
 	margin-bottom: 15px;
 }
+
+#start,#edit.btn{
+	    padding: 3px 17px;	
+}
 </style>
 <body>
 
-<div class="panel panel-default">
+
+<div class="panel panel-default" >
 		
 		<div class="panel-heading">
-			Inactive Auctions
+			Inactive Auctions <span class="badge">{{itemsPending.length}}</span>
 		</div>
 		
 		<div class="panel-body" id="inactive">
 		<div class="row" align="middle">
-				<div class="col-md-5"></div>
+				<div class="col-md-6"></div>
 				<div class="col-md-1">
 					<font color="#8b0000">Price</font>
 				</div>
-				<div class="col-md-1">
-					<font color="#8b0000">Buy Out</font>
+				<div class="col-md-2">
+					<font color="#8b0000">Buy Now!</font>
 				</div>
 				<div class="col-md-1">
 					<font color="#8b0000">Bids</font>
@@ -68,7 +75,7 @@ hr{
 		
 		<div ng-repeat="item in itemsPending">
 			<div class="row">
-				<div class="col-md-5">
+				<div class="col-md-6">
 					<a ui-sref="main.item({id: item.auctionItemId})"><u><font size="3">{{item.name}}</font></u></a>
 				</div>
 			
@@ -76,24 +83,25 @@ hr{
 				<div class="col-md-1">
 					{{item.currentBid}}$
 				</div>
-				<div class="col-md-1">
+				<div class="col-md-2" ng-show="item.hasBuyout">
 					{{item.buyout}}$
+				</div>
+				<div class="col-md-2" ng-show="!item.hasBuyout">
+					<i>Not avaiable</i>
 				</div>
 				<div class="col-md-1">
 					{{item.bidsNo}}
 				</div>
 				
-				<div class="col-md-2">
+				
+				<div class="col-md-1">
 					
 					
-					<button class="btn btn-primary">Edit</button>
+					<button ui-sref="main.startAuction({id: item.auctionItemId})" class="btn btn-default" id="start">Start</button>
 					
 				</div>
-				<div class="col-md-2">
-					
-					
-					<button class="btn btn-primary">Start</button>
-					
+				<div class="col-md-1">
+					<button ui-sref="main.editAuction({id: item.auctionItemId})" class="btn btn-default" id="edit">Edit</button>
 				</div>
 			</div>
 		
