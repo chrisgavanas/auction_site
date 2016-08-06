@@ -7,7 +7,8 @@ router.controller('newAuctionController', function($scope, $state, $http,$cookie
 	};
 	$scope.item.geoLocationDto = {};
 	$scope.categories = {};
-	
+	$scope.user.userId = $cookies.get('userId');
+	var token = $cookies.get('authToken');
 
 	
 	AuctionItemService.getCategories(token)
