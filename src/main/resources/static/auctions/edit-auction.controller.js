@@ -32,7 +32,7 @@ router.controller('editAuctionController', function($scope, $state, $stateParams
 							.then(function(response){
 								$state.go('main.profile.userAuctions');
 							}, function(response){
-								alert("error");
+								console.log(response);
 							});
 	};
 });
