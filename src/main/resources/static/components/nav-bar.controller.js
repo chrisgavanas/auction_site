@@ -17,7 +17,7 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 								.then(function(response){
 								$scope.user = response.data;
 							}, function errorCallback(response){
-								console.log(ressonse);
+								console.log(response);
 								$cookies.remove('userId');
 								$cookies.remove('authToken');
 								$cookies.put('signedIn', 'no');

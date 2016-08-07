@@ -9,7 +9,7 @@ var registerController = router.controller('registerController', function($scope
     		AuthenticationService.register(user).then(function (user){
     			$state.go("main.verification");
     		}, function (response) {
-    			alert(response.data.message);
+    			console.log(response);
     			if (response.data.message === "Username is already in use.") 
     				document.getElementById("inUsePanel1").style.display = "block";
     			if(response.data.message === "Email is already in use.")	
@@ -22,7 +22,35 @@ var registerController = router.controller('registerController', function($scope
     	}	
     };
     
-    
+    var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    var mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+
+    $scope.passwordStrength = {
+    		"position": "relative",
+        "width": "50px",
+        "height": "20px",
+        "margin-top": "10px",
+        	"border-radius": "3px"
+        
+    };
+
+    	$scope.strength = null;
+    $scope.analyze = function(value) {
+        if(strongRegex.test(value)) {
+            $scope.passwordStrength["background-color"] = "green";
+            $scope.passwordStrength["width"] = "150px";
+            $scope.strength = "Strong";
+        } else if(mediumRegex.test(value)) {
+            $scope.passwordStrength["background-color"] = "orange";
+            $scope.passwordStrength["width"] = "100px";
+            $scope.strength = "Medium";
+        } else {
+            $scope.passwordStrength["background-color"] = "red";
+            $scope.strength = "Weak";
+        }
+    };
+
+
     
 	
 });
