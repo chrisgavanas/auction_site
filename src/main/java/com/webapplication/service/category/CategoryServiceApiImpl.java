@@ -22,7 +22,7 @@ public class CategoryServiceApiImpl implements CategoryServiceApi {
 
     @Override
     public List<CategoryResponseDto> getCategories() {
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = categoryRepository.findCategoryByParentId(null);
 
         return categoryMapper.categoryListToCategoryResponseDto(categories);
     }

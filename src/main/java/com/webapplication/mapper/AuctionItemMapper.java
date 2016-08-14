@@ -75,7 +75,7 @@ public class AuctionItemMapper {
         }
         addAuctionItemResponseDto.setUserId(auctionItem.getUserId());
         List<Category> categories = categoryRepository.findCategoriesByIds(auctionItem.getCategories());
-        addAuctionItemResponseDto.setCategories(categoryMapper.categoryListToCategoryResponseDto(categories));
+//        addAuctionItemResponseDto.setCategories(categoryMapper.categoryListToCategoryResponseDto(categories));
 //        Optional.ofNullable(auctionItem.getImages()).ifPresent(addAuctionItemResponseDto::setImages); //TODO
 
         return addAuctionItemResponseDto;
@@ -112,7 +112,7 @@ public class AuctionItemMapper {
             auctionItemResponseDto.setGeoLocationDto(geoLocationDto);
         }
         List<Category> categories = categoryRepository.findCategoriesByIds(auctionItem.getCategories());
-        auctionItemResponseDto.setCategoryResponseDtoList(categoryMapper.categoryListToCategoryResponseDto(categories));
+//        auctionItemResponseDto.setCategoryResponseDtoList(categoryMapper.categoryListToCategoryResponseDto(categories));
         auctionItemResponseDto.setUserId(auctionItem.getUserId());
         //TODO images
 

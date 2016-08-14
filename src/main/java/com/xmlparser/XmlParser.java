@@ -16,6 +16,8 @@ import com.xmlparser.entity.Location;
 import com.xmlparser.entity.Seller;
 import com.xmlparser.entitylist.AuctionItemList;
 import com.xmlparser.entitylist.BidAuctionList;
+import org.bson.types.ObjectId;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -82,7 +84,8 @@ public class XmlParser {
                     Unmarshaller jaxbMarshaller = jaxbContext.createUnmarshaller();
                     AuctionItemList auctionItemList = (AuctionItemList) jaxbMarshaller.unmarshal(xmlDataset);
                     auctionItemList.getAuctionList().forEach(auctionItem -> {
-                        auctionItem.getCategories().forEach(auctionCategory -> categoryIds.add(getCategoryIdOfAuctionOrAdd(auctionCategory)));
+                        categoryIds.addAll(getCategoryIdsOfAuctionsOrAdd(auctionItem.getCategories()));
+//                        auctionItem.getCategories().forEach(auctionCategory -> categoryIds.add(getCategoryIdOfAuctionOrAdd(auctionCategory)));
                         String sellerId = addUserIfNotExists(auctionItem.getSeller());
 
                         if (!auctionItem.getBids().isEmpty()) {
@@ -244,7 +247,7 @@ public class XmlParser {
         auctionItem.setGeoLocation(geoLocation);
         try {
             auctionItem.setStartDate(sdf.parse(auction.getStartDate()));
-            auctionItem.setEndDate(sdf.parse(auction.getEndDate()));
+            auctionItem.setEndDate(new DateTime(sdf.parse(auction.getEndDate())).plusYears(20).toDate());
         } catch (ParseException ignored) {
         }
         auctionItem.setUserId(sellerId);
@@ -253,12 +256,30 @@ public class XmlParser {
         auctionItemRepository.save(auctionItem);
     }
 
-    private String getCategoryIdOfAuctionOrAdd(String auctionCategory) {
-        Category category;
-        if ((category = categoryRepository.findCategoryByDescription(auctionCategory)) == null)
-            category = categoryRepository.save(new Category(auctionCategory));
+//    private String getCategoryIdOfAuctionOrAdd(String auctionCategory) {
+//        Category category;
+//        if ((category = categoryRepository.findCategoryByDescription(auctionCategory)) == null)
+//            category = categoryRepository.save(new Category(auctionCategory));
+//
+//        return category.getCategoryId();
+//    }
 
-        return category.getCategoryId();
+    private List<String> getCategoryIdsOfAuctionsOrAdd(List<String> categoryDescriptions) {
+        String[] categoryIds = new String[categoryDescriptions.size()];
+        Category[] categories = new Category[categoryDescriptions.size()];
+        List<String> childrenIds = new LinkedList<>();
+        for (int i = 0; i < categories.length; i++) {
+            categories[i] = categoryRepository.findCategoryByDescription(categoryDescriptions.get(i));
+            categoryIds[i] = categories[i] == null ? ObjectId.get().toString() : categories[i].getCategoryId();
+        }
+        for (int i = 0; i < categories.length; i++) {
+            String parentId = i == 0 ? null : categoryIds[i - 1];
+            childrenIds.addAll(Arrays.asList(categoryIds).subList(i + 1, categories.length));
+            categories[i] = categoryRepository.save(new Category(categoryIds[i], parentId, childrenIds, categoryDescriptions.get(i)));
+            childrenIds.clear();
+        }
+
+        return Arrays.asList(categoryIds);
     }
 
     private String addUserIfNotExists(Seller seller) {
