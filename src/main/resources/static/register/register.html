@@ -18,7 +18,6 @@
 <style>
 
 
-
 hr {
     width: 32%;
     border: 0;
@@ -45,6 +44,7 @@ hr {
 		<h1>
 			<font size="4"><b>Registration Form</b></font>
 		</h1>
+		
 		<font id="inUsePanel1" color= #FF0000 size= "2">
     		Username already in use.
     	</font>
@@ -55,6 +55,9 @@ hr {
 		<div class="row">
 			<div class="form-group col-md-4"></div>
 			<div class="form-group col-md-4">
+				<div ng-messages="registerform.email.$error" role="alert" ng-if="registerform.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
 				<input type="email" class="form-control" validate-email name="email" placeholder="E-mail" ng-model="user.email"  required>
              </div>
              <div class="col-md-4" align="left">
@@ -69,6 +72,9 @@ hr {
 		<div class="row">
 			<div class="form-group col-md-4"></div>
 			<div class="form-group col-md-4">
+			<div ng-messages="registerform.username.$error" role="alert" ng-if="registerform.$submitted">
+				<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+			</div>
 				<input type="text" class="form-control" name="username" placeholder="Username" ng-model="user.username" required>
 			</div>
 		</div>
@@ -76,9 +82,15 @@ hr {
 		<div class="row">
 			<div class="form-group col-md-4"></div>
 			<div class="form-group col-md-2 ">
+				<div ng-messages="registerform.firstName.$error" role="alert" ng-if="registerform.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
 				<input type="text" class="form-control" name="firstName" placeholder="First Name" ng-model="user.firstName" required>
 			</div>
 			<div class="form-group col-md-2 ">
+				<div ng-messages="registerform.lastName.$error" role="alert" ng-if="registerform.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
 			     <input type="text" class="form-control" name="lastName" placeholder="Last Name" ng-model="user.lastName" required>
 			</div>
 		</div>
@@ -86,37 +98,65 @@ hr {
 		<div class="row">
 			<div class="form-group col-md-4"></div>
 			<div class="form-group col-md-2">
-				<input type="password" class=" form-control" name="password" ng-change="analyze(user.password)" placeholder="Password" ng-model="user.password" required>
-				
+				<div ng-messages="registerform.password.$error" role="alert" ng-if="registerform.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
+				<input type="password" class=" form-control" name="password" ng-change="analyze(user.password)" placeholder="Password" ng-model="user.password" required >
+				<div ng-style="passwordStrength" id="bar"></div>
+				<div align="left" ><font size="1" >{{strength}}</font></div>
 			</div>
 			<div class="form-group col-md-2">
+				<div ng-messages="registerform.confirmPassword.$error" role="alert" ng-if="registerform.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
 				<input type="password" class="form-control" name="confirmPassword" placeholder="Re-type password" 
-            		ng-model="user.confirmPassword" required  validate-passwordreg validate-pass="user.password">
-            	
+            		ng-model="user.confirmPassword" required  validate-pass="user.password" pass>
+            		
             </div>
             <div class="col-md-4" align="left">
-            	<span id="emailerror" ng-show="registerform.confirmPassword.$invalid && registerform.confirmPassword.$dirty">
-             	<i  class="fa fa-exclamation-circle" aria-hidden="true"></i> <font size = "2">Passwords do not match</font></span>
+            	
 			</div>
 		</div>
-		<div class="row  form-group" align="middle">
-			<div class="col-md-4">
+		
+		
+		<ul>
+		<div class="row">
+			<div class="col-md-4" >
+            	
 			</div>
-			<div class="col-md-1" align="right">
-				<font size="2">{{strength}}</font>
+			<div class="col-md-4" align="left">
+				<div ng-messages="registerform.confirmPassword.$error" role="alert" ng-if="registerform.password.$touched">
+            		<span ng-message="pass" ><li><font size="2" color="red">Password must contain both lower case and upper case letters and be at least 6 characters long.</font></li></span>
+            	</div>
+             </div>
+        </div>
+        <div class="row">
+        	<div class="col-md-4" >
+            	
 			</div>
-			<div class="col-md-1" align="left">
-				<div ng-style="passwordStrength"></div>
+			<div class="col-md-4" align="left"> 
+				
+            	<div ng-messages="registerform.confirmPassword.$error" role="alert" ng-if="registerform.confirmPassword.$touched">
+						<span ng-message="validatePass" align="left">
+             		 	<li><font size = "2"  color="red">Passwords do not match</font></li></span>
+             	</div>
 			</div>
-			
 		</div>
+		</ul>
 		<hr>
 		<div class="row">
 			<div class="form-group col-md-4"></div>
 			<div class="form-group col-md-2">
+				<div ng-messages="registerform.mobileNumber.$error" role="alert" ng-if="registerform.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
 				<input type="text" name="mobileNumber" class="form-control" placeholder="Mobile Number" ng-model="user.mobileNumber" required>
 			</div>
+				
 			<div class="form-group col-md-2">
+				<div ng-messages="registerform.phoneNumber.$error" role="alert" ng-if="registerform.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
             	<input type="text" name="phoneNumber" class="form-control" placeholder="Phone Number" ng-model="user.phoneNumber" required>
 			</div>
 		</div>
@@ -134,44 +174,65 @@ hr {
 		<div class="row">
 			<div class="form-group col-md-4"></div>
 			<div class="form-group col-md-4">
+				<div ng-messages="registerform.vat.$error" role="alert" ng-if="registerform.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
 				<input type="text" class="form-control" name="vat" placeholder="VAT" ng-model="user.vat" required>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col-md-4"></div>
 			<div class="form-group col-md-4">
+				<div ng-messages="registerform.dateOfBirth.$error" role="alert" ng-if="registerform.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
 				<input type="date" class="form-control" name="dateOfBirth" placeholder="Date Of Birth" ng-model="user.dateOfBirth" required>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col-md-4"></div>
 			<div class="form-group col-md-2">
+				<div ng-messages="registerform.country.$error" role="alert" ng-if="registerform.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
 				<input type="text" class='form-control' name="country" placeholder="Country" ng-model="user.country" required>
 			</div>
 			<div class="form-group col-md-2">
-				<input type="text" class="form-control" name="city" placeholder="City" ng-model="user.address.city">
+				<div ng-messages="registerform.city.$error" role="alert" ng-if="registerform.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
+				<input type="text" class="form-control" name="city" placeholder="City" ng-model="user.address.city" required>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col-md-4"></div>
 			<div class="form-group col-md-2">
-				<input type="text" class="form-control" name="street" placeholder="Street" ng-model="user.address.street">
+				<div ng-messages="registerform.street.$error" role="alert" ng-if="registerform.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
+				<input type="text" class="form-control" name="street" placeholder="Street" ng-model="user.address.street" required>
 			</div>
 			<div class="form-group col-md-2">
-				<input type="text" class="form-control" name="postalCode" placeholder="Postal Code" ng-model="user.address.postalCode">
+				<div ng-messages="registerform.postalCode.$error" role="alert" ng-if="registerform.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
+				<input type="text" class="form-control" name="postalCode" placeholder="Postal Code" ng-model="user.address.postalCode" required>
 			</div>
 		</div>
 		<div class="checkbox form-control chBox">
-			<label><input type="checkbox" ng-model="checked">I accept the <a href="#">Terms and Conditions</a></label>
+			<label><input name="checkBox" type="checkbox" ng-model="checked" required>I accept the <a href="#">Terms and Conditions</a></label>
 		</div>
 		<div class="row">
-			<span id="accepterror" class="form-control chBox">
-             <font size = "2">Please accept the Terms and Conditions to proceed.</font></span>
+				<div ng-messages="registerform.checkBox.$error" role="alert" ng-if="registerform.$submitted">
+					<span ng-message="required"><font size="2" color="red">Please accept the Terms and Conditions to proceed.</font></span>
+				</div>
+			
 		</div>
 		<div class="row">
 			<button class="btn btn-default myBtn" type="submit">Register</button>
 			
 		</div>
+	
 	</form>
 
 

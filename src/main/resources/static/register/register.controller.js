@@ -26,27 +26,28 @@ var registerController = router.controller('registerController', function($scope
     var mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
 
     $scope.passwordStrength = {
-    		"position": "relative",
-        "width": "50px",
-        "height": "20px",
-        "margin-top": "10px",
-        	"border-radius": "3px"
+    	"position": "relative",
+        "width": "0%",
+        "height": "8px",
+        
+        "border-radius": "3px"
         
     };
 
-    	$scope.strength = null;
+    $scope.strength = null;
     $scope.analyze = function(value) {
         if(strongRegex.test(value)) {
             $scope.passwordStrength["background-color"] = "green";
-            $scope.passwordStrength["width"] = "150px";
+            $scope.passwordStrength["width"] = "100%";
             $scope.strength = "Strong";
         } else if(mediumRegex.test(value)) {
             $scope.passwordStrength["background-color"] = "orange";
-            $scope.passwordStrength["width"] = "100px";
+            $scope.passwordStrength["width"] = "66%";
             $scope.strength = "Medium";
         } else {
             $scope.passwordStrength["background-color"] = "red";
             $scope.strength = "Weak";
+            $scope.passwordStrength["width"] = "33%";
         }
     };
 

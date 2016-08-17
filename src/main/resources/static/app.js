@@ -1,4 +1,4 @@
-var router = angular.module('router', ['ui.router', 'ngResource', 'ngCookies', 'ngRoute', 'checklist-model']);
+var router = angular.module('router', ['ui.router', 'ngResource', 'ngCookies', 'ngRoute', 'ngMessages','checklist-model']);
 
 
 router.config(function($stateProvider, $urlRouterProvider) {

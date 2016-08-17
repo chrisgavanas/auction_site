@@ -4,7 +4,8 @@ var validateEmail = router.directive('validateEmail', function() {
     require: 'ngModel',
     restrict: '',
     link: function(scope, elm, attrs, ctrl) {
-      if (ctrl && ctrl.$validators.email) {
+   
+      if (ctrl.$validators) {
         ctrl.$validators.email = function(modelValue) {
           return ctrl.$isEmpty(modelValue) || EMAIL_REGEXP.test(modelValue);
         };
