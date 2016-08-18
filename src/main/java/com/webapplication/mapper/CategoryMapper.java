@@ -15,7 +15,7 @@ public class CategoryMapper {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public CategoryResponseDto categoryToCategoryResponseDto(Category category) {
+    public CategoryResponseDto categoryToCategoryResponseDtoTree(Category category) {
         if (category == null)
             return null;
 
@@ -34,12 +34,24 @@ public class CategoryMapper {
         if (categories == null)
             return null;
 
-        return categories.stream().map(this::categoryToCategoryResponseDto)
+        return categories.stream().map(this::categoryToCategoryResponseDtoTree)
                 .collect(Collectors.toList());
     }
 
-    public List<String> categoryListToCategoryIds(List<Category> categories) {
-        return categories.stream().map(Category::getCategoryId).collect(Collectors.toList());
+    public CategoryResponseDto categoryToCategoryResponseDto(Category category) {
+        CategoryResponseDto categoryResponseDto = new CategoryResponseDto();
+        categoryResponseDto.setCategoryId(category.getCategoryId());
+        categoryResponseDto.setDescription(category.getDescription());
+        categoryResponseDto.setParentId(category.getParentId());
+
+        return categoryResponseDto;
+    }
+
+    public List<CategoryResponseDto> categoriesToCategoryResponseDtoList(List<Category> categories) {
+        if (categories == null)
+            return null;
+
+        return categories.stream().map(this::categoryToCategoryResponseDto).collect(Collectors.toList());
     }
 
 }

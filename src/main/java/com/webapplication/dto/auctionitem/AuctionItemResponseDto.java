@@ -3,6 +3,7 @@ package com.webapplication.dto.auctionitem;
 
 import com.webapplication.dto.category.CategoryResponseDto;
 import com.webapplication.dto.user.GeoLocationDto;
+import com.webapplication.entity.Category;
 
 import java.util.Date;
 import java.util.List;
@@ -20,7 +21,7 @@ public class AuctionItemResponseDto {
     private Date endDate;
     private GeoLocationDto geoLocationDto;
     private String userId;
-    private List<String> categoryIds;
+    private List<CategoryResponseDto> categories;
     private List<Byte[]> images;
 
     public String getAuctionItemId() {
@@ -103,12 +104,12 @@ public class AuctionItemResponseDto {
         this.geoLocationDto = geoLocationDto;
     }
 
-    public List<String> getCategoryIds() {
-        return categoryIds;
+    public List<CategoryResponseDto> getCategories() {
+        return categories;
     }
 
-    public void setCategoryIds(List<String> categoryIds) {
-        this.categoryIds = categoryIds;
+    public void setCategories(List<CategoryResponseDto> categories) {
+        this.categories = categories;
     }
 
     public String getUserId() {
