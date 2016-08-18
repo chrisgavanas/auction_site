@@ -10,6 +10,7 @@ import com.webapplication.error.auctionitem.AuctionItemError;
 import com.webapplication.exception.AuctionAlreadyInProgressException;
 import com.webapplication.exception.AuctionDurationTooShortException;
 import com.webapplication.exception.AuctionItemNotFoundException;
+import com.webapplication.exception.CategoryHierarchyException;
 import com.webapplication.exception.CategoryNotFoundException;
 import com.webapplication.exception.UserNotFoundException;
 import com.webapplication.exception.ValidationException;
@@ -107,7 +108,7 @@ public class AuctionItemApiImpl implements AuctionItemApi {
         response.sendError(HttpStatus.NOT_FOUND.value());
     }
 
-    @ExceptionHandler({AuctionAlreadyInProgressException.class, AuctionDurationTooShortException.class})
+    @ExceptionHandler({AuctionAlreadyInProgressException.class, AuctionDurationTooShortException.class, CategoryHierarchyException.class})
     private void startAuctionError(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.CONFLICT.value());
     }

@@ -20,7 +20,7 @@ public class AuctionItemResponseDto {
     private Date endDate;
     private GeoLocationDto geoLocationDto;
     private String userId;
-    private List<CategoryResponseDto> categoryResponseDtoList;
+    private List<String> categoryIds;
     private List<Byte[]> images;
 
     public String getAuctionItemId() {
@@ -103,12 +103,12 @@ public class AuctionItemResponseDto {
         this.geoLocationDto = geoLocationDto;
     }
 
-    public List<CategoryResponseDto> getCategoryResponseDtoList() {
-        return categoryResponseDtoList;
+    public List<String> getCategoryIds() {
+        return categoryIds;
     }
 
-    public void setCategoryResponseDtoList(List<CategoryResponseDto> categoryResponseDtoList) {
-        this.categoryResponseDtoList = categoryResponseDtoList;
+    public void setCategoryIds(List<String> categoryIds) {
+        this.categoryIds = categoryIds;
     }
 
     public String getUserId() {

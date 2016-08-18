@@ -65,13 +65,13 @@ class AuctionItemMapperSpec extends Specification {
         GeoLocationDto geoLocationDto = new GeoLocationDto(latitude: 15.2, longitude: 123.12341)
         AddAuctionItemRequestDto addAuctionItemRequestDto = new AddAuctionItemRequestDto(name: 'An auction',
                 minBid: 20.1, buyout: 40, description: "some description", geoLocationDto: geoLocationDto,
-                userId: 5, categories: ["578f8a542e5a3a48cfbfb070", "578f8a542e5a3a48ca3a3124"])
+                userId: 5, categoryIds: ["578f8a542e5a3a48cfbfb070", "578f8a542e5a3a48ca3a3124"])
 
         when:
         AuctionItem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(addAuctionItemRequestDto)
 
         then:
-        1 * mockCategoryRepository.findCategoriesByIds(addAuctionItemRequestDto.categories) >> [new Category(), new Category()]
+        1 * mockCategoryRepository.findCategoriesByIds(addAuctionItemRequestDto.categoryIds) >> [new Category(), new Category()]
         with(auctionItem) {
             bidsNo == 0
             buyout == addAuctionItemRequestDto.buyout
@@ -92,13 +92,13 @@ class AuctionItemMapperSpec extends Specification {
         GeoLocationDto geoLocationDto = new GeoLocationDto(latitude: 15.2, longitude: 123.12341)
         AddAuctionItemRequestDto addAuctionItemRequestDto = new AddAuctionItemRequestDto(name: 'An auction',
                 minBid: 20.1, buyout: 40, description: "some description", geoLocationDto: geoLocationDto,
-                userId: 5, categories: ["578f8a542e5a3a48cfbfb070", "578f8a542e5a3a48ca3a3124"])
+                userId: 5, categoryIds: ["578f8a542e5a3a48cfbfb070", "578f8a542e5a3a48ca3a3124"])
 
         when:
         AuctionItem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(addAuctionItemRequestDto)
 
         then:
-        1 * mockCategoryRepository.findCategoriesByIds(addAuctionItemRequestDto.categories) >> [new Category()]
+        1 * mockCategoryRepository.findCategoriesByIds(addAuctionItemRequestDto.categoryIds) >> [new Category()]
         CategoryNotFoundException e = thrown()
         e.localizedMessage == CategoryError.CATEGORY_NOT_FOUND.description;
     }

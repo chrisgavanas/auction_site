@@ -34,7 +34,7 @@ class AuctionItemValidatorSpec extends Specification {
         GeoLocationDto geoLocationDto = new GeoLocationDto(latitude: latitude, longitude: longitude)
         AddAuctionItemRequestDto addAuctionItemRequestDto = new AddAuctionItemRequestDto(name: name,
                 userId: userId, minBid: minBid, buyout: buyout, geoLocationDto: geoLocationDto,
-                categories: categories)
+                categoryIds: categories)
 
         when:
         auctionItemValidator.validate(addAuctionItemRequestDto)
@@ -60,7 +60,7 @@ class AuctionItemValidatorSpec extends Specification {
         GeoLocationDto geoLocationDto = new GeoLocationDto(latitude: latitude, longitude: longitude)
         AddAuctionItemRequestDto addAuctionItemRequestDto = new AddAuctionItemRequestDto(name: name,
                 userId: userId, minBid: minBid, buyout: buyout, geoLocationDto: geoLocationDto,
-                categories: categories, description: description)
+                categoryIds: categories, description: description)
 
         when:
         auctionItemValidator.validate(addAuctionItemRequestDto)
@@ -85,7 +85,7 @@ class AuctionItemValidatorSpec extends Specification {
         GeoLocationDto geoLocationDto = new GeoLocationDto(latitude: latitude, longitude: longitude)
         AddAuctionItemRequestDto addAuctionItemRequestDto = new AddAuctionItemRequestDto(name: name,
                 userId: userId, minBid: minBid, buyout: buyout, geoLocationDto: geoLocationDto,
-                categories: categories, description: description)
+                categoryIds: categories, description: description)
 
         when:
         auctionItemValidator.validate(addAuctionItemRequestDto)
@@ -110,7 +110,7 @@ class AuctionItemValidatorSpec extends Specification {
         GeoLocationDto geoLocationDto = new GeoLocationDto(latitude: 20, longitude: 30)
         AddAuctionItemRequestDto addAuctionItemRequestDto = new AddAuctionItemRequestDto(name: "name",
                 userId: 1, minBid: 10, description: 'description', buyout: 10.1, geoLocationDto: geoLocationDto,
-                categories: ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21'])
+                categoryIds: ['578f8a542e5a3a48cfbfb070', '578f8a542e5a3a48cffadsf21'])
 
         when:
         auctionItemValidator.validate(addAuctionItemRequestDto)

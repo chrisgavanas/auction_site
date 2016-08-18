@@ -14,4 +14,5 @@ public class StartAuctionDto {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
 }

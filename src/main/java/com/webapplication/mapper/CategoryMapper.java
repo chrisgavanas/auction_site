@@ -38,4 +38,8 @@ public class CategoryMapper {
                 .collect(Collectors.toList());
     }
 
+    public List<String> categoryListToCategoryIds(List<Category> categories) {
+        return categories.stream().map(Category::getCategoryId).collect(Collectors.toList());
+    }
+
 }

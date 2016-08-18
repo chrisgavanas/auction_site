@@ -16,7 +16,7 @@ public class AddAuctionItemResponseDto {
     private String description;
     private GeoLocationDto geoLocationDto;
     private String userId;
-    private List<CategoryResponseDto> categories;
+    private List<String> categoryIds;
 
     public String getAuctionItemId() {
         return auctionItemId;
@@ -90,12 +90,12 @@ public class AddAuctionItemResponseDto {
         this.userId = userId;
     }
 
-    public List<CategoryResponseDto> getCategories() {
-        return categories;
+    public List<String> getCategoryIds() {
+        return categoryIds;
     }
 
-    public void setCategories(List<CategoryResponseDto> categories) {
-        this.categories = categories;
+    public void setCategoryIds(List<String> categoryIds) {
+        this.categoryIds = categoryIds;
     }
 
 }

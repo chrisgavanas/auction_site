@@ -34,7 +34,7 @@ class AuctionItemUpdateRequestValidatorSpec extends Specification {
         GeoLocationDto geoLocationDto = new GeoLocationDto(latitude: latitude, longitude: longitude)
         AuctionItemUpdateRequestDto auctionItemUpdateRequestDto = new AuctionItemUpdateRequestDto(
                 buyout: buyout, description: description, minBid: minBid, name: name,
-                geoLocationDto: geoLocationDto, categories: categories
+                geoLocationDto: geoLocationDto, categoryIds: categories
         )
 
         when:
@@ -63,7 +63,7 @@ class AuctionItemUpdateRequestValidatorSpec extends Specification {
         GeoLocationDto geoLocationDto = new GeoLocationDto(latitude: latitude, longitude: longitude)
         AuctionItemUpdateRequestDto auctionItemUpdateRequestDto = new AuctionItemUpdateRequestDto(
                 buyout: buyout, description: description, minBid: minBid, name: name,
-                geoLocationDto: geoLocationDto, categories: categories
+                geoLocationDto: geoLocationDto, categoryIds: categories
         )
 
         when:
