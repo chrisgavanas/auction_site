@@ -85,7 +85,7 @@ public class XmlParser {
                     AuctionItemList auctionItemList = (AuctionItemList) jaxbMarshaller.unmarshal(xmlDataset);
                     auctionItemList.getAuctionList().forEach(auctionItem -> {
                         categoryIds.addAll(getCategoryIdsOfAuctionsOrAdd(auctionItem.getCategories()));
-//                        auctionItem.getCategories().forEach(auctionCategory -> categoryIds.add(getCategoryIdOfAuctionOrAdd(auctionCategory)));
+//                        auctionItem.getCategoryIds().forEach(auctionCategory -> categoryIds.add(getCategoryIdOfAuctionOrAdd(auctionCategory)));
                         String sellerId = addUserIfNotExists(auctionItem.getSeller());
 
                         if (!auctionItem.getBids().isEmpty()) {
@@ -140,7 +140,7 @@ public class XmlParser {
     private Auction createAuction(AuctionItem auctionItem) {
         Auction auction = new Auction();
         auction.setName(auctionItem.getName());
-        List<String> categories = getCategories(auctionItem.getCategories());
+        List<String> categories = getCategories(auctionItem.getCategoriesId());
         auction.setCategories(categories);
         auction.setMinBid("$" + auctionItem.getMinBid());
         auction.setBidsNo(auctionItem.getBidsNo());

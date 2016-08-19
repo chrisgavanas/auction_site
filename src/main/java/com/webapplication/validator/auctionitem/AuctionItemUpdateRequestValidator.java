@@ -23,7 +23,7 @@ public class AuctionItemUpdateRequestValidator implements Validator<AuctionItemU
     @Override
     public void validate(AuctionItemUpdateRequestDto request) throws ValidationException {
         Optional.ofNullable(request).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
-        if (Stream.of(request.getDescription(), request.getName(), request.getCategories()).anyMatch(Objects::isNull))
+        if (Stream.of(request.getDescription(), request.getName(), request.getCategoryIds()).anyMatch(Objects::isNull))
             throw new ValidationException(AuctionItemError.MISSING_DATA);
 
         if (Stream.of(request.getBuyout(), request.getMinBid()).noneMatch(Objects::nonNull))
@@ -36,10 +36,10 @@ public class AuctionItemUpdateRequestValidator implements Validator<AuctionItemU
         if (Stream.of(request.getName(), request.getDescription()).anyMatch(Strings::isNullOrEmpty))
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
-        if (request.getCategories().isEmpty())
+        if (request.getCategoryIds().isEmpty())
             throw new ValidationException(AuctionItemError.MISSING_DATA);
 
-        if (request.getCategories().stream().anyMatch(Strings::isNullOrEmpty))
+        if (request.getCategoryIds().stream().anyMatch(Strings::isNullOrEmpty))
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
         GeoLocationDto geoLocationDto = request.getGeoLocationDto();

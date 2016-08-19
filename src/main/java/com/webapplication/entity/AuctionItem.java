@@ -21,7 +21,7 @@ public class AuctionItem {
     private String name;
     private Date startDate;
     private String userId;
-    private List<String> categories;
+    private List<String> categoriesId;
     private List<String> images;
 
     @Embedded
@@ -129,12 +129,12 @@ public class AuctionItem {
         this.bids = bids;
     }
 
-    public List<String> getCategories() {
-        return categories;
+    public List<String> getCategoriesId() {
+        return categoriesId;
     }
 
-    public void setCategories(List<String> categories) {
-        this.categories = categories;
+    public void setCategories(List<String> categoriesId) {
+        this.categoriesId = categoriesId;
     }
 
     public List<String> getImages() {

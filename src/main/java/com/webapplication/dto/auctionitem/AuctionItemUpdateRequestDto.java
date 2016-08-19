@@ -11,7 +11,7 @@ public class AuctionItemUpdateRequestDto {
     private Double minBid;
     private String name;
     private GeoLocationDto geoLocationDto;
-    private List<String> categories;
+    private List<String> categoryIds;
     private List<Byte> images;
 
     public Double getBuyout() {
@@ -54,12 +54,12 @@ public class AuctionItemUpdateRequestDto {
         this.geoLocationDto = geoLocationDto;
     }
 
-    public List<String> getCategories() {
-        return categories;
+    public List<String> getCategoryIds() {
+        return categoryIds;
     }
 
-    public void setCategories(List<String> categories) {
-        this.categories = categories;
+    public void setCategoryIds(List<String> categoryIds) {
+        this.categoryIds = categoryIds;
     }
 
     public List<Byte> getImages() {

@@ -11,6 +11,7 @@ import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.Category;
 import com.webapplication.entity.GeoLocation;
 import com.webapplication.error.category.CategoryError;
+import com.webapplication.exception.CategoryHierarchyException;
 import com.webapplication.exception.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -47,8 +49,8 @@ public class AuctionItemMapper {
             auctionItem.setGeoLocation(geoLocation);
         }
         auctionItem.setUserId(auctionItemRequestDto.getUserId());
-        List<String> categoryIds = auctionItemRequestDto.getCategories();
-        validateCategoryIds(auctionItemRequestDto.getCategories());
+        List<String> categoryIds = auctionItemRequestDto.getCategoryIds();
+        validateCategoryIds(auctionItemRequestDto.getCategoryIds());
         auctionItem.setCategories(categoryIds);
         auctionItem.setBids(new ArrayList<>());
         auctionItem.setImages(new ArrayList<>());       //TODO
@@ -74,8 +76,8 @@ public class AuctionItemMapper {
             addAuctionItemResponseDto.setGeoLocationDto(geoLocationDto);
         }
         addAuctionItemResponseDto.setUserId(auctionItem.getUserId());
-        List<Category> categories = categoryRepository.findCategoriesByIds(auctionItem.getCategories());
-        addAuctionItemResponseDto.setCategories(categoryMapper.categoryListToCategoryResponseDto(categories));
+        List<Category> categories = categoryRepository.findCategoriesByIds(auctionItem.getCategoriesId());
+        addAuctionItemResponseDto.setCategories(categoryMapper.categoriesToCategoryResponseDtoList(categories));
 //        Optional.ofNullable(auctionItem.getImages()).ifPresent(addAuctionItemResponseDto::setImages); //TODO
 
         return addAuctionItemResponseDto;
@@ -111,8 +113,8 @@ public class AuctionItemMapper {
             GeoLocationDto geoLocationDto = new GeoLocationDto(geoLocation.getLatitude(), geoLocation.getLongitude());
             auctionItemResponseDto.setGeoLocationDto(geoLocationDto);
         }
-        List<Category> categories = categoryRepository.findCategoriesByIds(auctionItem.getCategories());
-        auctionItemResponseDto.setCategoryResponseDtoList(categoryMapper.categoryListToCategoryResponseDto(categories));
+        List<Category> categories = categoryRepository.findCategoriesByIds(auctionItem.getCategoriesId());
+        auctionItemResponseDto.setCategories(categoryMapper.categoriesToCategoryResponseDtoList(categories));
         auctionItemResponseDto.setUserId(auctionItem.getUserId());
         //TODO images
 
@@ -136,8 +138,8 @@ public class AuctionItemMapper {
             geoLocation.setLongitude(geoLocationDto.getLongitude());
         } else
             auctionItem.setGeoLocation(null);
-        validateCategoryIds(auctionItemUpdateRequestDto.getCategories());
-        auctionItem.setCategories(auctionItemUpdateRequestDto.getCategories());
+        validateCategoryIds(auctionItemUpdateRequestDto.getCategoryIds());
+        auctionItem.setCategories(auctionItemUpdateRequestDto.getCategoryIds());
         //TODO images
     }
 
@@ -145,6 +147,12 @@ public class AuctionItemMapper {
         List<Category> categories = categoryRepository.findCategoriesByIds(categoryIds);
         if (categoryIds.size() != categories.size())
             throw new CategoryNotFoundException(CategoryError.CATEGORY_NOT_FOUND);
+
+        for (int i = 1; i < categories.size(); i++) {
+            Optional.ofNullable(categories.get(i).getParentId()).orElseThrow(() -> new CategoryHierarchyException(CategoryError.INVALID_CATEGORY_HIERARCHY));
+            if (!categories.get(i).getParentId().equals(categories.get(i - 1).getCategoryId()))
+                throw new CategoryHierarchyException(CategoryError.INVALID_CATEGORY_HIERARCHY);
+        }
     }
 
 }

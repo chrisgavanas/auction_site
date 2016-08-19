@@ -12,7 +12,7 @@ public class AddAuctionItemRequestDto {
     private String description;
     private GeoLocationDto geoLocationDto;
     private String userId;
-    private List<String> categories;
+    private List<String> categoryIds;
     private List<Byte[]> images;
 
     public String getName() {
@@ -63,12 +63,12 @@ public class AddAuctionItemRequestDto {
         this.userId = userId;
     }
 
-    public List<String> getCategories() {
-        return categories;
+    public List<String> getCategoryIds() {
+        return categoryIds;
     }
 
-    public void setCategories(List<String> categories) {
-        this.categories = categories;
+    public void setCategoryIds(List<String> categoryIds) {
+        this.categoryIds = categoryIds;
     }
 
     public List<Byte[]> getImages() {

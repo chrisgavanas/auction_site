@@ -54,7 +54,7 @@ public class AuctionItemValidator implements Validator<AddAuctionItemRequestDto>
                 throw new ValidationException(AuctionItemError.INVALID_DATA);
         }
 
-        List<String> categories = request.getCategories();
+        List<String> categories = request.getCategoryIds();
         Optional.ofNullable(categories).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         if (categories.isEmpty())
             throw new ValidationException(AuctionItemError.MISSING_DATA);
