@@ -109,8 +109,8 @@ hr{
 				<div class="col-md-1">
 					{{item.bidsNo}}
 				</div>
-				<div class="col-md-2">
-					{{_timeLeft[$index]}}
+				<div class="col-md-2" >
+					 <timer end-time="item.endDate">{{days}} d, {{hours}} h, {{minutes}} m, {{seconds}} s.</timer>
 				</div>
 				<div class="col-md-1">
 					<button id="offers" class="btn btn-default" ng-disabled="item.bidsNo == 0" data-toggle="popover" data-trigger="hover" data-content="Some content">Offers</button>

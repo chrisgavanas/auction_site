@@ -7,7 +7,6 @@
 	<link rel="stylesheet" type="text/css" href="../styles/newAuction.css">
 	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
 	
-</head>
 <style>
 
 hr{
@@ -40,40 +39,48 @@ hr{
 	padding-bottom: 50px;
 
 }
-
- </style>
+</style>
 
 <body>
 
-<div class="container-fluid text-center">
 
+<div class="container-fluid text-center">
 	<img src="./images/logo1.png"  height="114" width="230">
 	<div class="panel panel-default">
 	
-  		<div class="panel-heading">Edit your Auction</div>
+  		<div class="panel-heading">Edit your auction.</div>
   		
   		<div class="panel-body">
-  			<form name="auctionItemForm" role="form" ng-controller="editAuctionController" ng-submit="cont()">
+  			<form name="auctionItemForm" role="form" ng-controller="editAuctionController" ">
   				<div class="row">
   					<h5>Enter a title.</h5>
   			
   				</div>
   				<div class="row" align="middle">
-  	
   					<input type="text" class="form-control" id="title" ng-model="item.name">
   				</div>
   				<hr>
   				<div class="row">
-  					<h5>Select a category.</h5>
-  			
+  					<div class="col-md-4"></div>
+  					<div class="col-md-4"><h5>Select a category.</h5></div>
+  					<div class="col-md-4" align="left"><button class='btn btn-link' ng-click="clear()"><font size="1">Clear categories</font></button>
+  					</div>
   				</div>
-  				<div class="row" align="middle">
-  					<div class="form-group">
- 						 <select class="form-control" id="categoryList" ng-model="selectedCat" ng-options="category.description for category in categories" >
- 						 </select>
+  				<div class="row" >
+  					<font size="1">Selected Categories:<font size="1" ng-repeat="category in item.categoryResponseDtoList">
+						>{{category.description}} 			
+  				</font> </font>
   					
-					</div>
+  				</div>
+  				<div class = "row" >
+  					<div ng-repeat="category in categories">
+						<button class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length != 0"><font size="2">>{{category.description}}</font> </button> 					
+  						<button class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length == 0"><font size="2">{{category.description}}</font> </button> 		
+  					</div>
   				
+  				</div>
+  				<div class="row" align="right">
+  					
   				</div>
   				<hr>
   				<div class="row">
@@ -102,32 +109,48 @@ hr{
   				<hr>
   				<div class="row">
   					<h5>Add your item's location. (Optional)</h5>
+  					
   				</div>
+  				<br>
   				<div class="row" >
-  					<h6>Latitude</h6>
+  					<div class="col-md-5">
+  						<h6>Enter your item's longitute and latitude</h6>
+  						<div class="row">
+  							<h6>Longitute</h6>
+  						</div>
+  						<div class="row" align="middle">
+  							<input class="form-control" id="lon" ng-model="item.geoLocationDto.longitude">
+  						</div>
+  						<div class="row">
+  							<h6>Latitude</h6>
+  						</div>
+  						<div class="row" align="middle">
+  							<input class="form-control" id="lat" ng-model="item.geoLocationDto.latitude">
+  						</div>
+  					</div>
+  					<div class="col-md-2">
+  						<h1>or</h1>
+  					</div>
+  					<div class="col-md-5">
+  						<h6>Drag the marker to your item's location.</h6>
+  						<ng-map center="current-location" zoom="4">
+    						<marker position="{{item.geoLocationDto.latitude}},{{item.geoLocationDto.longitude}}" draggable="true" on-dragend="getCurrentLocation()"></marker>
+  						</ng-map>
+  					</div>
+  					
   				</div>
-  				<div class="row" align="middle">
-  					<input class="form-control" id="lat" ng-model="item.geoLocationDto.latitude">
-  				</div>
-  				<div class="row" >
-  					<h6>Longitute</h6>
-  				</div>
-  				<div class="row" align="middle">
-  					<input class="form-control" id="lon" ng-model="item.geoLocationDto.longitude">
-  				</div>
+  				
   				
   			
   				
   				<br>
   				<div class="row">
-  					<button type="submit" class="btn btn-primary">Continue</button>
+  			
+  					<button type="submit" class="btn btn-primary" ng-click="cont()" >Continue</button>
+  					
   				</div>
   			</form>
   			
   		
   		</div>
 	</div>
-
-</div>
-</body>
-</html>

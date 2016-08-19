@@ -18,6 +18,9 @@
 
 }
 
+#cats{
+	padding-left: 40px;
+}
 </style>
 <body>
 
@@ -26,7 +29,10 @@
 	
   		
   		
-  		
+  			<div id="cats" class="row" align="left">
+  				<font size="1">Categories:</font><font size="1" ng-repeat="category in item.categoryResponseDtoList"> >{{category.description}}</font>
+  			
+  			</div>
   			<div class="row">
   				<div class="col-md-4">
   					<img src="./images/item.png" width="300" height="300">
@@ -63,8 +69,8 @@
   								</div>
   								
   							</div>
-  							<div class="row">
-  								<font size="1">Time left: 3d 3h 27m 28s</font>
+  							<div class="row" ng-if="item.endDate != null">
+  								<font size="1">Time left: <timer end-time="item.endDate">{{days}} d, {{hours}} h, {{minutes}} m, {{seconds}} s.</timer></font>
   							</div>
   							<hr ng-show="hasBuyout">
   							<div class="row" ng-show="hasBuyout">
@@ -87,7 +93,7 @@
   							<div class="panel panel-default">
   								<div class="panel-body bg-5">
   									<font size="3">Seller Information</font>
-  									<p><font size="2"><a>{{user.username}}</a> ({{user.ratingAsSeller}}<span class="glyphicon glyphicon-star"></span>)</font></p>
+  									<p><font size="2"><a ui-sref="main.seller({id: item.userId})">{{user.username}}</a> ({{user.ratingAsSeller}}<span class="glyphicon glyphicon-star"></span>)</font></p>
   									<p><font size="1">From {{user.country}}</font></p>
   									<p><font size="1"><a href="#">See other items.</a></font></p>
   								</div>
@@ -99,16 +105,18 @@
   			<hr>
   			<div class="row">
   				<div class="col-md-8" align="left">
-  					<div class="row">
+  					<div class="row" id="cats">
   						<font size="3">Description</font>
   					
   					</div>
-  					<div class="row" align="left">
+  					<div class="row" align="left" id="cats">
   						<font size="2">{{item.description}}</font>
   					</div>
   				</div>
   				<div class="col-md-4">
-  					<div ng-show="hasLatLon" id="mapholder"></div>
+  					<ng-map center="current-location" zoom="4">
+    						<marker position="{{item.geoLocationDto.latitude}},{{item.geoLocationDto.longitude}}" draggable="true" on-dragend="getCurrentLocation()"></marker>
+  						</ng-map>
   				</div>
   			
   			</div>

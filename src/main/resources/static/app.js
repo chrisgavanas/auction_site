@@ -1,4 +1,4 @@
-var router = angular.module('router', ['ui.router', 'ngResource', 'ngCookies', 'ngRoute', 'ngMessages','checklist-model']);
+var router = angular.module('router', ['ngFileUpload','timer', 'ngMap', 'ui.router', 'ngResource', 'ngCookies', 'ngRoute', 'ngMessages','checklist-model']);
 
 
 router.config(function($stateProvider, $urlRouterProvider) {
@@ -137,7 +137,11 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	controller: 'verificationPreviewController',
         	templateUrl: 'admin/verification-preview.html'
         })	
-       
+        .state('main.seller', {
+        	url: '/member?id',
+        	controler: 'sellerProfileController',
+        	tempaletUrl: 'seller/seller-profile.html'
+        })
         .state('main.startAuction', {
         	url: '/startAuction?id',
         	views: {
@@ -150,8 +154,11 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	
         	
         	
-        });
+        })
         
+       
+    
+    	
         
         
 });

@@ -4,7 +4,7 @@
     <groupId>TED</groupId>
     <artifactId>com.main</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>maven-plugin</packaging>
     <name>com.main</name>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -8,7 +8,31 @@
 	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
 	
 <style>
+.thumb {
+    width: 24px;
+    height: 24px;
+    float: none;
+    position: relative;
+    top: 7px;
+}
 
+form .progress {
+    line-height: 15px;
+}
+}
+
+.progress {
+    display: inline-block;
+    width: 100px;
+    border: 3px groove #CCC;
+    border-radius: 3px solid;
+}
+
+.progress div {
+    font-size: smaller;
+    background: #6ecbc9;
+    width: 0;
+}
 hr{
 	width: 600px;}
 #title{
@@ -51,7 +75,7 @@ hr{
   		<div class="panel-heading">Start a new Auction</div>
   		
   		<div class="panel-body">
-  			<form name="auctionItemForm" role="form" ng-controller="newAuctionController" ng-submit="cont()">
+  			<form name="auctionItemForm" role="form" ng-controller="newAuctionController" ">
   				<div class="row">
   					<h5>Enter a title.</h5>
   			
@@ -61,16 +85,26 @@ hr{
   				</div>
   				<hr>
   				<div class="row">
-  					<h5>Select a category.</h5>
-  			
+  					<div class="col-md-4"></div>
+  					<div class="col-md-4"><h5>Select a category.</h5></div>
+  					<div class="col-md-4" align="left"><button class='btn btn-link' ng-click="clear()"><font size="1">Clear categories</font></button>
+  					</div>
   				</div>
-  				<div class="row" align="middle">
-  					<div class="form-group">
- 						 <select class="form-control" id="categoryList" ng-model="selectedCat" ng-options="category.description for category in categories" >
- 						 </select>
+  				<div class="row" >
+  					<font size="1">Selected Categories:<font size="1" ng-repeat="category in selected">
+						>{{category.description}} 			
+  				</font> </font>
   					
-					</div>
+  				</div>
+  				<div class = "row" >
+  					<div ng-repeat="category in categories">
+						<button class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length != 0"><font size="2">>{{category.description}}</font> </button> 					
+  						<button class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length == 0"><font size="2">{{category.description}}</font> </button> 		
+  					</div>
   				
+  				</div>
+  				<div class="row" align="right">
+  					
   				</div>
   				<hr>
   				<div class="row">
@@ -99,25 +133,72 @@ hr{
   				<hr>
   				<div class="row">
   					<h5>Add your item's location. (Optional)</h5>
+  					
   				</div>
+  				<br>
   				<div class="row" >
-  					<h6>Latitude</h6>
+  					<div class="col-md-5">
+  						<h6>Enter your item's longitute and latitude</h6>
+  						<div class="row">
+  							<h6>Longitute</h6>
+  						</div>
+  						<div class="row" align="middle">
+  							<input class="form-control" id="lon" ng-model="item.geoLocationDto.longitude">
+  						</div>
+  						<div class="row">
+  							<h6>Latitude</h6>
+  						</div>
+  						<div class="row" align="middle">
+  							<input class="form-control" id="lat" ng-model="item.geoLocationDto.latitude">
+  						</div>
+  					</div>
+  					<div class="col-md-2">
+  						<h1>or</h1>
+  					</div>
+  					<div class="col-md-5">
+  						<h6>Drag the marker to your item's location.</h6>
+  						<ng-map center="current-location" zoom="4">
+    						<marker position="current-location" draggable="true" on-dragend="getCurrentLocation()"></marker>
+  						</ng-map>
+  					</div>
+  					
   				</div>
-  				<div class="row" align="middle">
-  					<input class="form-control" id="lat" ng-model="item.geoLocationDto.latitude">
-  				</div>
-  				<div class="row" >
-  					<h6>Longitute</h6>
-  				</div>
-  				<div class="row" align="middle">
-  					<input class="form-control" id="lon" ng-model="item.geoLocationDto.longitude">
-  				</div>
+  				<hr>
+  			<div class="row">
+  				<h6>Upload at least one picture of your item.</h6>
+  			</div>
+  			<div class="row">
+  				<div class="col-md-4"></div>
+  				<div class="col-md-4">
+  				<button class="btn btn-primary" ngf-select="uploadFiles($files, $invalidFiles)" multiple
+          				accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+      						Select Files</button>
+  				<br><br>
+  				<fieldset>
+  				<legend><font size="2">Files:</font></legend>
   				
+    				<div ng-repeat="f in files" style="font:smaller"><font size="1">{{f.name}} {{f.$errorParam}}</font>
+      					<span class="progress" ng-show="f.progress >= 0">
+        				<div style="width:{{f.progress}}%"  
+           						 ng-bind="f.progress + '%'"></div>
+      					</span>
+    				</div>
+    				<li ng-repeat="f in errFiles" style="font:smaller"><font size="1">{{f.name}} {{f.$error}} {{f.$errorParam}}</font>
+    				</li> 
+  				
+  				{{errorMsg}}
+  				<div ng-repeat="file in files">
+  				<img ng-show="myForm.file.$valid" ngf-thumbnail="file" class="thumb"></div>
+  				</fieldset>
+				</div>
+  			</div>
   			
   				
   				<br>
   				<div class="row">
-  					<button type="submit"class="btn btn-primary">Continue</button>
+  			
+  					<button type="submit" class="btn btn-primary" ng-click="cont()" >Continue</button>
+  					
   				</div>
   			</form>
   			
