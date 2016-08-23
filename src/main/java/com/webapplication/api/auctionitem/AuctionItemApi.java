@@ -5,7 +5,7 @@ import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
-import com.webapplication.dto.auctionitem.Status;
+import com.webapplication.dto.auctionitem.AuctionStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +23,7 @@ public interface AuctionItemApi {
     AddAuctionItemResponseDto addAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception;
 
     @RequestMapping(path = "/auctionitem/user/{userId}", method = RequestMethod.GET, produces = "application/json")
-    List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(@PathVariable String userId, @RequestParam("status") Status status) throws Exception;
+    List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(@PathVariable String userId, @RequestParam("status") AuctionStatus status) throws Exception;
 
     @RequestMapping(path = "/auctionitem-as-xml", method = RequestMethod.GET)
     void exportAuctionsAsXmlFile(HttpServletResponse response) throws Exception;

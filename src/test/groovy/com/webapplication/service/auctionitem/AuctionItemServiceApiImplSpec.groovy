@@ -6,7 +6,7 @@ import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto
 import com.webapplication.dto.auctionitem.StartAuctionDto
-import com.webapplication.dto.auctionitem.Status
+import com.webapplication.dto.auctionitem.AuctionStatus
 import com.webapplication.entity.AuctionItem
 import com.webapplication.entity.User
 import com.webapplication.error.auctionitem.AuctionItemError
@@ -15,7 +15,6 @@ import com.webapplication.exception.AuctionDurationTooShortException
 import com.webapplication.exception.AuctionItemNotFoundException
 import com.webapplication.exception.UserNotFoundException
 import com.webapplication.mapper.AuctionItemMapper
-import com.xmlparser.entity.Auction
 import org.joda.time.DateTime
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -81,13 +80,13 @@ class AuctionItemServiceApiImplSpec extends Specification {
         auctionItemServiceImpl.getAuctionItemsOfUserByStatus(userId, status)
 
         then:
-        (status == Status.ACTIVE ? 1 : 0) * mockAuctionItemRepository.findActiveAuctionsOfUser(userId, *_) >> auctionItemList
-        (status == Status.PENDING ? 1 : 0) * mockAuctionItemRepository.findPendingAuctionsOfUser(userId) >> auctionItemList
-        (status == Status.INACTIVE ? 1 : 0) * mockAuctionItemRepository.findInactiveAuctionsOfUser(userId, *_)  >> auctionItemList
+        (status == AuctionStatus.ACTIVE ? 1 : 0) * mockAuctionItemRepository.findActiveAuctionsOfUser(userId, *_) >> auctionItemList
+        (status == AuctionStatus.PENDING ? 1 : 0) * mockAuctionItemRepository.findPendingAuctionsOfUser(userId) >> auctionItemList
+        (status == AuctionStatus.INACTIVE ? 1 : 0) * mockAuctionItemRepository.findInactiveAuctionsOfUser(userId, *_)  >> auctionItemList
         1 * mockAuctionItemMapper.auctionItemsToAuctionItemResponseDto(auctionItemList) >> auctionItemResponseDtoList
 
         where:
-        status << [Status.ACTIVE, Status.PENDING, Status.INACTIVE]
+        status << [AuctionStatus.ACTIVE, AuctionStatus.PENDING, AuctionStatus.INACTIVE]
     }
 
     def "Get auction item by auctionItemId that doesn't exist"() {

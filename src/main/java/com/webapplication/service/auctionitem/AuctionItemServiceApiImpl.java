@@ -7,7 +7,7 @@ import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
-import com.webapplication.dto.auctionitem.Status;
+import com.webapplication.dto.auctionitem.AuctionStatus;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.User;
 import com.webapplication.error.auctionitem.AuctionItemError;
@@ -63,7 +63,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     @Override
-    public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(String userId, Status status) throws Exception {
+    public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(String userId, AuctionStatus status) throws Exception {
         List<AuctionItem> auctionItems = null;
         switch (status) {
             case ACTIVE:

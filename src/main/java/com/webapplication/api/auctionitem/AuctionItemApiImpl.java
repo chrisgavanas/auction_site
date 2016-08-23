@@ -5,7 +5,7 @@ import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
-import com.webapplication.dto.auctionitem.Status;
+import com.webapplication.dto.auctionitem.AuctionStatus;
 import com.webapplication.error.auctionitem.AuctionItemError;
 import com.webapplication.exception.AuctionAlreadyInProgressException;
 import com.webapplication.exception.AuctionDurationTooShortException;
@@ -45,7 +45,7 @@ public class AuctionItemApiImpl implements AuctionItemApi {
     }
 
     @Override
-    public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(@PathVariable String userId, @RequestParam("status") Status status) throws Exception {
+    public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(@PathVariable String userId, @RequestParam("status") AuctionStatus status) throws Exception {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         Optional.ofNullable(status).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         if (userId.isEmpty())

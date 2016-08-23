@@ -1,6 +1,6 @@
 package com.webapplication.dto.auctionitem;
 
 
-public enum Status {
+public enum AuctionStatus {
     ACTIVE, PENDING, INACTIVE
 }
