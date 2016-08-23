@@ -1,6 +1,7 @@
 package com.webapplication.mapper;
 
 import com.google.common.collect.Lists;
+import com.webapplication.dao.AuctionItemRepository;
 import com.webapplication.dao.CategoryRepository;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
@@ -10,14 +11,18 @@ import com.webapplication.dto.user.GeoLocationDto;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.Category;
 import com.webapplication.entity.GeoLocation;
+import com.webapplication.error.auctionitem.AuctionItemError;
 import com.webapplication.error.category.CategoryError;
 import com.webapplication.exception.CategoryHierarchyException;
 import com.webapplication.exception.CategoryNotFoundException;
+import com.webapplication.exception.InvalidAuctionException;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -27,16 +32,20 @@ import java.util.stream.Collectors;
 public class AuctionItemMapper {
 
     @Autowired
+    private AuctionItemRepository auctionItemRepository;
+
+    @Autowired
     private CategoryMapper categoryMapper;
 
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public AuctionItem addAuctionItemRequestDtoToAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
+    public AuctionItem addAuctionItemRequestDtoToAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto, List<String> imagesPath) throws Exception {
         if (auctionItemRequestDto == null)
             return null;
 
         AuctionItem auctionItem = new AuctionItem();
+        auctionItem.setAuctionItemId(auctionItemRequestDto.getAuctionItemId());
         auctionItem.setName(auctionItemRequestDto.getName());
         auctionItem.setMinBid(auctionItemRequestDto.getMinBid());
         auctionItem.setBuyout(auctionItemRequestDto.getBuyout());
@@ -53,7 +62,7 @@ public class AuctionItemMapper {
         validateCategoryIds(auctionItemRequestDto.getCategoryIds());
         auctionItem.setCategories(categoryIds);
         auctionItem.setBids(new ArrayList<>());
-        auctionItem.setImages(new ArrayList<>());       //TODO
+        auctionItem.setImages(imagesPath);
 
         return auctionItem;
     }
@@ -153,6 +162,20 @@ public class AuctionItemMapper {
             if (!categories.get(i).getParentId().equals(categories.get(i - 1).getCategoryId()))
                 throw new CategoryHierarchyException(CategoryError.INVALID_CATEGORY_HIERARCHY);
         }
+    }
+
+    public AuctionItem initializeAuctionItemWithImage(String imagePath, String auctionItemId, String userId) throws Exception {
+        AuctionItem auctionItem = auctionItemRepository.findAuctionItemByAuctionItemId(auctionItemId);
+        if (auctionItem != null && !auctionItem.getUserId().equals(userId))
+            throw new InvalidAuctionException(AuctionItemError.INVALID_AUCTION);
+        else if (auctionItem == null) {
+            auctionItem = new AuctionItem();
+            auctionItem.setImages(new LinkedList<>());
+        }
+        auctionItem.setAuctionItemId(ObjectId.get().toString());
+        auctionItem.getImages().add(imagePath);
+
+        return auctionItem;
     }
 
 }

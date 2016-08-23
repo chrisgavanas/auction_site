@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -39,5 +41,8 @@ public interface AuctionItemApi {
 
     @RequestMapping(path = "/auctionitem/{from}-{to}", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
     List<AuctionItemResponseDto> getActiveAuctionItems(@PathVariable Integer from, @PathVariable Integer to) throws Exception;
+
+    @RequestMapping(path = "/auctionitem/{auctionItemId}/user/{userId}/upload", method = RequestMethod.POST, produces = "application/json")
+    String uploadPhoto(@RequestParam("file") MultipartFile file, @PathVariable String auctionItemId, @PathVariable String userId) throws Exception;
 
 }

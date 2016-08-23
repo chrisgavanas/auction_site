@@ -6,6 +6,7 @@ import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.dto.auctionitem.AuctionStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -25,5 +26,7 @@ public interface AuctionItemServiceApi {
     AuctionItemResponseDto updateAuctionItem(String auctionItemId, AuctionItemUpdateRequestDto auctionItemUpdateRequestDto) throws Exception;
 
     List<AuctionItemResponseDto> getActiveAuctionItems(Integer from, Integer to) throws Exception;
+
+    String uploadPhoto(MultipartFile file, String auctionItemId, String userId) throws Exception;
 
 }
