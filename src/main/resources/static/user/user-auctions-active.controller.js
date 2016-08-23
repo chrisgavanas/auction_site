@@ -20,7 +20,7 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 											$scope.items[i].hasBuyout = true;
 									}
 						}, function(response){
-							alert("error");
+							console.log(response);
 						});	
 		
 	$scope.timeUntil = function(stDate) {

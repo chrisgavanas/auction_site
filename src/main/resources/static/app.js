@@ -37,7 +37,11 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	url: '/pendingMessage',
         	templateUrl: 'messeges/verification-pending.html'
         })
-        
+        .state('main.seller',{
+        	url: '/member?id',
+        	controller: 'sellerProfileController',
+        	templateUrl: 'seller/seller-profile.html'
+        })
         .state('main.profile', {
         	url: '/profile',
         	controller: 'profileController',
@@ -53,11 +57,35 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	}
         })
        
-        .state('main.profile.userMesseges',{
-        	url: '/messeges',
+        .state('main.profile.userMessages',{
+        	url: '/messages',
         	views: { 'menuview': {
-        		controller: 'userMessegesController',
-        	    templateUrl: '/user/user-messeges.html'
+        		controller: 'userMessagesController',
+        	    templateUrl: '/user/user-messages.html'
+        		}
+        	}
+        })
+        .state('main.profile.userMessages.all',{
+        	url: '/all',
+        	views: { 'messageview': {
+        		controller: 'userMessagesAllController',
+        	    templateUrl: '/user/user-messages-all.html'
+        		}
+        	}
+        })
+        .state('main.profile.userMessages.recieved',{
+        	url: '/recieved',
+        	views: { 'messageview': {
+        		controller: 'userMessagesRecievedController',
+        	    templateUrl: '/user/user-messages-recieved.html'
+        		}
+        	}
+        })
+        .state('main.profile.userMessages.sent',{
+        	url: '/sent',
+        	views: { 'messageview': {
+        		controller: 'userMessagesSentController',
+        	    templateUrl: '/user/user-messages-sent.html'
         		}
         	}
         })
@@ -137,11 +165,7 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	controller: 'verificationPreviewController',
         	templateUrl: 'admin/verification-preview.html'
         })	
-        .state('main.seller', {
-        	url: '/member?id',
-        	controler: 'sellerProfileController',
-        	tempaletUrl: 'seller/seller-profile.html'
-        })
+        
         .state('main.startAuction', {
         	url: '/startAuction?id',
         	views: {

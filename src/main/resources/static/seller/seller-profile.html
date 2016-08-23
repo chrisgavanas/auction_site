@@ -3,22 +3,80 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
 </head>
-<body>
+<style>
+.container-fluid{
+	padding-left: 200px;
+	padding-right: 200px;
+	padding-top: 50px;
+	padding-bottom: 50px;
+
+}
+
+.panel-body{
+	padding-left: 30px;
+	padding-right: 30px;
+}
+.panel-heading{
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.panel-primary>.panel-heading {
+    color: #242D2C;
+    background-color: #6ecbc9;
+    border-color: #6ecbc9;
+}
+
+.panel-primary {
+    border-color: #6ecbc9;
+}
+
+
+</style>
+<body ng-controller="sellerProfileController">
 
 <div class="container-fluid ">
 
-	<div class="panel panel-default">
-		<div class="panel-heading">username(stars)</div>
+	<div class="panel panel-primary">
+		<div class="bg-3 panel-heading">{{user.username}} ({{user.ratingAsSeller}}<span class="glyphicon glyphicon-star"></span>)</div>
 		
 		
-		<div class="panel-body">
+		<div class="panel-body" id="main">
 			<div class="row">
-				<img src="/images/user.png">
-			
+				<div class="col-md-4">
+					<img src="/images/user.png" height="150" width="150">
+				</div>
+				<div class="col-md-8">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							Feedback
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								Seller rating: {{user.ratingAsSeller}} <span class="glyphicon glyphicon-star"></span>
+							</div>
+							<div class="row">
+								Bidder rating: {{user.ratingAsBidder}} <span class="glyphicon glyphicon-star"></span>
+							</div>
+							
+							
+						</div>
+						
+					</div>
+					<div class="row" align="middle">
+							<a>Items for sale</a>
+					</div>
+				</div>
+				
 			</div>
-		
-		
+			<div class="row">
+				<font size="2">Member since: {{registrationDateConverted}}</font>
+			</div>
+			<div class="row">
+				<font size="2">Country: {{user.country}}</font>
+			</div>
 		</div>
 	</div>
 	

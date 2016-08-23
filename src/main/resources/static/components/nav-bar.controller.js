@@ -1,10 +1,10 @@
-router.controller('navBarController', function($state, $scope, $rootScope, $cookies, $http, AuthenticationService){
+router.controller('navBarController', function($state, $scope, $rootScope, $cookies, $http, AuthenticationService, AuctionItemService){
 	var data = new FormData();
 	$scope.user = {};
 	$scope.signedIn = {};
+	$scope.categories = [];
 	var token = $cookies.get('authToken');
 	$scope.user.userId = $cookies.get('userId');
-	
 	
 	if($cookies.get('signedIn') == 'yes')
 		$scope.signedIn = true;
@@ -24,7 +24,19 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 								$state.go('main.welcome', {}, {reload: true});
 							});
 		
-		
+	
+	AuctionItemService.getCategories(token)
+							.then(function(response){
+									$scope.categories = angular.copy(response.data);
+									$scope.defaultCat = {};
+									$scope.defaultCat = {categoryId: "0", description: "All Categories"};
+									$scope.categories.push($scope.defaultCat);
+									$scope.selected = "0";
+									console.log($scope.categories);
+							}, function(response){
+								console.log(response);
+							});
+	
 	$scope.redirectRegister = function(){
 		$state.go("main.register");
 	}
@@ -74,6 +86,7 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
     	AuthenticationService.login(user, token)
     							.then(function (response){
     								$scope.user = response;
+    								
     								if($scope.user.isAdmin == true)
     									$state.go('main.admin', {} , {reload: true});
     								else
@@ -97,6 +110,8 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 
     };
 	
-	
+	$scope.search = function(){
+		console.log($scope.selected);
+	}
 	
 });

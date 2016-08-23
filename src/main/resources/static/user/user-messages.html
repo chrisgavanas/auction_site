@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+<style>
+
+.list-group-item{
+	border: none;
+
+}
+
+hr {
+    margin-top: 1px; 
+    margin-bottom: 1px; 
+    border: 0;
+    border-top: 1px solid #eee;
+}
+.panel-body{
+	padding: 0;
+}
+<style>
+
+#panelrow{
+	padding: 15px;
+	border: 1px solid #ccc;
+}
+
+#firstrow {
+    padding: 15px;
+    border: 1px solid #ccc;
+    background-color: #eee;
+}
+#headingrow{
+	padding-left :15px;
+	padding-right: 15px;
+}
+
+#mainpanel.panel-body{
+	font-size: 12px;
+
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 15px;
+	padding-right: 15px;
+	
+}
+
+.panel-header{
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.panel-default>.panel-heading {
+    color: #333;
+    background-color: #dff1f0;
+    border-color: #dff1f0;
+}
+</style>
+
+
+<body>
+
+	<div class="container-fluid">
+	
+		<div class="col-md-3">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<font size="3">Inbox</font>
+				
+				</div>
+				<div class="panel-body">
+					<div class="list-group">
+						<a  ui-sref="main.profile.userMessages.all" class="list-group-item"><font size="2">All Messages (0)</font></a>
+  						<hr>
+  						<a  ui-sref="main.profile.userMessages.recieved"class="list-group-item"><font size="2">Recieved (0)</font></a>
+  						<hr>
+  						<a  ui-sref="main.profile.userMessages.sent"class="list-group-item"><font size="2">Sent (0)</font></a>
+  						
+					</div>
+				</div>
+			</div>
+		
+		</div>
+		<div class="col-md-9">
+			<div ui-view=messageview></div>
+		</div>
+	</div>
+
+
+</body>
+</html>
