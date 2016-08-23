@@ -26,7 +26,7 @@
 						<input type="checkbox" ng-change="selectAll()" ng-model='checked'><font size="2"> Select All</font>
 					</div>
 					<div class="col-md-2">
-						<button class="btn btn-default">Delete</button>
+						<button class="btn btn-default" ng-click="deleteMsg()">Delete</button>
 					</div>
 					</div>
 				</div>
@@ -39,7 +39,7 @@
 					</div>
 					<div id="panelrow" class="row" ng-repeat="message in messages">
 						<div class="col-md-3">
-							<input type="checkbox" ng-model="checkboxes">
+							<input type="checkbox" ng-model="message.checked">
 						</div>
 						<div class="col-md-3">
 							<font size="2">{{message.from}}</font>
@@ -52,10 +52,16 @@
 							<font size="2">{{message.date}}</font>
 						</div>
 					</div>
-				
+					
 				</div>
 			
 			</div>
+		</div>
+		<div class="row" align="middle">
+			<div class="btn-group">
+  				<button type="button" class="btn btn-primary" ng-click='previousPage()' ng-disabled='pageCounter == 1'>Back</button>
+  				<button type="button" class="btn btn-primary" ng-click='nextPage()' ng-disabled='messages.length < 10'>Next</button>
+  			</div>
 		</div>
 	</div>
 
