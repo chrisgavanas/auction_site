@@ -4,13 +4,11 @@ import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto
 import com.webapplication.dto.auctionitem.StartAuctionDto
-import com.webapplication.dto.auctionitem.Status
-import com.webapplication.entity.AuctionItem
+import com.webapplication.dto.auctionitem.AuctionStatus
 import com.webapplication.error.auctionitem.AuctionItemError
 import com.webapplication.exception.ValidationException
 import com.webapplication.service.auctionitem.AuctionItemServiceApi
 import com.webapplication.validator.auctionitem.AuctionItemRequestValidator
-import com.webapplication.validator.auctionitem.AuctionItemValidator
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -51,17 +49,17 @@ class AuctionItemApiImplSpec extends Specification {
         e.localizedMessage == error.description
 
         where:
-        userId | status        | error
-        null   | Status.ACTIVE | AuctionItemError.MISSING_DATA
-        null   | null          | AuctionItemError.MISSING_DATA
-        ""     | Status.ACTIVE | AuctionItemError.INVALID_DATA
+        userId | status               | error
+        null   | AuctionStatus.ACTIVE | AuctionItemError.MISSING_DATA
+        null   | null                 | AuctionItemError.MISSING_DATA
+        ""     | AuctionStatus.ACTIVE | AuctionItemError.INVALID_DATA
     }
 
     def "Get user's auctions sucessfully"() {
         given:
         String userId = "578f9c605a61fe0aa84fe8e5"
         List<AuctionItemResponseDto> auctionItemResponseDtoList = []
-        Status status = Status.ACTIVE
+        AuctionStatus status = AuctionStatus.ACTIVE
 
         when:
         auctionItemApi.getAuctionItemsOfUserByStatus(userId, status)
