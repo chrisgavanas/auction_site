@@ -23,6 +23,7 @@ public class AuctionItem {
     private String userId;
     private List<String> categoriesId;
     private List<String> images;
+    private Date ttl;
 
     @Embedded
     private GeoLocation geoLocation;
@@ -143,6 +144,18 @@ public class AuctionItem {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    public void setCategoriesId(List<String> categoriesId) {
+        this.categoriesId = categoriesId;
+    }
+
+    public Date getTtl() {
+        return ttl;
+    }
+
+    public void setTtl(Date ttl) {
+        this.ttl = ttl;
     }
 
 }

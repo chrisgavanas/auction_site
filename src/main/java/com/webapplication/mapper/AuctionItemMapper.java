@@ -63,6 +63,7 @@ public class AuctionItemMapper {
         auctionItem.setCategories(categoryIds);
         auctionItem.setBids(new ArrayList<>());
         auctionItem.setImages(imagesPath);
+        auctionItem.setTtl(null);
 
         return auctionItem;
     }
@@ -174,6 +175,7 @@ public class AuctionItemMapper {
         }
         auctionItem.setAuctionItemId(ObjectId.get().toString());
         auctionItem.getImages().add(imagePath);
+        auctionItem.setTtl(new Date());
 
         return auctionItem;
     }
