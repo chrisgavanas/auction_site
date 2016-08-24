@@ -24,7 +24,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,11 +54,14 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     @Value("${minAuctionDurationInHours}")
     private Integer minAuctionDurationInHours;
 
+    @Value("${imagesPath}")
+    private String imagesPath;
+
     @Override
     public AddAuctionItemResponseDto addAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
-        AuctionItem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(auctionItemRequestDto);
-        User user = userRepository.findUserByUserId(auctionItem.getUserId());
-        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(AuctionItemError.USER_NOT_FOUND));
+        List<String> imagesPath = getAuctionImagesPath(auctionItemRequestDto.getAuctionItemId());
+        AuctionItem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(auctionItemRequestDto, imagesPath);
+        validateUserId(auctionItem.getUserId());
         auctionItemRepository.save(auctionItem);
 
         return auctionItemMapper.auctionItemToAddAuctionItemResponseDto(auctionItem);
@@ -128,6 +133,41 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         auctionItemRepository.save(auctionItem);
 
         return auctionItemMapper.auctionItemToAuctionItemResponseDto(auctionItem);
+    }
+
+    @Override
+    public String uploadPhoto(MultipartFile file, String auctionItemId, String userId) throws Exception {
+        validateUserId(userId);
+        File path = getOrCreatePath(userId);
+        file.transferTo(path);
+        AuctionItem auctionItem = auctionItemMapper.initializeAuctionItemWithImage(path.getPath(), auctionItemId, userId);
+        auctionItemRepository.save(auctionItem);
+
+        return auctionItem.getAuctionItemId();
+    }
+
+    private List<String> getAuctionImagesPath(String auctionItemId) {
+        List<String> imagesPath = null;
+        if (auctionItemId == null)
+            return null;
+
+        AuctionItem auctionItem = auctionItemRepository.findAuctionItemByAuctionItemId(auctionItemId);
+        if (auctionItem != null)
+            imagesPath = auctionItem.getImages();
+
+        return imagesPath;
+    }
+
+    private synchronized File getOrCreatePath(String userId) {
+        File file = new File(imagesPath + "/" + userId);
+        if (!file.exists())
+            file.mkdir();
+        return file;
+    }
+
+    private void validateUserId(String userId) throws Exception {
+        User user = userRepository.findUserByUserId(userId);
+        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(AuctionItemError.USER_NOT_FOUND));
     }
 
     private Date validateDates(Date endDate) throws Exception {

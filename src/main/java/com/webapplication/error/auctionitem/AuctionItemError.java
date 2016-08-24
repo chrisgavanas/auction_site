@@ -8,7 +8,8 @@ public enum AuctionItemError {
     AUCTION_ALREADY_IN_PROGRESS("Auction has been already started."),
     INVALID_AUCTION_END_DATE("End date of the auction must be after current date."),
     AUCTION_DURATION_TOO_SHORT("End date of the auction must last at least 1 hour."),
-    INVALID_PAGINATION_VALUES("\"From\" value must be greater or equal to \"To\" value");;
+    INVALID_PAGINATION_VALUES("\"From\" value must be greater or equal to \"To\" value"),
+    INVALID_AUCTION("Auction belongs to another user.");
 
     private final String description;
 

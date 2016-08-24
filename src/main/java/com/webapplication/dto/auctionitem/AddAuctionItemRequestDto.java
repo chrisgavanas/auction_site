@@ -6,6 +6,7 @@ import java.util.List;
 
 public class AddAuctionItemRequestDto {
 
+    private String auctionItemId;
     private String name;
     private Double minBid;
     private Double buyout;
@@ -14,6 +15,14 @@ public class AddAuctionItemRequestDto {
     private String userId;
     private List<String> categoryIds;
     private List<Byte[]> images;
+
+    public String getAuctionItemId() {
+        return auctionItemId;
+    }
+
+    public void setAuctionItemId(String auctionItemId) {
+        this.auctionItemId = auctionItemId;
+    }
 
     public String getName() {
         return name;
