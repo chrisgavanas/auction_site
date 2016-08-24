@@ -6,8 +6,8 @@ import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
-import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.dto.auctionitem.AuctionStatus;
+import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.User;
 import com.webapplication.error.auctionitem.AuctionItemError;
@@ -17,6 +17,7 @@ import com.webapplication.exception.AuctionItemNotFoundException;
 import com.webapplication.exception.UserNotFoundException;
 import com.webapplication.mapper.AuctionItemMapper;
 import com.xmlparser.XmlParser;
+import org.apache.commons.io.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
@@ -54,8 +55,8 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     @Value("${minAuctionDurationInHours}")
     private Integer minAuctionDurationInHours;
 
-//    @Value("${imagesPath}")
-//    private String imagesPath;
+    @Value("${imagesPath}")
+    private String imagesPath;
 
     @Override
     public AddAuctionItemResponseDto addAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
@@ -139,11 +140,28 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     public String uploadPhoto(MultipartFile file, String auctionItemId, String userId) throws Exception {
         validateUserId(userId);
         File path = getOrCreatePath(userId);
-        file.transferTo(path);
-        AuctionItem auctionItem = auctionItemMapper.initializeAuctionItemWithImage(path.getPath(), auctionItemId, userId);
+        File convertedFile = convert(file);
+        File storedImage = storeFile(convertedFile, path);
+
+        AuctionItem auctionItem = auctionItemMapper.initializeAuctionItemWithImage(storedImage.getPath(), auctionItemId, userId);
         auctionItemRepository.save(auctionItem);
 
         return auctionItem.getAuctionItemId();
+    }
+
+    private File storeFile(File file, File path) throws Exception {
+        File newFile = new File(path.getName() + "/" + file.getName());
+        FileUtils.copyFile(file, newFile);
+        return newFile;
+    }
+
+    private File convert(MultipartFile file) throws Exception {
+        File convertedFile = new File(file.getOriginalFilename());
+        convertedFile.createNewFile();
+        FileOutputStream fos = new FileOutputStream(convertedFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convertedFile;
     }
 
     private List<String> getAuctionImagesPath(String auctionItemId) {
@@ -159,7 +177,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     private synchronized File getOrCreatePath(String userId) {
-        File file = new File(userId);
+        File file = new File(imagesPath + "/" + userId);
         if (!file.exists())
             file.mkdir();
         return file;
