@@ -3,12 +3,13 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.signedIn = {};
 	$scope.item = {};
 	$scope.item ={
-		categories: []
+		categoryIds: []
 	};
+	$scope.submit = false;
 	$scope.selected = [];
 	$scope.item.geoLocationDto = {};
-	$scope.categories = {};
-	//$scope.user.userId = $cookies.get('userId');
+	$scope.categoryIds = {};
+	$scope.user.userId = $cookies.get('userId');
 	$scope.categoryCache = [];
 	var token = $cookies.get('authToken');
 
@@ -20,9 +21,9 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	
 	AuctionItemService.getCategories(token)
 						.then(function(response){
-							$scope.categories = angular.copy(response.data);
-							$scope.categoryCache = angular.copy($scope.categories);
-							console.log($scope.categories);
+							$scope.categoryIds = angular.copy(response.data);
+							$scope.categoryCache = angular.copy($scope.categoryIds);
+							console.log($scope.categoryIds);
 						}, function(response){
 							console.log(response);
 						});
@@ -30,15 +31,20 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.cont = function(){
 	
 		$scope.item.userId = $scope.user.userId;
-		$scope.item.images = [];
-		console.log("paw na koumpwsw");
-		console.log($scope.item.categories);
-		AuctionItemService.addAuctionItem(token, $scope.item)
-							.then(function(response){
-								$state.go('main.profile.userAuctions');
-							}, function(response){
-								console.log(response);
-							});
+		
+		console.log($scope.item);
+		console.log($scope.submit);
+		
+		if($scope.submit == true){
+			AuctionItemService.addAuctionItem(token, $scope.item)
+								.then(function(response){
+									$state.go('main.profile.userAuctions');
+								}, function(response){
+									console.log(response);
+								});
+		}else{
+			alert("tryagain");
+		}
 	};
 	
 	var formdata = new FormData();
@@ -63,19 +69,21 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.loadSubcategories = function(category){
 		
 		$scope.selected.push(category);
-		$scope.item.categories.push(category.categoryId);
+		$scope.item.categoryIds.push(category.categoryId);
 		if(category.subCategories.length != 0){
+			$scope.submit = false;
 			console.log(category.description + category.categoryId);
-			$scope.categories = category.subCategories;
+			$scope.categoryIds = category.subCategories;
 			
 		}else{
-			$scope.categories = [category];
+			$scope.submit = true;
+			$scope.categoryIds = [category];
 		}
 	}
 	
 	$scope.clear = function(){
-		$scope.item.categories = [];
-		$scope.categories = $scope.categoryCache;
+		$scope.item.categoryIds = [];
+		$scope.categoryIds = $scope.categoryCache;
 		$scope.selected = [];
 	}
 	

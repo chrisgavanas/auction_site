@@ -4,7 +4,116 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+
+<style>
+
+
+
+#itemrow,#labelrow.row{
+	padding: 15px;
+	border: 1px solid #ccc;
+
+}
+.container-fluid{
+	padding-left: 50px;
+	padding-right: 50px;
+
+}
+
+.panel-heading{
+	font-size: 14px;
+	text-align: center;
+}
+
+.panel-body{
+	font-size: 12px;
+	text-align: center;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 15px;
+	padding-right: 15px;
+	
+}
+
+hr{
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+#start,#edit.btn{
+	    padding: 3px 17px;	
+}
+</style>
 <body>
 
+
+<div class="panel panel-default" >
+		
+		<div class="panel-heading">
+			Sold Auctions <span class="badge">{{itemsSold.length}}</span>
+		</div>
+		
+		<div class="panel-body" id="inactive">
+		<div class="row" align="middle" id="labelrow">
+				<div class="col-md-6"></div>
+				<div class="col-md-1">
+					<font color="#8b0000">Price</font>
+				</div>
+				<div class="col-md-2">
+					<font color="#8b0000">Buy Now!</font>
+				</div>
+				<div class="col-md-1">
+					<font color="#8b0000">Bids</font>
+				</div>
+			
+				
+	
+			</div>
+		
+		<div ng-repeat="item in itemsSold">
+			<div class="row" id="itemrow">
+				<div class="col-md-6">
+					<a ui-sref="main.item({id: item.auctionItemId})"><u><font size="3">{{item.name}}</font></u></a>
+				</div>
+			
+			
+				<div class="col-md-1">
+					{{item.currentBid}}$
+				</div>
+				<div class="col-md-2" ng-show="item.hasBuyout">
+					{{item.buyout}}$
+				</div>
+				<div class="col-md-2" ng-show="!item.hasBuyout">
+					<i>Not avaiable</i>
+				</div>
+				<div class="col-md-1">
+					{{item.bidsNo}}
+				</div>
+				
+				
+				<div class="col-md-1">
+					
+					
+					<button ui-sref="main.startAuction({id: item.auctionItemId})" class="btn btn-default" id="start">Start</button>
+					
+				</div>
+				<div class="col-md-1">
+					<button ui-sref="main.editAuction({id: item.auctionItemId})" class="btn btn-default" id="edit">Edit</button>
+				</div>
+			</div>
+		
+		</div>
+			
+		
+		
+		
+		</div>
+	</div>
+		<div class="row" align="middle">
+		<div class="btn-group" align="middle">
+  			<button type="button" class="btn btn-primary" ng-click='previousPage()' ng-disabled='pageCounter == 1'>Back</button>
+  			<button type="button" class="btn btn-primary" ng-click='nextPage()' ng-disabled='itemsSold.length < 10'>Next</button>
+  		</div>
+		</div>
 </body>
 </html>

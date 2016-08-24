@@ -2,6 +2,7 @@ router.controller('userAuctionsPendingController', function($state, $scope, $htt
 	$scope.user = {};
 	$scope.itemsPending = {};
 	$scope.hasAuctions = false;
+	$scope.pageCounter = 1;
 	$scope.user.userId = $cookies.get('userId');
 	var token = $cookies.get('authToken');
 	
@@ -22,4 +23,19 @@ router.controller('userAuctionsPendingController', function($state, $scope, $htt
 						}, function(response){
 							alert("error");
 						});
+	
+	$scope.nextPage = function (){
+		$scope.pageCounter++;
+		var to = $scope.pageCounter * 10;
+		var from = to - 9;
+		
+	}
+	
+	$scope.previousPage = function(){
+		$scope.pageCounter--;
+		if($scope.pageCounter >= 1){
+			var to = $scope.pageCounter * 10;
+			var from = to - 9;
+		}
+	}
 });

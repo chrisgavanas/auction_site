@@ -75,22 +75,35 @@ hr{
   		<div class="panel-heading">Start a new Auction</div>
   		
   		<div class="panel-body">
-  			<form name="auctionItemForm" role="form" ng-controller="newAuctionController" ">
+  			<form name="auctionItemForm" role="form" ng-controller="newAuctionController" ng-submit="auctionItemForm.$valid && cont()" novalidate>
   				<div class="row">
   					<h5>Enter a title.</h5>
   			
   				</div>
   				<div class="row" align="middle">
-  					<input type="text" class="form-control" id="title" ng-model="item.name">
+  					<div ng-messages="auctionItemForm.name.$error" role="alert" ng-if="auctionItemForm.$submitted">
+						<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+					</div>
+  					<input type="text" name="name" class="form-control" id="title" ng-model="item.name" required>
   				</div>
   				<hr>
+  				<div class='row'>
+  					<div class='col-md-4'>
+  					</div>
+  					<div class="col-md-4">
+  					<div class="alert alert-success fade in" ng-show="submit">
+    					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    					<font size="2">You have selected a category!</font>
+  						</div>
+  					</div>
+  				</div>
   				<div class="row">
   					<div class="col-md-4"></div>
   					<div class="col-md-4"><h5>Select a category.</h5></div>
   					<div class="col-md-4" align="left"><button class='btn btn-link' ng-click="clear()"><font size="1">Clear categories</font></button>
   					</div>
   				</div>
-
+				
   				<div class="row" >
   					<font size="1">Selected Categories:<font size="1" ng-repeat="category in selected">
 						>{{category.description}} 			
@@ -100,9 +113,9 @@ hr{
   					
   				</div>
   				<div class = "row" >
-  					<div ng-repeat="category in categories">
-						<button class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length != 0"><font size="2">>{{category.description}}</font> </button> 					
-  						<button class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length == 0"><font size="2">{{category.description}}</font> </button> 		
+  					<div ng-repeat="category in categoryIds">
+						<button type="button" class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length != 0"><font size="2" >>{{category.description}}</font> </button> 					
+  						<button type="button" class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length == 0"><font size="2" ng-disabled="submit">{{category.description}}</font> </button> 		
   					</div>
   				
   				</div>
@@ -114,7 +127,10 @@ hr{
   					<h5>Describe your item.</h5>
   				</div>
   				<div class="row"  align="middle">
-  					<textarea class="form-control" id="description" ng-model="item.description"></textarea>
+  					<div ng-messages="auctionItemForm.desc.$error" role="alert" ng-if="auctionItemForm.$submitted">
+						<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+					</div>
+  					<textarea name="desc" class="form-control" id="description" ng-model="item.description" required></textarea>
   				</div>
   				<hr>
   				<div class="row">
@@ -125,7 +141,10 @@ hr{
   					<h6>Starting price</h6>
   				</div>
   				<div class="row" align="middle">
-  					<input class="form-control" id="startingprice" ng-model="item.minBid">
+  					<div ng-messages="auctionItemForm.minbid.$error" role="alert" ng-if="auctionItemForm.$submitted">
+						<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+					</div>
+  					<input name="minbid" class="form-control" id="startingprice" ng-model="item.minBid" required>
   				</div>
   				<div class="row" >
   					<h6>Buy it now price (Optional)</h6>
@@ -200,7 +219,7 @@ hr{
   				<br>
   				<div class="row">
   			
-  					<button type="submit" class="btn btn-primary" ng-click="cont()" >Continue</button>
+  					<button type="submit" class="btn btn-primary" " >Continue</button>
   					
   				</div>
   			</form>

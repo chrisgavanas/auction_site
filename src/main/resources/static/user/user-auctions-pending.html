@@ -9,10 +9,7 @@
 
 
 
-#main.row{
-	border: none;
-}
-.row{
+#itemrow,#labelrow.row{
 	padding: 15px;
 	border: 1px solid #ccc;
 
@@ -57,7 +54,7 @@ hr{
 		</div>
 		
 		<div class="panel-body" id="inactive">
-		<div class="row" align="middle">
+		<div class="row" align="middle" id="labelrow">
 				<div class="col-md-6"></div>
 				<div class="col-md-1">
 					<font color="#8b0000">Price</font>
@@ -74,7 +71,7 @@ hr{
 			</div>
 		
 		<div ng-repeat="item in itemsPending">
-			<div class="row">
+			<div class="row" id="itemrow">
 				<div class="col-md-6">
 					<a ui-sref="main.item({id: item.auctionItemId})"><u><font size="3">{{item.name}}</font></u></a>
 				</div>
@@ -111,6 +108,12 @@ hr{
 		
 		
 		</div>
+	</div>
+		<div class="row" align="middle">
+		<div class="btn-group">
+  			<button type="button" class="btn btn-primary" ng-click='previousPage()' ng-disabled='pageCounter == 1'>Back</button>
+  			<button type="button" class="btn btn-primary" ng-click='nextPage()' ng-disabled='itemsPending.length < 10'>Next</button>
+  		</div>
 	</div>
 </body>
 </html>

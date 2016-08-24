@@ -52,11 +52,17 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 	}
 	
 	$scope.myProfile = function(){
-		$state.go("main.profile", {}, {reload: true});
+		$state.go("main.profile.userInfo", {}, {reload: true});
 	}
-	
-	
-	
+	$scope.auctions = function(){
+		$state.go("main.profile.userAuctions", {}, {reload: true});
+	}
+	$scope.bids = function(){
+		$state.go("main.profile.userBids", {}, {reload: true});
+	}
+	$scope.messages = function(){
+		$state.go("main.profile.userMessages", {}, {reload: true});
+	}
 	var modal = document.getElementById('myModal');
 
 	// Get the <span> element that closes the modal
