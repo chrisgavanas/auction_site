@@ -54,8 +54,8 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     @Value("${minAuctionDurationInHours}")
     private Integer minAuctionDurationInHours;
 
-    @Value("${imagesPath}")
-    private String imagesPath;
+//    @Value("${imagesPath}")
+//    private String imagesPath;
 
     @Override
     public AddAuctionItemResponseDto addAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
@@ -159,7 +159,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     private synchronized File getOrCreatePath(String userId) {
-        File file = new File(imagesPath + "/" + userId);
+        File file = new File(userId);
         if (!file.exists())
             file.mkdir();
         return file;
