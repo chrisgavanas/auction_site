@@ -144,7 +144,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
 
         AuctionItem auctionItem = auctionItemMapper.initializeAuctionItemWithImage(storedImage.getPath(), auctionItemId, userId);
         auctionItemRepository.save(auctionItem);
-
+        System.out.println(auctionItem.getAuctionItemId());
         return auctionItem.getAuctionItemId();
     }
 
