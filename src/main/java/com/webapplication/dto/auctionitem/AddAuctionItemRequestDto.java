@@ -14,7 +14,7 @@ public class AddAuctionItemRequestDto {
     private GeoLocationDto geoLocationDto;
     private String userId;
     private List<String> categoryIds;
-    private List<Byte[]> images;
+    private List<String> images;
 
     public String getAuctionItemId() {
         return auctionItemId;
@@ -80,11 +80,11 @@ public class AddAuctionItemRequestDto {
         this.categoryIds = categoryIds;
     }
 
-    public List<Byte[]> getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(List<Byte[]> images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 

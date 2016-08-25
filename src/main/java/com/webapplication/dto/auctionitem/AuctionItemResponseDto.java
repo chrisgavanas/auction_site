@@ -22,7 +22,7 @@ public class AuctionItemResponseDto {
     private GeoLocationDto geoLocationDto;
     private String userId;
     private List<CategoryResponseDto> categories;
-    private List<Byte[]> images;
+    private List<String> images;
 
     public String getAuctionItemId() {
         return auctionItemId;
@@ -120,11 +120,11 @@ public class AuctionItemResponseDto {
         this.userId = userId;
     }
 
-    public List<Byte[]> getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(List<Byte[]> images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 

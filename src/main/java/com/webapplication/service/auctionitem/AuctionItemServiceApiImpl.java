@@ -60,8 +60,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
 
     @Override
     public AddAuctionItemResponseDto addAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
-        List<String> imagesPath = getAuctionImagesPath(auctionItemRequestDto.getAuctionItemId());
-        AuctionItem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(auctionItemRequestDto, imagesPath);
+        AuctionItem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(auctionItemRequestDto);
         validateUserId(auctionItem.getUserId());
         auctionItemRepository.save(auctionItem);
 
@@ -162,18 +161,6 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         fos.write(file.getBytes());
         fos.close();
         return convertedFile;
-    }
-
-    private List<String> getAuctionImagesPath(String auctionItemId) {
-        List<String> imagesPath = null;
-        if (auctionItemId == null)
-            return null;
-
-        AuctionItem auctionItem = auctionItemRepository.findAuctionItemByAuctionItemId(auctionItemId);
-        if (auctionItem != null)
-            imagesPath = auctionItem.getImages();
-
-        return imagesPath;
     }
 
     private synchronized File getOrCreatePath(String userId) {

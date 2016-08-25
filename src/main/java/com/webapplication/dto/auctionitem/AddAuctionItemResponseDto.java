@@ -17,6 +17,7 @@ public class AddAuctionItemResponseDto {
     private GeoLocationDto geoLocationDto;
     private String userId;
     private List<CategoryResponseDto> categories;
+    private List<String> images;
 
     public String getAuctionItemId() {
         return auctionItemId;
@@ -96,6 +97,14 @@ public class AddAuctionItemResponseDto {
 
     public void setCategories(List<CategoryResponseDto> categories) {
         this.categories = categories;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
 }

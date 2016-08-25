@@ -40,7 +40,7 @@ public class AuctionItemMapper {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public AuctionItem addAuctionItemRequestDtoToAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto, List<String> imagesPath) throws Exception {
+    public AuctionItem addAuctionItemRequestDtoToAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
         if (auctionItemRequestDto == null)
             return null;
 
@@ -62,7 +62,6 @@ public class AuctionItemMapper {
         validateCategoryIds(auctionItemRequestDto.getCategoryIds());
         auctionItem.setCategories(categoryIds);
         auctionItem.setBids(new ArrayList<>());
-        auctionItem.setImages(imagesPath);
         auctionItem.setTtl(null);
 
         return auctionItem;
@@ -88,7 +87,7 @@ public class AuctionItemMapper {
         addAuctionItemResponseDto.setUserId(auctionItem.getUserId());
         List<Category> categories = categoryRepository.findCategoriesByIds(auctionItem.getCategoriesId());
         addAuctionItemResponseDto.setCategories(categoryMapper.categoriesToCategoryResponseDtoList(categories));
-//        Optional.ofNullable(auctionItem.getImages()).ifPresent(addAuctionItemResponseDto::setImages); //TODO
+        addAuctionItemResponseDto.setImages(auctionItem.getImages());
 
         return addAuctionItemResponseDto;
     }
@@ -126,7 +125,7 @@ public class AuctionItemMapper {
         List<Category> categories = categoryRepository.findCategoriesByIds(auctionItem.getCategoriesId());
         auctionItemResponseDto.setCategories(categoryMapper.categoriesToCategoryResponseDtoList(categories));
         auctionItemResponseDto.setUserId(auctionItem.getUserId());
-        //TODO images
+        auctionItemResponseDto.setImages(auctionItem.getImages());
 
         return auctionItemResponseDto;
     }
