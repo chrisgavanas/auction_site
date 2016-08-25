@@ -12,7 +12,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.categoryIds = {};
 	$scope.user.userId = $cookies.get('userId');
 	$scope.categoryCache = [];
-	$scope.item.images = [];
+
 	var token = $cookies.get('authToken');
 
 	/*NgMap.getMap().then(function(map) {
@@ -33,7 +33,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.cont = function(){
 	
 		$scope.item.userId = $scope.user.userId;
-		
+		console.log($scope.item);
 		
 		if($scope.submit == true){
 			AuctionItemService.addAuctionItem(token, $scope.item)
