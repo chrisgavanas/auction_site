@@ -2,6 +2,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.user = {};
 	$scope.signedIn = {};
 	$scope.item = {};
+	 $scope.item.auctionItemId = null;
 	$scope.item ={
 		categoryIds: []
 	};
@@ -11,6 +12,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.categoryIds = {};
 	$scope.user.userId = $cookies.get('userId');
 	$scope.categoryCache = [];
+	$scope.item.images = [];
 	var token = $cookies.get('authToken');
 
 	/*NgMap.getMap().then(function(map) {
@@ -32,12 +34,11 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	
 		$scope.item.userId = $scope.user.userId;
 		
-		console.log($scope.item);
-		console.log($scope.submit);
 		
 		if($scope.submit == true){
 			AuctionItemService.addAuctionItem(token, $scope.item)
 								.then(function(response){
+									console.log(response);
 									$state.go('main.profile.userAuctions');
 								}, function(response){
 									console.log(response);
@@ -92,15 +93,18 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
         $scope.files = files;
         $scope.errFiles = errFiles;
         angular.forEach(files, function(file) {
+        	console.log("to id einai: "+$scope.item.auctionItemId);
             file.upload = Upload.upload({
-                url: '/api/auctionitem/'+ null +'/user/'+ $scope.user.userId+ '/upload',
+                url: '/api/auctionitem/'+ $scope.item.auctionItemId +'/user/'+ $scope.user.userId+ '/upload',
                 data: {file: file}
             });
 
             file.upload.then(function (response) {
                 $timeout(function () {
                     file.result = response.data;
+                    $scope.item.auctionItemId = file.result;
                     console.log(file.result);
+                   
                 });
             }, function (response) {
                 if (response.status > 0)
