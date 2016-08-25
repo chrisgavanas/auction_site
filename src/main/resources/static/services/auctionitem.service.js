@@ -10,6 +10,8 @@ router.factory('AuctionItemService', function($http, $cookies, $state) {
 	};
 	
 	auctionitemService.addAuctionItem = function(token, item){
+		var x = 1;
+		console.log(item);
 		return $http.post('/api/auctionitem', item)
 					.then(function(response){
 							$state.go('main.profile.userAuctions');

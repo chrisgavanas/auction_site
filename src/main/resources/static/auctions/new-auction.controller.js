@@ -2,7 +2,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.user = {};
 	$scope.signedIn = {};
 	$scope.item = {};
-	 $scope.item.auctionItemId = null;
+	$scope.item.auctionItemId = null;
 	$scope.item ={
 		categoryIds: []
 	};

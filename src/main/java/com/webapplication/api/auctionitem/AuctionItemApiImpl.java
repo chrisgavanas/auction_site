@@ -42,7 +42,9 @@ public class AuctionItemApiImpl implements AuctionItemApi {
 
     @Override
     public AddAuctionItemResponseDto addAuctionItem(@RequestBody AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
+    	System.out.println("to id: "+auctionItemRequestDto.getAuctionItemId());
         auctionItemRequestValidator.validate(auctionItemRequestDto);
+        
         return auctionItemService.addAuctionItem(auctionItemRequestDto);
     }
 

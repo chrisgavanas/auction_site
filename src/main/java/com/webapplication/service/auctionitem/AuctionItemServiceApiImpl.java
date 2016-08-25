@@ -63,7 +63,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         AuctionItem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(auctionItemRequestDto);
         validateUserId(auctionItem.getUserId());
         auctionItemRepository.save(auctionItem);
-
+        
         return auctionItemMapper.auctionItemToAddAuctionItemResponseDto(auctionItem);
     }
 
