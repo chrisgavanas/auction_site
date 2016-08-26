@@ -30,7 +30,7 @@
   		
   		
   			<div id="cats" class="row" align="left">
-  				<font size="1">Categories:</font><font size="1" ng-repeat="category in item.categoryResponseDtoList"> >{{category.description}}</font>
+  				<font size="1">Categories:</font><font size="1" ng-repeat="category in item.categories"> >{{category.description}}</font>
   			
   			</div>
   			<div class="row">
@@ -68,6 +68,7 @@
   									<input class="form-control">
   								</div>
   								
+  								
   							</div>
   							<div class="row" ng-if="item.endDate != null">
   								<font size="1">Time left: <timer end-time="item.endDate">{{days}} d, {{hours}} h, {{minutes}} m, {{seconds}} s.</timer></font>
@@ -102,7 +103,16 @@
   					</div>
   				</div>
   			</div>
+  			<div class="row" align="left">
+  				<font size = "3"><button class="btn btn-link" ng-click="go()">See Offers</button></font>
+  								
+  			</div>
+  			
+  			<div class='row'>
+  				<div ui-view=offersview></div>
+  			</div>
   			<hr>
+  			
   			<div class="row">
   				<div class="col-md-8" align="left">
   					<div class="row" id="cats">

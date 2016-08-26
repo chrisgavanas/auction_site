@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+
+<style>
+.panel-heading {
+    padding: 0px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+</style>
+
+<body>
+
+	<div class="container-fluid">
+		<div class='panel panel-default'>
+			<div class="panel-heading" align='left'>
+				<div class="row">
+					<div class="col-md-4">
+						<font size = "2">Bidder</font>
+					</div>
+					<div class="col-md-4">
+						<font size = "2">Bid Amount</font>
+					</div>
+					<div class="col-md-4">
+						<font size = "2">Date of Bid</font>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body" align='left'>
+				<div class="row" ng-repeat="bid in bidds">
+					<div class="col-md-4">
+						<font size = "2">{{bid.bidder}} (0)</font>
+					</div>
+					<div class="col-md-4">
+						<font size = "2">{{bid.amount}}$</font>
+					</div>
+					<div class="col-md-4">
+						<font size = "2">{{bid.date}}</font>
+					</div>
+					<hr>
+				</div>
+			</div>
+		
+		</div>
+	
+	</div>
+
+
+</body>
+</html>
