@@ -42,7 +42,7 @@ public interface AuctionItemApi {
     @RequestMapping(path = "/auctionitem/{from}-{to}", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
     List<AuctionItemResponseDto> getActiveAuctionItems(@PathVariable Integer from, @PathVariable Integer to) throws Exception;
 
-    @RequestMapping(path = "/auctionitem/{auctionItemId}/user/{userId}/upload", method = RequestMethod.POST, produces = "text/plain")
-    String uploadPhoto(@RequestParam("file") MultipartFile file, @PathVariable String auctionItemId, @PathVariable String userId) throws Exception;
+    @RequestMapping(path = "/auctionitem/user/{userId}/upload", method = RequestMethod.POST, produces = "text/plain")
+    String uploadPhoto(@RequestParam("file") MultipartFile file, @PathVariable String userId) throws Exception;
 
 }

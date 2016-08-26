@@ -27,6 +27,6 @@ public interface AuctionItemServiceApi {
 
     List<AuctionItemResponseDto> getActiveAuctionItems(Integer from, Integer to) throws Exception;
 
-    String uploadPhoto(MultipartFile file, String auctionItemId, String userId) throws Exception;
+    String uploadPhoto(MultipartFile file, String userId) throws Exception;
 
 }

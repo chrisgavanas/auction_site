@@ -136,16 +136,13 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     @Override
-    public String uploadPhoto(MultipartFile file, String auctionItemId, String userId) throws Exception {
+    public String uploadPhoto(MultipartFile file, String userId) throws Exception {
         validateUserId(userId);
         File path = getOrCreatePath(userId);
         File convertedFile = convert(file);
         File storedImage = storeFile(convertedFile, path, userId);
 
-        AuctionItem auctionItem = auctionItemMapper.initializeAuctionItemWithImage(storedImage.getPath(), auctionItemId, userId);
-        auctionItemRepository.save(auctionItem);
-        System.out.println(auctionItem.getAuctionItemId());
-        return auctionItem.getAuctionItemId();
+        return storedImage.getPath();
     }
 
     private File storeFile(File file, File path, String userId) throws Exception {

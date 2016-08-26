@@ -42,9 +42,7 @@ public class AuctionItemApiImpl implements AuctionItemApi {
 
     @Override
     public AddAuctionItemResponseDto addAuctionItem(@RequestBody AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
-    	System.out.println("to id: "+auctionItemRequestDto.getAuctionItemId());
         auctionItemRequestValidator.validate(auctionItemRequestDto);
-        
         return auctionItemService.addAuctionItem(auctionItemRequestDto);
     }
 
@@ -103,13 +101,13 @@ public class AuctionItemApiImpl implements AuctionItemApi {
     }
 
     @Override
-    public String uploadPhoto(@RequestParam("file") MultipartFile file, @PathVariable String auctionItemId, @PathVariable String userId) throws Exception {
+    public String uploadPhoto(@RequestParam("file") MultipartFile file, @PathVariable String userId) throws Exception {
         Optional.ofNullable(file).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         if (userId.isEmpty() || file.isEmpty())
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
-        return auctionItemService.uploadPhoto(file, auctionItemId, userId);
+        return auctionItemService.uploadPhoto(file, userId);
     }
 
     @ExceptionHandler(ValidationException.class)

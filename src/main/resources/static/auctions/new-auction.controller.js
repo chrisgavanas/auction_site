@@ -93,9 +93,9 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
         $scope.files = files;
         $scope.errFiles = errFiles;
         angular.forEach(files, function(file) {
-        	console.log("to id einai: "+$scope.item.auctionItemId);
+//        	console.log("to id einai: "+$scope.item.auctionItemId);
             file.upload = Upload.upload({
-                url: '/api/auctionitem/'+ $scope.item.auctionItemId +'/user/'+ $scope.user.userId+ '/upload',
+                url: '/api/auctionitem/user/' + $scope.user.userId + '/upload',
                 data: {file: file}
             });
 

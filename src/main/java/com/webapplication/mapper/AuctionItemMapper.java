@@ -62,7 +62,7 @@ public class AuctionItemMapper {
         validateCategoryIds(auctionItemRequestDto.getCategoryIds());
         auctionItem.setCategories(categoryIds);
         auctionItem.setBids(new ArrayList<>());
-        auctionItem.setTtl(null);
+        auctionItem.setImages(auctionItemRequestDto.getImages());
 
         return auctionItem;
     }
@@ -162,21 +162,6 @@ public class AuctionItemMapper {
             if (!categories.get(i).getParentId().equals(categories.get(i - 1).getCategoryId()))
                 throw new CategoryHierarchyException(CategoryError.INVALID_CATEGORY_HIERARCHY);
         }
-    }
-
-    public AuctionItem initializeAuctionItemWithImage(String imagePath, String auctionItemId, String userId) throws Exception {
-        AuctionItem auctionItem = auctionItemRepository.findAuctionItemByAuctionItemId(auctionItemId);
-        if (auctionItem != null && !auctionItem.getUserId().equals(userId))
-            throw new InvalidAuctionException(AuctionItemError.INVALID_AUCTION);
-        else if (auctionItem == null) {
-            auctionItem = new AuctionItem();
-            auctionItem.setImages(new LinkedList<>());
-        }
-        auctionItem.setAuctionItemId(ObjectId.get().toString());
-        auctionItem.getImages().add(imagePath);
-        auctionItem.setTtl(new Date());
-
-        return auctionItem;
     }
 
 }
