@@ -3,26 +3,27 @@ package com.webapplication.mapper;
 import com.google.common.collect.Lists;
 import com.webapplication.dao.AuctionItemRepository;
 import com.webapplication.dao.CategoryRepository;
+import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
+import com.webapplication.dto.auctionitem.BidDto;
 import com.webapplication.dto.user.GeoLocationDto;
 import com.webapplication.entity.AuctionItem;
+import com.webapplication.entity.Bid;
 import com.webapplication.entity.Category;
 import com.webapplication.entity.GeoLocation;
-import com.webapplication.error.auctionitem.AuctionItemError;
+import com.webapplication.entity.User;
 import com.webapplication.error.category.CategoryError;
 import com.webapplication.exception.CategoryHierarchyException;
 import com.webapplication.exception.CategoryNotFoundException;
-import com.webapplication.exception.InvalidAuctionException;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -32,7 +33,7 @@ import java.util.stream.Collectors;
 public class AuctionItemMapper {
 
     @Autowired
-    private AuctionItemRepository auctionItemRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private CategoryMapper categoryMapper;
@@ -152,6 +153,29 @@ public class AuctionItemMapper {
         //TODO images
     }
 
+    public AuctionItemBidResponseDto auctionItemToAuctionItemBidResponseDto(AuctionItem auctionItem) {
+        if (auctionItem == null)
+            return null;
+
+        AuctionItemBidResponseDto auctionItemBidResponseDto = new AuctionItemBidResponseDto();
+        auctionItemBidResponseDto.setAuctionItemId(auctionItem.getAuctionItemId());
+        auctionItemBidResponseDto.setName(auctionItem.getName());
+        auctionItemBidResponseDto.setCurrentBid(auctionItem.getCurrentBid());
+        auctionItemBidResponseDto.setBuyout(auctionItem.getBuyout());
+        auctionItemBidResponseDto.setMinBid(auctionItem.getMinBid());
+        auctionItemBidResponseDto.setBidsNo(auctionItem.getBidsNo());
+        auctionItemBidResponseDto.setDescription(auctionItem.getDescription());
+        auctionItemBidResponseDto.setStartDate(auctionItem.getStartDate());
+        auctionItemBidResponseDto.setEndDate(auctionItem.getEndDate());
+        auctionItemBidResponseDto.setGeoLocationDto(auctionItemBidResponseDto.getGeoLocationDto());
+        auctionItemBidResponseDto.setUserId(auctionItem.getUserId());
+        List<Category> categories = categoryRepository.findCategoriesByIds(auctionItem.getCategoriesId());
+        auctionItemBidResponseDto.setCategories(categoryMapper.categoriesToCategoryResponseDtoList(categories));
+        auctionItemBidResponseDto.setImages(auctionItem.getImages());
+        auctionItemBidResponseDto.setBids(bidsToBidsDto(auctionItem.getBids()));
+        return auctionItemBidResponseDto;
+    }
+
     private void validateCategoryIds(List<String> categoryIds) throws Exception {
         List<Category> categories = categoryRepository.findCategoriesByIds(categoryIds);
         if (categoryIds.size() != categories.size())
@@ -162,6 +186,25 @@ public class AuctionItemMapper {
             if (!categories.get(i).getParentId().equals(categories.get(i - 1).getCategoryId()))
                 throw new CategoryHierarchyException(CategoryError.INVALID_CATEGORY_HIERARCHY);
         }
+    }
+
+    private BidDto bidToBidDto(Bid bid) {
+        if (bid == null)
+            return null;
+
+        BidDto bidDto = new BidDto();
+        bidDto.setAmount(bid.getAmount());
+        bidDto.setBidDate(bid.getBidDate());
+        User user = userRepository.findUserByUserId(bid.getUserId());
+        bidDto.setBidderUsername(user.getUsername());
+        return bidDto;
+    }
+
+    private List<BidDto> bidsToBidsDto(List<Bid> bids) {
+        if (bids == null)
+            return null;
+
+        return bids.stream().map(this::bidToBidDto).collect(Collectors.toList());
     }
 
 }

@@ -2,6 +2,7 @@ package com.webapplication.service.auctionitem;
 
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
@@ -28,5 +29,7 @@ public interface AuctionItemServiceApi {
     List<AuctionItemResponseDto> getActiveAuctionItems(Integer from, Integer to) throws Exception;
 
     String uploadPhoto(MultipartFile file, String userId) throws Exception;
+
+    AuctionItemBidResponseDto bidAuctionItem(String auctionItemId, String userId) throws Exception;
 
 }

@@ -1,35 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0171cc76-f829-4856-891e-0f77d5f8c4a1" name="Default" comment="- Changed images">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/1919297_1295147418061_7632387_n.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/3247_1164297746901_395620_n.jpg" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/1000px-Jacques-FindingNemo3D.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/10a33e9ee927eaa779ef5abeb6fc6210.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/12033037_1072137319477573_8219036619387190463_n.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/12112171_1010048165714125_3287871746861505181_n.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/12919689_10206464985329541_138110946432540386_n.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/1496946_534834080031817_4906748043361634585_n.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/1bdc0f3fd395835cd259d176254faabb.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/321b8354eca5ab7c38db2ec44704bbd9.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/4395.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/8c54210c47d520751f68a253b20a7166.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/9357ee4e0357a8b830f2562dd36c8671.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/c705037601caa79f3b7d3260e445518a.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/static/image-uploads/57bc1b6d4d703c34fe940463/1000px-Jacques-FindingNemo3D.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/static/image-uploads/57bc1b6d4d703c34fe940463/10a33e9ee927eaa779ef5abeb6fc6210.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/static/image-uploads/57bc1b6d4d703c34fe940463/1bdc0f3fd395835cd259d176254faabb.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/static/image-uploads/57bc1b6d4d703c34fe940463/321b8354eca5ab7c38db2ec44704bbd9.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/static/image-uploads/57bc1b6d4d703c34fe940463/9357ee4e0357a8b830f2562dd36c8671.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/t7-332x400.jpg" afterPath="" />
+    <list default="true" id="0171cc76-f829-4856-891e-0f77d5f8c4a1" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/14095854_169745223455253_6164479205703714964_n.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AuctionItemBidResponseDto.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/BidDto.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/exception/BidException.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/webapplication/api/auctionitem/AuctionItemApi.java" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/api/auctionitem/AuctionItemApi.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/webapplication/api/auctionitem/AuctionItemApiImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/api/auctionitem/AuctionItemApiImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/webapplication/entity/AuctionItem.java" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/entity/AuctionItem.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/webapplication/error/auctionitem/AuctionItemError.java" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/error/auctionitem/AuctionItemError.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/webapplication/mapper/AuctionItemMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/mapper/AuctionItemMapper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/webapplication/service/auctionitem/AuctionItemServiceApi.java" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/service/auctionitem/AuctionItemServiceApi.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/webapplication/service/auctionitem/AuctionItemServiceApiImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/service/auctionitem/AuctionItemServiceApiImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/auctions/new-auction.controller.js" afterPath="$PROJECT_DIR$/src/main/resources/static/auctions/new-auction.controller.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionItemUpdateRequestValidator.java" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionItemUpdateRequestValidator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionItemValidator.java" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionItemValidator.java" />
     </list>
     <ignored path="lol1.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -56,21 +41,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Application.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/main/Application.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="AuctionItemApi.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/api/auctionitem/AuctionItemApi.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="45" column="17" selection-start-line="45" selection-start-column="17" selection-end-line="45" selection-end-column="18" />
+            <state relative-caret-position="408">
+              <caret line="40" column="41" selection-start-line="40" selection-start-column="41" selection-end-line="40" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -79,8 +54,18 @@
       <file leaf-file-name="AuctionItemApiImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/api/auctionitem/AuctionItemApiImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+            <state relative-caret-position="323">
+              <caret line="86" column="39" selection-start-line="86" selection-start-column="39" selection-end-line="86" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AuctionItemUpdateRequestValidator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionItemUpdateRequestValidator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -89,8 +74,8 @@
       <file leaf-file-name="AuctionItemServiceApiImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/service/auctionitem/AuctionItemServiceApiImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+            <state relative-caret-position="190">
+              <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -98,12 +83,44 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="AuctionItemError.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/error/auctionitem/AuctionItemError.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AuctionItemServiceApi.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/service/auctionitem/AuctionItemServiceApi.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="32" column="99" selection-start-line="32" selection-start-column="99" selection-end-line="32" selection-end-column="99" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="AuctionItemMapper.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/mapper/AuctionItemMapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
-              <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+            <state relative-caret-position="374">
+              <caret line="175" column="41" selection-start-line="175" selection-start-column="41" selection-end-line="175" selection-end-column="41" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AuctionItemBidResponseDto.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AuctionItemBidResponseDto.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -130,22 +147,16 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/service/user/UserServiceApiImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/validator/ValidatorWrapper/UserRequestValidatorWrapper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionRequestValidator.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/exception/AuctionDurationTooShortException.java" />
         <option value="$PROJECT_DIR$/src/test/groovy/com/webapplication/api/auctionitem/AuctionItemApiImplSpec.groovy" />
         <option value="$PROJECT_DIR$/src/test/groovy/com/webapplication/mapper/AuctionItemMapperSpec.groovy" />
         <option value="$PROJECT_DIR$/src/test/groovy/com/webapplication/validator/auctionitem/StartAuctionValidatorSpec.groovy" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/StartAuctionValidator.java" />
         <option value="$PROJECT_DIR$/src/test/groovy/com/webapplication/service/auctionitem/AuctionItemServiceApiImplSpec.groovy" />
-        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionItemValidator.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/swagger/SwaggerConfig.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/dto/user/UserLogInResponseDto.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/api/user/UserApi.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/UpdateAuctionItemRequestDto.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/validator/ValidatorWrapper/AuctionItemRequestValidatorWrapper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionItemRequestValidator.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/mapper/UserMapper.java" />
         <option value="$PROJECT_DIR$/src/test/groovy/com/webapplication/validator/auctionitem/AuctionItemUpdateRequest.groovy" />
         <option value="$PROJECT_DIR$/src/test/groovy/com/webapplication/validator/auctionitem/AuctionItemUpdateRequestSpec.groovy" />
@@ -157,30 +168,36 @@
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/dao/CategoryRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/exception/CategoryHierarchyException.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/error/category/CategoryError.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/xmlparser/XmlParser.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/StartAuctionDto.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AuctionItemUpdateRequestDto.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionItemUpdateRequestValidator.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/service/category/CategoryServiceApiImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/mapper/CategoryMapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/Status.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AuctionStatus.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/exception/InvalidAuctionException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/error/auctionitem/AuctionItemError.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/dao/AuctionItemRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AddAuctionItemRequestDto.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AddAuctionItemResponseDto.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AuctionItemResponseDto.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/api/auctionitem/AuctionItemApi.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/service/auctionitem/AuctionItemServiceApi.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/main/Application.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/auctions/new-auction.controller.js" />
-        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/service/auctionitem/AuctionItemServiceApiImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/entity/AuctionItem.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/xmlparser/XmlParser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/entity/Bid.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/api/auctionitem/AuctionItemApi.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/BidDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AuctionItemBidResponseDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/service/auctionitem/AuctionItemServiceApi.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/exception/BidException.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/api/auctionitem/AuctionItemApiImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/webapplication/mapper/AuctionItemMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionItemValidator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionItemRequestValidator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionItemUpdateRequestValidator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/error/auctionitem/AuctionItemError.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/webapplication/service/auctionitem/AuctionItemServiceApiImpl.java" />
       </list>
     </option>
   </component>
@@ -205,7 +222,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1936" />
+    <option name="width" value="1932" />
     <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -233,6 +250,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches">
+        <subPane />
+      </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -283,8 +304,26 @@
               <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+          </PATH>
+          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
+              <option name="myItemId" value="auction_site" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="auction_site" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -306,11 +345,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
+              <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
+              <option name="myItemId" value="com" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -329,14 +368,128 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="auction_site" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="auction_site" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="exception" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="auction_site" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="auction_site" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dto" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="auction_site" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="auction_site" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dto" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="auctionitem" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
-      </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scratches">
-        <subPane />
       </pane>
     </panes>
   </component>
@@ -986,7 +1139,8 @@
       <workItem from="1472059508414" duration="5116000" />
       <workItem from="1472124440847" duration="4828000" />
       <workItem from="1472145323076" duration="3490000" />
-      <workItem from="1472214751366" duration="3238000" />
+      <workItem from="1472214751366" duration="4949000" />
+      <workItem from="1472230951503" duration="8364000" />
     </task>
     <task id="LOCAL-00002" summary="Test commit">
       <created>1469112013780</created>
@@ -1142,7 +1296,14 @@
       <option name="project" value="LOCAL" />
       <updated>1472125980259</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="- Changed images logic">
+      <created>1472218285054</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1472218285054</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1178,7 +1339,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="258602000" />
+    <option name="totallyTimeSpent" value="268677000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -1190,25 +1351,24 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1932" height="1056" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32827735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32719395" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32719395" sideWeight="0.50479746" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32719395" sideWeight="0.50692964" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32719395" sideWeight="0.49307036" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.4967811" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32719395" sideWeight="0.49520257" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3261105" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17857143" sideWeight="0.51857835" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15831557" sideWeight="0.48142165" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15865384" sideWeight="0.48142165" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1220,6 +1380,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32719395" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32827735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1276,7 +1437,8 @@
     <MESSAGE value="- Changed path of images" />
     <MESSAGE value="- Added ttl to photos" />
     <MESSAGE value="- Changed images" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Changed images" />
+    <MESSAGE value="- Changed images logic" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Changed images logic" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1289,55 +1451,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/StartAuctionDto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AuctionItemUpdateRequestDto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="56" column="38" selection-start-line="56" selection-start-column="24" selection-end-line="56" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionItemUpdateRequestValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="25" column="89" selection-start-line="25" selection-start-column="75" selection-end-line="25" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/dto/category/CategoryResponseDto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/dao/CategoryRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="20" column="38" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/service/category/CategoryServiceApiImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="26" column="63" selection-start-line="26" selection-start-column="63" selection-end-line="26" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/mapper/CategoryMapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="49" column="72" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/service/user/UserServiceApiImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="748">
@@ -1380,20 +1493,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/xmlparser/XmlParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="272" column="78" selection-start-line="272" selection-start-column="53" selection-end-line="272" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/error/auctionitem/AuctionItemError.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="56" selection-start-line="11" selection-start-column="56" selection-end-line="11" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/exception/InvalidAuctionException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -1433,67 +1532,19 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/image-uploads/57bc1b6d4d703c34fe940463/12919689_10206464985329541_138110946432540386_n.jpg" />
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/image-uploads/57bc1b6d4d703c34fe940463/12112171_1010048165714125_3287871746861505181_n.jpg" />
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/image-uploads/57bc1b6d4d703c34fe940463/t7-332x400.jpg" />
-    <entry file="file://$PROJECT_DIR$/12033037_1072137319477573_8219036619387190463_n.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/8c54210c47d520751f68a253b20a7166.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/1bdc0f3fd395835cd259d176254faabb.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/12033037_1072137319477573_8219036619387190463_n.jpg" />
+    <entry file="file://$PROJECT_DIR$/8c54210c47d520751f68a253b20a7166.jpg" />
+    <entry file="file://$PROJECT_DIR$/1bdc0f3fd395835cd259d176254faabb.jpg" />
     <entry file="file://$PROJECT_DIR$/14095854_169745223455253_6164479205703714964_n.jpg">
       <provider selected="true" editor-type-id="images">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/c705037601caa79f3b7d3260e445518a.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/12919689_10206464985329541_138110946432540386_n.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/12112171_1010048165714125_3287871746861505181_n.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AuctionItemResponseDto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="835">
-          <caret line="126" column="37" selection-start-line="126" selection-start-column="37" selection-end-line="126" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/image-uploads/57b0ca5a29210ce55f5a913f/14095854_169745223455253_6164479205703714964_n.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/image-uploads/57bc1b6d4d703c34fe940463/1bdc0f3fd395835cd259d176254faabb.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/service/auctionitem/AuctionItemServiceApi.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="29" column="43" selection-start-line="29" selection-start-column="43" selection-end-line="29" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/c705037601caa79f3b7d3260e445518a.jpg" />
+    <entry file="file://$PROJECT_DIR$/12919689_10206464985329541_138110946432540386_n.jpg" />
+    <entry file="file://$PROJECT_DIR$/12112171_1010048165714125_3287871746861505181_n.jpg" />
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/image-uploads/57b0ca5a29210ce55f5a913f/14095854_169745223455253_6164479205703714964_n.jpg" />
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/image-uploads/57bc1b6d4d703c34fe940463/1bdc0f3fd395835cd259d176254faabb.jpg" />
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/auctions/auction-item.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="179">
@@ -1506,7 +1557,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="9" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1514,7 +1564,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
           <caret line="31" column="64" selection-start-line="31" selection-start-column="64" selection-end-line="31" selection-end-column="64" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1522,7 +1571,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1530,7 +1578,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1538,37 +1585,90 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="355">
           <caret line="110" column="20" selection-start-line="110" selection-start-column="20" selection-end-line="110" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/image-uploads/57bc1b6d4d703c34fe940463/321b8354eca5ab7c38db2ec44704bbd9.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/image-uploads/57bc1b6d4d703c34fe940463/1000px-Jacques-FindingNemo3D.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/api/auctionitem/AuctionItemApi.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="45" column="17" selection-start-line="45" selection-start-column="17" selection-end-line="45" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/image-uploads/57b0ca5a29210ce55f5a913f/3247_1164297746901_395620_n.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/image-uploads/57bc1b6d4d703c34fe940463/321b8354eca5ab7c38db2ec44704bbd9.jpg" />
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/image-uploads/57bc1b6d4d703c34fe940463/1000px-Jacques-FindingNemo3D.jpg" />
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/image-uploads/57b0ca5a29210ce55f5a913f/3247_1164297746901_395620_n.jpg" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AddAuctionItemRequestDto.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/xmlparser/XmlParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="185" column="52" selection-start-line="185" selection-start-column="52" selection-end-line="185" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/BidDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="34" column="4" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="4" />
+          <folding>
+            <element signature="e#212#213#0" expanded="true" />
+            <element signature="e#241#242#0" expanded="true" />
+            <element signature="e#285#286#0" expanded="true" />
+            <element signature="e#321#322#0" expanded="true" />
+            <element signature="e#353#354#0" expanded="true" />
+            <element signature="e#383#384#0" expanded="true" />
+            <element signature="e#427#428#0" expanded="true" />
+            <element signature="e#465#466#0" expanded="true" />
+            <element signature="e#506#507#0" expanded="true" />
+            <element signature="e#543#544#0" expanded="true" />
+            <element signature="e#603#604#0" expanded="true" />
+            <element signature="e#655#656#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AuctionItemResponseDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding>
+            <element signature="e#2746#2747#0" expanded="false" />
+            <element signature="e#2782#2783#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/entity/AuctionItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/exception/BidException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="38" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
+          <folding>
+            <element signature="e#198#199#0" expanded="true" />
+            <element signature="e#243#244#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/entity/Bid.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1581,42 +1681,84 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/entity/AuctionItem.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AuctionItemBidResponseDto.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="150" column="0" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
+        <state relative-caret-position="204">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/mapper/AuctionItemMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="175" column="41" selection-start-line="175" selection-start-column="41" selection-end-line="175" selection-end-column="41" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/api/auctionitem/AuctionItemApi.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        <state relative-caret-position="408">
+          <caret line="40" column="41" selection-start-line="40" selection-start-column="41" selection-end-line="40" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionItemValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionItemRequestValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="25" column="40" selection-start-line="25" selection-start-column="40" selection-end-line="25" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/api/auctionitem/AuctionItemApiImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+        <state relative-caret-position="323">
+          <caret line="86" column="39" selection-start-line="86" selection-start-column="39" selection-end-line="86" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/mapper/AuctionItemMapper.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/validator/auctionitem/AuctionItemUpdateRequestValidator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+        <state relative-caret-position="340">
+          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/service/auctionitem/AuctionItemServiceApi.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="32" column="99" selection-start-line="32" selection-start-column="99" selection-end-line="32" selection-end-column="99" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/error/auctionitem/AuctionItemError.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/service/auctionitem/AuctionItemServiceApiImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+        <state relative-caret-position="190">
+          <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
