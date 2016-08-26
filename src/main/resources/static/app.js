@@ -95,6 +95,15 @@ router.config(function($stateProvider, $urlRouterProvider) {
     		templateUrl: 'auctions/auction-item.html'
     	})
     	
+    	.state('main.item.offers', {
+    		url: '/offers',
+    		views: {'offersview':{
+    			controller: 'offersController',
+    			templateUrl: 'auctions/auction-item-offers.html'
+    			}
+    		}
+    	})
+    	
         .state('main.profile.userAuctions',{
         	url: '/userAuctions',
         	views: { 'menuview': {

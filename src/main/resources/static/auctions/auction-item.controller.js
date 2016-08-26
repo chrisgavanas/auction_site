@@ -1,5 +1,6 @@
 router.controller('itemController', function($scope, $state, $http,$cookies, $route, $stateParams, AuthenticationService, AuctionItemService){
 	$scope.item = {};
+	$scope.shown = false;
 	var auctionItemId = $stateParams.id;
 	$scope.user = {};
 	$scope.hasLatLon = null;
@@ -40,6 +41,16 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 							console.log(response);
 						});	
 	
+	$scope.go  = function(){
+		if(!$scope.shown){
+			$scope.shown = true;
+			$state.go('main.item.offers');
+			
+		}else{
+			$scope.shown = false;
+			$state.go('main.item');
+		}
+	}
 	
 
 });
