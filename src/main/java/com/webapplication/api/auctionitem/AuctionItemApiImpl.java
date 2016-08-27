@@ -2,6 +2,7 @@ package com.webapplication.api.auctionitem;
 
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.AuctionStatus;
@@ -10,6 +11,7 @@ import com.webapplication.error.auctionitem.AuctionItemError;
 import com.webapplication.exception.AuctionAlreadyInProgressException;
 import com.webapplication.exception.AuctionDurationTooShortException;
 import com.webapplication.exception.AuctionItemNotFoundException;
+import com.webapplication.exception.BidException;
 import com.webapplication.exception.CategoryHierarchyException;
 import com.webapplication.exception.CategoryNotFoundException;
 import com.webapplication.exception.InvalidAuctionException;
@@ -110,6 +112,14 @@ public class AuctionItemApiImpl implements AuctionItemApi {
         return auctionItemService.uploadPhoto(file, userId);
     }
 
+    @Override
+    public AuctionItemBidResponseDto bidAuctionItem(@PathVariable String auctionItemId, @PathVariable String userId) throws Exception {
+        Optional.ofNullable(auctionItemId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+
+        return auctionItemService.bidAuctionItem(auctionItemId, userId);
+    }
+
     @ExceptionHandler(ValidationException.class)
     private void invalidData(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value());
@@ -120,7 +130,7 @@ public class AuctionItemApiImpl implements AuctionItemApi {
         response.sendError(HttpStatus.NOT_FOUND.value());
     }
 
-    @ExceptionHandler({AuctionAlreadyInProgressException.class, AuctionDurationTooShortException.class, CategoryHierarchyException.class, InvalidAuctionException.class})
+    @ExceptionHandler({AuctionAlreadyInProgressException.class, AuctionDurationTooShortException.class, CategoryHierarchyException.class, InvalidAuctionException.class, BidException.class})
     private void startAuctionError(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.CONFLICT.value());
     }

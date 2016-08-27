@@ -4,16 +4,19 @@ import com.webapplication.dao.AuctionItemRepository;
 import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.AuctionStatus;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.entity.AuctionItem;
+import com.webapplication.entity.Bid;
 import com.webapplication.entity.User;
 import com.webapplication.error.auctionitem.AuctionItemError;
 import com.webapplication.exception.AuctionAlreadyInProgressException;
 import com.webapplication.exception.AuctionDurationTooShortException;
 import com.webapplication.exception.AuctionItemNotFoundException;
+import com.webapplication.exception.BidException;
 import com.webapplication.exception.UserNotFoundException;
 import com.webapplication.mapper.AuctionItemMapper;
 import com.xmlparser.XmlParser;
@@ -63,7 +66,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         AuctionItem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(auctionItemRequestDto);
         validateUserId(auctionItem.getUserId());
         auctionItemRepository.save(auctionItem);
-        
+
         return auctionItemMapper.auctionItemToAddAuctionItemResponseDto(auctionItem);
     }
 
@@ -143,6 +146,63 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         File storedImage = storeFile(convertedFile, path, userId);
 
         return storedImage.getPath();
+    }
+
+    @Override
+    public AuctionItemBidResponseDto bidAuctionItem(String auctionItemId, String userId) throws Exception {
+        AuctionItem auctionItem = getAuctionItem(auctionItemId);
+        validateUserId(userId);
+        Double newBidAmount = validateAndCalculateBid(auctionItem, userId);
+        addNewBidToAuctionItem(auctionItem, newBidAmount, userId);
+        auctionItemRepository.save(auctionItem);
+
+        return auctionItemMapper.auctionItemToAuctionItemBidResponseDto(auctionItem);
+    }
+
+    private void addNewBidToAuctionItem(AuctionItem auctionItem, Double bidAmount, String userId) {
+        auctionItem.setBidsNo(auctionItem.getBidsNo() + 1);
+        auctionItem.setCurrentBid(bidAmount);
+        Bid newBid = new Bid(bidAmount, new Date(), userId);
+        auctionItem.getBids().add(newBid);      //TODO check if it's added at start or end
+    }
+
+    private Double validateAndCalculateBid(AuctionItem auctionItem, String bidderId) throws Exception {
+        if (auctionItem.getStartDate() == null)
+            throw new BidException(AuctionItemError.AUCTION_HAS_NOT_STARTED);
+        if (DateTime.now().minusSeconds(10).toDate().after(auctionItem.getEndDate()))
+            throw new BidException(AuctionItemError.AUCTION_HAS_BEEN_COMPLETED);
+        if (auctionItem.getUserId().equals(bidderId))
+            throw new BidException(AuctionItemError.ITEM_BELONGS_TO_BIDDER);
+
+        Double bidAmount = getBidAmountBasedOnPriceOfAuctionItem(auctionItem.getBuyout());
+        Double minBid = auctionItem.getMinBid();
+        Double lastBid = auctionItem.getCurrentBid();
+
+        if (lastBid.equals(minBid))
+            return minBid;
+        else if (lastBid + bidAmount < auctionItem.getBuyout())
+            return bidAmount;
+        else
+            throw new BidException(AuctionItemError.BID_AMOUNT_ABOVE_BUYOUT);
+    }
+
+    private Double getBidAmountBasedOnPriceOfAuctionItem(Double price) throws Exception {
+        if (price == null)
+            return 1.00;
+        else if (price >= 0.01 && price <= 0.99)
+            return 0.05;
+        else if (price >= 1.00 && price <= 4.99)
+            return 0.25;
+        else if (price >= 5.00 && price <= 24.99)
+            return 0.5;
+        else if (price >= 25.00 && price <= 99.99)
+            return 1.00;
+        else if (price >= 100.00 & price <= 249.99)
+            return 2.50;
+        else if (price >= 250.00)
+            return 5.00;
+        else
+            throw new Exception("Generic error.");
     }
 
     private File storeFile(File file, File path, String userId) throws Exception {
