@@ -1,9 +1,9 @@
-var router = angular.module('router', ['ngFileUpload','timer', 'ngMap', 'ui.router', 'ngResource', 'ngCookies', 'ngRoute', 'ngMessages','checklist-model']);
+var router = angular.module('router', ['ui.bootstrap', 'ngFileUpload','timer', 'ngMap', 'ui.router', 'ngResource', 'ngCookies', 'ngRoute', 'ngMessages','checklist-model']);
 
 
 router.config(function($stateProvider, $urlRouterProvider) {
     
-    //$urlRouterProvider.otherwise('/welcome');
+    $urlRouterProvider.otherwise('/welcome');
     
     $stateProvider
         

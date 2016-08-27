@@ -10,6 +10,13 @@
 
 <style>
 
+
+img{
+ 
+  width: 400px;
+  height: 400px;
+}
+
 .container-fluid{
 	padding-left: 100px;
 	padding-right: 100px;
@@ -34,8 +41,13 @@
   			
   			</div>
   			<div class="row">
-  				<div class="col-md-4">
-  					<img src="./images/item.png" width="300" height="300">
+  				<div class="col-md-4" id='slides_control'>
+  					<carousel>
+        				<slide ng-repeat="image in images" active="active">
+          					<img ng-src="{{image}}">
+          					
+        				</slide>
+      				</carousel>
   					
   				</div>
   				<div class="col-md-8">

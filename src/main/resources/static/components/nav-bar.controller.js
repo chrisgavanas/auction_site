@@ -32,7 +32,7 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 									$scope.defaultCat = {categoryId: "0", description: "All Categories"};
 									$scope.categories.push($scope.defaultCat);
 									$scope.selected = "0";
-									console.log($scope.categories);
+									
 							}, function(response){
 								console.log(response);
 							});
