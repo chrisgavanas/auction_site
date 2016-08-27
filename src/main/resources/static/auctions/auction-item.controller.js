@@ -3,6 +3,8 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	$scope.shown = false;
 	var auctionItemId = $stateParams.id;
 	$scope.user = {};
+	$scope.images = [];
+	$scope.imagesCounter = [];
 	$scope.hasLatLon = null;
 	$scope.hasBuyout = null;
 	$scope.user.userId = $cookies.get('userId');
@@ -35,8 +37,16 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 							}else
 								$scope.hasBuyout = true;
 							
-							
-	
+							var i;
+							for (i = 0; i < $scope.item.images.length; i++){
+								var res = $scope.item.images[i].replace(/\\/g, '/');
+								var res2 =res.split('/static/');
+								console.log(res2);
+								$scope.images.push("./"+res2[1]);
+								if(i!=0)
+									$scope.imagesCounter.push[i];
+							}
+							console.log($scope.images);
 						}, function(response){
 							console.log(response);
 						});	

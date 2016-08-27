@@ -6,6 +6,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.item ={
 		categoryIds: []
 	};
+	$scope.item.images = [];
 	$scope.submit = false;
 	$scope.selected = [];
 	$scope.item.geoLocationDto = {};
@@ -102,7 +103,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
             file.upload.then(function (response) {
                 $timeout(function () {
                     file.result = response.data;
-                    $scope.item.auctionItemId = file.result;
+                    $scope.item.images.push(file.result);
                     console.log(file.result);
                    
                 });
