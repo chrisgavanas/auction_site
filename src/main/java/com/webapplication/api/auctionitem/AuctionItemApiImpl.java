@@ -6,6 +6,7 @@ import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.AuctionStatus;
+import com.webapplication.dto.auctionitem.BidRequestDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.error.auctionitem.AuctionItemError;
 import com.webapplication.exception.AuctionAlreadyInProgressException;
@@ -113,11 +114,11 @@ public class AuctionItemApiImpl implements AuctionItemApi {
     }
 
     @Override
-    public AuctionItemBidResponseDto bidAuctionItem(@PathVariable String auctionItemId, @PathVariable String userId) throws Exception {
+    public AuctionItemBidResponseDto bidAuctionItem(@PathVariable String auctionItemId, @RequestBody BidRequestDto bidRequestDto) throws Exception {
         Optional.ofNullable(auctionItemId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
-        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        auctionItemRequestValidator.validate(bidRequestDto);
 
-        return auctionItemService.bidAuctionItem(auctionItemId, userId);
+        return auctionItemService.bidAuctionItem(auctionItemId, bidRequestDto);
     }
 
     @ExceptionHandler(ValidationException.class)

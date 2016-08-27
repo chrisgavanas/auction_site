@@ -8,6 +8,7 @@ import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.AuctionStatus;
+import com.webapplication.dto.auctionitem.BidRequestDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.Bid;
@@ -149,47 +150,40 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     @Override
-    public AuctionItemBidResponseDto bidAuctionItem(String auctionItemId, String userId) throws Exception {
+    public AuctionItemBidResponseDto bidAuctionItem(String auctionItemId, BidRequestDto bidRequestDto) throws Exception {
         AuctionItem auctionItem = getAuctionItem(auctionItemId);
-        validateUserId(userId);
-        Double newBidAmount = validateAndCalculateBid(auctionItem, userId);
-        addNewBidToAuctionItem(auctionItem, newBidAmount, userId);
+        validateUserId(bidRequestDto.getUserId());
+        validateBid(auctionItem, bidRequestDto);
+        addNewBidToAuctionItem(auctionItem, bidRequestDto);
         auctionItemRepository.save(auctionItem);
 
         return auctionItemMapper.auctionItemToAuctionItemBidResponseDto(auctionItem);
     }
 
-    private void addNewBidToAuctionItem(AuctionItem auctionItem, Double bidAmount, String userId) {
+    private void addNewBidToAuctionItem(AuctionItem auctionItem, BidRequestDto bidRequestDto) {
         auctionItem.setBidsNo(auctionItem.getBidsNo() + 1);
-        auctionItem.setCurrentBid(bidAmount);
-        Bid newBid = new Bid(bidAmount, new Date(), userId);
+        auctionItem.setCurrentBid(bidRequestDto.getAmount());
+        Bid newBid = new Bid(bidRequestDto.getAmount(), new Date(), bidRequestDto.getUserId());
         auctionItem.getBids().add(newBid);      //TODO check if it's added at start or end
     }
 
-    private Double validateAndCalculateBid(AuctionItem auctionItem, String bidderId) throws Exception {
+    private void validateBid(AuctionItem auctionItem, BidRequestDto bidRequestDto) throws Exception {
         if (auctionItem.getStartDate() == null)
             throw new BidException(AuctionItemError.AUCTION_HAS_NOT_STARTED);
         if (DateTime.now().minusSeconds(10).toDate().after(auctionItem.getEndDate()))
             throw new BidException(AuctionItemError.AUCTION_HAS_BEEN_COMPLETED);
-        if (auctionItem.getUserId().equals(bidderId))
+        if (auctionItem.getUserId().equals(bidRequestDto.getUserId()))
             throw new BidException(AuctionItemError.ITEM_BELONGS_TO_BIDDER);
 
-        Double bidAmount = getBidAmountBasedOnPriceOfAuctionItem(auctionItem.getBuyout());
-        Double minBid = auctionItem.getMinBid();
-        Double lastBid = auctionItem.getCurrentBid();
-
-        if (lastBid.equals(minBid))
-            return minBid;
-        else if (lastBid + bidAmount < auctionItem.getBuyout())
-            return bidAmount;
-        else
+        Double minBidAmount = getMinBidAmountBasedOnPriceOfAuctionItem(auctionItem.getCurrentBid());
+        if (minBidAmount > bidRequestDto.getAmount() - auctionItem.getCurrentBid())
+            throw new BidException(AuctionItemError.BID_AMOUNT_BELOW_ALLOWED_AMOUNT);
+        if (auctionItem.getBuyout() != null && bidRequestDto.getAmount() > auctionItem.getBuyout())
             throw new BidException(AuctionItemError.BID_AMOUNT_ABOVE_BUYOUT);
     }
 
-    private Double getBidAmountBasedOnPriceOfAuctionItem(Double price) throws Exception {
-        if (price == null)
-            return 1.00;
-        else if (price >= 0.01 && price <= 0.99)
+    private Double getMinBidAmountBasedOnPriceOfAuctionItem(Double price) throws Exception {
+        if (price >= 0.01 && price <= 0.99)
             return 0.05;
         else if (price >= 1.00 && price <= 4.99)
             return 0.25;

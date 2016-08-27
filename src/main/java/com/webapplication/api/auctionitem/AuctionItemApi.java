@@ -5,6 +5,7 @@ import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
+import com.webapplication.dto.auctionitem.BidRequestDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.dto.auctionitem.AuctionStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,7 +47,7 @@ public interface AuctionItemApi {
     @RequestMapping(path = "/auctionitem/user/{userId}/upload", method = RequestMethod.POST, produces = "text/plain")
     String uploadPhoto(@RequestParam("file") MultipartFile file, @PathVariable String userId) throws Exception;
 
-    @RequestMapping(path = "/auctionitem/{auctionItemId}/bid/user/{userId}", method = RequestMethod.POST, produces = "application/json")
-    AuctionItemBidResponseDto bidAuctionItem(@PathVariable String auctionItemId, @PathVariable String userId) throws Exception;
+    @RequestMapping(path = "/auctionitem/{auctionItemId}/bid", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    AuctionItemBidResponseDto bidAuctionItem(@PathVariable String auctionItemId, BidRequestDto bidRequestDto) throws Exception;
 
 }

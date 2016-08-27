@@ -11,6 +11,7 @@ public enum AuctionItemError {
     INVALID_PAGINATION_VALUES("\"From\" value must be greater or equal to \"To\" value"),
     INVALID_AUCTION("Auction belongs to another user."),
     BID_AMOUNT_ABOVE_BUYOUT("Bid amount would result to a price above buyout amount"),
+    BID_AMOUNT_BELOW_ALLOWED_AMOUNT("Bid amount is lower than the minimum amount allowed for bidding this auction item"),
     AUCTION_HAS_NOT_STARTED("Auction has not started yet."),
     AUCTION_HAS_BEEN_COMPLETED("Auction has expired."),
     ITEM_BELONGS_TO_BIDDER("Bidder can't own the auction item");

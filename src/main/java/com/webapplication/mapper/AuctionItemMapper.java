@@ -1,7 +1,6 @@
 package com.webapplication.mapper;
 
 import com.google.common.collect.Lists;
-import com.webapplication.dao.AuctionItemRepository;
 import com.webapplication.dao.CategoryRepository;
 import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
@@ -9,7 +8,7 @@ import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
-import com.webapplication.dto.auctionitem.BidDto;
+import com.webapplication.dto.auctionitem.BidResponseDto;
 import com.webapplication.dto.user.GeoLocationDto;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.Bid;
@@ -188,11 +187,11 @@ public class AuctionItemMapper {
         }
     }
 
-    private BidDto bidToBidDto(Bid bid) {
+    private BidResponseDto bidToBidDto(Bid bid) {
         if (bid == null)
             return null;
 
-        BidDto bidDto = new BidDto();
+        BidResponseDto bidDto = new BidResponseDto();
         bidDto.setAmount(bid.getAmount());
         bidDto.setBidDate(bid.getBidDate());
         User user = userRepository.findUserByUserId(bid.getUserId());
@@ -200,7 +199,7 @@ public class AuctionItemMapper {
         return bidDto;
     }
 
-    private List<BidDto> bidsToBidsDto(List<Bid> bids) {
+    private List<BidResponseDto> bidsToBidsDto(List<Bid> bids) {
         if (bids == null)
             return null;
 

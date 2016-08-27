@@ -3,7 +3,7 @@ package com.webapplication.dto.auctionitem;
 
 import java.util.Date;
 
-public class BidDto {
+public class BidResponseDto {
 
     private Double amount;
     private Date bidDate;

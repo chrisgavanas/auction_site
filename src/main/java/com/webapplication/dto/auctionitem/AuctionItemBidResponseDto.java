@@ -22,7 +22,7 @@ public class AuctionItemBidResponseDto {
     private String userId;
     private List<CategoryResponseDto> categories;
     private List<String> images;
-    private List<BidDto> bids;
+    private List<BidResponseDto> bids;
 
     public String getAuctionItemId() {
         return auctionItemId;
@@ -128,11 +128,11 @@ public class AuctionItemBidResponseDto {
         this.images = images;
     }
 
-    public List<BidDto> getBids() {
+    public List<BidResponseDto> getBids() {
         return bids;
     }
 
-    public void setBids(List<BidDto> bids) {
+    public void setBids(List<BidResponseDto> bids) {
         this.bids = bids;
     }
 
