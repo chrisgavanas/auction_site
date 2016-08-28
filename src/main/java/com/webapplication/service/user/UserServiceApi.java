@@ -14,6 +14,8 @@ public interface UserServiceApi {
     UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDto) throws Exception;
 
     UserResponseDto getUser(UUID authToken, String userId) throws Exception;
+    
+    SellerResponseDto getSeller(UUID authToken, String sellerId) throws Exception;
 
     void verifyUser(UUID authToken, String userId) throws Exception;
 

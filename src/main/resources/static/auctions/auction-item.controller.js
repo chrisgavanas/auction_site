@@ -7,20 +7,12 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	$scope.imagesCounter = [];
 	$scope.hasLatLon = null;
 	$scope.hasBuyout = null;
+	$scope.seller = {};
 	$scope.user.userId = $cookies.get('userId');
 	var token = $cookies.get('authToken');
 	
 	
-	AuthenticationService.getUser($scope.user.userId, token)
-							.then(function(response){
-							$scope.user = response.data;
-						}, function errorCallback(response){
-							console.log(response);
-							$cookies.remove('userId');
-							$cookies.remove('authToken');
-							$cookies.put('signedIn', 'no');
-							$state.go('main.welcome', {}, {reload: true});
-						});
+	
 	AuctionItemService.getAuctionItemById(token, auctionItemId)
 						.then(function(response){
 							$scope.item = response.data;
@@ -47,6 +39,14 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 									$scope.imagesCounter.push[i];
 							}
 							console.log($scope.images);
+							
+							AuthenticationService.getSeller($scope.item.userId, token)
+													.then(function(response){
+															$scope.seller = response.data;
+													}, function errorCallback(response){
+														console.log(response);
+														alert("Error");
+													});
 						}, function(response){
 							console.log(response);
 						});	

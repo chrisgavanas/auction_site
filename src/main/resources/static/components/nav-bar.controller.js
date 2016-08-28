@@ -92,7 +92,7 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
     	AuthenticationService.login(user, token)
     							.then(function (response){
     								$scope.user = response;
-    								
+    								console.log($scope.user);
     								if($scope.user.isAdmin == true)
     									$state.go('main.admin', {} , {reload: true});
     								else

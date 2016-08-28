@@ -46,6 +46,11 @@ router.factory('AuthenticationService', function($http, $cookies) {
 					});
 	};
 	
-	
+	authService.getSeller = function(sellerId, token){
+		return $http.get('/api/seller/'+ sellerId, {headers: {'authToken': token}})
+					.then(function successCallback(response){
+						return response;
+					});
+	};
 	return authService;
 })

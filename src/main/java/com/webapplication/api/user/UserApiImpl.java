@@ -52,6 +52,13 @@ public class UserApiImpl implements UserApi {
         return userService.getUser(authToken, userId);
     }
 
+    public SellerResponseDto getSeller(@RequestHeader UUID authToken, @PathVariable String sellerId) throws Exception {
+        Optional.ofNullable(sellerId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        if (sellerId.isEmpty())
+            throw new ValidationException(UserError.INVALID_DATA);
+
+        return userService.getSeller(authToken, sellerId);
+    }
     @Override
     public void verifyUser(@RequestHeader UUID authToken, @PathVariable String userId) throws Exception {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));

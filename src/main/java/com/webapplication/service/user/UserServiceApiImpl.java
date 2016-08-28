@@ -3,6 +3,7 @@ package com.webapplication.service.user;
 import com.webapplication.authentication.Authenticator;
 import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.user.ChangePasswordRequestDto;
+import com.webapplication.dto.user.SellerResponseDto;
 import com.webapplication.dto.user.SessionInfo;
 import com.webapplication.dto.user.UserLogInRequestDto;
 import com.webapplication.dto.user.UserLogInResponseDto;
@@ -80,6 +81,16 @@ public class UserServiceApiImpl implements UserServiceApi {
 
         return userMapper.userToUserResponse(user);
     }
+    
+    public SellerResponseDto getSeller(UUID authToken, String sellerId) throws Exception {
+       // SessionInfo sessionInfo = getActiveSession(authToken);
+        User user = getUser(sellerId);
+        
+       // validateAuthorization(user.getUserId(), sessionInfo);
+
+        return userMapper.userToSellerResponse(user);
+    }
+    
 
     @Override
     public void verifyUser(UUID authToken, String userId) throws Exception {

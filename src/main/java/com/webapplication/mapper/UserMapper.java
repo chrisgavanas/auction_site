@@ -1,6 +1,7 @@
 package com.webapplication.mapper;
 
 import com.webapplication.dto.user.AddressDto;
+import com.webapplication.dto.user.SellerResponseDto;
 import com.webapplication.dto.user.UserRegisterRequestDto;
 import com.webapplication.dto.user.UserRegisterResponseDto;
 import com.webapplication.dto.user.UserResponseDto;
@@ -105,6 +106,25 @@ public class UserMapper {
             userResponse.setAddress(addressDto);
         }
 
+        return userResponse;
+    }
+    
+    public SellerResponseDto userToSellerResponse(User user) {
+        if (user == null)
+            return null;
+
+        SellerResponseDto userResponse = new SellerResponseDto();
+        userResponse.setSellerId(user.getUserId());
+        userResponse.setUsername(user.getUsername());
+       
+        userResponse.setCountry(user.getCountry());
+       
+        userResponse.setRegistrationDate(user.getRegistrationDate());
+        userResponse.setGender(user.getGender());
+     
+        userResponse.setRatingAsSeller(user.getRatingAsSeller());
+        userResponse.setRatingAsBidder(user.getRatingAsBidder());
+        
         return userResponse;
     }
 
