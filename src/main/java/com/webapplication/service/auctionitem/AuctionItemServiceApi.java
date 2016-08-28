@@ -6,6 +6,7 @@ import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.BidRequestDto;
+import com.webapplication.dto.auctionitem.BidResponseDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.dto.auctionitem.AuctionStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,5 +33,7 @@ public interface AuctionItemServiceApi {
     String uploadPhoto(MultipartFile file, String userId) throws Exception;
 
     AuctionItemBidResponseDto bidAuctionItem(String auctionItemId, BidRequestDto bidRequestDto) throws Exception;
+
+    List<BidResponseDto> getBidsOfAuctionItem(String auctionItemId) throws Exception;
 
 }

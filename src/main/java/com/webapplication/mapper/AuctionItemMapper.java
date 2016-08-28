@@ -171,7 +171,7 @@ public class AuctionItemMapper {
         List<Category> categories = categoryRepository.findCategoriesByIds(auctionItem.getCategoriesId());
         auctionItemBidResponseDto.setCategories(categoryMapper.categoriesToCategoryResponseDtoList(categories));
         auctionItemBidResponseDto.setImages(auctionItem.getImages());
-        auctionItemBidResponseDto.setBids(bidsToBidsDto(auctionItem.getBids()));
+        auctionItemBidResponseDto.setBids(bidsToBidResponseDtos(auctionItem.getBids()));
         return auctionItemBidResponseDto;
     }
 
@@ -199,7 +199,7 @@ public class AuctionItemMapper {
         return bidDto;
     }
 
-    private List<BidResponseDto> bidsToBidsDto(List<Bid> bids) {
+    public List<BidResponseDto> bidsToBidResponseDtos(List<Bid> bids) {
         if (bids == null)
             return null;
 

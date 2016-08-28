@@ -6,6 +6,7 @@ import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.BidRequestDto;
+import com.webapplication.dto.auctionitem.BidResponseDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.dto.auctionitem.AuctionStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,5 +50,8 @@ public interface AuctionItemApi {
 
     @RequestMapping(path = "/auctionitem/{auctionItemId}/bid", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     AuctionItemBidResponseDto bidAuctionItem(@PathVariable String auctionItemId, BidRequestDto bidRequestDto) throws Exception;
+
+    @RequestMapping(path = "/auctionitem/{auctionItemId}/bids", method = RequestMethod.GET, produces = "application/json")
+    List<BidResponseDto> getBidsOfAuctionItem(@PathVariable String auctionItemId) throws Exception;
 
 }
