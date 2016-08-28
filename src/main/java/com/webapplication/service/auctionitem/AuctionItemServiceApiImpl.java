@@ -9,6 +9,7 @@ import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.AuctionStatus;
 import com.webapplication.dto.auctionitem.BidRequestDto;
+import com.webapplication.dto.auctionitem.BidResponseDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.Bid;
@@ -158,6 +159,13 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         auctionItemRepository.save(auctionItem);
 
         return auctionItemMapper.auctionItemToAuctionItemBidResponseDto(auctionItem);
+    }
+
+    @Override
+    public List<BidResponseDto> getBidsOfAuctionItem(String auctionItemId) throws Exception {
+        AuctionItem auctionItem = getAuctionItem(auctionItemId);
+
+        return auctionItemMapper.bidsToBidResponseDtos(auctionItem.getBids());
     }
 
     private void addNewBidToAuctionItem(AuctionItem auctionItem, BidRequestDto bidRequestDto) {
