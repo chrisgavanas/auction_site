@@ -1,4 +1,4 @@
-package com.webapplication.exception;
+package com.webapplication.exception.auctionitem;
 
 
 import com.webapplication.error.auctionitem.AuctionItemError;

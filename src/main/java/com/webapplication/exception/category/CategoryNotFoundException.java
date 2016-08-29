@@ -1,4 +1,4 @@
-package com.webapplication.exception;
+package com.webapplication.exception.category;
 
 import com.webapplication.error.category.CategoryError;
 

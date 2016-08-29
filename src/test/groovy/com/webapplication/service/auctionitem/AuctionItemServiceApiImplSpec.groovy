@@ -10,10 +10,10 @@ import com.webapplication.dto.auctionitem.AuctionStatus
 import com.webapplication.entity.AuctionItem
 import com.webapplication.entity.User
 import com.webapplication.error.auctionitem.AuctionItemError
-import com.webapplication.exception.AuctionAlreadyInProgressException
-import com.webapplication.exception.AuctionDurationTooShortException
-import com.webapplication.exception.AuctionItemNotFoundException
-import com.webapplication.exception.UserNotFoundException
+import com.webapplication.exception.auctionitem.AuctionAlreadyInProgressException
+import com.webapplication.exception.auctionitem.AuctionDurationTooShortException
+import com.webapplication.exception.auctionitem.AuctionItemNotFoundException
+import com.webapplication.exception.user.UserNotFoundException
 import com.webapplication.mapper.AuctionItemMapper
 import org.joda.time.DateTime
 import spock.lang.Specification
@@ -33,7 +33,7 @@ class AuctionItemServiceApiImplSpec extends Specification {
         mockUserRepository = Mock(UserRepository)
         minAuctionDurationInHours = 1
 
-        auctionItemServiceImpl = new AuctionItemServiceApiImpl(auctionItemRepository: mockAuctionItemRepository, auctionItemMapper: mockAuctionItemMapper, userRepository: mockUserRepository, minAuctionDurationInHours: minAuctionDurationInHours)
+        auctionItemServiceImpl = new AuctionItemServiceApiImpl(auctionItemMongoRepository: mockAuctionItemRepository, auctionItemMapper: mockAuctionItemMapper, userRepository: mockUserRepository, minAuctionDurationInHours: minAuctionDurationInHours)
     }
 
     def "Add an auction item"() {

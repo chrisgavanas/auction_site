@@ -22,10 +22,10 @@ public interface UserApi {
     UserResponseDto getUser(@RequestHeader UUID authToken, @PathVariable String userId) throws Exception;
 
     @RequestMapping(path = "/seller/{sellerId}", method = RequestMethod.GET, produces = "application/json")
-    SellerResponseDto getSeller(@RequestHeader UUID authToken, @PathVariable String sellerId) throws Exception;
+    SellerResponseDto getSeller(@PathVariable String sellerId) throws Exception;
     
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    UserResponseDto updateUser(@PathVariable String userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception;
+    UserResponseDto updateUser(@RequestHeader UUID authToken, @PathVariable String userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception;
 
     @RequestMapping(path = "/user/{userId}/verify-user", method = RequestMethod.POST)
     void verifyUser(@RequestHeader UUID authToken, @PathVariable String userId) throws Exception;

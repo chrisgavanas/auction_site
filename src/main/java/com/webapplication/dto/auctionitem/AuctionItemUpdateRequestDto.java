@@ -1,3 +1,4 @@
+
 package com.webapplication.dto.auctionitem;
 
 import com.webapplication.dto.user.GeoLocationDto;
@@ -12,7 +13,7 @@ public class AuctionItemUpdateRequestDto {
     private String name;
     private GeoLocationDto geoLocationDto;
     private List<String> categoryIds;
-    private List<Byte> images;
+    private List<String> images;
 
     public Double getBuyout() {
         return buyout;
@@ -62,11 +63,11 @@ public class AuctionItemUpdateRequestDto {
         this.categoryIds = categoryIds;
     }
 
-    public List<Byte> getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(List<Byte> images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 

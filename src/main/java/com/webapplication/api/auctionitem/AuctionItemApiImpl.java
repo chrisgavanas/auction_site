@@ -10,14 +10,15 @@ import com.webapplication.dto.auctionitem.BidRequestDto;
 import com.webapplication.dto.auctionitem.BidResponseDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.error.auctionitem.AuctionItemError;
-import com.webapplication.exception.AuctionAlreadyInProgressException;
-import com.webapplication.exception.AuctionDurationTooShortException;
-import com.webapplication.exception.AuctionItemNotFoundException;
-import com.webapplication.exception.BidException;
-import com.webapplication.exception.CategoryHierarchyException;
-import com.webapplication.exception.CategoryNotFoundException;
-import com.webapplication.exception.InvalidAuctionException;
-import com.webapplication.exception.UserNotFoundException;
+import com.webapplication.exception.auctionitem.AuctionAlreadyInProgressException;
+import com.webapplication.exception.auctionitem.AuctionDurationTooShortException;
+import com.webapplication.exception.auctionitem.AuctionExpiredException;
+import com.webapplication.exception.auctionitem.AuctionItemNotFoundException;
+import com.webapplication.exception.auctionitem.BidException;
+import com.webapplication.exception.category.CategoryHierarchyException;
+import com.webapplication.exception.category.CategoryNotFoundException;
+import com.webapplication.exception.auctionitem.InvalidAuctionException;
+import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.exception.ValidationException;
 import com.webapplication.service.auctionitem.AuctionItemServiceApi;
 import com.webapplication.validator.auctionitem.AuctionItemRequestValidator;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,6 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class AuctionItemApiImpl implements AuctionItemApi {
@@ -45,24 +48,33 @@ public class AuctionItemApiImpl implements AuctionItemApi {
     private AuctionItemRequestValidator auctionItemRequestValidator;
 
     @Override
-    public AddAuctionItemResponseDto addAuctionItem(@RequestBody AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
+    public AddAuctionItemResponseDto addAuctionItem(@RequestHeader UUID authToken, @RequestBody AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         auctionItemRequestValidator.validate(auctionItemRequestDto);
-        return auctionItemService.addAuctionItem(auctionItemRequestDto);
+
+        return auctionItemService.addAuctionItem(authToken, auctionItemRequestDto);
     }
 
     @Override
-    public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(@PathVariable String userId, @RequestParam("status") AuctionStatus status) throws Exception {
+    public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(@PathVariable String userId, @RequestParam("status") AuctionStatus status, @PathVariable Integer from, @PathVariable Integer to) throws Exception {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         Optional.ofNullable(status).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        Optional.ofNullable(from).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        Optional.ofNullable(to).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        if (from <= 0 || to <= 0)
+            throw new ValidationException(AuctionItemError.INVALID_DATA);
+        if (from > to)
+            throw new ValidationException(AuctionItemError.INVALID_PAGINATION_VALUES);
         if (userId.isEmpty())
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
-        return auctionItemService.getAuctionItemsOfUserByStatus(userId, status);
+        return auctionItemService.getAuctionItemsOfUserByStatus(userId, status, from, to);
     }
 
     @Override
-    public void exportAuctionsAsXmlFile(HttpServletResponse response) throws Exception {
-        auctionItemService.exportAuctionsAsXmlFile(response);
+    public void exportAuctionsAsXmlFile(@RequestHeader UUID authToken, HttpServletResponse response) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        auctionItemService.exportAuctionsAsXmlFile(authToken, response);
     }
 
     @Override
@@ -75,20 +87,22 @@ public class AuctionItemApiImpl implements AuctionItemApi {
     }
 
     @Override
-    public AuctionItemResponseDto startAuction(@PathVariable String auctionItemId, @RequestBody StartAuctionDto startAuctionDto) throws Exception {
-        auctionItemRequestValidator.validate(startAuctionDto);
+    public AuctionItemResponseDto startAuction(@RequestHeader UUID authToken, @PathVariable String auctionItemId, @RequestBody StartAuctionDto startAuctionDto) throws Exception {
         Optional.ofNullable(auctionItemId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        auctionItemRequestValidator.validate(startAuctionDto);
         if (auctionItemId.isEmpty())
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
-        return auctionItemService.startAuction(auctionItemId, startAuctionDto);
+        return auctionItemService.startAuction(authToken, auctionItemId, startAuctionDto);
     }
 
-    public AuctionItemResponseDto updateAuctionItem(@PathVariable String auctionItemId, @RequestBody AuctionItemUpdateRequestDto auctionItemUpdateRequestDto) throws Exception {
+    @Override
+    public AuctionItemResponseDto updateAuctionItem(@RequestHeader UUID authToken, @PathVariable String auctionItemId, @RequestBody AuctionItemUpdateRequestDto auctionItemUpdateRequestDto) throws Exception {
         Optional.ofNullable(auctionItemId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         auctionItemRequestValidator.validate(auctionItemUpdateRequestDto);
 
-        return auctionItemService.updateAuctionItem(auctionItemId, auctionItemUpdateRequestDto);
+        return auctionItemService.updateAuctionItem(authToken, auctionItemId, auctionItemUpdateRequestDto);
     }
 
     @Override
@@ -97,7 +111,6 @@ public class AuctionItemApiImpl implements AuctionItemApi {
         Optional.ofNullable(to).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         if (from <= 0 || to <= 0)
             throw new ValidationException(AuctionItemError.INVALID_DATA);
-
         if (from > to)
             throw new ValidationException(AuctionItemError.INVALID_PAGINATION_VALUES);
 
@@ -105,28 +118,31 @@ public class AuctionItemApiImpl implements AuctionItemApi {
     }
 
     @Override
-    public String uploadPhoto(@RequestParam("file") MultipartFile file, @PathVariable String userId) throws Exception {
+    public String uploadPhoto(@RequestHeader UUID authToken, @RequestParam("file") MultipartFile file, @PathVariable String userId) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         Optional.ofNullable(file).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         if (userId.isEmpty() || file.isEmpty())
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
-        return auctionItemService.uploadPhoto(file, userId);
+        return auctionItemService.uploadPhoto(authToken, file, userId);
     }
 
     @Override
-    public AuctionItemBidResponseDto bidAuctionItem(@PathVariable String auctionItemId, @RequestBody BidRequestDto bidRequestDto) throws Exception {
+    public AuctionItemBidResponseDto bidAuctionItem(@RequestHeader UUID authToken, @PathVariable String auctionItemId, @RequestBody BidRequestDto bidRequestDto) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         Optional.ofNullable(auctionItemId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         auctionItemRequestValidator.validate(bidRequestDto);
 
-        return auctionItemService.bidAuctionItem(auctionItemId, bidRequestDto);
+        return auctionItemService.bidAuctionItem(authToken, auctionItemId, bidRequestDto);
     }
 
     @Override
-    public List<BidResponseDto> getBidsOfAuctionItem(@PathVariable String auctionItemId) throws Exception {
+    public List<BidResponseDto> getBidsOfAuctionItem(@RequestHeader UUID authToken, @PathVariable String auctionItemId) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         Optional.ofNullable(auctionItemId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
 
-        return auctionItemService.getBidsOfAuctionItem(auctionItemId);
+        return auctionItemService.getBidsOfAuctionItem(authToken, auctionItemId);
     }
 
     @ExceptionHandler(ValidationException.class)
@@ -139,7 +155,7 @@ public class AuctionItemApiImpl implements AuctionItemApi {
         response.sendError(HttpStatus.NOT_FOUND.value());
     }
 
-    @ExceptionHandler({AuctionAlreadyInProgressException.class, AuctionDurationTooShortException.class, CategoryHierarchyException.class, InvalidAuctionException.class, BidException.class})
+    @ExceptionHandler({AuctionAlreadyInProgressException.class, AuctionDurationTooShortException.class, CategoryHierarchyException.class, InvalidAuctionException.class, BidException.class, AuctionExpiredException.class})
     private void startAuctionError(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.CONFLICT.value());
     }

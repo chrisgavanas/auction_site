@@ -10,7 +10,7 @@ import com.webapplication.entity.AuctionItem
 import com.webapplication.entity.Category
 import com.webapplication.entity.GeoLocation
 import com.webapplication.error.category.CategoryError
-import com.webapplication.exception.CategoryNotFoundException
+import com.webapplication.exception.category.CategoryNotFoundException
 import spock.lang.Specification
 
 class AuctionItemMapperSpec extends Specification {

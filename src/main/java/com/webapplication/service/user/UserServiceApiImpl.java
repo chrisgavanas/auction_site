@@ -15,14 +15,14 @@ import com.webapplication.entity.User;
 import com.webapplication.error.user.UserError;
 import com.webapplication.error.user.UserLogInError;
 import com.webapplication.error.user.UserRegisterError;
-import com.webapplication.exception.EmailAlreadyInUseException;
-import com.webapplication.exception.EmailUnverifiedException;
+import com.webapplication.exception.user.EmailAlreadyInUseException;
+import com.webapplication.exception.user.EmailUnverifiedException;
 import com.webapplication.exception.ForbiddenException;
 import com.webapplication.exception.NotAuthenticatedException;
 import com.webapplication.exception.NotAuthorizedException;
-import com.webapplication.exception.UserAlreadyExistsException;
-import com.webapplication.exception.UserAlreadyVerifiedException;
-import com.webapplication.exception.UserNotFoundException;
+import com.webapplication.exception.user.UserAlreadyExistsException;
+import com.webapplication.exception.user.UserAlreadyVerifiedException;
+import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.mapper.UserMapper;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,21 +81,18 @@ public class UserServiceApiImpl implements UserServiceApi {
 
         return userMapper.userToUserResponse(user);
     }
-    
-    public SellerResponseDto getSeller(UUID authToken, String sellerId) throws Exception {
-       // SessionInfo sessionInfo = getActiveSession(authToken);
-        User user = getUser(sellerId);
-        
-       // validateAuthorization(user.getUserId(), sessionInfo);
 
-        return userMapper.userToSellerResponse(user);
+    @Override
+    public SellerResponseDto getSeller(String sellerId) throws Exception {
+        User user = getUser(sellerId);
+
+        return userMapper.userToSellerResponseDto(user);
     }
     
 
     @Override
     public void verifyUser(UUID authToken, String userId) throws Exception {
-        SessionInfo sessionInfo = authenticator.getSession(authToken);
-        Optional.ofNullable(sessionInfo).orElseThrow(() -> new NotAuthorizedException(UserError.UNAUTHORIZED));
+        SessionInfo sessionInfo = getActiveSession(authToken);
         if (!sessionInfo.getIsAdmin())
             throw new NotAuthorizedException(UserError.UNAUTHORIZED);
 
@@ -108,8 +105,10 @@ public class UserServiceApiImpl implements UserServiceApi {
     }
 
     @Override
-    public UserResponseDto updateUser(String userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception {
+    public UserResponseDto updateUser(UUID authToken, String userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
         User user = getUser(userId);
+        validateAuthorization(userId, sessionInfo);
 
         if (!user.getEmail().equals(userUpdateRequestDto.getEmail()) && userRepository.countByEmail(userUpdateRequestDto.getEmail()) > 0)
             throw new EmailAlreadyInUseException(UserError.EMAIL_ALREADY_IN_USE);
@@ -121,8 +120,10 @@ public class UserServiceApiImpl implements UserServiceApi {
     }
 
     @Override
-    public void changePassword(String userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception {
+    public void changePassword(UUID authToken, String userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
         User user = getUser(userId);
+        validateAuthorization(userId, sessionInfo);
 
         if (!user.getPassword().equals(changePasswordRequestDto.getOldPassword()))
             throw new ForbiddenException(UserError.PASSWORD_MISSMATCH);

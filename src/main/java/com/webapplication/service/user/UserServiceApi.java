@@ -15,13 +15,13 @@ public interface UserServiceApi {
 
     UserResponseDto getUser(UUID authToken, String userId) throws Exception;
     
-    SellerResponseDto getSeller(UUID authToken, String sellerId) throws Exception;
+    SellerResponseDto getSeller(String sellerId) throws Exception;
 
     void verifyUser(UUID authToken, String userId) throws Exception;
 
-    UserResponseDto updateUser(String userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception;
+    UserResponseDto updateUser(UUID authToken, String userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception;
 
-    void changePassword(String userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
+    void changePassword(UUID authToken, String userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
 
     List<UserResponseDto> getUnverifiedUsers(UUID authToken, Integer from, Integer to) throws Exception;
 
