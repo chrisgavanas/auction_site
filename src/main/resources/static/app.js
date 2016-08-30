@@ -35,7 +35,19 @@ router.config(function($stateProvider, $urlRouterProvider) {
         
         .state('main.verification',{
         	url: '/pendingMessage',
-        	templateUrl: 'messeges/verification-pending.html'
+        	templateUrl: 'messages/verification-pending.html'
+        })
+        
+        .state('main.signedout',{
+        	url: '/not-signed-in',
+        	templateUrl: 'messages/not-logged-in.html'
+        	
+        })
+        
+        .state('main.sessionexpired',{
+        	url: '/session-expired',
+        	templateUrl: 'messages/expired-session.html'
+        	
         })
         .state('main.seller',{
         	url: '/member?id',

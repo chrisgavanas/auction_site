@@ -114,8 +114,8 @@ hr{
   				</div>
   				<div class = "row" >
   					<div ng-repeat="category in categoryIds">
-						<button type="button" class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length != 0"><font size="2" >>{{category.description}}</font> </button> 					
-  						<button type="button" class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length == 0"><font size="2" ng-disabled="submit">{{category.description}}</font> </button> 		
+						<button type="button" class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length != 0" ><font size="2" >>{{category.description}}</font> </button> 					
+  						<button type="button" class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length == 0"  ng-disabled="submit"><font size="2">{{submit}}{{category.description}}</font> </button> 		
   					</div>
   				
   				</div>

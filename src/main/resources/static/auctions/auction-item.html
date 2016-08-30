@@ -10,7 +10,9 @@
 
 <style>
 
-
+.modal p {
+    word-wrap: break-word;
+}
 img{
  
   width: 400px;
@@ -34,7 +36,8 @@ img{
 <div class="container-fluid text-center">
 	
 	
-  		
+ <form name="biddingform"  role ="form" ng-controller="itemController"
+											novalidate>
   		
   			<div id="cats" class="row" align="left">
   				<font size="1">Categories:</font><font size="1" ng-repeat="category in item.categories"> >{{category.description}}</font>
@@ -66,24 +69,36 @@ img{
   									<font size="2">Current Bid:</font>
   								</div>
   								<div class="col-md-4" align="left">
-  									<font size="3">${{item.minBid}}</font>
+  									<font size="3">${{item.currentBid}}</font>
   								</div>
   								<div class="col-md-4" align="left">
-  									<font size="1">(0 Bids)</font>
+  									<font size="1">({{item.bidsNo}} Bids)</font>
   								</div>
   							</div>
   							<div class="row">
   								<div class="col-md-4">
-  									<button class="btn btn-primary">Place bid</button>
+  									<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#myModal2" >Place bid</button>
   								</div>
+  								
   								<div class="col-md-4" align="left">
-  									<input class="form-control">
+  									<input name="bidding" class="form-control" ng-model="bid.amount" validate-bid='item.currentBid'>
   								</div>
   								
   								
   							</div>
   							<div class="row" ng-if="item.endDate != null">
   								<font size="1">Time left: <timer end-time="item.endDate">{{days}} d, {{hours}} h, {{minutes}} m, {{seconds}} s.</timer></font>
+  							</div>
+  							<div class="row" ng-if="completed">
+  								<div class="alert alert-success">
+  									Your bid has been placed!
+  								</div>
+  							</div>
+  							<div class="row" ng-if="conflict">
+  								<div class="alert alert-danger" >
+  									You cannot bid your own item!
+  								</div>
+  								
   							</div>
   							<hr ng-show="hasBuyout">
   							<div class="row" ng-show="hasBuyout">
@@ -144,9 +159,40 @@ img{
   			</div>
   			
   			
-  			
+  
 
+<div id="myModal2" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Bidding Overview</h4>
+      </div>
+      <div class="modal-body">
+        <p ng-if="bid.amount != null &&  bid.amount < item.buyout">Bid amount: ${{bid.amount}}</p>
+         <p ng-if="bid.amount == null ||  bid.amount >= item.buyout">Bid amount: none</p>
+        <span><font size="2" color="red" ng-show="bid.amount >= item.buyout">Bidding amount cannot surpass buy out.</font></span>
+        <div ng-messages="biddingform.bidding.$error" role="alert" ng-if="biddingform.bidding.$touched">
+        	<div ng-message="validateBid" align="middle">
+        			
+             		 <font size = "2"  color="red">Invalid bid increment!</font>
+             		<br>
+             		
+             		 <font size = "2">See <a>this page</a> for more information on bid increment.</font>
+             		
+            </div>
+      	</div>
+    <div class="modal-footer">
+        	<button type="button" class="btn btn-primary" ng-click='placeBid()' data-dismiss="modal">Continue</button>
+      </div>
+    </div>
+
+  </div>
 </div>
 
+</form>
+</div>
 </body>
 </html>

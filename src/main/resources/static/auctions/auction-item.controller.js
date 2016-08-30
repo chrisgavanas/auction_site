@@ -8,7 +8,11 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	$scope.hasLatLon = null;
 	$scope.hasBuyout = null;
 	$scope.seller = {};
+	$scope.bid = {};
+	$scope.conflict = false;
+	$scope.completed = false;
 	$scope.user.userId = $cookies.get('userId');
+	$scope.bid.userId = $scope.user.userId;
 	var token = $cookies.get('authToken');
 	
 	
@@ -62,5 +66,39 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 		}
 	}
 	
+	$scope.placeBid = function(){
+		console.log($scope.bid);
+		if($scope.item.buyout != null){
+			if($scope.bid.amount < $scope.item.buyout){
+				
+				AuctionItemService.bid(token, $scope.bid, $scope.item.auctionItemId)
+							.then(function(response){
+								$scope.completed = true;
+								console.log(response);
+							}, function errorCallBack(response){
+								console.log(response);
+								if(response.status == 409)
+									$scope.conflict = true;
+							});
+				
+			}else{
+				$scope.completed = false;
+			}
+		}else{
+			
+			$scope.completed = true;
+			AuctionItemService.bid(token, $scope.bid, $scope.item.auctionItemId)
+						.then(function(response){
+							$scope.completed = true;
+							console.log(response);
+						}, function errorCallBack(response){
+							if(response.status == 409)
+								$scope.conflict = true;
+						});
+			
+		}
+				
+		
+	}
 
 });
