@@ -13,13 +13,13 @@ import java.util.List;
 public interface AuctionItemRepository extends MongoRepository<AuctionItem, String> {
 
     @Query("{'userId' : '?0', 'endDate' : {'$gte' : '?1'} }")
-    List<AuctionItem> findActiveAuctionsOfUser(String userId, Date date);
+    List<AuctionItem> findActiveAuctionsOfUser(String userId, Date date, Pageable pageable);
 
     @Query("{'userId' : '?0', 'startDate' : null }")
-    List<AuctionItem> findPendingAuctionsOfUser(String userId);
+    List<AuctionItem> findPendingAuctionsOfUser(String userId, Pageable pageable);
 
     @Query("{'userId' : '?0', 'endDate' : {'$lt' : '?1'} }")
-    List<AuctionItem> findInactiveAuctionsOfUser(String userId, Date date);
+    List<AuctionItem> findInactiveAuctionsOfUser(String userId, Date date, Pageable pageable);
 
     AuctionItem findAuctionItemByAuctionItemId(String auctionItemId);
 

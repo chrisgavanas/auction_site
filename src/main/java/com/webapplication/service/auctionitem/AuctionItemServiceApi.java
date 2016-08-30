@@ -5,35 +5,36 @@ import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
 import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
+import com.webapplication.dto.auctionitem.AuctionStatus;
 import com.webapplication.dto.auctionitem.BidRequestDto;
 import com.webapplication.dto.auctionitem.BidResponseDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
-import com.webapplication.dto.auctionitem.AuctionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.UUID;
 
 public interface AuctionItemServiceApi {
 
-    AddAuctionItemResponseDto addAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception;
+    AddAuctionItemResponseDto addAuctionItem(UUID authToken, AddAuctionItemRequestDto auctionItemRequestDto) throws Exception;
 
-    List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(String userId, AuctionStatus status) throws Exception;
+    List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(String userId, AuctionStatus status, Integer from, Integer to) throws Exception;
 
-    void exportAuctionsAsXmlFile(HttpServletResponse response) throws Exception;
+    void exportAuctionsAsXmlFile(UUID authToken, HttpServletResponse response) throws Exception;
 
     AuctionItemResponseDto getAuctionItemById(String auctionItemId) throws Exception;
 
-    AuctionItemResponseDto startAuction(String auctionItemId, StartAuctionDto startAuctionDto) throws Exception;
+    AuctionItemResponseDto startAuction(UUID authToken, String auctionItemId, StartAuctionDto startAuctionDto) throws Exception;
 
-    AuctionItemResponseDto updateAuctionItem(String auctionItemId, AuctionItemUpdateRequestDto auctionItemUpdateRequestDto) throws Exception;
+    AuctionItemResponseDto updateAuctionItem(UUID authToken, String auctionItemId, AuctionItemUpdateRequestDto auctionItemUpdateRequestDto) throws Exception;
 
     List<AuctionItemResponseDto> getActiveAuctionItems(Integer from, Integer to) throws Exception;
 
-    String uploadPhoto(MultipartFile file, String userId) throws Exception;
+    String uploadPhoto(UUID authToken, MultipartFile file, String userId) throws Exception;
 
-    AuctionItemBidResponseDto bidAuctionItem(String auctionItemId, BidRequestDto bidRequestDto) throws Exception;
+    AuctionItemBidResponseDto bidAuctionItem(UUID authToken, String auctionItemId, BidRequestDto bidRequestDto) throws Exception;
 
-    List<BidResponseDto> getBidsOfAuctionItem(String auctionItemId) throws Exception;
+    List<BidResponseDto> getBidsOfAuctionItem(UUID authToken, String auctionItemId) throws Exception;
 
 }

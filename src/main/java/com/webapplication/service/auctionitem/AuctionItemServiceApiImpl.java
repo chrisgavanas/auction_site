@@ -1,5 +1,6 @@
 package com.webapplication.service.auctionitem;
 
+import com.webapplication.authentication.Authenticator;
 import com.webapplication.dao.AuctionItemRepository;
 import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
@@ -11,15 +12,18 @@ import com.webapplication.dto.auctionitem.AuctionStatus;
 import com.webapplication.dto.auctionitem.BidRequestDto;
 import com.webapplication.dto.auctionitem.BidResponseDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
+import com.webapplication.dto.user.SessionInfo;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.Bid;
 import com.webapplication.entity.User;
 import com.webapplication.error.auctionitem.AuctionItemError;
-import com.webapplication.exception.AuctionAlreadyInProgressException;
-import com.webapplication.exception.AuctionDurationTooShortException;
-import com.webapplication.exception.AuctionItemNotFoundException;
-import com.webapplication.exception.BidException;
-import com.webapplication.exception.UserNotFoundException;
+import com.webapplication.exception.auctionitem.AuctionAlreadyInProgressException;
+import com.webapplication.exception.auctionitem.AuctionDurationTooShortException;
+import com.webapplication.exception.auctionitem.AuctionExpiredException;
+import com.webapplication.exception.auctionitem.AuctionItemNotFoundException;
+import com.webapplication.exception.auctionitem.BidException;
+import com.webapplication.exception.NotAuthorizedException;
+import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.mapper.AuctionItemMapper;
 import com.xmlparser.XmlParser;
 import org.apache.commons.io.FileUtils;
@@ -38,8 +42,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Transactional
 @Service
@@ -55,6 +61,9 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     private AuctionItemMapper auctionItemMapper;
 
     @Autowired
+    private Authenticator authenticator;
+
+    @Autowired
     private XmlParser xmlParser;
 
     @Value("${minAuctionDurationInHours}")
@@ -64,7 +73,9 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     private String imagesPath;
 
     @Override
-    public AddAuctionItemResponseDto addAuctionItem(AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
+    public AddAuctionItemResponseDto addAuctionItem(UUID authToken, AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        validateAuthorization(auctionItemRequestDto.getUserId(), sessionInfo);
         AuctionItem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(auctionItemRequestDto);
         validateUserId(auctionItem.getUserId());
         auctionItemRepository.save(auctionItem);
@@ -73,17 +84,17 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     @Override
-    public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(String userId, AuctionStatus status) throws Exception {
+    public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(String userId, AuctionStatus status, Integer from, Integer to) throws Exception {
         List<AuctionItem> auctionItems = null;
         switch (status) {
             case ACTIVE:
-                auctionItems = auctionItemRepository.findActiveAuctionsOfUser(userId, new Date());
+                auctionItems = auctionItemRepository.findActiveAuctionsOfUser(userId, new Date(), new PageRequest(from - 1, to - from + 1));
                 break;
             case PENDING:
-                auctionItems = auctionItemRepository.findPendingAuctionsOfUser(userId);
+                auctionItems = auctionItemRepository.findPendingAuctionsOfUser(userId, new PageRequest(from - 1, to - from + 1));
                 break;
             case INACTIVE:
-                auctionItems = auctionItemRepository.findInactiveAuctionsOfUser(userId, new Date());
+                auctionItems = auctionItemRepository.findInactiveAuctionsOfUser(userId, new Date(), new PageRequest(from - 1, to - from + 1));
                 break;
         }
 
@@ -98,7 +109,9 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     @Override
-    public void exportAuctionsAsXmlFile(HttpServletResponse response) throws Exception {
+    public void exportAuctionsAsXmlFile(UUID authToken, HttpServletResponse response) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        validateAuthorization(sessionInfo);
         xmlParser.marshall();
         File xmlFile = new File("auctions.xml");
         InputStream stream = new FileInputStream(xmlFile);
@@ -118,20 +131,13 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     @Override
-    public AuctionItemResponseDto updateAuctionItem(String auctionItemId, AuctionItemUpdateRequestDto auctionItemUpdateRequestDto) throws Exception {
-        AuctionItem auctionItem = getAuctionItem(auctionItemId);
-        validateEditing(auctionItem);
-        auctionItemMapper.update(auctionItem, auctionItemUpdateRequestDto);
-        auctionItemRepository.save(auctionItem);
-
-        return auctionItemMapper.auctionItemToAuctionItemResponseDto(auctionItem);
-    }
-
-    @Override
-    public AuctionItemResponseDto startAuction(String auctionItemId, StartAuctionDto startAuctionDto) throws Exception {
+    public AuctionItemResponseDto startAuction(UUID authToken, String auctionItemId, StartAuctionDto startAuctionDto) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        ;
         AuctionItem auctionItem = getAuctionItem(auctionItemId);
         if (auctionItem.getStartDate() != null)
             throw new AuctionAlreadyInProgressException(AuctionItemError.AUCTION_ALREADY_IN_PROGRESS);
+        validateAuthorization(auctionItem.getUserId(), sessionInfo);
 
         Date startDate = validateDates(startAuctionDto.getEndDate());
         auctionItemMapper.update(auctionItem, startDate, startAuctionDto.getEndDate());
@@ -141,7 +147,22 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     @Override
-    public String uploadPhoto(MultipartFile file, String userId) throws Exception {
+    public AuctionItemResponseDto updateAuctionItem(UUID authToken, String auctionItemId, AuctionItemUpdateRequestDto auctionItemUpdateRequestDto) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        AuctionItem auctionItem = getAuctionItem(auctionItemId);
+        validateAuthorization(auctionItem.getUserId(), sessionInfo);
+        validateEditing(auctionItem);
+        deletePossibleImages(auctionItem, auctionItemUpdateRequestDto.getImages());
+        auctionItemMapper.update(auctionItem, auctionItemUpdateRequestDto);
+        auctionItemRepository.save(auctionItem);
+
+        return auctionItemMapper.auctionItemToAuctionItemResponseDto(auctionItem);
+    }
+
+    @Override
+    public String uploadPhoto(UUID authToken, MultipartFile file, String userId) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        validateAuthorization(userId, sessionInfo);
         validateUserId(userId);
         File path = getOrCreatePath(userId);
         File convertedFile = convert(file);
@@ -151,7 +172,9 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     @Override
-    public AuctionItemBidResponseDto bidAuctionItem(String auctionItemId, BidRequestDto bidRequestDto) throws Exception {
+    public AuctionItemBidResponseDto bidAuctionItem(UUID authToken, String auctionItemId, BidRequestDto bidRequestDto) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        validateAuthorization(bidRequestDto.getUserId(), sessionInfo);
         AuctionItem auctionItem = getAuctionItem(auctionItemId);
         validateUserId(bidRequestDto.getUserId());
         validateBid(auctionItem, bidRequestDto);
@@ -162,10 +185,18 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     @Override
-    public List<BidResponseDto> getBidsOfAuctionItem(String auctionItemId) throws Exception {
+    public List<BidResponseDto> getBidsOfAuctionItem(UUID authToken, String auctionItemId) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
         AuctionItem auctionItem = getAuctionItem(auctionItemId);
+        validateAuthorization(auctionItem.getUserId(), sessionInfo);
 
         return auctionItemMapper.bidsToBidResponseDtos(auctionItem.getBids());
+    }
+
+    private void deletePossibleImages(AuctionItem auctionItem, List<String> editedImages) {
+        List<String> images = new LinkedList<>(auctionItem.getImages());
+        images.removeAll(editedImages);
+        images.forEach(image -> new File(image).delete());
     }
 
     private void addNewBidToAuctionItem(AuctionItem auctionItem, BidRequestDto bidRequestDto) {
@@ -201,8 +232,16 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
             return 1.00;
         else if (price >= 100.00 & price <= 249.99)
             return 2.50;
-        else if (price >= 250.00)
+        else if (price >= 250.00 && price <= 499.99)
             return 5.00;
+        else if (price >= 500.00 && price <= 999.99)
+            return 10.00;
+        else if (price >= 1000.00 && price <= 2499.99)
+            return 25.00;
+        else if (price >= 2500.00 && price <= 4999.99)
+            return 50.00;
+        else if (price >= 5000.00)
+            return 100.00;
         else
             throw new Exception("Generic error.");
     }
@@ -249,8 +288,27 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     private void validateEditing(AuctionItem auctionItem) throws Exception {
-        if (auctionItem.getStartDate() != null)
+        if (auctionItem.getBidsNo() != 0)
             throw new AuctionAlreadyInProgressException(AuctionItemError.AUCTION_ALREADY_IN_PROGRESS);
+        if (auctionItem.getEndDate().after(new Date()))
+            throw new AuctionExpiredException(AuctionItemError.AUCTION_EXPIRED);
+    }
+
+    private SessionInfo getActiveSession(UUID authToken) throws NotAuthorizedException {
+        SessionInfo sessionInfo = authenticator.getSession(authToken);
+        Optional.ofNullable(sessionInfo).orElseThrow(() -> new NotAuthorizedException(AuctionItemError.UNAUTHORIZED));
+
+        return sessionInfo;
+    }
+
+    private void validateAuthorization(String userId, SessionInfo sessionInfo) throws NotAuthorizedException {
+        if (!userId.equals(sessionInfo.getUserId()) && !sessionInfo.getIsAdmin())
+            throw new NotAuthorizedException(AuctionItemError.UNAUTHORIZED);
+    }
+
+    private void validateAuthorization(SessionInfo sessionInfo) throws NotAuthorizedException {
+        if (!sessionInfo.getIsAdmin())
+            throw new NotAuthorizedException(AuctionItemError.UNAUTHORIZED);
     }
 
 }

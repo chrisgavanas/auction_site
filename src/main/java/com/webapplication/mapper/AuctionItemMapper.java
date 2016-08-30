@@ -16,8 +16,8 @@ import com.webapplication.entity.Category;
 import com.webapplication.entity.GeoLocation;
 import com.webapplication.entity.User;
 import com.webapplication.error.category.CategoryError;
-import com.webapplication.exception.CategoryHierarchyException;
-import com.webapplication.exception.CategoryNotFoundException;
+import com.webapplication.exception.category.CategoryHierarchyException;
+import com.webapplication.exception.category.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -149,7 +149,10 @@ public class AuctionItemMapper {
             auctionItem.setGeoLocation(null);
         validateCategoryIds(auctionItemUpdateRequestDto.getCategoryIds());
         auctionItem.setCategories(auctionItemUpdateRequestDto.getCategoryIds());
-        //TODO images
+        List<String> images = auctionItem.getImages();
+        images.retainAll(auctionItemUpdateRequestDto.getImages());
+        images.removeAll(auctionItemUpdateRequestDto.getImages());
+        images.addAll(auctionItemUpdateRequestDto.getImages());
     }
 
     public AuctionItemBidResponseDto auctionItemToAuctionItemBidResponseDto(AuctionItem auctionItem) {

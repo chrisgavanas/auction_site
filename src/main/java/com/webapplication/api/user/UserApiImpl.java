@@ -4,17 +4,20 @@ package com.webapplication.api.user;
 import com.webapplication.dto.user.*;
 import com.webapplication.error.user.UserError;
 import com.webapplication.exception.*;
+import com.webapplication.exception.user.EmailAlreadyInUseException;
+import com.webapplication.exception.user.EmailUnverifiedException;
+import com.webapplication.exception.user.UserAlreadyExistsException;
+import com.webapplication.exception.user.UserAlreadyVerifiedException;
+import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.service.user.UserServiceApi;
 import com.webapplication.validator.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -45,6 +48,7 @@ public class UserApiImpl implements UserApi {
 
     @Override
     public UserResponseDto getUser(@RequestHeader UUID authToken, @PathVariable String userId) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         if (userId.isEmpty())
             throw new ValidationException(UserError.INVALID_DATA);
@@ -52,15 +56,17 @@ public class UserApiImpl implements UserApi {
         return userService.getUser(authToken, userId);
     }
 
-    public SellerResponseDto getSeller(@RequestHeader UUID authToken, @PathVariable String sellerId) throws Exception {
+    @Override
+    public SellerResponseDto getSeller(@PathVariable String sellerId) throws Exception {
         Optional.ofNullable(sellerId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         if (sellerId.isEmpty())
             throw new ValidationException(UserError.INVALID_DATA);
 
-        return userService.getSeller(authToken, sellerId);
+        return userService.getSeller(sellerId);
     }
     @Override
     public void verifyUser(@RequestHeader UUID authToken, @PathVariable String userId) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         if (userId.isEmpty())
             throw new ValidationException(UserError.INVALID_DATA);
@@ -69,13 +75,14 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public UserResponseDto updateUser(@PathVariable String userId, @RequestBody UserUpdateRequestDto userUpdateRequestDto) throws Exception {
+    public UserResponseDto updateUser(@RequestHeader UUID authToken, @PathVariable String userId, @RequestBody UserUpdateRequestDto userUpdateRequestDto) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         if (userId.isEmpty())
             throw new ValidationException(UserError.INVALID_DATA);
 
         userRequestValidator.validate(userUpdateRequestDto);
-        return userService.updateUser(userId, userUpdateRequestDto);
+        return userService.updateUser(authToken, userId, userUpdateRequestDto);
     }
 
     @Override
@@ -86,11 +93,12 @@ public class UserApiImpl implements UserApi {
         if (userId.isEmpty())
             throw new ValidationException(UserError.INVALID_DATA);
 
-        userService.changePassword(userId, changePasswordRequestDto);
+        userService.changePassword(authToken, userId, changePasswordRequestDto);
     }
 
     @Override
     public List<UserResponseDto> getUnverifiedUsers(@RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(from).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(to).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         if (from <= 0 || to <= 0)
@@ -131,4 +139,5 @@ public class UserApiImpl implements UserApi {
     private void genericError(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
+
 }

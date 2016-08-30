@@ -8,6 +8,11 @@ import com.webapplication.error.user.UserError
 import com.webapplication.error.user.UserLogInError
 import com.webapplication.error.user.UserRegisterError
 import com.webapplication.exception.*
+import com.webapplication.exception.user.EmailAlreadyInUseException
+import com.webapplication.exception.user.EmailUnverifiedException
+import com.webapplication.exception.user.UserAlreadyExistsException
+import com.webapplication.exception.user.UserAlreadyVerifiedException
+import com.webapplication.exception.user.UserNotFoundException
 import com.webapplication.mapper.UserMapper
 import org.joda.time.DateTime
 import org.springframework.data.domain.PageRequest

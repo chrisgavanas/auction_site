@@ -109,19 +109,16 @@ public class UserMapper {
         return userResponse;
     }
     
-    public SellerResponseDto userToSellerResponse(User user) {
+    public SellerResponseDto userToSellerResponseDto(User user) {
         if (user == null)
             return null;
 
         SellerResponseDto userResponse = new SellerResponseDto();
         userResponse.setSellerId(user.getUserId());
         userResponse.setUsername(user.getUsername());
-       
         userResponse.setCountry(user.getCountry());
-       
         userResponse.setRegistrationDate(user.getRegistrationDate());
         userResponse.setGender(user.getGender());
-     
         userResponse.setRatingAsSeller(user.getRatingAsSeller());
         userResponse.setRatingAsBidder(user.getRatingAsBidder());
         
