@@ -72,6 +72,9 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     @Value("${imagesPath}")
     private String imagesPath;
 
+    @Value("${paginationPageSize}")
+    private Integer paginationPageSize;
+
     @Override
     public AddAuctionItemResponseDto addAuctionItem(UUID authToken, AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
@@ -88,13 +91,13 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         List<AuctionItem> auctionItems = null;
         switch (status) {
             case ACTIVE:
-                auctionItems = auctionItemRepository.findActiveAuctionsOfUser(userId, new Date(), new PageRequest(from - 1, to - from + 1));
+                auctionItems = auctionItemRepository.findActiveAuctionsOfUser(userId, new Date(), new PageRequest(from / paginationPageSize, to - from + 1));
                 break;
             case PENDING:
-                auctionItems = auctionItemRepository.findPendingAuctionsOfUser(userId, new PageRequest(from - 1, to - from + 1));
+                auctionItems = auctionItemRepository.findPendingAuctionsOfUser(userId, new PageRequest(from / paginationPageSize, to - from + 1));
                 break;
             case INACTIVE:
-                auctionItems = auctionItemRepository.findInactiveAuctionsOfUser(userId, new Date(), new PageRequest(from - 1, to - from + 1));
+                auctionItems = auctionItemRepository.findInactiveAuctionsOfUser(userId, new Date(), new PageRequest(from / paginationPageSize, to - from + 1));
                 break;
         }
 
@@ -103,7 +106,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
 
     @Override
     public List<AuctionItemResponseDto> getActiveAuctionItems(Integer from, Integer to) throws Exception {
-        List<AuctionItem> auctionItems = auctionItemRepository.findActiveAuctions(new Date(), new PageRequest(from - 1, to - from + 1));
+        List<AuctionItem> auctionItems = auctionItemRepository.findActiveAuctions(new Date(), new PageRequest(from / paginationPageSize, to - from + 1));
 
         return auctionItemMapper.auctionItemsToAuctionItemResponseDto(auctionItems);
     }
@@ -290,7 +293,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     private void validateEditing(AuctionItem auctionItem) throws Exception {
         if (auctionItem.getBidsNo() != 0)
             throw new AuctionAlreadyInProgressException(AuctionItemError.AUCTION_ALREADY_IN_PROGRESS);
-        if (auctionItem.getEndDate().after(new Date()))
+        if (auctionItem.getEndDate() != null && new Date().after(auctionItem.getEndDate()))
             throw new AuctionExpiredException(AuctionItemError.AUCTION_EXPIRED);
     }
 
