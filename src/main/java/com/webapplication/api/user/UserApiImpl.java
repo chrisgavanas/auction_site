@@ -18,10 +18,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -108,6 +111,24 @@ public class UserApiImpl implements UserApi {
             throw new ValidationException(UserError.INVALID_PAGINATION_VALUES);
 
         return userService.getUnverifiedUsers(authToken, from, to);
+    }
+
+    @Override
+    public void sendMessage(@RequestHeader UUID authToken, @PathVariable String userId, @RequestBody MessageDto messageDto) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        userRequestValidator.validate(messageDto);
+
+        userService.sendMessage(authToken, userId, messageDto);
+    }
+
+    @Override
+    public Map<String, List<MessageDto>> getMessagesByType(@RequestHeader UUID authToken, @PathVariable String userId, @RequestParam("messageType") MessageType messageType) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(messageType).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+
+        return new HashMap<>();
     }
 
     @ExceptionHandler(ValidationException.class)

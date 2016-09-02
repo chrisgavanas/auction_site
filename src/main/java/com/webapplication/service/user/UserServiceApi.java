@@ -25,4 +25,6 @@ public interface UserServiceApi {
 
     List<UserResponseDto> getUnverifiedUsers(UUID authToken, Integer from, Integer to) throws Exception;
 
+    void sendMessage(UUID authToken, String userId, MessageDto messageDto) throws Exception;
+
 }

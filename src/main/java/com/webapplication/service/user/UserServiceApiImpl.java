@@ -3,6 +3,7 @@ package com.webapplication.service.user;
 import com.webapplication.authentication.Authenticator;
 import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.user.ChangePasswordRequestDto;
+import com.webapplication.dto.user.MessageDto;
 import com.webapplication.dto.user.SellerResponseDto;
 import com.webapplication.dto.user.SessionInfo;
 import com.webapplication.dto.user.UserLogInRequestDto;
@@ -11,15 +12,17 @@ import com.webapplication.dto.user.UserRegisterRequestDto;
 import com.webapplication.dto.user.UserRegisterResponseDto;
 import com.webapplication.dto.user.UserResponseDto;
 import com.webapplication.dto.user.UserUpdateRequestDto;
+import com.webapplication.entity.Message;
 import com.webapplication.entity.User;
 import com.webapplication.error.user.UserError;
 import com.webapplication.error.user.UserLogInError;
 import com.webapplication.error.user.UserRegisterError;
-import com.webapplication.exception.user.EmailAlreadyInUseException;
-import com.webapplication.exception.user.EmailUnverifiedException;
 import com.webapplication.exception.ForbiddenException;
 import com.webapplication.exception.NotAuthenticatedException;
 import com.webapplication.exception.NotAuthorizedException;
+import com.webapplication.exception.ValidationException;
+import com.webapplication.exception.user.EmailAlreadyInUseException;
+import com.webapplication.exception.user.EmailUnverifiedException;
 import com.webapplication.exception.user.UserAlreadyExistsException;
 import com.webapplication.exception.user.UserAlreadyVerifiedException;
 import com.webapplication.exception.user.UserNotFoundException;
@@ -31,7 +34,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -143,6 +148,41 @@ public class UserServiceApiImpl implements UserServiceApi {
         List<User> users = userRepository.findUserByIsVerified(false, new PageRequest(from / paginationPageSize, to - from + 1));
 
         return userMapper.userListToUserResponseList(users);
+    }
+
+    @Override
+    public void sendMessage(UUID authToken, String userId, MessageDto messageDto) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        validateAuthorization(userId, sessionInfo);
+        User sender = getUser(userId);
+        User receiver = validateAndGetUser(messageDto.getUsername());
+        Message message = userMapper.convertMessageDtoToMessage(messageDto);
+        addMessages(sender, receiver, message);
+    }
+
+    private void addMessages(User sender, User receiver, Message message) {
+        Map<String, List<Message>> senderSentMessages = sender.getSentMessages();
+        Map<String, List<Message>> receiverReceivedMessages = receiver.getReceivedMessages();
+
+        senderSentMessages.putIfAbsent(receiver.getUsername(), new LinkedList<>());
+        receiverReceivedMessages.putIfAbsent(sender.getUsername(), new LinkedList<>());
+        senderSentMessages.get(receiver.getUsername()).add(message);
+        receiverReceivedMessages.get(sender.getUsername()).add(message);
+        if (sender.getUserId().equals(receiver.getUserId())) {
+            sender.setReceivedMessages(receiverReceivedMessages);
+            userRepository.save(sender);
+        }
+        else {
+            userRepository.save(sender);
+            userRepository.save(receiver);
+        }
+    }
+
+    private User validateAndGetUser(String username) throws Exception {
+        User user = userRepository.findUserByUsername(username);
+        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
+
+        return user;
     }
 
     private SessionInfo getActiveSession(UUID authToken) throws NotAuthenticatedException {

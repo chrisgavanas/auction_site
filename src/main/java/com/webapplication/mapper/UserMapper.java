@@ -1,16 +1,20 @@
 package com.webapplication.mapper;
 
 import com.webapplication.dto.user.AddressDto;
+import com.webapplication.dto.user.MessageDto;
 import com.webapplication.dto.user.SellerResponseDto;
 import com.webapplication.dto.user.UserRegisterRequestDto;
 import com.webapplication.dto.user.UserRegisterResponseDto;
 import com.webapplication.dto.user.UserResponseDto;
 import com.webapplication.dto.user.UserUpdateRequestDto;
 import com.webapplication.entity.Address;
+import com.webapplication.entity.Message;
 import com.webapplication.entity.User;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +49,8 @@ public class UserMapper {
         }
         user.setAuctionItemIds(new ArrayList<>());
         user.setBidIds(new ArrayList<>());
+        user.setSentMessages(new HashMap<>());
+        user.setReceivedMessages(new HashMap<>());
 
         return user;
     }
@@ -108,7 +114,7 @@ public class UserMapper {
 
         return userResponse;
     }
-    
+
     public SellerResponseDto userToSellerResponseDto(User user) {
         if (user == null)
             return null;
@@ -121,7 +127,7 @@ public class UserMapper {
         userResponse.setGender(user.getGender());
         userResponse.setRatingAsSeller(user.getRatingAsSeller());
         userResponse.setRatingAsBidder(user.getRatingAsBidder());
-        
+
         return userResponse;
     }
 
@@ -149,6 +155,18 @@ public class UserMapper {
             user.setAddress(null);
 
         user.setPhoneNumber(userUpdateRequestDto.getPhoneNumber());
+    }
+
+    public Message convertMessageDtoToMessage(MessageDto messageDto) {
+        if (messageDto == null)
+            return null;
+
+        Message message = new Message();
+        message.setMessage(messageDto.getMessage());
+        message.setUsername(messageDto.getUsername());
+        message.setDate(new Date());
+
+        return message;
     }
 
 }

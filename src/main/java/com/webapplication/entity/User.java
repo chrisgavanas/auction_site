@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 @Document(collection = "User")
@@ -33,6 +34,12 @@ public class User {
 
     @Embedded
     private Address address;
+
+    @Embedded
+    private Map<String, List<Message>> sentMessages;
+
+    @Embedded
+    private Map<String, List<Message>> receivedMessages;
 
     private List<String> auctionItemIds;
     private List<String> bidIds;
@@ -230,6 +237,22 @@ public class User {
 
     public void setBidIds(List<String> bidIds) {
         this.bidIds = bidIds;
+    }
+
+    public Map<String, List<Message>> getSentMessages() {
+        return sentMessages;
+    }
+
+    public void setSentMessages(Map<String, List<Message>> sentMessages) {
+        this.sentMessages = sentMessages;
+    }
+
+    public Map<String, List<Message>> getReceivedMessages() {
+        return receivedMessages;
+    }
+
+    public void setReceivedMessages(Map<String, List<Message>> receivedMessages) {
+        this.receivedMessages = receivedMessages;
     }
 
 }
