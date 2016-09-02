@@ -207,6 +207,25 @@ hr{
   					
   				</div>
   				<hr>
+  				<div class="row">
+  					<h6>Uploaded images.</h6>
+  					<div class="row">
+  					<div id="small-img" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
+  							<ul style="list-style-type: none;">
+    							<div ng-repeat="url in images" style="font:smaller">
+    							 <li>
+     								
+    								<img src="{{url}}"  class="img-responsive img-thumbnail inline-block" >
+    								<button class="btn btn-link" ng-click="deleteExisting(url)">Delete</button>
+    							</li>
+    						</ul>
+    				</div>
+    						
+      					
+    			</div>
+  				
+  				</div>
+  				<hr>
   			<div class="row">
   				<h6>Upload at least one picture of your item.</h6>
   			</div>
@@ -219,33 +238,13 @@ hr{
   				<br><br>
   				</div>
   			</div>
-  				<fieldset>
-  				<legend><font size="2">Files:</font></legend>
-  				<div class="row">
-  					<div id="small-img" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
-  							<ul style="list-style-type: none;">
-    							<div ng-repeat="file in files" style="font:smaller">
-    							 <li>
-     								
-    								<img ng-show="myForm.file.$valid" ngf-thumbnail="file" class="img-responsive img-thumbnail inline-block" >
-    								<button class="btn btn-link" ng-click="deleteFile(file)">Delete</button>
-    							</li>
-    						</ul>
-    				</div>
-    						
-      					
-    			</div>
-    				
   				
-  				
-  			
-  				</fieldset>
 			
   				
   				<br>
   				<div class="row">
   			
-  					<button type="submit" class="btn btn-primary" " >Continue</button>
+  					<button type="submit" class="btn btn-primary">Continue</button>
   					
   				</div>
   			</form>

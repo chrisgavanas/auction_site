@@ -26,14 +26,18 @@ router.controller('userAuctionsPendingController', function($state, $scope, $htt
 	
 	$scope.nextPage = function (){
 		$scope.pageCounter++;
+		
 		var to = $scope.pageCounter * 10;
 		var from = to - 9;
+		console.log(from);
+		console.log(to);
 		AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "PENDING", from, to)
 		.then( function(response){
 			if(response.data.length != 0)
 					$scope.hasAuctions = true;
 					$scope.itemsPending = {};
 					$scope.itemsPending = response.data;
+					console.log(response);
 					var i;
 					for(i = 0; i < $scope.itemsPending.length; i++){
 						if($scope.itemsPending[i].buyout == null)

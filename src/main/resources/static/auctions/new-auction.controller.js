@@ -6,6 +6,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.item ={
 		categoryIds: []
 	};
+	$scope.files2 = [];
 	$scope.item.images = [];
 	$scope.submit = false;
 	$scope.selected = [];
@@ -13,6 +14,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.categoryIds = {};
 	$scope.user.userId = $cookies.get('userId');
 	$scope.categoryCache = [];
+	$scope.images = [];
 
 	var token = $cookies.get('authToken');
 
@@ -26,7 +28,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 						.then(function(response){
 							$scope.categoryIds = angular.copy(response.data);
 							$scope.categoryCache = angular.copy($scope.categoryIds);
-							console.log($scope.categoryIds);
+							
 						}, function(response){
 							console.log(response);
 						});
@@ -63,7 +65,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 		$scope.item.categoryIds.push(category.categoryId);
 		if(category.subCategories.length != 0){
 			$scope.submit = false;
-			console.log(category.description + category.categoryId);
+		
 			$scope.categoryIds = category.subCategories;
 			
 		}else{
@@ -81,7 +83,8 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	////////////
 	$scope.uploadFiles = function(files, errFiles) {
         $scope.files = files;
-       
+    
+        
         $scope.errFiles = errFiles;
         angular.forEach(files, function(file) {
       	
@@ -93,8 +96,15 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
             file.upload.then(function (response) {
                 $timeout(function () {
                     file.result = response.data;
+                   
                     $scope.item.images.push(file.result);
-                    
+                   
+            		var res = file.result.replace(/\\/g, '/');
+            		var res2 =res.split('/static/');
+            		
+            		$scope.images.push("./"+res2[1]);
+            		
+            		console.log($scope.images);
                    
                 });
             }, function (response) {
@@ -116,6 +126,27 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 			      break;
 			   }
 	
+		
+	};
+	
+	$scope.deleteExisting = function(url){
+		for (var i =0; i < $scope.images.length; i++){
+			   if ($scope.images[i] === url) {
+			     
+			      $scope.images.splice(i,1);
+			      break;
+			   }
+		}
+		var res2 =url.split('./');
+		var fullUrl = './src/main/resources/static/' + res2[1];
+		for (var i =0; i < $scope.item.images.length; i++){
+			   if ($scope.item.images[i] === fullUrl.replace(/\//g,"\\")) {
+			     
+			      $scope.item.images.splice(i,1);
+			      break;
+			   }
+		}
+		
 		
 	};
 });
