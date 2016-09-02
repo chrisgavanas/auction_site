@@ -8,6 +8,19 @@
 	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
 	
 <style>
+.row li {
+  width: 33.3%;
+  float: left;
+  padding-top: 5px;
+}
+
+img {
+  border: 0 none;
+  display: inline-block;
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+}
 .thumb {
     width: 24px;
     height: 24px;
@@ -32,6 +45,8 @@ form .progress {
     font-size: smaller;
     background: #6ecbc9;
     width: 0;
+    border-radius: 3px;
+    border: 1px solid grey;
 }
 hr{
 	width: 600px;}
@@ -57,11 +72,17 @@ hr{
 }
 
 .container-fluid{
-	padding-left: 200px;
-	padding-right: 200px;
+	padding-left: 100px;
+	padding-right: 100px;
 	padding-top: 50px;
 	padding-bottom: 50px;
 
+}
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    cursor: default;
+    
+    opacity: 1;
 }
 </style>
 
@@ -92,7 +113,7 @@ hr{
   					</div>
   					<div class="col-md-4">
   					<div class="alert alert-success fade in" ng-show="submit">
-    					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    					
     					<font size="2">You have selected a category!</font>
   						</div>
   					</div>
@@ -115,7 +136,7 @@ hr{
   				<div class = "row" >
   					<div ng-repeat="category in categoryIds">
 						<button type="button" class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length != 0" ><font size="2" >>{{category.description}}</font> </button> 					
-  						<button type="button" class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length == 0"  ng-disabled="submit"><font size="2">{{submit}}{{category.description}}</font> </button> 		
+  						<button type="button" class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length == 0"  ng-disabled="submit"><font size="2">{{category.description}}</font> </button> 		
   					</div>
   				
   				</div>
@@ -196,25 +217,30 @@ hr{
           				accept="image/*" ngf-max-height="1000" ngf-max-size="5MB">
       						Select Files</button>
   				<br><br>
+  				</div>
+  			</div>
   				<fieldset>
   				<legend><font size="2">Files:</font></legend>
-  				
-    				<div ng-repeat="f in files" style="font:smaller"><font size="1">{{f.name}} {{f.$errorParam}}</font>
-      					<span class="progress" ng-show="f.progress >= 0">
-        				<div style="width:{{f.progress}}%"  
-           						 ng-bind="f.progress + '%'"></div>
-      					</span>
+  				<div class="row">
+  					<div id="small-img" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
+  							<ul style="list-style-type: none;">
+    							<div ng-repeat="file in files" style="font:smaller">
+    							 <li>
+     								
+    								<img ng-show="myForm.file.$valid" ngf-thumbnail="file" class="img-responsive img-thumbnail inline-block" >
+    								<button class="btn btn-link" ng-click="deleteFile(file)">Delete</button>
+    							</li>
+    						</ul>
     				</div>
-    				<li ng-repeat="f in errFiles" style="font:smaller"><font size="1">{{f.name}} {{f.$error}} {{f.$errorParam}}</font>
-    				</li> 
+    						
+      					
+    			</div>
+    				
   				
-  				{{errorMsg}}
-  				<div ng-repeat="file in files">
-  				<img ng-show="myForm.file.$valid" ngf-thumbnail="file" class="thumb"></div>
-  				</fieldset>
-				</div>
-  			</div>
+  				
   			
+  				</fieldset>
+			
   				
   				<br>
   				<div class="row">

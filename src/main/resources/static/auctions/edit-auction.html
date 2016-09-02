@@ -8,7 +8,19 @@
 	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
 	
 <style>
+.row li {
+  width: 33.3%;
+  float: left;
+  padding-top: 5px;
+}
 
+img {
+  border: 0 none;
+  display: inline-block;
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+}
 hr{
 	width: 600px;}
 #title{
@@ -39,6 +51,12 @@ hr{
 	padding-bottom: 50px;
 
 }
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    cursor: default;
+    
+    opacity: 1;
+}
 </style>
 
 <body>
@@ -60,6 +78,16 @@ hr{
   					<input type="text" class="form-control" id="title" ng-model="item.name">
   				</div>
   				<hr>
+  				<div class='row'>
+  					<div class='col-md-4'>
+  					</div>
+  					<div class="col-md-4">
+  					<div class="alert alert-success fade in" ng-show="submit">
+    					
+    					<font size="2">You have selected a category!</font>
+  						</div>
+  					</div>
+  				</div>
   				<div class="row">
   					<div class="col-md-4"></div>
   					<div class="col-md-4"><h5>Select a category.</h5></div>
@@ -68,7 +96,7 @@ hr{
   				</div>
 
   				<div class="row" >
-  					<font size="1">Selected Categories:<font size="1" ng-repeat="category in item.categoryResponseDtoList">
+  					<font size="1">Selected Categories:<font size="1" ng-repeat="category in selected">
 						>{{category.description}} 			
   				</font> </font>
 
@@ -77,9 +105,9 @@ hr{
   					
   				</div>
   				<div class = "row" >
-  					<div ng-repeat="category in categories">
+  					<div ng-repeat="category in categoryIds">
 						<button class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length != 0"><font size="2">>{{category.description}}</font> </button> 					
-  						<button class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length == 0"><font size="2">{{category.description}}</font> </button> 		
+  						<button class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length == 0"  ng-disabled="submit"><font size="2">{{category.description}}</font> </button> 		
   					</div>
   				
   				</div>
@@ -143,9 +171,59 @@ hr{
   					</div>
   					
   				</div>
+  				<hr>
+  				<div class="row">
+  					<h6>Uploaded images.</h6>
+  					<div class="row">
+  					<div id="small-img" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
+  							<ul style="list-style-type: none;">
+    							<div ng-repeat="url in images" style="font:smaller">
+    							 <li>
+     								
+    								<img src="{{url}}"  class="img-responsive img-thumbnail inline-block" >
+    								<button class="btn btn-link" ng-click="deleteExisting(url)">Delete</button>
+    							</li>
+    						</ul>
+    				</div>
+    						
+      					
+    			</div>
+  				
+  				</div>
+  				<hr>
+  				<div class="row">
+  				<h6>Upload at least one picture of your item.</h6>
+  			</div>
+  			<div class="row">
+  				<div class="col-md-4"></div>
+  				<div class="col-md-4">
+  				<button class="btn btn-primary" ngf-select="uploadFiles($files, $invalidFiles)" multiple
+          				accept="image/*" ngf-max-height="1000" ngf-max-size="5MB">
+      						Select Files</button>
+  				<br><br>
+  				</div>
+  			</div>
+  				<fieldset>
+  				<legend><font size="2">Files:</font></legend>
+  				<div class="row">
+  					<div id="small-img" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
+  							<ul style="list-style-type: none;">
+    							<div ng-repeat="file in files" style="font:smaller">
+    							 <li>
+     								
+    								<img ng-show="myForm.file.$valid" ngf-thumbnail="file" class="img-responsive img-thumbnail inline-block" >
+    								<button class="btn btn-link" ng-click="deleteFile(file)">Delete</button>
+    							</li>
+    						</ul>
+    				</div>
+    						
+      					
+    			</div>
+    				
   				
   				
   			
+  				</fieldset>
   				
   				<br>
   				<div class="row">

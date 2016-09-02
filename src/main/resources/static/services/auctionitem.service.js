@@ -12,7 +12,7 @@ router.factory('AuctionItemService', function($http, $cookies, $state) {
 	auctionitemService.addAuctionItem = function(token, item){
 		var x = 1;
 		console.log(item);
-		return $http.post('/api/auctionitem', item)
+		return $http.post('/api/auctionitem', item,  {headers: {'authToken': token}})
 					.then(function(response){
 							$state.go('main.profile.userAuctions');
 							return response;
@@ -20,7 +20,7 @@ router.factory('AuctionItemService', function($http, $cookies, $state) {
 	};
 	
 	auctionitemService.editAuctionItem = function(token, itemId, item){
-		return $http.post('/api/auctionitem/'+ itemId, item)
+		return $http.post('/api/auctionitem/'+ itemId, item,  {headers: {'authToken': token}})
 					.then(function(response){
 							$state.go('main.profile.userAuctions');
 							return response;
@@ -35,7 +35,7 @@ router.factory('AuctionItemService', function($http, $cookies, $state) {
 	};
 	
 	auctionitemService.startAuction = function(token, itemId, data){
-		return $http.post('/api/auctionitem/'+itemId+'/start', data)
+		return $http.post('/api/auctionitem/'+itemId+'/start', data,  {headers: {'authToken': token}})
 					.then(function(response){
 						$state.go('main.profile.userAuctions');
 						return response;
@@ -43,15 +43,15 @@ router.factory('AuctionItemService', function($http, $cookies, $state) {
 		
 	};
 	
-	auctionitemService.getAuctionItemsOfUserByStatus = function(token, userId, status){
-		return $http.get('api/auctionitem/user/' + userId + "?status=" + status)
+	auctionitemService.getAuctionItemsOfUserByStatus = function(token, userId, status, from, to){
+		return $http.get('api/auctionitem/user/' + userId + "/"+from+"-"+to+"?status=" + status,  {headers: {'authToken': token}})
 					.then(function successCallback(response){
 						return response;
 					});
 	};
 	
 	auctionitemService.bid = function(token, bid, auctionItemId){
-		return $http.post('api/auctionitem/'+auctionItemId+'/bid' , bid)
+		return $http.post('api/auctionitem/'+auctionItemId+'/bid' , bid,  {headers: {'authToken': token}})
 					.then(function successCallback(response){
 						return response;
 					});

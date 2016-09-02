@@ -6,7 +6,7 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 	$scope.user.userId = $cookies.get('userId');
 	var token = $cookies.get('authToken');
 	
-	AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "ACTIVE")
+	AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "ACTIVE","1", "10")
 						.then( function(response){
 							if(response.data.length != 0)
 									$scope.hasAuctions = true;
@@ -55,6 +55,23 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 		$scope.pageCounter++;
 		var to = $scope.pageCounter * 10;
 		var from = to - 9;
+		AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "ACTIVE",from, to)
+		.then( function(response){
+			if(response.data.length != 0)
+					$scope.hasAuctions = true;
+					$scope.items = {};
+
+					$scope.items = response.data;
+					var i;
+				for(i = 0; i < $scope.items.length; i++){
+					if($scope.items[i].buyout == null)
+						$scope.items[i].hasBuyout = false;
+						else
+							$scope.items[i].hasBuyout = true;
+					}
+		}, function(response){
+			console.log(response);
+		});	
 		
 	}
 	
@@ -64,5 +81,22 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 			var to = $scope.pageCounter * 10;
 			var from = to - 9;
 		}
+		AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "ACTIVE",from, to)
+		.then( function(response){
+			if(response.data.length != 0)
+					$scope.hasAuctions = true;
+					$scope.items = {};
+
+					$scope.items = response.data;
+					var i;
+				for(i = 0; i < $scope.items.length; i++){
+					if($scope.items[i].buyout == null)
+						$scope.items[i].hasBuyout = false;
+						else
+							$scope.items[i].hasBuyout = true;
+					}
+		}, function(response){
+			console.log(response);
+		});	
 	}
 })

@@ -13,20 +13,18 @@ router.controller('editAuctionController', function( NgMap,$stateParams,$scope, 
 	$scope.user.userId = $cookies.get('userId');
 	$scope.categoryCache = [];
 	var auctionId = $stateParams.id;
-	var cleared = false;
+	var unchanged = true;
+	$scope.images = [];
+	$scope.imagesCounter = [];
+	$scope.submit = false;
+	$scope.selectedAll = [];
 	var token = $cookies.get('authToken');
 
-	/*NgMap.getMap().then(function(map) {
-	    console.log(map.getCenter());
-	    console.log('markers', map.markers);
-	    console.log('shapes', map.shapes);
-	  });*/
-	
 	AuctionItemService.getCategories(token)
 						.then(function(response){
-							$scope.categories = angular.copy(response.data);
-							$scope.categoryCache = angular.copy($scope.categories);
-							console.log($scope.categories);
+							$scope.categoryIds = angular.copy(response.data);
+							$scope.categoryCache = angular.copy($scope.categoryIds);
+							
 						}, function(response){
 							console.log(response);
 						});
@@ -34,36 +32,36 @@ router.controller('editAuctionController', function( NgMap,$stateParams,$scope, 
 	AuctionItemService.getAuctionItemById(token, auctionId)
 	.then(function(response){
 		$scope.item = response.data;
-		$scope.item.categories = [];
+		$scope.selected = $scope.item.categoryIds
+		for (i = 0; i < $scope.item.images.length; i++){
+			var res = $scope.item.images[i].replace(/\\/g, '/');
+			var res2 =res.split('/static/');
+			console.log(res2);
+			$scope.images.push("./"+res2[1]);
+			if(i!=0)
+				$scope.imagesCounter.push[i];
+		}
+		console.log($scope.images);
 	}, function(response){
 		alert("error");
 	});
 	
 	$scope.cont = function(){
-	
+		
 		$scope.item.userId = $scope.user.userId;
-		$scope.item.images = [];
-		console.log("paw na koumpwsw");
-		console.log($scope.item.categories);
-		AuctionItemService.editAuctionItem(token, auctionId, $scope.item)
+		$scope.item.categoryIds = $scope.selectedAll;
+		console.log($scope.item);
+		if($scope.submit == true || unchanged){
+			AuctionItemService.editAuctionItem(token, auctionId, $scope.item)
 							.then(function(response){
 									$state.go('main.profile.userAuctions');
 							}, function(response){
 								console.log(response);
 							});
+		}
 	};
 	
-	var formdata = new FormData();
 	
-	$scope.getTheFiles = function($files){
-		console.log($files);
-		angular.forEach($files, function(value, key){
-			console.log(value);
-			formdata.append(key, value);
-			formdata.append(2, "koula");
-		});
-		alert(formdata);
-	};
 	
 	$scope.getCurrentLocation = function(){
 		$scope.pos = this.getPosition();
@@ -73,29 +71,79 @@ router.controller('editAuctionController', function( NgMap,$stateParams,$scope, 
 	};
 	
 	$scope.loadSubcategories = function(category){
-		console.log($scope.item.categoryResponseDtoList);
-		if(!cleared){
-			alert('clear first');
+		if(unchanged){
+			$scope.selected = [];
+			$scope.item.categoryIds = [];
+			unchanged = false;
+			
+		}
+			
+		$scope.selected.push(category);
+		$scope.selectedAll.push(category.categoryId);
+		if(category.subCategories.length != 0){
+			$scope.submit = false;
+			console.log(category.description + category.categoryId);
+			$scope.categoryIds = category.subCategories;
 			
 		}else{
-			$scope.selected.push(category);
-			$scope.item.categories.push(category.categoryId);
-			$scope.item.categoryResponseDtoList.push(category);
-			if(category.subCategories.length != 0){
-				console.log(category.description + category.categoryId);
-				$scope.categories = category.subCategories;
-			
-			}else{
-				$scope.categories = [category];
-			}
+			$scope.submit = true;
+			$scope.categoryIds = [category];
 		}
 	}
 	
 	$scope.clear = function(){
-		$scope.item.categories = [];
-		cleared = true;
-		$scope.item.categoryResponseDtoList = [];
-		$scope.categories = $scope.categoryCache;
+		$scope.selectedAll = [];
+		$scope.categoryIds = $scope.categoryCache;
 		$scope.selected = [];
 	}
+	
+	$scope.uploadFiles = function(files, errFiles) {
+        $scope.files = files;
+       
+        $scope.errFiles = errFiles;
+        angular.forEach(files, function(file) {
+      	
+            file.upload = Upload.upload({
+                url: '/api/auctionitem/user/' + $scope.user.userId + '/upload',
+                data: {file: file}, headers: {'authToken': token}
+            });
+
+            file.upload.then(function (response) {
+                $timeout(function () {
+                    file.result = response.data;
+                    $scope.item.images.push(file.result);
+                    
+                   
+                });
+            }, function (response) {
+                if (response.status > 0)
+                    $scope.errorMsg = response.status + ': ' + response.data;
+                	console.log(response);
+            }, function (evt) {
+                file.progress = Math.min(100, parseInt(100.0 * 
+                                         evt.loaded / evt.total));
+            });
+        });
+    }
+	
+	$scope.deleteExisting = function(url){
+		for (var i =0; i < $scope.images.length; i++){
+			   if ($scope.images[i] === url) {
+			     
+			      $scope.images.splice(i,1);
+			      break;
+			   }
+		}
+		var res2 =url.split('./');
+		var fullUrl = './src/main/resources/static/' + res2[1];
+		for (var i =0; i < $scope.item.images.length; i++){
+			   if ($scope.item.images[i] === fullUrl.replace(/\//g,"\\")) {
+			     
+			      $scope.item.images.splice(i,1);
+			      break;
+			   }
+		}
+		console.log(fullUrl.replace(/\//g,"\\"));
+		console.log($scope.item.images);
+	};
 });

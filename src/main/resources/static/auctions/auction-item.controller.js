@@ -13,6 +13,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	$scope.completed = false;
 	$scope.user.userId = $cookies.get('userId');
 	$scope.bid.userId = $scope.user.userId;
+	$scope.selectedImage = null;
 	var token = $cookies.get('authToken');
 	
 	
@@ -43,7 +44,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 									$scope.imagesCounter.push[i];
 							}
 							console.log($scope.images);
-							
+							$scope.selectedImage = $scope.images[0];
 							AuthenticationService.getSeller($scope.item.userId, token)
 													.then(function(response){
 															$scope.seller = response.data;
@@ -99,6 +100,12 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 		}
 				
 		
+	}
+
+	
+	$scope.changeImage = function (image){
+		$scope.selectedImage = image;
+		console.log("mphka");
 	}
 
 });

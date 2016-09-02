@@ -123,7 +123,7 @@ public class AuctionItemMapper {
             auctionItemResponseDto.setGeoLocationDto(geoLocationDto);
         }
         List<Category> categories = categoryRepository.findCategoriesByIds(auctionItem.getCategoriesId());
-        auctionItemResponseDto.setCategories(categoryMapper.categoriesToCategoryResponseDtoList(categories));
+        auctionItemResponseDto.setCategoryIds(categoryMapper.categoriesToCategoryResponseDtoList(categories));
         auctionItemResponseDto.setUserId(auctionItem.getUserId());
         auctionItemResponseDto.setImages(auctionItem.getImages());
 

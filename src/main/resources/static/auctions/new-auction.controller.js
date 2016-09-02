@@ -49,17 +49,6 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 		}
 	};
 	
-	var formdata = new FormData();
-	
-	$scope.getTheFiles = function($files){
-		console.log($files);
-		angular.forEach($files, function(value, key){
-			console.log(value);
-			formdata.append(key, value);
-			formdata.append(2, "koula");
-		});
-		alert(formdata);
-	};
 	
 	$scope.getCurrentLocation = function(){
 		$scope.pos = this.getPosition();
@@ -92,19 +81,20 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	////////////
 	$scope.uploadFiles = function(files, errFiles) {
         $scope.files = files;
+       
         $scope.errFiles = errFiles;
         angular.forEach(files, function(file) {
-//        	console.log("to id einai: "+$scope.item.auctionItemId);
+      	
             file.upload = Upload.upload({
                 url: '/api/auctionitem/user/' + $scope.user.userId + '/upload',
-                data: {file: file}
+                data: {file: file}, headers: {'authToken': token}
             });
 
             file.upload.then(function (response) {
                 $timeout(function () {
                     file.result = response.data;
                     $scope.item.images.push(file.result);
-                    console.log(file.result);
+                    
                    
                 });
             }, function (response) {
@@ -117,4 +107,22 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
             });
         });
     }
+	
+	$scope.deleteFile = function(file){
+		for (var i =0; i < $scope.files.length; i++)
+			   if ($scope.files[i].result === file.result) {
+			      $scope.files.splice(i,1);
+			      $scope.item.images.splice(i,1);
+			      break;
+			   }
+	
+		
+	};
 });
+
+/*<span class="progress" ng-show="file.progress >= 0">
+<div style="width:{{file.progress}}%"  
+	 ng-bind="file.progress + '%'"></div>
+</span>*/
+/*<li ng-repeat="f in errFiles" style="font:smaller"><font size="1">{{f.name}} {{f.$error}} {{f.$errorParam}}</font>
+</li> */
