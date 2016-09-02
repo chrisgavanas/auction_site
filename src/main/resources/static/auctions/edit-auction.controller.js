@@ -1,6 +1,4 @@
-
-
-router.controller('editAuctionController', function( NgMap,$stateParams,$scope, $state, $http,$cookies, $route, AuthenticationService, AuctionItemService){
+router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$scope,$timeout, $state, $http,$cookies, $route, AuthenticationService, AuctionItemService){
 	$scope.user = {};
 	$scope.signedIn = {};
 	$scope.item = {};
@@ -41,6 +39,8 @@ router.controller('editAuctionController', function( NgMap,$stateParams,$scope, 
 			if(i!=0)
 				$scope.imagesCounter.push[i];
 		}
+		for(i = 0; i < $scope.item.categoryIds.length; i++)
+			$scope.selectedAll.push($scope.item.categoryIds[i].categoryId);
 		console.log($scope.images);
 	}, function(response){
 		alert("error");
@@ -75,6 +75,7 @@ router.controller('editAuctionController', function( NgMap,$stateParams,$scope, 
 			$scope.selected = [];
 			$scope.item.categoryIds = [];
 			unchanged = false;
+			$scope.selectedAll = [];
 			
 		}
 			
