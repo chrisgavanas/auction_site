@@ -5,6 +5,8 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 	$scope.hasAuctions = false;
 	$scope.user.userId = $cookies.get('userId');
 	var token = $cookies.get('authToken');
+	$scope.to = null;
+	$scope.from = 1;
 	
 	AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "ACTIVE","1", "10")
 						.then( function(response){
@@ -13,6 +15,7 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 									$scope.items = {};
 		
 									$scope.items = response.data;
+									$scope.to = $scope.items.length;
 									var i;
 								for(i = 0; i < $scope.items.length; i++){
 									if($scope.items[i].buyout == null)
@@ -53,15 +56,16 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 	
 	$scope.nextPage = function (){
 		$scope.pageCounter++;
-		var to = $scope.pageCounter * 10;
-		var from = to - 9;
-		AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "ACTIVE",from, to)
+		$scope.to  = $scope.pageCounter * 10;
+		$scope.from = $scope.to  - 9;
+		AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "ACTIVE",$scope.from, $scope.to )
 		.then( function(response){
 			if(response.data.length != 0)
 					$scope.hasAuctions = true;
 					$scope.items = {};
 
 					$scope.items = response.data;
+					
 					var i;
 				for(i = 0; i < $scope.items.length; i++){
 					if($scope.items[i].buyout == null)
@@ -78,16 +82,17 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 	$scope.previousPage = function(){
 		$scope.pageCounter--;
 		if($scope.pageCounter >= 1){
-			var to = $scope.pageCounter * 10;
-			var from = to - 9;
+			$scope.to  = $scope.pageCounter * 10;
+			$scope.from = $scope.to  - 9;
 		}
-		AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "ACTIVE",from, to)
+		AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "ACTIVE",$scope.from, $scope.to )
 		.then( function(response){
 			if(response.data.length != 0)
 					$scope.hasAuctions = true;
 					$scope.items = {};
 
 					$scope.items = response.data;
+					
 					var i;
 				for(i = 0; i < $scope.items.length; i++){
 					if($scope.items[i].buyout == null)

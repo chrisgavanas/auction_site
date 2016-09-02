@@ -113,7 +113,10 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
                 $timeout(function () {
                     file.result = response.data;
                     $scope.item.images.push(file.result);
-                    
+                    var res = file.result.replace(/\\/g, '/');
+            		var res2 =res.split('/static/');
+            		
+            		$scope.images.push("./"+res2[1]);
                    
                 });
             }, function (response) {
