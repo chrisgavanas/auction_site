@@ -26,6 +26,7 @@ import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.mapper.UserMapper;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +47,9 @@ public class UserServiceApiImpl implements UserServiceApi {
 
     @Autowired
     private Authenticator authenticator;
+
+    @Value("${paginationPageSize}")
+    private Integer paginationPageSize;
 
     @Override
     public UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) throws Exception {
@@ -88,7 +92,7 @@ public class UserServiceApiImpl implements UserServiceApi {
 
         return userMapper.userToSellerResponseDto(user);
     }
-    
+
 
     @Override
     public void verifyUser(UUID authToken, String userId) throws Exception {
@@ -136,7 +140,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     public List<UserResponseDto> getUnverifiedUsers(UUID authToken, Integer from, Integer to) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
         validateAuthorization(sessionInfo);
-        List<User> users = userRepository.findUserByIsVerified(false, new PageRequest(from - 1, to - from + 1));
+        List<User> users = userRepository.findUserByIsVerified(false, new PageRequest(from / paginationPageSize, to - from + 1));
 
         return userMapper.userListToUserResponseList(users);
     }
