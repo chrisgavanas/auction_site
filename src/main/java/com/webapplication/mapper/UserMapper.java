@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -167,6 +168,36 @@ public class UserMapper {
         message.setDate(new Date());
 
         return message;
+    }
+
+    private MessageDto convertMessageToMessageDto(Message message) {
+        if (message == null)
+            return null;
+
+        MessageDto messageDto = new MessageDto();
+        messageDto.setMessage(message.getMessage());
+        messageDto.setUsername(message.getUsername());
+        messageDto.setDate(message.getDate());
+
+        return messageDto;
+    }
+
+    private List<MessageDto> convertMessageListToMessageDtoList(List<Message> messages) {
+        if (messages == null)
+            return null;
+
+        return messages.stream().map(this::convertMessageToMessageDto)
+                .collect(Collectors.toList());
+    }
+
+    public Map<String, List<MessageDto>> convertMapOfMessagesToMapOfMessagesDto(Map<String, List<Message>> messages) {
+        if (messages == null)
+            return null;
+
+        return messages.entrySet().stream().collect(Collectors.toMap(
+                e -> e.getKey(),
+                e -> convertMessageListToMessageDtoList(e.getValue())
+        ));
     }
 
 }

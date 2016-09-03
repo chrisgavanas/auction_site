@@ -1,10 +1,13 @@
 package com.webapplication.dto.user;
 
 
+import java.util.Date;
+
 public class MessageDto {
 
     private String message;
     private String username;
+    private Date date;
 
     public String getMessage() {
         return message;
@@ -20,6 +23,14 @@ public class MessageDto {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
 }

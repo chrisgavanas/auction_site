@@ -25,6 +25,10 @@ public class Authenticator {
     }
 
     public SessionInfo getSession(UUID authToken) {
+        SessionInfo sessionInfo = sessions.get(authToken);
+        if (sessionInfo != null)
+            sessionInfo.setDate(DateTime.now().plusMinutes(Authenticator.SESSION_TIME_OUT_MINUTES));
+
         return sessions.get(authToken);
     }
 
