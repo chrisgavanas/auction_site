@@ -120,7 +120,7 @@ a:hover{
   </div>
 </nav>
 
-<div id="myModal" class="modal" role="dialog">
+<div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -129,10 +129,11 @@ a:hover{
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title" align="center"><font size="4"><b>SIGN IN</b></font></h4>
       </div>
+      <form role="form" align="middle" ng-submit="login(user)" >
       <div class="modal-body">
    
 	
-    <form role="form" align="middle" ng-submit="login(user)" >
+    
     	
     	<div id="donotmatchPanel">
     		<font color=#FF0000 size="2">
@@ -157,8 +158,13 @@ a:hover{
     			</font>
     		</div>
   		</div>
-  		<div class="form-group">
-  			<button type="submit" class="btn btn-primary form-control" ng-click="login(user)" data-dismiss="modal">Sign In</button>
+  		
+	
+	
+  </div>
+  <div class="modal-footer">
+        	<div class="form-group">
+  			<button type="submit" class="btn btn-primary form-control" >Sign In</button>
   		</div>
   		<div class="form-group">
   		<font size="2">New to this site?
@@ -166,12 +172,9 @@ a:hover{
 			Register here.</font>
 		</a>
 		</div>
-	</form>
-	
-  </div>
-  <div class="modal-footer">
-        	
+		
    </div>
+   </form>
    </div>
 
 </div>

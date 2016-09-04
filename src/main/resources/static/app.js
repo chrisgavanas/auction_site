@@ -107,14 +107,7 @@ router.config(function($stateProvider, $urlRouterProvider) {
     		templateUrl: 'auctions/auction-item.html'
     	})
     	
-    	.state('main.item.offers', {
-    		url: '/offers',
-    		views: {'offersview':{
-    			controller: 'offersController',
-    			templateUrl: 'auctions/auction-item-offers.html'
-    			}
-    		}
-    	})
+    	
     	
         .state('main.profile.userAuctions',{
         	url: '/userAuctions',
@@ -134,6 +127,15 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	}
         })
         
+        .state('main.profile.userAuctions.active.offers', {
+    		url: '/offers',
+    		views: {'offersview@':{
+    			controller: 'offersController',
+    			templateUrl: 'auctions/auction-item-offers.html'
+    			}
+    		}
+    	})
+    	
         .state('main.profile.userAuctions.pending',{
         	url: '/pending',
         	views: { 'auctionview': {

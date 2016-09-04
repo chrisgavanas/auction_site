@@ -57,6 +57,12 @@ router.factory('AuctionItemService', function($http, $cookies, $state) {
 					});
 	}
 	
+	auctionitemService.getBidsOfAuctionItem = function(token, auctionId){
+		return $http.get('api/auctionitem/'+auctionId+'/bids', {headers: {'authToken': token}})
+					.then(function successCallback(response){
+						return response;
+					});
+	}
 	return auctionitemService;
 	
 });

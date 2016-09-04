@@ -7,6 +7,8 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 	var token = $cookies.get('authToken');
 	$scope.to = null;
 	$scope.from = 1;
+	$scope.bidds  = [];
+	
 	
 	AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "ACTIVE","1", "10")
 						.then( function(response){
@@ -103,5 +105,20 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 		}, function(response){
 			console.log(response);
 		});	
+	}
+	
+	$scope.getOffers = function(auctionItemId){
+		AuctionItemService.getBidsOfAuctionItem(token, auctionItemId)
+						.then(function(response){
+							console.log(response);
+							$scope.bidds = response.data;
+							for (i = 0; i < $scope.bidds.length; i ++){
+								
+								$scope.bidds[i].bidDate = $.datepicker.formatDate("M d, yy", new Date($scope.bidds[i].bidDate));
+								
+							}
+						}, function(response){
+							console.log(response);
+						})
 	}
 })
