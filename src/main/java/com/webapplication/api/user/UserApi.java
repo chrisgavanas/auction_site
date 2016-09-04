@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -35,5 +36,11 @@ public interface UserApi {
 
     @RequestMapping(path = "/user/unverified/{from}-{to}", method = RequestMethod.GET, produces = "application/json")
     List<UserResponseDto> getUnverifiedUsers(@RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception;
+
+    @RequestMapping(path = "/user/{userId}/send-message", method = RequestMethod.POST, consumes = "application/json")
+    void sendMessage(@RequestHeader UUID authToken, @PathVariable String userId, MessageDto messageDto) throws Exception;
+
+    @RequestMapping(path = "/user/{userId}/message", method = RequestMethod.GET, produces = "application/json")
+    Map<String, List<MessageDto>> getMessagesByType(@RequestHeader UUID authToken, @PathVariable String userId, @RequestParam("messageType") MessageType messageType) throws Exception;
 
 }

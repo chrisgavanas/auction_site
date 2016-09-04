@@ -1,16 +1,28 @@
 package com.webapplication.api.user;
 
 
-import com.webapplication.dto.user.*;
+import com.webapplication.dto.user.ChangePasswordRequestDto;
+import com.webapplication.dto.user.MessageDto;
+import com.webapplication.dto.user.MessageType;
+import com.webapplication.dto.user.SellerResponseDto;
+import com.webapplication.dto.user.UserLogInRequestDto;
+import com.webapplication.dto.user.UserLogInResponseDto;
+import com.webapplication.dto.user.UserRegisterRequestDto;
+import com.webapplication.dto.user.UserRegisterResponseDto;
+import com.webapplication.dto.user.UserResponseDto;
+import com.webapplication.dto.user.UserUpdateRequestDto;
 import com.webapplication.error.user.UserError;
-import com.webapplication.exception.*;
+import com.webapplication.exception.ForbiddenException;
+import com.webapplication.exception.NotAuthenticatedException;
+import com.webapplication.exception.NotAuthorizedException;
+import com.webapplication.exception.ValidationException;
 import com.webapplication.exception.user.EmailAlreadyInUseException;
 import com.webapplication.exception.user.EmailUnverifiedException;
 import com.webapplication.exception.user.UserAlreadyExistsException;
 import com.webapplication.exception.user.UserAlreadyVerifiedException;
 import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.service.user.UserServiceApi;
-import com.webapplication.validator.user.*;
+import com.webapplication.validator.user.UserRequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -18,10 +30,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -108,6 +122,24 @@ public class UserApiImpl implements UserApi {
             throw new ValidationException(UserError.INVALID_PAGINATION_VALUES);
 
         return userService.getUnverifiedUsers(authToken, from, to);
+    }
+
+    @Override
+    public void sendMessage(@RequestHeader UUID authToken, @PathVariable String userId, @RequestBody MessageDto messageDto) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        userRequestValidator.validate(messageDto);
+
+        userService.sendMessage(authToken, userId, messageDto);
+    }
+
+    @Override
+    public Map<String, List<MessageDto>> getMessagesByType(@RequestHeader UUID authToken, @PathVariable String userId, @RequestParam("messageType") MessageType messageType) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(messageType).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+
+        return userService.getMessagesByType(authToken, userId, messageType);
     }
 
     @ExceptionHandler(ValidationException.class)

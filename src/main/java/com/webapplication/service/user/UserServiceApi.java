@@ -4,6 +4,7 @@ import com.webapplication.dto.user.*;
 import com.webapplication.validator.user.ChangePasswordValidator;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -24,5 +25,9 @@ public interface UserServiceApi {
     void changePassword(UUID authToken, String userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
 
     List<UserResponseDto> getUnverifiedUsers(UUID authToken, Integer from, Integer to) throws Exception;
+
+    void sendMessage(UUID authToken, String userId, MessageDto messageDto) throws Exception;
+
+    Map<String, List<MessageDto>> getMessagesByType(UUID authToken, String userId, MessageType messageType) throws Exception;
 
 }

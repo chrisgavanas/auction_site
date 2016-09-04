@@ -3,6 +3,8 @@ package com.webapplication.service.user;
 import com.webapplication.authentication.Authenticator;
 import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.user.ChangePasswordRequestDto;
+import com.webapplication.dto.user.MessageDto;
+import com.webapplication.dto.user.MessageType;
 import com.webapplication.dto.user.SellerResponseDto;
 import com.webapplication.dto.user.SessionInfo;
 import com.webapplication.dto.user.UserLogInRequestDto;
@@ -11,15 +13,17 @@ import com.webapplication.dto.user.UserRegisterRequestDto;
 import com.webapplication.dto.user.UserRegisterResponseDto;
 import com.webapplication.dto.user.UserResponseDto;
 import com.webapplication.dto.user.UserUpdateRequestDto;
+import com.webapplication.entity.Message;
 import com.webapplication.entity.User;
 import com.webapplication.error.user.UserError;
 import com.webapplication.error.user.UserLogInError;
 import com.webapplication.error.user.UserRegisterError;
-import com.webapplication.exception.user.EmailAlreadyInUseException;
-import com.webapplication.exception.user.EmailUnverifiedException;
 import com.webapplication.exception.ForbiddenException;
 import com.webapplication.exception.NotAuthenticatedException;
 import com.webapplication.exception.NotAuthorizedException;
+import com.webapplication.exception.ValidationException;
+import com.webapplication.exception.user.EmailAlreadyInUseException;
+import com.webapplication.exception.user.EmailUnverifiedException;
 import com.webapplication.exception.user.UserAlreadyExistsException;
 import com.webapplication.exception.user.UserAlreadyVerifiedException;
 import com.webapplication.exception.user.UserNotFoundException;
@@ -31,8 +35,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.UUID;
 
 @Transactional
@@ -143,6 +155,83 @@ public class UserServiceApiImpl implements UserServiceApi {
         List<User> users = userRepository.findUserByIsVerified(false, new PageRequest(from / paginationPageSize, to - from + 1));
 
         return userMapper.userListToUserResponseList(users);
+    }
+
+    @Override
+    public void sendMessage(UUID authToken, String userId, MessageDto messageDto) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        validateAuthorization(userId, sessionInfo);
+        User sender = getUser(userId);
+        User receiver = validateAndGetUser(messageDto.getUsername());
+        Message message = userMapper.convertMessageDtoToMessage(messageDto);
+        addMessages(sender, receiver, message);
+    }
+
+    @Override
+    public Map<String, List<MessageDto>> getMessagesByType(UUID authToken, String userId, MessageType messageType) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        validateAuthorization(userId, sessionInfo);
+        Map<String, List<Message>> messages = getMessagesOfUserByType(userId, messageType);
+
+        return userMapper.convertMapOfMessagesToMapOfMessagesDto(messages);
+    }
+
+    private Map<String, List<Message>> getMessagesOfUserByType(String userId, MessageType messageType) throws Exception {
+        User user = getUser(userId);
+        switch (messageType) {
+            case RECEIVED:
+                return user.getReceivedMessages();
+            case SENT:
+                return user.getSentMessages();
+            case ALL:
+                Map<String, List<Message>> messages = user.getReceivedMessages();
+                messages.putAll(user.getSentMessages());
+                Map<String, List<Message>> rv = new TreeMap<>((String username1, String username2)
+                        -> messages.get(username1).get(0).getDate().compareTo(messages.get(username2).get(0).getDate()));
+                rv.putAll(messages);
+                return rv;
+            default:
+                return null;
+
+        }
+    }
+
+    private void addMessages(User sender, User receiver, Message message) {
+        Map<String, List<Message>> senderSentMessages = sender.getSentMessages();
+        Map<String, List<Message>> receiverReceivedMessages = receiver.getReceivedMessages();
+
+        senderSentMessages.putIfAbsent(receiver.getUsername(), new LinkedList<>());
+        receiverReceivedMessages.putIfAbsent(sender.getUsername(), new LinkedList<>());
+
+        List<Message> sentMessages = senderSentMessages.remove(receiver.getUsername());
+        sentMessages.add(0, message);
+        Map<String, List<Message>> senderSentOrderedMessages = new LinkedHashMap<>();
+        senderSentOrderedMessages.put(receiver.getUsername(), sentMessages);
+        senderSentOrderedMessages.putAll(senderSentMessages);
+        sender.setSentMessages(senderSentOrderedMessages);
+
+        List<Message> receivedMessages = receiverReceivedMessages.remove(sender.getUsername());
+        receivedMessages.add(0, message);
+        Map<String, List<Message>> receiverSentOrderedMessages = new LinkedHashMap<>();
+        receiverSentOrderedMessages.put(sender.getUsername(), receivedMessages);
+        receiverSentOrderedMessages.putAll(receiverReceivedMessages);
+        receiver.setReceivedMessages(receiverSentOrderedMessages);
+
+        if (sender.getUserId().equals(receiver.getUserId())) {
+            sender.setReceivedMessages(receiverSentOrderedMessages);
+            userRepository.save(sender);
+        }
+        else {
+            userRepository.save(sender);
+            userRepository.save(receiver);
+        }
+    }
+
+    private User validateAndGetUser(String username) throws Exception {
+        User user = userRepository.findUserByUsername(username);
+        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
+
+        return user;
     }
 
     private SessionInfo getActiveSession(UUID authToken) throws NotAuthenticatedException {
