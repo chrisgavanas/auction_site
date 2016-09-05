@@ -2,7 +2,8 @@ package com.webapplication.validator.user;
 
 
 import com.webapplication.dto.user.ChangePasswordRequestDto;
-import com.webapplication.dto.user.MessageDto;
+import com.webapplication.dto.user.MessageRequestDto;
+import com.webapplication.dto.user.MessageResponseDto;
 import com.webapplication.dto.user.UserLogInRequestDto;
 import com.webapplication.dto.user.UserRegisterRequestDto;
 import com.webapplication.dto.user.UserUpdateRequestDto;
@@ -50,8 +51,8 @@ public class UserRequestValidator implements UserRequestValidatorWrapper {
     }
 
     @Override
-    public void validate(MessageDto messageDto) throws ValidationException {
-        messageValidator.validate(messageDto);
+    public void validate(MessageRequestDto messageRequestDto) throws ValidationException {
+        messageValidator.validate(messageRequestDto);
     }
 
 }

@@ -1,15 +1,32 @@
 package com.webapplication.entity;
 
 
-import org.springframework.data.annotation.Id;
-
 import java.util.Date;
 
 public class Message {
 
+    private String messageId;
+    private String subject;
     private String message;
     private String username;
     private Date date;
+    private Boolean seen;
+
+    public String getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
     public String getMessage() {
         return message;
@@ -33,6 +50,14 @@ public class Message {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Boolean getSeen() {
+        return seen;
+    }
+
+    public void setSeen(Boolean seen) {
+        this.seen = seen;
     }
 
 }

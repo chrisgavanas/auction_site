@@ -10,7 +10,8 @@ public enum UserError {
     EMAIL_ALREADY_IN_USE("Email is already in use."),
     NEW_PASSWORD_DO_NOT_DIFFER("New password must differ with the old password."),
     PASSWORD_MISSMATCH("Password is invalid"),
-    INVALID_PAGINATION_VALUES("\"From\" value must be greater or equal to \"To\" value");
+    INVALID_PAGINATION_VALUES("\"From\" value must be greater or equal to \"To\" value"),
+    MESSAGE_NOT_FOUND("Message not found");
 
     private final String description;
 

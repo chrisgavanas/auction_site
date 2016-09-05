@@ -1,7 +1,8 @@
 package com.webapplication.mapper;
 
 import com.webapplication.dto.user.AddressDto;
-import com.webapplication.dto.user.MessageDto;
+import com.webapplication.dto.user.MessageRequestDto;
+import com.webapplication.dto.user.MessageResponseDto;
 import com.webapplication.dto.user.SellerResponseDto;
 import com.webapplication.dto.user.UserRegisterRequestDto;
 import com.webapplication.dto.user.UserRegisterResponseDto;
@@ -10,11 +11,12 @@ import com.webapplication.dto.user.UserUpdateRequestDto;
 import com.webapplication.entity.Address;
 import com.webapplication.entity.Message;
 import com.webapplication.entity.User;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -50,8 +52,8 @@ public class UserMapper {
         }
         user.setAuctionItemIds(new ArrayList<>());
         user.setBidIds(new ArrayList<>());
-        user.setSentMessages(new HashMap<>());
-        user.setReceivedMessages(new HashMap<>());
+        user.setSentMessages(new LinkedList<>());
+        user.setReceivedMessages(new LinkedList<>());
 
         return user;
     }
@@ -136,7 +138,7 @@ public class UserMapper {
         if (users == null)
             return null;
 
-        return users.stream().map(user -> userToUserResponse(user)).collect(Collectors.toList());
+        return users.stream().map(this::userToUserResponse).collect(Collectors.toList());
     }
 
     public void update(User user, UserUpdateRequestDto userUpdateRequestDto) {
@@ -158,46 +160,42 @@ public class UserMapper {
         user.setPhoneNumber(userUpdateRequestDto.getPhoneNumber());
     }
 
-    public Message convertMessageDtoToMessage(MessageDto messageDto) {
-        if (messageDto == null)
+    public Message convertMessageRequestDtoToMessage(MessageRequestDto messageRequestDto) {
+        if (messageRequestDto == null)
             return null;
 
         Message message = new Message();
-        message.setMessage(messageDto.getMessage());
-        message.setUsername(messageDto.getUsername());
+        message.setMessageId(ObjectId.get().toString());
+        message.setMessage(messageRequestDto.getMessage());
+        message.setUsername(messageRequestDto.getUsername());
+        message.setSubject(messageRequestDto.getSubject());
         message.setDate(new Date());
+        message.setSeen(false);
 
         return message;
     }
 
-    private MessageDto convertMessageToMessageDto(Message message) {
+    private MessageResponseDto convertMessageToMessageResponseDto(Message message) {
         if (message == null)
             return null;
 
-        MessageDto messageDto = new MessageDto();
-        messageDto.setMessage(message.getMessage());
-        messageDto.setUsername(message.getUsername());
-        messageDto.setDate(message.getDate());
+        MessageResponseDto messageResponseDto = new MessageResponseDto();
+        messageResponseDto.setMessageId(message.getMessageId());
+        messageResponseDto.setSubject(message.getSubject());
+        messageResponseDto.setMessage(message.getMessage());
+        messageResponseDto.setUsername(message.getUsername());
+        messageResponseDto.setDate(message.getDate());
+        messageResponseDto.setSeen(message.getSeen());
 
-        return messageDto;
+        return messageResponseDto;
     }
 
-    private List<MessageDto> convertMessageListToMessageDtoList(List<Message> messages) {
+    public List<MessageResponseDto> convertMessageListToMessageResponseDtoList(List<Message> messages) {
         if (messages == null)
             return null;
 
-        return messages.stream().map(this::convertMessageToMessageDto)
+        return messages.stream().map(this::convertMessageToMessageResponseDto)
                 .collect(Collectors.toList());
-    }
-
-    public Map<String, List<MessageDto>> convertMapOfMessagesToMapOfMessagesDto(Map<String, List<Message>> messages) {
-        if (messages == null)
-            return null;
-
-        return messages.entrySet().stream().collect(Collectors.toMap(
-                e -> e.getKey(),
-                e -> convertMessageListToMessageDtoList(e.getValue())
-        ));
     }
 
 }

@@ -1,9 +1,7 @@
 package com.webapplication.api.user;
 
 import com.webapplication.dto.user.*;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -38,9 +36,12 @@ public interface UserApi {
     List<UserResponseDto> getUnverifiedUsers(@RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception;
 
     @RequestMapping(path = "/user/{userId}/send-message", method = RequestMethod.POST, consumes = "application/json")
-    void sendMessage(@RequestHeader UUID authToken, @PathVariable String userId, MessageDto messageDto) throws Exception;
+    void sendMessage(@RequestHeader UUID authToken, @PathVariable String userId, MessageRequestDto messageRequestDto) throws Exception;
 
     @RequestMapping(path = "/user/{userId}/message", method = RequestMethod.GET, produces = "application/json")
-    Map<String, List<MessageDto>> getMessagesByType(@RequestHeader UUID authToken, @PathVariable String userId, @RequestParam("messageType") MessageType messageType) throws Exception;
+    List<MessageResponseDto> getMessagesByType(@RequestHeader UUID authToken, @PathVariable String userId, @RequestParam("messageType") MessageType messageType) throws Exception;
+
+    @RequestMapping(path = "/user/{userId}/message/{messageId}/seen", method = RequestMethod.POST)
+    void markMessageAsSeen(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable String messageId) throws Exception;
 
 }

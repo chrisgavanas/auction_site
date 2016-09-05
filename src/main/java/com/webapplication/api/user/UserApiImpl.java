@@ -2,7 +2,8 @@ package com.webapplication.api.user;
 
 
 import com.webapplication.dto.user.ChangePasswordRequestDto;
-import com.webapplication.dto.user.MessageDto;
+import com.webapplication.dto.user.MessageRequestDto;
+import com.webapplication.dto.user.MessageResponseDto;
 import com.webapplication.dto.user.MessageType;
 import com.webapplication.dto.user.SellerResponseDto;
 import com.webapplication.dto.user.UserLogInRequestDto;
@@ -18,6 +19,7 @@ import com.webapplication.exception.NotAuthorizedException;
 import com.webapplication.exception.ValidationException;
 import com.webapplication.exception.user.EmailAlreadyInUseException;
 import com.webapplication.exception.user.EmailUnverifiedException;
+import com.webapplication.exception.user.MessageNotFoundException;
 import com.webapplication.exception.user.UserAlreadyExistsException;
 import com.webapplication.exception.user.UserAlreadyVerifiedException;
 import com.webapplication.exception.user.UserNotFoundException;
@@ -35,7 +37,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -78,6 +79,7 @@ public class UserApiImpl implements UserApi {
 
         return userService.getSeller(sellerId);
     }
+
     @Override
     public void verifyUser(@RequestHeader UUID authToken, @PathVariable String userId) throws Exception {
         Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
@@ -125,21 +127,30 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public void sendMessage(@RequestHeader UUID authToken, @PathVariable String userId, @RequestBody MessageDto messageDto) throws Exception {
+    public void sendMessage(@RequestHeader UUID authToken, @PathVariable String userId, @RequestBody MessageRequestDto messageRequestDto) throws Exception {
         Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
-        userRequestValidator.validate(messageDto);
+        userRequestValidator.validate(messageRequestDto);
 
-        userService.sendMessage(authToken, userId, messageDto);
+        userService.sendMessage(authToken, userId, messageRequestDto);
     }
 
     @Override
-    public Map<String, List<MessageDto>> getMessagesByType(@RequestHeader UUID authToken, @PathVariable String userId, @RequestParam("messageType") MessageType messageType) throws Exception {
+    public List<MessageResponseDto> getMessagesByType(@RequestHeader UUID authToken, @PathVariable String userId, @RequestParam("messageType") MessageType messageType) throws Exception {
         Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(messageType).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
 
         return userService.getMessagesByType(authToken, userId, messageType);
+    }
+
+    @Override
+    public void markMessageAsSeen(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable String messageId) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(messageId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+
+        userService.markMessageAsSeen(authToken, userId, messageId);
     }
 
     @ExceptionHandler(ValidationException.class)
@@ -157,7 +168,7 @@ public class UserApiImpl implements UserApi {
         response.sendError(HttpStatus.CONFLICT.value());
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler({UserNotFoundException.class, MessageNotFoundException.class})
     private void resourceNotFound(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.NOT_FOUND.value());
     }

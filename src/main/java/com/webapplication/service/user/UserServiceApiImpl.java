@@ -3,7 +3,8 @@ package com.webapplication.service.user;
 import com.webapplication.authentication.Authenticator;
 import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.user.ChangePasswordRequestDto;
-import com.webapplication.dto.user.MessageDto;
+import com.webapplication.dto.user.MessageRequestDto;
+import com.webapplication.dto.user.MessageResponseDto;
 import com.webapplication.dto.user.MessageType;
 import com.webapplication.dto.user.SellerResponseDto;
 import com.webapplication.dto.user.SessionInfo;
@@ -21,9 +22,9 @@ import com.webapplication.error.user.UserRegisterError;
 import com.webapplication.exception.ForbiddenException;
 import com.webapplication.exception.NotAuthenticatedException;
 import com.webapplication.exception.NotAuthorizedException;
-import com.webapplication.exception.ValidationException;
 import com.webapplication.exception.user.EmailAlreadyInUseException;
 import com.webapplication.exception.user.EmailUnverifiedException;
+import com.webapplication.exception.user.MessageNotFoundException;
 import com.webapplication.exception.user.UserAlreadyExistsException;
 import com.webapplication.exception.user.UserAlreadyVerifiedException;
 import com.webapplication.exception.user.UserNotFoundException;
@@ -35,12 +36,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -158,38 +153,63 @@ public class UserServiceApiImpl implements UserServiceApi {
     }
 
     @Override
-    public void sendMessage(UUID authToken, String userId, MessageDto messageDto) throws Exception {
+    public void sendMessage(UUID authToken, String userId, MessageRequestDto messageRequestDto) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
         validateAuthorization(userId, sessionInfo);
         User sender = getUser(userId);
-        User receiver = validateAndGetUser(messageDto.getUsername());
-        Message message = userMapper.convertMessageDtoToMessage(messageDto);
+        User receiver = validateAndGetUser(messageRequestDto.getUsername());
+        Message message = userMapper.convertMessageRequestDtoToMessage(messageRequestDto);
         addMessages(sender, receiver, message);
     }
 
     @Override
-    public Map<String, List<MessageDto>> getMessagesByType(UUID authToken, String userId, MessageType messageType) throws Exception {
+    public List<MessageResponseDto> getMessagesByType(UUID authToken, String userId, MessageType messageType) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
         validateAuthorization(userId, sessionInfo);
-        Map<String, List<Message>> messages = getMessagesOfUserByType(userId, messageType);
+        List<Message> messages = getMessagesOfUserByType(userId, messageType);
 
-        return userMapper.convertMapOfMessagesToMapOfMessagesDto(messages);
+        return userMapper.convertMessageListToMessageResponseDtoList(messages);
     }
 
-    private Map<String, List<Message>> getMessagesOfUserByType(String userId, MessageType messageType) throws Exception {
+    @Override
+    public void markMessageAsSeen(UUID authToken, String userId, String messageId) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        validateAuthorization(userId, sessionInfo);
+        markMessageAsSeen(userId, messageId);
+    }
+
+    private void markMessageAsSeen(String userId, String messageId) throws Exception {
+        User userReceived = getUser(userId);
+        List<Message> receivedMessages = userReceived.getReceivedMessages();
+        for (Message receivedMessage : receivedMessages) {
+            if (receivedMessage.getMessageId().equals(messageId)) {
+                receivedMessage.setSeen(true);
+                userRepository.save(userReceived);
+                User userSent = userRepository.findUserByUsername(receivedMessage.getUsername());
+                List<Message> sentMessages = userSent.getSentMessages();
+                for (Message sentMessage : sentMessages) {
+                    if (sentMessage.getMessageId().equals(messageId)) {
+                        sentMessage.setSeen(true);
+                        if (userReceived.getUserId().equals(userSent.getUserId()))
+                            userSent.setReceivedMessages(receivedMessages);
+                        userRepository.save(userSent);
+                        break;
+                    }
+                }
+                return;
+            }
+        }
+
+        throw new MessageNotFoundException(UserError.MESSAGE_NOT_FOUND);
+    }
+
+    private List<Message> getMessagesOfUserByType(String userId, MessageType messageType) throws Exception {
         User user = getUser(userId);
         switch (messageType) {
             case RECEIVED:
                 return user.getReceivedMessages();
             case SENT:
                 return user.getSentMessages();
-            case ALL:
-                Map<String, List<Message>> messages = user.getReceivedMessages();
-                messages.putAll(user.getSentMessages());
-                Map<String, List<Message>> rv = new TreeMap<>((String username1, String username2)
-                        -> messages.get(username1).get(0).getDate().compareTo(messages.get(username2).get(0).getDate()));
-                rv.putAll(messages);
-                return rv;
             default:
                 return null;
 
@@ -197,31 +217,15 @@ public class UserServiceApiImpl implements UserServiceApi {
     }
 
     private void addMessages(User sender, User receiver, Message message) {
-        Map<String, List<Message>> senderSentMessages = sender.getSentMessages();
-        Map<String, List<Message>> receiverReceivedMessages = receiver.getReceivedMessages();
-
-        senderSentMessages.putIfAbsent(receiver.getUsername(), new LinkedList<>());
-        receiverReceivedMessages.putIfAbsent(sender.getUsername(), new LinkedList<>());
-
-        List<Message> sentMessages = senderSentMessages.remove(receiver.getUsername());
-        sentMessages.add(0, message);
-        Map<String, List<Message>> senderSentOrderedMessages = new LinkedHashMap<>();
-        senderSentOrderedMessages.put(receiver.getUsername(), sentMessages);
-        senderSentOrderedMessages.putAll(senderSentMessages);
-        sender.setSentMessages(senderSentOrderedMessages);
-
-        List<Message> receivedMessages = receiverReceivedMessages.remove(sender.getUsername());
-        receivedMessages.add(0, message);
-        Map<String, List<Message>> receiverSentOrderedMessages = new LinkedHashMap<>();
-        receiverSentOrderedMessages.put(sender.getUsername(), receivedMessages);
-        receiverSentOrderedMessages.putAll(receiverReceivedMessages);
-        receiver.setReceivedMessages(receiverSentOrderedMessages);
+        List<Message> senderSentMessages = sender.getSentMessages();
+        List<Message> receiverReceivedMessages = receiver.getReceivedMessages();
+        senderSentMessages.add(0, message);
+        receiverReceivedMessages.add(0, message);
 
         if (sender.getUserId().equals(receiver.getUserId())) {
-            sender.setReceivedMessages(receiverSentOrderedMessages);
+            sender.setReceivedMessages(receiverReceivedMessages);
             userRepository.save(sender);
-        }
-        else {
+        } else {
             userRepository.save(sender);
             userRepository.save(receiver);
         }
@@ -237,6 +241,8 @@ public class UserServiceApiImpl implements UserServiceApi {
     private SessionInfo getActiveSession(UUID authToken) throws NotAuthenticatedException {
         SessionInfo sessionInfo = authenticator.getSession(authToken);
         Optional.ofNullable(sessionInfo).orElseThrow(() -> new NotAuthenticatedException(UserError.NOT_AUTHENTICATED));
+        sessionInfo.setDate(DateTime.now().plusMinutes(Authenticator.SESSION_TIME_OUT_MINUTES));
+
         return sessionInfo;
     }
 
