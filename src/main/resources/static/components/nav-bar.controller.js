@@ -21,7 +21,8 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 								$cookies.remove('userId');
 								$cookies.remove('authToken');
 								$cookies.put('signedIn', 'no');
-								$state.go('main.welcome', {}, {reload: true});
+								
+								$scope.signedIn = false;
 							});
 		
 	
@@ -52,16 +53,16 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 	}
 	
 	$scope.myProfile = function(){
-		$state.go("main.profile.userInfo", {}, {reload: true});
+		$state.go("main.profile.userInfo");
 	}
 	$scope.auctions = function(){
-		$state.go("main.profile.userAuctions", {}, {reload: true});
+		$state.go("main.profile.userAuctions");
 	}
 	$scope.bids = function(){
-		$state.go("main.profile.userBids", {}, {reload: true});
+		$state.go("main.profile.userBids");
 	}
 	$scope.messages = function(){
-		$state.go("main.profile.userMessages", {}, {reload: true});
+		$state.go("main.profile.userMessages");
 	}
 	var modal = document.getElementById('myModal');
 
@@ -70,7 +71,7 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 
 	// When the user clicks on the button, open the modal
 	
-	$scope.openModal = function() {
+/*	$scope.openModal = function() {
 		
 	    modal.style.display = "block";
 	}
@@ -86,17 +87,32 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 	        modal.style.display = "none";
 	    }
 	}
-	
+	*/
 	$scope.user = {};
     $scope.login = function(user) {
+    	console.log("mohka");
     	AuthenticationService.login(user, token)
     							.then(function (response){
     								$scope.user = response;
     								console.log($scope.user);
+    								$('#myModal').modal('hide');
+    								AuthenticationService.getUser($scope.user.useId, $scope.user.authToken)
+    									.then(function(response){
+    										$scope.user = response.data;
+    										$scope.signedIn = true;
+    								}, function errorCallback(response){
+    										console.log(response);
+    										$cookies.remove('userId');
+    										$cookies.remove('authToken');
+    										$cookies.put('signedIn', 'no');
+    										$scope.signedIn = false;
+    										
+    									});
+    							
     								if($scope.user.isAdmin == true)
-    									$state.go('main.admin', {} , {reload: true});
-    								else
-    									$state.go('main.welcome', {}, {reload: true});
+    									$state.go('main.admin');
+    								//else
+    								//	$state.go('main.welcome', {}, {reload: true});
     							}, function (response) {
     								if (response.status == 400){
     									if($scope.user.username === "" | $scope.user.username === undefined)

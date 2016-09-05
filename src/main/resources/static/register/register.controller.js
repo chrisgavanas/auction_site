@@ -10,6 +10,8 @@ var registerController = router.controller('registerController', function($scope
     			$state.go("main.verification");
     		}, function (response) {
     			console.log(response);
+    			document.getElementById("inUsePanel1").style.display = "none";
+    			document.getElementById("inUsePanel2").style.display = "none";
     			if (response.data.message === "Username is already in use.") 
     				document.getElementById("inUsePanel1").style.display = "block";
     			if(response.data.message === "Email is already in use.")	
