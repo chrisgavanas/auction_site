@@ -36,10 +36,10 @@ public class User {
     private Address address;
 
     @Embedded
-    private Map<String, List<Message>> sentMessages;
+    private List<Message> sentMessages;
 
     @Embedded
-    private Map<String, List<Message>> receivedMessages;
+    private List<Message> receivedMessages;
 
     private List<String> auctionItemIds;
     private List<String> bidIds;
@@ -239,19 +239,19 @@ public class User {
         this.bidIds = bidIds;
     }
 
-    public Map<String, List<Message>> getSentMessages() {
+    public List<Message> getSentMessages() {
         return sentMessages;
     }
 
-    public void setSentMessages(Map<String, List<Message>> sentMessages) {
+    public void setSentMessages(List<Message> sentMessages) {
         this.sentMessages = sentMessages;
     }
 
-    public Map<String, List<Message>> getReceivedMessages() {
+    public List<Message> getReceivedMessages() {
         return receivedMessages;
     }
 
-    public void setReceivedMessages(Map<String, List<Message>> receivedMessages) {
+    public void setReceivedMessages(List<Message> receivedMessages) {
         this.receivedMessages = receivedMessages;
     }
 

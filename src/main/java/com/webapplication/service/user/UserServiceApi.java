@@ -1,7 +1,16 @@
 package com.webapplication.service.user;
 
-import com.webapplication.dto.user.*;
-import com.webapplication.validator.user.ChangePasswordValidator;
+import com.webapplication.dto.user.ChangePasswordRequestDto;
+import com.webapplication.dto.user.MessageRequestDto;
+import com.webapplication.dto.user.MessageResponseDto;
+import com.webapplication.dto.user.MessageType;
+import com.webapplication.dto.user.SellerResponseDto;
+import com.webapplication.dto.user.UserLogInRequestDto;
+import com.webapplication.dto.user.UserLogInResponseDto;
+import com.webapplication.dto.user.UserRegisterRequestDto;
+import com.webapplication.dto.user.UserRegisterResponseDto;
+import com.webapplication.dto.user.UserResponseDto;
+import com.webapplication.dto.user.UserUpdateRequestDto;
 
 import java.util.List;
 import java.util.Map;
@@ -26,8 +35,10 @@ public interface UserServiceApi {
 
     List<UserResponseDto> getUnverifiedUsers(UUID authToken, Integer from, Integer to) throws Exception;
 
-    void sendMessage(UUID authToken, String userId, MessageDto messageDto) throws Exception;
+    void sendMessage(UUID authToken, String userId, MessageRequestDto messageRequestDto) throws Exception;
 
-    Map<String, List<MessageDto>> getMessagesByType(UUID authToken, String userId, MessageType messageType) throws Exception;
+    List<MessageResponseDto> getMessagesByType(UUID authToken, String userId, MessageType messageType) throws Exception;
+
+    void markMessageAsSeen(UUID authToken, String userId, String messageId) throws Exception;
 
 }
