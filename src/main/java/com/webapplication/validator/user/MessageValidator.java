@@ -18,10 +18,10 @@ public class MessageValidator implements Validator<MessageRequestDto> {
     @Override
     public void validate(MessageRequestDto messageRequestDto) throws ValidationException {
         Optional.ofNullable(messageRequestDto).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
-        if (Stream.of(messageRequestDto.getSubject(), messageRequestDto.getMessage(), messageRequestDto.getUsername()).anyMatch(Objects::isNull))
+        if (Stream.of(messageRequestDto.getSubject(), messageRequestDto.getMessage(), messageRequestDto.getFrom(), messageRequestDto.getTo()).anyMatch(Objects::isNull))
             throw new ValidationException(UserError.MISSING_DATA);
 
-        if (Stream.of(messageRequestDto.getSubject(), messageRequestDto.getMessage(), messageRequestDto.getUsername()).anyMatch(Strings::isNullOrEmpty))
+        if (Stream.of(messageRequestDto.getSubject(), messageRequestDto.getMessage(), messageRequestDto.getFrom(), messageRequestDto.getTo()).anyMatch(Strings::isNullOrEmpty))
             throw new ValidationException(UserError.MISSING_DATA);
     }
 

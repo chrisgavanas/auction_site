@@ -2,7 +2,7 @@ package com.webapplication.dto.user;
 
 
 public enum MessageType {
-    SENT("SENT"), RECEIVED("RECEIVED"), ALL("ALL");
+    SENT("SENT"), RECEIVED("RECEIVED");
 
     public String description;
 
