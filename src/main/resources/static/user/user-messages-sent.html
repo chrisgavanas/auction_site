@@ -33,16 +33,16 @@
 				<div class="panel-body" id="mainpanel">
 					<div class="row" id="firstrow">
 						<div class="col-md-3"></div>
-						<div class="col-md-3">From</div>
+						<div class="col-md-3">Recipient</div>
 						<div class="col-md-3">Subject</div>
 						<div class="col-md-3">Date</div>
 					</div>
-					<div id="panelrow" class="row" ng-repeat="message in messages">
+					<div id="panelrow" class="row" ng-repeat="message in messagesSent">
 						<div class="col-md-3">
 							<input type="checkbox" ng-model="message.checked">
 						</div>
 						<div class="col-md-3">
-							<font size="2">{{message.from}}</font>
+							<font size="2">{{message.username}}</font>
 						
 						</div>
 						<div class="col-md-3">

@@ -236,8 +236,11 @@ hr{
           				accept="image/*" ngf-max-height="1000" ngf-max-size="5MB">
       						Select Files</button>
   				<br><br>
+  				
   				</div>
   			</div>
+  			<div class="row" ng-repeat="f in errFiles" style="font:smaller"><font size="1" color="red">Could not upload: {{f.name}}, {{f.$error}}: {{f.$errorParam}}</font>
+				</div>
   				
 			
   				

@@ -1,12 +1,8 @@
-router.controller('userMessagesRecievedController', function($scope, $state){
-	$scope.messages = [];
+router.controller('userMessagesReceivedController', function($scope, $state, $cookies, MessageService){
+	
 	$scope.pageCounter = 1;
 	$scope.checkbox = [];
-	$scope.messages = [
-	                 {from:"manoulesi", subject:"ta ntoui", date:"date", checked:false},
-	                 {from:"tonytonyp", subject:"ksexasthka re", date:"nteito", checked: false},
-	                 {from:"chris-to", subject:"ponaei to kefali mou", date:"xtes", checked: false}
-	                 ];
+	$scope.selectedReceived = {};
 	
 	$scope.selectAll = function(){
 		if($scope.checked){
@@ -49,5 +45,10 @@ router.controller('userMessagesRecievedController', function($scope, $state){
 		}
 	}
 	
+	$scope.setReply = function(){
+		console.log($scope.selectedReceived);
+		$scope.message.subject = "Re: " + $scope.selectedReceived.subject;
+		$scope.message.username = $scope.selectedReceived.username;
+	}
 	
 });

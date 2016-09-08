@@ -185,8 +185,10 @@ hr {
 			<div class="form-group col-md-4">
 				<div ng-messages="registerform.dateOfBirth.$error" role="alert" ng-if="registerform.$submitted">
 					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+					<span ng-message="validateBirthdate"><font size="2" color="red">Invalid birth date.</font></span>
 				</div>
-				<input type="date" class="form-control" name="dateOfBirth" placeholder="Date Of Birth" ng-model="user.dateOfBirth" required>
+				
+				<input type="date" class="form-control" name="dateOfBirth" placeholder="Date Of Birth" ng-model="user.dateOfBirth" validate-birthdate required>
 			</div>
 		</div>
 		<div class="row">

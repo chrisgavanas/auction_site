@@ -12,9 +12,16 @@ router.factory('MessageService', function($http,  $state) {
 		return $http.get('/api/user/' + userId + '/message?messageType=' + type,  {headers: {'authToken': token}})
 					.then(function (response){
 						return response;
-					})
+					});
 		
-	}
+	};
+	
+	messageService.markMessageAsSeen = function(token, userId, messageId){
+		return $http.post('/api/user/' + userId + '/message/' + messageId + '/seen', {}, {headers: {'authToken': token}})
+					.then(function(response){
+						return response;
+					})
+	};
 	
 	return messageService;
 });

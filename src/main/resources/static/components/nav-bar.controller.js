@@ -5,7 +5,7 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 	$scope.categories = [];
 	var token = $cookies.get('authToken');
 	$scope.user.userId = $cookies.get('userId');
-	
+	$scope.donotmatch = false;
 	if($cookies.get('signedIn') == 'yes')
 		$scope.signedIn = true;
 	else
@@ -46,10 +46,11 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 		$cookies.remove('userId');
 		$cookies.remove('authToken');
 		$cookies.put('signedIn', 'no');
-		if($state.current.name != 'main.welcome'){
-			$state.go('main.welcome', {}, {reload: true});
-		}else
-			$state.go($state.current, {}, {reload: true});	
+		
+		$state.go('main.welcome');
+		$scope.signedIn = false;
+		$scope.user = [];
+		$scope.loginform.$submitted = false;
 	}
 	
 	$scope.myProfile = function(){
@@ -62,44 +63,26 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
 		$state.go("main.profile.userBids");
 	}
 	$scope.messages = function(){
-		$state.go("main.profile.userMessages");
-	}
-	var modal = document.getElementById('myModal');
-
-	// Get the <span> element that closes the modal
-	var span = document.getElementsByClassName("close")[0];
-
-	// When the user clicks on the button, open the modal
-	
-/*	$scope.openModal = function() {
-		
-	    modal.style.display = "block";
+		$state.go("main.profile.userMessages.received");
 	}
 
-	// When the user clicks on <span> (x), close the modal
-	span.onclick = function() {
-	    modal.style.display = "none";
-	}
-
-	// When the user clicks anywhere outside of the modal, close it
-	window.onclick = function(event) {
-	    if (event.target == modal) {
-	        modal.style.display = "none";
-	    }
-	}
-	*/
-	$scope.user = {};
-    $scope.login = function(user) {
-    	console.log("mohka");
-    	AuthenticationService.login(user, token)
+	$scope.userToLogin = {};
+    $scope.login = function() {
+    	console.log($scope.userToLogin);
+    	AuthenticationService.login($scope.userToLogin)
     							.then(function (response){
-    								$scope.user = response;
-    								console.log($scope.user);
+    								
+    								console.log(response);
+    								$scope.userToLogin = {};
+    								$scope.loginform.$submitted = false;
+
+									document.getElementById("donotmatchPanel").style.display = "none";
     								$('#myModal').modal('hide');
-    								AuthenticationService.getUser($scope.user.useId, $scope.user.authToken)
+    								AuthenticationService.getUser(response.useId, response.authToken)
     									.then(function(response){
-    										$scope.user = response.data;
     										$scope.signedIn = true;
+    										$scope.user = response.data;
+    										
     								}, function errorCallback(response){
     										console.log(response);
     										$cookies.remove('userId');
@@ -111,18 +94,11 @@ router.controller('navBarController', function($state, $scope, $rootScope, $cook
     							
     								if($scope.user.isAdmin == true)
     									$state.go('main.admin');
-    								//else
-    								//	$state.go('main.welcome', {}, {reload: true});
+    								
     							}, function (response) {
-    								if (response.status == 400){
-    									if($scope.user.username === "" | $scope.user.username === undefined)
-    										document.getElementById("usernamePanel").style.display = "block";
-    									if($scope.user.password === "" | $scope.user.password === undefined)
-    										document.getElementById("passwordPanel").style.display = "block";
-        		
-    								}
+    								console.log(response);
     								if (response.status == 401 || response.status == 403) {
-    									document.getElementById("donotmatchPanel").style.display = "block";
+    									$scope.donotmatch = true;
                
     								}
             

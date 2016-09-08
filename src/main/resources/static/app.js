@@ -77,19 +77,12 @@ router.config(function($stateProvider, $urlRouterProvider) {
         		}
         	}
         })
-        .state('main.profile.userMessages.all',{
-        	url: '/all',
+       
+        .state('main.profile.userMessages.received',{
+        	url: '/received',
         	views: { 'messageview': {
-        		controller: 'userMessagesAllController',
-        	    templateUrl: '/user/user-messages-all.html'
-        		}
-        	}
-        })
-        .state('main.profile.userMessages.recieved',{
-        	url: '/recieved',
-        	views: { 'messageview': {
-        		controller: 'userMessagesRecievedController',
-        	    templateUrl: '/user/user-messages-recieved.html'
+        		controller: 'userMessagesReceivedController',
+        	    templateUrl: '/user/user-messages-received.html'
         		}
         	}
         })
@@ -98,6 +91,15 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	views: { 'messageview': {
         		controller: 'userMessagesSentController',
         	    templateUrl: '/user/user-messages-sent.html'
+        		}
+        	}
+        })
+        
+         .state('main.profile.userMessages.open',{
+        	url: '/view?id',
+        	views: { 'messageview': {
+        		controller: 'userMessagesOpenController',
+        	    templateUrl: '/user/user-messages-open.html'
         		}
         	}
         })
