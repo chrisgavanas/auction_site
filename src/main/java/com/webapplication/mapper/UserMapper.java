@@ -167,7 +167,8 @@ public class UserMapper {
         Message message = new Message();
         message.setMessageId(ObjectId.get().toString());
         message.setMessage(messageRequestDto.getMessage());
-        message.setUsername(messageRequestDto.getUsername());
+        message.setFrom(messageRequestDto.getFrom());
+        message.setTo(messageRequestDto.getTo());
         message.setSubject(messageRequestDto.getSubject());
         message.setDate(new Date());
         message.setSeen(false);
@@ -183,7 +184,8 @@ public class UserMapper {
         messageResponseDto.setMessageId(message.getMessageId());
         messageResponseDto.setSubject(message.getSubject());
         messageResponseDto.setMessage(message.getMessage());
-        messageResponseDto.setUsername(message.getUsername());
+        messageResponseDto.setFrom(message.getFrom());
+        messageResponseDto.setTo(message.getTo());
         messageResponseDto.setDate(message.getDate());
         messageResponseDto.setSeen(message.getSeen());
 

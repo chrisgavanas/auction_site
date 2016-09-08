@@ -190,7 +190,7 @@ public class AuctionItemMapper {
         }
     }
 
-    private BidResponseDto bidToBidDto(Bid bid) {
+    private BidResponseDto bidToBidResponseDto(Bid bid) {
         if (bid == null)
             return null;
 
@@ -198,6 +198,7 @@ public class AuctionItemMapper {
         bidDto.setAmount(bid.getAmount());
         bidDto.setBidDate(bid.getBidDate());
         User user = userRepository.findUserByUserId(bid.getUserId());
+
         bidDto.setBidderUsername(user.getUsername());
         return bidDto;
     }
@@ -206,7 +207,7 @@ public class AuctionItemMapper {
         if (bids == null)
             return null;
 
-        return bids.stream().map(this::bidToBidDto).collect(Collectors.toList());
+        return bids.stream().map(this::bidToBidResponseDto).collect(Collectors.toList());
     }
 
 }

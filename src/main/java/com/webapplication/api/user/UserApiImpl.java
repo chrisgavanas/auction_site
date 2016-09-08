@@ -153,6 +153,16 @@ public class UserApiImpl implements UserApi {
         userService.markMessageAsSeen(authToken, userId, messageId);
     }
 
+    @Override
+    public void deleteMessage(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable String messageId, @RequestParam("messageType") MessageType messageType) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(messageId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(messageType).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+
+        userService.deleteMessage(authToken, userId, messageId, messageType);
+    }
+
     @ExceptionHandler(ValidationException.class)
     private void invalidAttributes(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value());

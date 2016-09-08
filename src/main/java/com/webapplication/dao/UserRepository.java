@@ -20,6 +20,8 @@ public interface UserRepository extends MongoRepository<User, String>  {
 
     User findUserByUserId(String userId);
 
+    User findUserByUserIdAndUsername(String userId, String username);
+
     Long countByEmail(String email);
 
     @Query("{ 'password' : '?2', $or: [{'username' : '?0'}, {'email' : '?1'}] }")

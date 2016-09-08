@@ -5,7 +5,8 @@ public class MessageRequestDto {
 
     private String subject;
     private String message;
-    private String username;
+    private String from;
+    private String to;
 
     public String getSubject() {
         return subject;
@@ -23,12 +24,20 @@ public class MessageRequestDto {
         this.message = message;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFrom() {
+        return from;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
     }
 
 }

@@ -11,18 +11,19 @@ import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.AuctionStatus;
 import com.webapplication.dto.auctionitem.BidRequestDto;
 import com.webapplication.dto.auctionitem.BidResponseDto;
+import com.webapplication.dto.auctionitem.SearchAuctionItemDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.dto.user.SessionInfo;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.Bid;
 import com.webapplication.entity.User;
 import com.webapplication.error.auctionitem.AuctionItemError;
+import com.webapplication.exception.NotAuthorizedException;
 import com.webapplication.exception.auctionitem.AuctionAlreadyInProgressException;
 import com.webapplication.exception.auctionitem.AuctionDurationTooShortException;
 import com.webapplication.exception.auctionitem.AuctionExpiredException;
 import com.webapplication.exception.auctionitem.AuctionItemNotFoundException;
 import com.webapplication.exception.auctionitem.BidException;
-import com.webapplication.exception.NotAuthorizedException;
 import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.mapper.AuctionItemMapper;
 import com.xmlparser.XmlParser;
@@ -194,6 +195,11 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         validateAuthorization(auctionItem.getUserId(), sessionInfo);
 
         return auctionItemMapper.bidsToBidResponseDtos(auctionItem.getBids());
+    }
+
+    @Override
+    public List<AuctionItemResponseDto> searchAuctionItem(SearchAuctionItemDto searchAuctionItemDto) throws Exception {
+        return new LinkedList<>();
     }
 
     private void deletePossibleImages(AuctionItem auctionItem, List<String> editedImages) {

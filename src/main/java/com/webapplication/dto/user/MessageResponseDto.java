@@ -8,7 +8,8 @@ public class MessageResponseDto {
     private String messageId;
     private String subject;
     private String message;
-    private String username;
+    private String from;
+    private String to;
     private Date date;
     private Boolean seen;
 
@@ -36,12 +37,20 @@ public class MessageResponseDto {
         this.message = message;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFrom() {
+        return from;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
     }
 
     public Date getDate() {
