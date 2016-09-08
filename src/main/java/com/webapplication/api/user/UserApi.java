@@ -44,4 +44,7 @@ public interface UserApi {
     @RequestMapping(path = "/user/{userId}/message/{messageId}/seen", method = RequestMethod.POST)
     void markMessageAsSeen(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable String messageId) throws Exception;
 
+    @RequestMapping(path = "/user/{userId}/message/{messageId}/delete", method = RequestMethod.POST)
+    void deleteMessage(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable String messageId, @RequestParam("messageType") MessageType messageType) throws Exception;
+
 }

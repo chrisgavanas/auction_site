@@ -8,6 +8,7 @@ import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.AuctionStatus;
 import com.webapplication.dto.auctionitem.BidRequestDto;
 import com.webapplication.dto.auctionitem.BidResponseDto;
+import com.webapplication.dto.auctionitem.SearchAuctionItemDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,5 +37,7 @@ public interface AuctionItemServiceApi {
     AuctionItemBidResponseDto bidAuctionItem(UUID authToken, String auctionItemId, BidRequestDto bidRequestDto) throws Exception;
 
     List<BidResponseDto> getBidsOfAuctionItem(UUID authToken, String auctionItemId) throws Exception;
+
+    List<AuctionItemResponseDto> searchAuctionItem(SearchAuctionItemDto searchAuctionItemDto) throws Exception;
 
 }

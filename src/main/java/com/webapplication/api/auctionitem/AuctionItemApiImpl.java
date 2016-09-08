@@ -8,18 +8,19 @@ import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
 import com.webapplication.dto.auctionitem.AuctionStatus;
 import com.webapplication.dto.auctionitem.BidRequestDto;
 import com.webapplication.dto.auctionitem.BidResponseDto;
+import com.webapplication.dto.auctionitem.SearchAuctionItemDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.error.auctionitem.AuctionItemError;
+import com.webapplication.exception.ValidationException;
 import com.webapplication.exception.auctionitem.AuctionAlreadyInProgressException;
 import com.webapplication.exception.auctionitem.AuctionDurationTooShortException;
 import com.webapplication.exception.auctionitem.AuctionExpiredException;
 import com.webapplication.exception.auctionitem.AuctionItemNotFoundException;
 import com.webapplication.exception.auctionitem.BidException;
+import com.webapplication.exception.auctionitem.InvalidAuctionException;
 import com.webapplication.exception.category.CategoryHierarchyException;
 import com.webapplication.exception.category.CategoryNotFoundException;
-import com.webapplication.exception.auctionitem.InvalidAuctionException;
 import com.webapplication.exception.user.UserNotFoundException;
-import com.webapplication.exception.ValidationException;
 import com.webapplication.service.auctionitem.AuctionItemServiceApi;
 import com.webapplication.validator.auctionitem.AuctionItemRequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,6 +144,13 @@ public class AuctionItemApiImpl implements AuctionItemApi {
         Optional.ofNullable(auctionItemId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
 
         return auctionItemService.getBidsOfAuctionItem(authToken, auctionItemId);
+    }
+
+    @Override
+    public List<AuctionItemResponseDto> searchAuctionItem(@RequestBody SearchAuctionItemDto searchAuctionItemDto) throws Exception {
+        auctionItemRequestValidator.validate(searchAuctionItemDto);
+
+        return auctionItemService.searchAuctionItem(searchAuctionItemDto);
     }
 
     @ExceptionHandler(ValidationException.class)

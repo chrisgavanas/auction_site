@@ -13,7 +13,6 @@ import com.webapplication.dto.user.UserResponseDto;
 import com.webapplication.dto.user.UserUpdateRequestDto;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 
@@ -40,5 +39,7 @@ public interface UserServiceApi {
     List<MessageResponseDto> getMessagesByType(UUID authToken, String userId, MessageType messageType) throws Exception;
 
     void markMessageAsSeen(UUID authToken, String userId, String messageId) throws Exception;
+
+    void deleteMessage(UUID authToken, String userId, String messageId, MessageType messageType) throws Exception;
 
 }

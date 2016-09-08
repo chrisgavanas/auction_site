@@ -37,9 +37,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.TreeMap;
 import java.util.UUID;
 
 @Transactional
@@ -178,6 +176,32 @@ public class UserServiceApiImpl implements UserServiceApi {
         markMessageAsSeen(userId, messageId);
     }
 
+    @Override
+    public void deleteMessage(UUID authToken, String userId, String messageId, MessageType messageType) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        validateAuthorization(userId, sessionInfo);
+        User user = getUser(userId);
+        List<Message> messages;
+        switch (messageType) {
+            case RECEIVED:
+                messages = user.getReceivedMessages();
+                break;
+            case SENT:
+                messages = user.getSentMessages();
+                break;
+            default:
+                throw new MessageNotFoundException(UserError.MESSAGE_NOT_FOUND);
+        }
+        for (Message message : messages)
+            if (message.getMessageId().equals(messageId)) {
+                messages.remove(message);
+                userRepository.save(user);
+                return;
+            }
+
+        throw new MessageNotFoundException(UserError.MESSAGE_NOT_FOUND);
+    }
+
     private void markMessageAsSeen(String userId, String messageId) throws Exception {
         User userReceived = getUser(userId);
         List<Message> receivedMessages = userReceived.getReceivedMessages();
@@ -263,7 +287,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     }
 
     private User getUserByUserIdAndUsername(String userId, String username) throws Exception {
-            User user = userRepository.findUserByUserIdAndUsername(userId, username);
+        User user = userRepository.findUserByUserIdAndUsername(userId, username);
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(UserError.USER_DOES_NOT_EXIST));
 
         return user;
