@@ -1,8 +1,40 @@
 @CHARSET "UTF-8";
 
-body {
-    font: 20px "Montserrat", sans-serif;
+div {
+    font-family:"Montserrat", sans-serif;
+    font-size: 14px;
     line-height: 1.8;
 
 }
 
+hr{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#messagelist.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover{
+	background-color: #eee;
+	border-color: #eee;
+	color: black;
+	font-weight: bold;
+}
+
+.list-group{
+	margin-bottom: 0px;
+}
+.list-group-item {
+   
+    border: none;
+
+}
+
+#main.row{
+	border: none;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: none;
+}

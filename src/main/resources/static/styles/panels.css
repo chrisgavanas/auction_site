@@ -1,0 +1,61 @@
+@CHARSET "UTF-8";
+#sellerPanelBody, #sellerPanelBody1.panel-body{
+	padding-left: 30px;
+	padding-right: 30px;
+}
+#sellerPanelHead, #sellerPanelHead1.panel-heading{
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+#sellerPanel.panel-primary> .panel-heading {
+    color: #242D2C;
+    background-color: #6ecbc9;
+    border-color: #6ecbc9;
+}
+
+#sellerPanel.panel-primary {
+    border-color: #6ecbc9;
+}
+
+#itemrow,#labelrow,#offerrow.row{
+	padding: 15px;
+	border: 1px solid #ddd;
+	margin-right: 0px;
+	margin-left: 0px;
+
+}
+#info.alert {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-align: left;
+}
+
+#activePanel, #pendingPanel, #inactivePanel{
+	padding: 0px;
+}
+
+#mainpanel.panel-body{
+	font-size: 12px;
+
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 15px;
+	padding-right: 15px;
+	
+}
+
+
+
+#receivedPanel{
+	margin-top: 10px;
+}
+
+#panelrow{
+	padding: 15px;
+	border: 1px solid #ddd;
+}

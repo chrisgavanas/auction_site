@@ -1,44 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="../styles/basic.css">
-	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
-	<link rel="stylesheet" type="text/css" href="../styles/dropdown.css">
-	<link rel="stylesheet" type="text/css" href="../styles/NavBar.css">
-	<link rel="stylesheet" type="text/css" href="../styles/modal.css">
-</head>
-<style>
 
 
-.navbar-form .input-group > .form-control{
-    width: auto;
-}
 
-#srch-term{
-	width: 350px;
-	height: 34px;
-	z-index: 1;
-}
-
-#sel{
-	height:34px;
-	z-index: 1;
-}
-#srch-icon{
-	z-index: 1;
-}
-
-a:hover{
-	cursor: pointer;
-
-}
-
-</style>
-<body >
-
-
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" id="mainNavBar">
   <div class="container">
   
   <div ng-if="!signedIn">
@@ -99,13 +62,13 @@ a:hover{
 		</div>
       <ul class="nav navbar-nav navbar-right">
        <div class="dropdown">
-  			<button id="navBarDropdown" class="btn dropdown-toggle btn-link" type="button" data-toggle="dropdown">Welcome, {{user.username}} 
+  			<button id="navBarDropdown" class="btn dropdown-toggle btn-link" type="button" data-toggle="dropdown">Welcome, {{user.username}}
   			<span class="caret"></span></button>
   			<ul class="nav navbar-nav  dropdown-menu">
     			<li><a href="" ng-click="myProfile()">My Profile</a></li>
     			<li><a href="" ng-click="auctions()">Auctions</a></li>
     			<li><a href="" ng-click="bids()">Bids</a></li>
-    			<li><a href="" ng-click="messages()">Messages</a></li>
+    			<li><a href="" ng-click="messages()">Messages <i class="fa fa-envelope text-danger" color="red" aria-hidden="true" ng-if='newM'></i></a></li>
     			<li class="divider"></li>
     			<li><a href="" ng-click="logout()">Sign Out</a></li>
    			</ul>
@@ -119,7 +82,7 @@ a:hover{
    </div>
   </div>
 </nav>
-
+<div ui-view=mainview></div>
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -175,6 +138,3 @@ a:hover{
 
 </div>
 </div>
-
-</body>
-</html>

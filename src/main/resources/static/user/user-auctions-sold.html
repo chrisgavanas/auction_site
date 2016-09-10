@@ -1,59 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-
-<style>
-
-
-
-#itemrow,#labelrow.row{
-	padding: 15px;
-	border: 1px solid #ccc;
-
-}
-.container-fluid{
-	padding-left: 50px;
-	padding-right: 50px;
-
-}
-
-.panel-heading{
-	font-size: 14px;
-	text-align: center;
-}
-
-.panel-body{
-	font-size: 12px;
-	text-align: center;
-	padding-top: 0px;
-	padding-bottom: 0px;
-	padding-left: 15px;
-	padding-right: 15px;
-	
-}
-
-hr{
-	margin-top: 15px;
-	margin-bottom: 15px;
-}
-
-#start,#edit.btn{
-	    padding: 3px 17px;	
-}
-</style>
-<body>
-
-
+<div align="center">
 <div class="panel panel-default" >
 		
 		<div class="panel-heading">
-			Sold Auctions <span class="badge">{{itemsSold.length}}</span>
+			Sold Auctions <span class="badge"></span>
 		</div>
 		
-		<div class="panel-body" id="inactive">
+		<div class="panel-body" id="inactivePanel">
 		<div class="row" align="middle" id="labelrow">
 				<div class="col-md-6"></div>
 				<div class="col-md-1">
@@ -115,5 +67,4 @@ hr{
   			<button type="button" class="btn btn-primary" ng-click='nextPage()' ng-disabled='itemsSold.length < 10'>Next</button>
   		</div>
 		</div>
-</body>
-</html>
+</div>

@@ -1,56 +1,61 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<style>
-#panelrow{
-	padding: 15px;
-	border: 1px solid #ccc;
-}
-</style>
-
-<body>
 
 	<div class="container-fluid">
 	
+		
 		<div class="row">
-			Inbox: Recieved messages ({{messages.length}})
-		</div>
-		<div class="row">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<div class="row" id="headingrow">
+			<div class="row" >
 					<div class="col-md-2">
 						<input type="checkbox" ng-change="selectAll()" ng-model='checked'><font size="2"> Select All</font>
 					</div>
 					<div class="col-md-2">
 						<button class="btn btn-default" ng-click="deleteMsg()">Delete</button>
 					</div>
+			</div>
+			<div class="panel panel-default" id='receivedPanel'>
+				<div class="panel-heading" id="receivedHead">
+					<div class="row" id="headingrow">
+						<div class="col-md-1"></div>
+						<div class="col-md-2">From</div>
+						<div class="col-md-7">Subject</div>
+						<div class="col-md-2">Date</div>
 					</div>
 				</div>
 				<div class="panel-body" id="mainpanel">
-					<div class="row" id="firstrow">
-						<div class="col-md-3"></div>
-						<div class="col-md-3">From</div>
-						<div class="col-md-3">Subject</div>
-						<div class="col-md-3">Date</div>
-					</div>
-					<div id="panelrow" class="row" ng-repeat="message in messagesReceived">
-						<div class="col-md-3">
+					
+					<div ng-repeat="message in messagesReceived">
+					<div id="panelrow" class="row bg-8" ng-if="message.seen == false" >
+						<b><div class="col-md-1">
 							<input type="checkbox" ng-model="message.checked">
 						</div>
-						<div class="col-md-3">
+						<div class="col-md-2 ">
 							<font size="3">{{message.from}}</font>
 						
 						</div>
-						<div class="col-md-3">
+						<div class="col-md-7 ">
 							<button class="btn btn-link" ng-click="open(message)"><font size="3">{{message.subject}}</font></button>
 						</div>
-						<div class="col-md-3">
-							<font size="3">{{message.date}}</font>
+						<div class="col-md-2">
+							<font size="3">{{ message.date | date : "MMM d, y h:mm a"}}</font>
+						</div></b>
+					</div>
+					<div id="panelrow" class="row" ng-if="message.seen">
+						
+						
+						
+						<div class="col-md-1" >
+							<input type="checkbox" ng-model="message.checked">
 						</div>
+						<div class="col-md-2" >
+							<font size="3">{{message.from}}</font>
+						
+						</div>
+						<div class="col-md-7" >
+							<button class="btn btn-link" ng-click="open(message)"><font size="3">{{message.subject}}</font></button>
+						</div>
+						<div class="col-md-2" >
+							<font size="3">{{ message.date | date : "MMM d, y h:mm a"}}</font>
+						</div>
+					</div>
 					</div>
 					
 				</div>
@@ -65,6 +70,3 @@
 		</div>
 	</div>
 
-
-</body>
-</html>

@@ -5,10 +5,7 @@
 <title>Insert title here</title>
 </head>
 <style>
-#panelrow{
-	padding: 15px;
-	border: 1px solid #ccc;
-}
+
 </style>
 
 <body>
@@ -16,11 +13,11 @@
 	<div class="container-fluid">
 	
 		<div class="row">
-			Inbox: Sent messages ({{messages.length}})
+			Inbox: Sent messages 
 		</div>
 		<div class="row">
-			<div class="panel panel-default">
-				<div class="panel-heading">
+			<div class="panel panel-default" id="sentPanel">
+				<div class="panel-heading" id="sentHead">
 					<div class="row" id="headingrow">
 					<div class="col-md-2">
 						<input type="checkbox" ng-change="selectAll()" ng-model='checked'><font size="2"> Select All</font>
@@ -32,24 +29,24 @@
 				</div>
 				<div class="panel-body" id="mainpanel">
 					<div class="row" id="firstrow">
-						<div class="col-md-3"></div>
-						<div class="col-md-3">Recipient</div>
-						<div class="col-md-3">Subject</div>
-						<div class="col-md-3">Date</div>
+						<div class="col-md-1"></div>
+						<div class="col-md-2">Recipient</div>
+						<div class="col-md-7">Subject</div>
+						<div class="col-md-2">Date</div>
 					</div>
 					<div id="panelrow" class="row" ng-repeat="message in messagesSent">
-						<div class="col-md-3">
+						<div class="col-md-1">
 							<input type="checkbox" ng-model="message.checked">
 						</div>
-						<div class="col-md-3">
-							<font size="2">{{message.username}}</font>
+						<div class="col-md-2">
+							<font size="3">{{message.to}}</font>
 						
 						</div>
-						<div class="col-md-3">
-							<font size="2">{{message.subject}}</font>
+						<div class="col-md-7">
+							<button class="btn btn-link" ng-click="open(message)"><font size="3">{{message.subject}}</font></button>
 						</div>
-						<div class="col-md-3">
-							<font size="2">{{message.date}}</font>
+						<div class="col-md-2">
+							<font size="3">{{ message.date | date : "h:mm a MMM d, y"}}</font>
 						</div>
 					</div>
 					

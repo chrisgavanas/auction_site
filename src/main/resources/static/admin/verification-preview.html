@@ -1,33 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<link rel="stylesheet" type="text/css" href="../styles/profile.css">
-</head>
-<style>
-.container-fluid {
-    padding-top: 30px;
-    padding-bottom: 30px;
-    padding-left: 250px;
-    padding-right: 250px;
- 	color: #e1edd;
-}
-
-hr{
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-#myBtn.btn-default{
-	background-color: #242d2c;
-	color: #e1eedd;
-}
-</style>
-
-<body>
-
-<div class="container-fluid" align="middle">
+<div class="container-fluid" align="middle" id="verificationCont">
 	
 	
 	<br>
@@ -179,7 +150,5 @@ hr{
 		<hr>
 		
 		<br>
-		<button id="myBtn" class="btn btn-default" ng-click="verify()">Verify</button>
-
-</body>
-</html>
+		<button id="verificationBtn" class="btn btn-default" ng-click="verify()">Verify</button>
+</div>

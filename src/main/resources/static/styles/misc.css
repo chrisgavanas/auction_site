@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+
+#categories{
+	padding-left: 40px;
+}
+
+
+.pad{
+	background-color: white;
+	
+}
+
+#panelrow{
+	padding: 15px;
+	border: 1px solid #ccc;
+}
+
+#firstrow {
+    padding: 15px;
+    border: 1px solid #ddd;
+   color:     rgb(139, 0, 0);
+}
+#headingrow{
+	padding-left :15px;
+	padding-right: 15px;
+}

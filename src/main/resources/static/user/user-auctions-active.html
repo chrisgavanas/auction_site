@@ -1,61 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
-</head>
-<style>
-
-#itemrow,#labelrow,#offerrow.row{
-	padding: 15px;
-	border: 1px solid #ccc;
-
-}
-#info.alert {
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-left: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    text-align: left;
-}
-
-
-.container-fluid{
-	padding-left: 50px;
-	padding-right: 50px;
-
-}
-
-.panel-heading{
-	font-size: 14px;
-	text-align: center;
-}
-
-.panel-body{
-	font-size: 12px;
-	text-align: center;
-	padding-top: 0px;
-	padding-bottom: 0px;
-	padding-left: 15px;
-	padding-right: 15px;
-	
-}
-
-hr{
-	margin-top: 15px;
-	margin-bottom: 15px;
-}
-
-
-#offers,#edit.btn{
-	    padding: 3px 17px;	
-}
-</style>
-<body>
-
 
 
 <div align="center">
@@ -64,7 +6,7 @@ hr{
 
 	
 	<div class="alert alert-info" id="info" >
-		<font size="2"><strong>Info!</strong> Auctions that have recieved no offers yet can still be edited.</font>
+		<font size="2"><strong>Info!</strong> Auctions that have received no offers yet can still be edited.</font>
 	</div>
 	<div class="panel panel-default" >
 		
@@ -72,7 +14,7 @@ hr{
 			Active Selling <span class="badge">{{count}}</span>
 		</div>
 		
-		<div class="panel-body">
+		<div class="panel-body" id="activePanel">
 		<div class="row" align="middle" id="labelrow">
 				<div class="col-md-4"></div>
 				<div class="col-md-1">
@@ -150,17 +92,17 @@ hr{
         <h4 class="modal-title">Bidding Overview</h4>
       </div>
       <div class="modal-body">
-        <div class="container-fluid">
+        
 		<div class='panel panel-default'>
 			<div class="panel-heading" align='left'>
 				<div class="row">
 					<div class="col-md-4">
 						<font size = "2">Bidder</font>
 					</div>
-					<div class="col-md-4">
-						<font size = "2">Bid Amount</font>
+					<div class="col-md-2">
+						<font size = "2">Amount</font>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<font size = "2">Date of Bid</font>
 					</div>
 				</div>
@@ -170,11 +112,11 @@ hr{
 					<div class="col-md-4">
 						<font size = "2">{{bid.bidderUsername}} </font>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-2">
 						<font size = "2">{{bid.amount}}$</font>
 					</div>
-					<div class="col-md-4">
-						<font size = "2">{{bid.bidDate}}</font>
+					<div class="col-md-6">
+						<font size = "2">{{bid.bidDate | date:  "MMM d, y h:mm a"}}</font>
 					</div>
 					
 				</div>
@@ -182,7 +124,7 @@ hr{
 		
 		</div>
 	
-	</div>
+	
       	</div>
     <div class="modal-footer">
         	<button type="button" class="btn btn-primary"  data-dismiss="modal">Close</button>
@@ -191,5 +133,3 @@ hr{
 
   </div>
 </div>
-</body>
-</html>

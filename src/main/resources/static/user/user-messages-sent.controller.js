@@ -1,24 +1,19 @@
-router.controller('userMessagesSentController', function($scope, $state){
-	$scope.messages = [];
+router.controller('userMessagesSentController', function($scope, $state, MessageService){
 	$scope.pageCounter = 1;
 	$scope.checkbox = [];
-	$scope.messages = [
-	                 {from:"manoulesi", subject:"ta ntoui", date:"date", checked:false},
-	                 {from:"tonytonyp", subject:"ksexasthka re", date:"nteito", checked: false},
-	                 {from:"chris-to", subject:"ponaei to kefali mou", date:"xtes", checked: false}
-	                 ];
+	$scope.selectedSent = {};
 	
 	$scope.selectAll = function(){
 		if($scope.checked){
 			var i;
-			for (i = 0; i < $scope.messages.length; i++){
-				$scope.messages[i].checked = true;
+			for (i = 0; i < $scope.messagesSent.length; i++){
+				$scope.messagesSent[i].checked = true;
 			}
 			
 		}else{
 			var i;
-			for (i = 0; i < $scope.messages.length; i++){
-				$scope.messages[i].checked = false;
+			for (i = 0; i < $scope.messagesSent.length; i++){
+				$scope.messagesSent[i].checked = false;
 			}
 		}
 			
@@ -26,10 +21,19 @@ router.controller('userMessagesSentController', function($scope, $state){
 	}
 	
 	$scope.deleteMsg = function(){
+		
 		var i;
-		for (i = 0; i < $scope.messages.length; i++){
-			if($scope.messages[i].checked){
-				$scope.messages.splice(i,1);
+		for (i = 0; i < $scope.messagesSent.length; i++){
+			console.log($scope.messagesSent[i].checked);
+			if($scope.messagesSent[i].checked != undefined && $scope.messagesSent[i].checked){
+				MessageService.deleteMessage($scope.token, $scope.user.userId, $scope.messagesSent[i].messageId, 'SENT')
+								.then(function(response){
+									console.log(response);
+								}, function(response){
+									console.log(response);
+								});
+				$scope.messagesSent.splice(i,1);
+				i = i - 1;
 			}
 		}
 	}
@@ -48,6 +52,7 @@ router.controller('userMessagesSentController', function($scope, $state){
 			var from = to - 9;
 		}
 	}
+	
 	
 	
 	

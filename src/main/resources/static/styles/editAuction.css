@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+
+#title{
+	width: 400px;
+}
+
+#stDate,#enDate{
+	width: 250px;
+}
+#startingprice,#buynow,#lat,#lon{
+	width: 150px;
+}
+#pricingRow{
+	width: 500px;
+}
+#categoryList{
+	width: 400px;
+}
+#description{
+	width: 500px;
+	height: 150px;
+}

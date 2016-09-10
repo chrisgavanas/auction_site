@@ -112,11 +112,7 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 						.then(function(response){
 							console.log(response);
 							$scope.bidds = response.data;
-							for (i = 0; i < $scope.bidds.length; i ++){
-								
-								$scope.bidds[i].bidDate = $.datepicker.formatDate("M d, yy", new Date($scope.bidds[i].bidDate));
-								
-							}
+						
 						}, function(response){
 							console.log(response);
 						})

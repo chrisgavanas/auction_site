@@ -7,7 +7,7 @@ router.controller('userAuctionsSoldController', function($state, $scope, $http, 
 	var token = $cookies.get('authToken');
 	
 
-	AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "INACTIVE")
+	AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "INACTIVE", "1", "10" )
 						.then( function(response){
 							if(response.data.length != 0)
 									$scope.hasAuctions = true;
@@ -21,7 +21,7 @@ router.controller('userAuctionsSoldController', function($state, $scope, $http, 
 											$scope.itemsPending[i].hasBuyout = true;
 									}
 						}, function(response){
-							alert("error");
+							console.log(response);
 						});
 	
 	$scope.nextPage = function (){

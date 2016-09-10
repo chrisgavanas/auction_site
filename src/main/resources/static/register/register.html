@@ -1,42 +1,4 @@
-<!DOCTYPE html>
-<html>
-
-
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Register | Auction</title>
-	<link rel="stylesheet" type="text/css" href="../styles/login.css">
-	
-	<link rel="stylesheet" type="text/css" href="../styles/basic.css">
-	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
-	<link rel="stylesheet" type="text/css" href="../styles/modal.css">
-	<link rel="stylesheet" type="text/css" href="../styles/register.css">
-	
-</head>
-
-<style>
-
-
-hr {
-    width: 32%;
-    border: 0;
-    border-top: 1px solid #c1c1c1;
-}
-
-.container-fluid {
-    padding-top: 70px;
-    padding-bottom: 70px;
-    text-align: center;
-}
-
-
-</style>
-
-<body>
-
-
-<div class = "container-fluid bg-2 text-center">
+<div class = "container-fluid bg-2 text-center" id = "registerContainer">
 
 	<form name="registerform" class="myForm" role ="form" ng-controller="registerController" align="middle" ng-submit="registerform.$valid && register(user)"
 	novalidate>
@@ -143,7 +105,6 @@ hr {
 			</div>
 		</div>
 		</ul>
-		<hr>
 		<div class="row">
 			<div class="form-group col-md-4"></div>
 			<div class="form-group col-md-2">
@@ -221,7 +182,7 @@ hr {
 				<input type="text" class="form-control" name="postalCode" placeholder="Postal Code" ng-model="user.address.postalCode" required>
 			</div>
 		</div>
-		<div class="checkbox form-control chBox">
+		<div class="checkbox">
 			<label><input name="checkBox" type="checkbox" ng-model="checked" required>I accept the <a href="#">Terms and Conditions</a></label>
 		</div>
 		<div class="row">
@@ -239,12 +200,4 @@ hr {
 
 
 </div>
-
-
-
-
-</body>
-
-
-</html>
 

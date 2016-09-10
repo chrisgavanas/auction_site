@@ -39,9 +39,9 @@ router.controller('userInfoController', function($state, $scope, $cookies, $http
 	};
 	
 	$scope.changePassword = function(passwords){
-		AuthenticationService.changePassword(passwords, userId, token)
+		AuthenticationService.changePassword(passwords, $scope.user.userId, token)
 								.then(function(response){
-									$state.go($state.current, {}, {reload:true});
+									$state.go($state.current);
 								}, function(response){
 									if(response.data.message == "Password is invalid")
 										document.getElementById("invalidPass").style.display = "block";

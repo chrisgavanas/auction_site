@@ -1,45 +1,4 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>My Profile | Auction</title>
-	<link rel="stylesheet" type="text/css" href="../styles/basic.css">
-	
-	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
-	<link rel="stylesheet" type="text/css" href="../styles/dropdown.css">
-	<link rel="stylesheet" type="text/css" href="../styles/NavBar.css">
-	
-	
-</head>
-
-
-<style>
-#nav .navbar .navbar-nav {
-  display: inline-block;
-  float: none;
-  vertical-align: top;
-}
-
-#nav .navbar .navbar-collapse {
-  text-align: center;
-} 
-
-.container-fluid {
-    padding-top: 30px;
-    padding-bottom: 30px;
- 	color: #e1edd;
-}
-
-
-</style>
-
-<body ng-controller="profileController">
-
-
-
-<div class = "container-fluid bg-1 text-center">
+<div class = "container-fluid bg-1 text-center" id="profileContainer">
 	<div>
 		<img src="./images/user.PNG" height="150" width="150">
 	</div>
@@ -61,11 +20,11 @@
       
     </div>
     <div class="collaps navbar-collapse" ng-class="!navCollapsed && 'in'" id="myNavbar2">
-    <ul class="nav navbar-nav">
-      <li  ui-sref-active="active"><a ui-sref="main.profile.userInfo">User Info</a></li>
-      <li ui-sref-active="active"><a ui-sref="main.profile.userBids">Bids</a></li> 
-      <li ui-sref-active="active"><a ui-sref="main.profile.userAuctions">Auctions</a></li>
-      <li ui-sref-active="active"><a ui-sref="main.profile.userMessages">Messages</a></li>
+    <ul class="nav navbar-nav" auto-active>
+      <li  ><a ui-sref="main.profile.userInfo">User Info</a></li>
+      <li ><a ui-sref="main.profile.userBids">Bids</a></li> 
+      <li ><a ui-sref="main.profile.userAuctions">Auctions</a></li>
+      <li ><a ui-sref="main.profile.userMessages.received">Messages</a></li>
 			  
      
     </ul>
@@ -78,7 +37,3 @@
 <div ui-view=navbarview></div>
 
 </div>
-
-
-</body>
-</html>

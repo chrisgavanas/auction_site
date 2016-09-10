@@ -18,16 +18,8 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 
 	var token = $cookies.get('authToken');
 
-	
-	
-	AuctionItemService.getCategories(token)
-						.then(function(response){
-							$scope.categoryIds = angular.copy(response.data);
-							$scope.categoryCache = angular.copy($scope.categoryIds);
-							
-						}, function(response){
-							console.log(response);
-						});
+	$scope.categoryIds = $scope.categories;
+	console.log($scope.categories);
 
 	$scope.cont = function(){
 	

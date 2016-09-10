@@ -1,0 +1,41 @@
+@CHARSET "UTF-8";
+
+#verificationBtn.btn-default{
+	background-color: #242d2c;
+	color: #e1eedd;
+}
+
+.btn-link:focus{
+	border: none;
+}
+
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    cursor: default;
+    
+}
+
+
+
+#finalCategory,#finalCategory1.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    cursor: default;
+    
+    opacity: 1;
+}
+
+#offers,#edit.btn{
+	    padding: 3px 17px;	
+}
+#start,#edit.btn{
+	    padding: 3px 17px;	
+}
+
+
+#date.form-control{
+	margin-top: 5px;
+}
+
+#startAuction.btn{
+	padding: 6px 18px;
+    font-size: 20px;
+}

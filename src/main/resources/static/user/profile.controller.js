@@ -1,8 +1,10 @@
-var profileController = router.controller('profileController', function($scope, $state, $http,$cookies, $route, AuthenticationService){
+var profileController = router.controller('profileController', function($scope, $state, $http,$cookies, $route, AuthenticationService, MessageService){
 	$scope.user = {};
 	$scope.user.userId = $cookies.get('userId');
 	var token = $cookies.get('authToken');
-		
+	
+	console.log($scope.navbar);
+	
 	AuthenticationService.getUser($scope.user.userId, token)
 							.then(function(response){
 								$scope.user = response.data;
@@ -13,4 +15,7 @@ var profileController = router.controller('profileController', function($scope, 
 								$cookies.put('signedIn', 'no');
 								$state.go('main.welcome');
 							});
+	
+	
+	
 });

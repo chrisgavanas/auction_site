@@ -1,95 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="../styles/basic.css">
-	<link rel="stylesheet" type="text/css" href="../styles/newAuction.css">
-	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
-	
-<style>
-.row li {
-  width: 33.3%;
-  float: left;
-  padding-top: 5px;
-}
-
-img {
-  border: 0 none;
-  display: inline-block;
-  height: auto;
-  max-width: 100%;
-  vertical-align: middle;
-}
-.thumb {
-    width: 24px;
-    height: 24px;
-    float: none;
-    position: relative;
-    top: 7px;
-}
-
-form .progress {
-    line-height: 15px;
-}
-}
-
-.progress {
-    display: inline-block;
-    width: 100px;
-    border: 3px groove #CCC;
-    border-radius: 3px solid;
-}
-
-.progress div {
-    font-size: smaller;
-    background: #6ecbc9;
-    width: 0;
-    border-radius: 3px;
-    border: 1px solid grey;
-}
-hr{
-	width: 600px;}
-#title{
-	width: 400px;
-}
-
-#stDate,#enDate{
-	width: 250px;
-}
-#startingprice,#buynow,#lat,#lon{
-	width: 150px;
-}
-#pricingRow{
-	width: 500px;
-}
-#categoryList{
-	width: 400px;
-}
-#description{
-	width: 500px;
-	height: 150px;
-}
-
-.container-fluid{
-	padding-left: 100px;
-	padding-right: 100px;
-	padding-top: 50px;
-	padding-bottom: 50px;
-
-}
-
-.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
-    cursor: default;
-    
-    opacity: 1;
-}
-</style>
-
-<body>
-
-
-<div class="container-fluid text-center">
+<div class="container-fluid text-center" id='newAuction'>
 	<img src="./images/logo1.png"  height="114" width="230">
 	<div class="panel panel-default">
 	
@@ -136,7 +45,7 @@ hr{
   				<div class = "row" >
   					<div ng-repeat="category in categoryIds">
 						<button type="button" class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length != 0" ><font size="2" >>{{category.description}}</font> </button> 					
-  						<button type="button" class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length == 0"  ng-disabled="submit"><font size="2">{{category.description}}</font> </button> 		
+  						<button type="button" class="btn btn-link" ng-click="loadSubcategories(category)" ng-if="category.subCategories.length == 0"  ng-disabled="submit" id="finalCategory1"><font size="2">{{category.description}}</font> </button> 		
   					</div>
   				
   				</div>
@@ -257,4 +166,3 @@ hr{
 	</div>
 
 </div>
-</html>

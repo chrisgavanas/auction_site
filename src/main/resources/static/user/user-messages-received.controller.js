@@ -2,19 +2,19 @@ router.controller('userMessagesReceivedController', function($scope, $state, $co
 	
 	$scope.pageCounter = 1;
 	$scope.checkbox = [];
-	$scope.selectedReceived = {};
+	console.log($scope.unseenCounter);
 	
 	$scope.selectAll = function(){
 		if($scope.checked){
 			var i;
-			for (i = 0; i < $scope.messages.length; i++){
-				$scope.messages[i].checked = true;
+			for (i = 0; i < $scope.messagesReceived.length; i++){
+				$scope.messagesReceived[i].checked = true;
 			}
 			
 		}else{
 			var i;
-			for (i = 0; i < $scope.messages.length; i++){
-				$scope.messages[i].checked = false;
+			for (i = 0; i < $scope.messagesReceived.length; i++){
+				$scope.messagesReceived[i].checked = false;
 			}
 		}
 			
@@ -22,10 +22,18 @@ router.controller('userMessagesReceivedController', function($scope, $state, $co
 	}
 	
 	$scope.deleteMsg = function(){
+		
 		var i;
-		for (i = 0; i < $scope.messages.length; i++){
-			if($scope.messages[i].checked){
-				$scope.messages.splice(i,1);
+		for (i = 0; i < $scope.messagesReceived.length; i++){
+			if($scope.messagesReceived[i].checked){
+				MessageService.deleteMessage($scope.token, $scope.user.userId, $scope.messagesReceived[i].messageId, 'RECEIVED')
+								.then(function(response){
+									console.log(response);
+								}, function(response){
+									console.log(response);
+								});
+				$scope.messagesReceived.splice(i,1);
+				i = i - 1;
 			}
 		}
 	}

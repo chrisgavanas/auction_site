@@ -6,54 +6,31 @@
 	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
 </head>
 <style>
-.container-fluid{
-	padding-left: 200px;
-	padding-right: 200px;
-	padding-top: 50px;
-	padding-bottom: 50px;
 
-}
 
-.panel-body{
-	padding-left: 30px;
-	padding-right: 30px;
-}
-.panel-heading{
-	padding-left: 30px;
-	padding-right: 30px;
-}
 
-.panel-primary>.panel-heading {
-    color: #242D2C;
-    background-color: #6ecbc9;
-    border-color: #6ecbc9;
-}
-
-.panel-primary {
-    border-color: #6ecbc9;
-}
 
 
 </style>
-<body ng-controller="sellerProfileController">
+<body>
 
-<div class="container-fluid ">
+<div class="container-fluid " id='sellerContainer'>
 
-	<div class="panel panel-primary">
-		<div class="bg-3 panel-heading">{{user.username}} ({{user.ratingAsSeller}}<span class="glyphicon glyphicon-star"></span>)</div>
+	<div class="panel panel-primary" id="sellerPanel">
+		<div class="bg-3 panel-heading" id='sellerPanelHead'>{{user.username}} ({{user.ratingAsSeller}}<span class="glyphicon glyphicon-star"></span>)</div>
 		
 		
-		<div class="panel-body" id="main">
+		<div class="panel-body" id="main" id='sellerPanelBody'>
 			<div class="row">
 				<div class="col-md-4">
 					<img src="/images/user.png" height="150" width="150">
 				</div>
 				<div class="col-md-8">
-					<div class="panel panel-default">
-						<div class="panel-heading">
+					<div class="panel panel-default" id='sellerPanel1'>
+						<div class="panel-heading" id='sellerPanelHead1'>
 							Feedback
 						</div>
-						<div class="panel-body">
+						<div class="panel-body" id='sellerPanelBody1'>
 							<div class="row">
 								Seller rating: {{user.ratingAsSeller}} <span class="glyphicon glyphicon-star"></span>
 							</div>

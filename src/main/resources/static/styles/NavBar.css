@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 
-.navbar {
+#mainNavBar.navbar {
 
     padding-top: 15px;
     padding-bottom: 15px;
@@ -11,10 +11,39 @@
     letter-spacing: 5px;
 }
 
-.navbar-nav li a:hover {
+#mainNavBar.navbar-nav li a:hover {
     color: #1abc9c;
 }
 
-.form-control{
-	height: 33px;
+#srch-term.form-control{
+	height: 34px;
 }
+
+.navbar-form .input-group > .form-control{
+    width: auto;
+}
+
+#srch-term{
+	width: 350px;
+	height: 34px;
+	z-index: 1;
+}
+
+#sel{
+	height:34px;
+	z-index: 1;
+	width: 200px;
+}
+#srch-icon{
+	z-index: 1;
+}
+
+#nav .navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+}
+
+#nav .navbar .navbar-collapse {
+  text-align: center;
+} 

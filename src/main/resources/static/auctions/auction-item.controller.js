@@ -14,6 +14,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	$scope.user.userId = $cookies.get('userId');
 	$scope.bid.userId = $scope.user.userId;
 	$scope.selectedImage = null;
+	$scope.inactive = false;
 	var token = $cookies.get('authToken');
 	
 	
@@ -33,7 +34,9 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 								$scope.hasBuyout = false;
 							}else
 								$scope.hasBuyout = true;
-							
+							if($scope.item.endDate == null){
+								$scope.inactive = true;
+							}
 							var i;
 							for (i = 0; i < $scope.item.images.length; i++){
 								var res = $scope.item.images[i].replace(/\\/g, '/');

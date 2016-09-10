@@ -2,13 +2,7 @@
 
 
 
-hr {
-	margin-top: 0;
-	margin-bottom: 0;
-	width: 100%;
-    border: 0;
-    border-top: 1px solid #b3b3b3;
-}
+
 
 
 #emailForm{
@@ -90,6 +84,45 @@ hr {
 
 }
 
+.passform{
+	width: 600px;
+}
 
 
 
+#firstNameInput,#lastNameInput,#vatInput,#mobileInput,#telephoneInput,#dateInput,#cityInput,#streetInput,#postalCodeInput,#countryInput.form-control{
+	width: 200px;
+	text-align:center;
+}
+
+input.ng-invalid.ng-dirty:focus { 
+    outline: none;
+    border-color: #FA787E;
+    box-shadow: 0 0 2px #FA787E;
+}
+
+
+
+
+.myBtn{
+	margin-top: 0;
+}
+
+
+.btn-link:focus{
+	border: none;
+}
+
+
+#saveBtn1,#saveBtn2,#saveBtn3.btn-default{
+	background-color: #242d2c;
+	color: #e1eedd;
+}
+
+#invalidPass{
+	display: none;
+}
+
+#differentPass{
+	display: none;
+}

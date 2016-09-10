@@ -1,71 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>Profile | Auction</title>
-	<link rel="stylesheet" type="text/css" href="../styles/profile.css">
-</head>
-
-<style>
-#firstNameInput,#lastNameInput,#vatInput,#mobileInput,#telephoneInput,#dateInput,#cityInput,#streetInput,#postalCodeInput,#countryInput.form-control{
-	width: 200px;
-	text-align:center;
-}
-
-input.ng-invalid.ng-dirty:focus { 
-    outline: none;
-    border-color: #FA787E;
-    box-shadow: 0 0 2px #FA787E;
-}
-
-.container-fluid {
-    padding-top: 30px;
-    padding-bottom: 30px;
-    padding-left: 250px;
-    padding-right: 250px;
- 	color: #e1edd;
-}
-
-hr{
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-.myBtn{
-	margin-top: 0;
-}
 
 
-.btn-link:focus{
-	border: none;
-}
-
-.passform{
-	width: 600px;
-}
-
-#passwords{
-	color:red;
-}
-
-#invalidPass{
-	color:red;
-	display: none;
-}
-
-#differentPass{
-	color:red;
-	display: none;
-}
-
-#saveBtn1,#saveBtn2,#saveBtn3.btn-default{
-	background-color: #242d2c;
-	color: #e1eedd;
-}
-</style>
-<body  ng-controller="userInfoController">
-
-<div class="container-fluid" align="middle">
+<div class="container-fluid" align="middle" id="userInfo">
 	<form>
 	<div class="row" align="middle">
 		<font size="4">Personal Information</font>
@@ -305,17 +240,17 @@ hr{
 		<br>
 		<div class="row" align="middle">
             	<span  id="differentPass" >
-             	<i  class="fa fa-exclamation-circle"aria-hidden="true"></i> <font size = "2" >New password must be different.</font></span>
+             	<i  class="fa fa-exclamation-circle text-danger"aria-hidden="true" color="red"></i> <font size = "2" color="red">New password must be different.</font></span>
 		
 		</div>
 		<div class="row" align="middle">
             	<span  id="invalidPass" >
-             	<i  class="fa fa-exclamation-circle"aria-hidden="true"></i> <font size = "2" >Invalid password.</font></span>
+             	<i  class="fa fa-exclamation-circle text-danger"aria-hidden="true"></i> <font size = "2" >Invalid password.</font></span>
 		
 		</div>
 		<div class="row" align="middle">
             	<span  id="passwords" ng-show="passwordForm.confirmPassword.$invalid && passwordForm.confirmPassword.$dirty">
-             	<i  class="fa fa-exclamation-circle"aria-hidden="true"></i> <font size = "2" >Passwords do not match.</font></span>
+             	<i  class="fa fa-exclamation-circle text-danger"aria-hidden="true"></i> <font size = "2" >Passwords do not match.</font></span>
 		
 		</div>
 		<div class="row">
@@ -350,6 +285,3 @@ hr{
 
 </div>
 
-</body>
-
-</html>

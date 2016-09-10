@@ -1,60 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="../styles/basic.css">
-	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
-	
-	
-</head>
-
-<style>
-.btn-link:focus{
-	border: none;
-}
-
-
-.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
-    cursor: default;
-    
-}
-
-hr{
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-.pager{
-	display: block;
-}
-.container-fluid {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 500px;
-    padding-right: 500px;
-}
-
-</style>
-<body>
-
-
-<div class="container-fluid bg-2">
+<div class="container-fluid bg-2" id="admin1">
 	<div class="row text-center">
 		<h4>List of users pending verification.</h4>
 	</div>
 </div>
-<div class="container-fluid text-center">
-	<div ng-repeat="user in unverified">
-	<div class="row">
-		
-		<a ui-sref="main.verificationPreview({id: user.userId})">{{user.username}}</a>	
-			
-		
+<div class="container-fluid text-center" id="admin2">
+	<div class="list-group">
+		<a ui-sref="main.verificationPreview({id: user.userId})" class="list-group-item" ng-repeat="user in unverified">{{user.username}}</a>	
 	</div>
-	<hr>
-	</div>
-	
 	<div class="row" align="middle">
 		<div class="btn-group">
   			<button type="button" class="btn btn-primary" ng-click='previousPage()' ng-disabled='pageCounter == 1'>Back</button>
@@ -65,11 +17,6 @@ hr{
 	<div class="row" align="middle">
 		<a href="/#/profile"><h6>Back to my profile.</h6></a>
 	</div>
-
 </div>
 
 
-
-</body>
-
-</html>

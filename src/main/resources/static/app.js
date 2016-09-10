@@ -3,65 +3,80 @@ var router = angular.module('router', ['ui.bootstrap', 'ngFileUpload','timer', '
 
 router.config(function($stateProvider, $urlRouterProvider) {
     
-    $urlRouterProvider.otherwise('/welcome');
+    //$urlRouterProvider.otherwise('/welcome');
     
     $stateProvider
         
     .state('main', {
-    	abstract: true,
-    	views: { 'navBar': {
+    	
+    	views: { '': {
     							templateUrl: './components/nav-bar.html',
     							controller: 'navBarController'
-    			},
-    			'': {
-    				templateUrl: './main/main.html'
     			}
+    		//	'': {
+    		//		templateUrl: './main/main.html'
+    		//	}
     						
     	}
     })
     	.state('main.welcome', {
     		url: '/welcome',
-    		controller: 'welcomeController',
-			templateUrl: 'main/welcome.html',
-    		
+    		views: { 'mainview': {
+    			
+    			controller: 'welcomeController',
+    			templateUrl: 'main/welcome.html',
+    		}}
     		
     	})
     	
-        .state('main.register', {
+       .state('main.register', {
         	url: '/register',
-        	controller: 'registerController',
-        	templateUrl: 'register/register.html'
+        	views: { 'mainview': {
+        		controller: 'registerController',
+        		templateUrl: 'register/register.html'
+        	}}
         })
         
         .state('main.verification',{
         	url: '/pendingMessage',
-        	templateUrl: 'messages/verification-pending.html'
+        	views: { 'mainview': {
+        		templateUrl: 'messages/verification-pending.html'
+        	}}
         })
         
         .state('main.signedout',{
         	url: '/not-signed-in',
-        	templateUrl: 'messages/not-logged-in.html'
+        	views: { 'mainview': {
+        		templateUrl: 'messages/not-logged-in.html'
+        	}}
         	
         })
         
         .state('main.sessionexpired',{
         	url: '/session-expired',
-        	templateUrl: 'messages/expired-session.html'
+        	views: { 'mainview': {
+        		templateUrl: 'messages/expired-session.html'
+        	}}
         	
         })
         .state('main.seller',{
         	url: '/member?id',
-        	controller: 'sellerProfileController',
-        	templateUrl: 'seller/seller-profile.html'
+        	views: { 'mainview': {
+        		controller: 'sellerProfileController',
+        		templateUrl: 'seller/seller-profile.html'
+        	}}
         })
         .state('main.profile', {
         	url: '/profile',
-        	controller: 'profileController',
-        	templateUrl: 'user/profile.html'
+        	views: { 'mainview': {
+        		controller: 'profileController',
+        		templateUrl: 'user/profile.html'
+        	}}
 
         })
         .state('main.profile.userInfo',{
         	url: '/userInfo',
+        	
         	views: { 'menuview': {
         		controller: 'userInfoController',
         	    templateUrl: '/user/user-info.html'
@@ -96,7 +111,7 @@ router.config(function($stateProvider, $urlRouterProvider) {
         })
         
          .state('main.profile.userMessages.open',{
-        	url: '/view?id',
+        	
         	views: { 'messageview': {
         		controller: 'userMessagesOpenController',
         	    templateUrl: '/user/user-messages-open.html'
@@ -105,8 +120,10 @@ router.config(function($stateProvider, $urlRouterProvider) {
         })
         .state('main.item', {
     		url: '/item?id',
-    		controller: 'itemController',
-    		templateUrl: 'auctions/auction-item.html'
+    		views: { 'mainview': {
+    			controller: 'itemController',
+    			templateUrl: 'auctions/auction-item.html'
+    		}}
     	})
     	
     	
@@ -168,33 +185,41 @@ router.config(function($stateProvider, $urlRouterProvider) {
     	
         .state('main.admin', {
     			url: '/adminOptions',
-    			controller: 'adminOptionsController',
-    			templateUrl: 'admin/admin-options.html'
+    			views: { 'mainview': {
+    				controller: 'adminOptionsController',
+    				templateUrl: 'admin/admin-options.html'
+    			}}
     	})
     
     
         .state('main.newAuction', {
         	url: '/newAuction',
-        	controller: 'newAuctionController',
-        	templateUrl: 'auctions/new-auction.html'
+        	views: { 'mainview': {
+        		controller: 'newAuctionController',
+        		templateUrl: 'auctions/new-auction.html'
+        	}}
         })
         
          .state('main.editAuction', {
         	url: '/editAuction?id',
+        	views: { 'mainview': {
         	controller: 'editAuctionController',
         	templateUrl: 'auctions/edit-auction.html'
+        	}}
         })
         
         .state('main.verificationPreview', {
         	url: '/verify?id',
+        	views: { 'mainview': {
         	controller: 'verificationPreviewController',
         	templateUrl: 'admin/verification-preview.html'
+        	}}
         })	
         
         .state('main.startAuction', {
         	url: '/startAuction?id',
         	views: {
-        		'':{ controller: 'userAuctionsStartController',
+        		'mainview':{ controller: 'userAuctionsStartController',
                 	templateUrl: '/user/user-auctions-start.html'},
                 	
                 'preview@main.startAuction': { templateUrl: '/auctions/auction-item.html',
