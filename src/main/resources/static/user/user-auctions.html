@@ -4,14 +4,14 @@
 	<div class ="row" id="main">
 		<div class="col-md-2">
 			<div class="row" id="main" >
-				<ul class="list-group" auto-active>
+				<ul class="list-group special" auto-active>
   					<a  ui-sref="main.profile.userAuctions.active"  class="list-group-item"><font size = "3">Active Selling</font></a>
  					<a ui-sref="main.profile.userAuctions.pending"  class="list-group-item"><font size = "3">Inactive Selling</font></a>
-  					<a ui-sref="main.profile.userAuctions.sold"  class="list-group-item"><font size = "3">Sold</font></a>
+  					<a ui-sref="main.profile.userAuctions.sold"  class="list-group-item"><font size = "3">Auction History</font></a>
 				</ul>
 			</div>
 			<div class="row" align="middle" id="main">
-				<button ng-click="newAuction()" class="btn btn-primary">New Auction</button>
+				<button ng-click="newAuction()" class="btn btn-default" id="auctionBtn">New Auction</button>
 			</div>
 		</div>
 		<div class="col-md-10">

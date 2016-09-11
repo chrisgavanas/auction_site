@@ -12,17 +12,23 @@ hr{
 	margin-bottom: 5px;
 }
 
-#messagelist.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover{
-	background-color: #eee;
-	border-color: #eee;
-	color: black;
+.navbar-default .navbar-nav>li>a.active, .navbar-default .navbar-nav>li>a.active:focus, .navbar-default .navbar-nav>li>a.active:hover{
+
+	border: none;
+	color: #242d2c;
+	font-weight: bold;
+}
+.special .list-group-item.active, .special .list-group-item.active:focus, .special .list-group-item.active:hover{
+	background-color: #6ecbc9;
+	border: none;
+	color: #242d2c;
 	font-weight: bold;
 }
 
 .list-group{
 	margin-bottom: 0px;
 }
-.list-group-item {
+.special .list-group-item {
    
     border: none;
 
@@ -37,4 +43,10 @@ hr{
     line-height: 1.42857143;
     vertical-align: top;
     border-top: none;
+}
+
+a{cursor: pointer;}
+
+.badge-danger {
+  background-color: #d43f3a;
 }

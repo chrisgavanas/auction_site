@@ -9,7 +9,7 @@ router.controller('userMessagesController', function($scope, $cookies,  $state, 
 	
 	
 	$scope.selectedReceived = [];
-	
+	$state.go('main.profile.userMessages.received');
 	
 	
 	

@@ -1,27 +1,32 @@
 
 	<div class="container-fluid">
 	
-		
 		<div class="row">
-			<div class="row" >
+				Inbox: Received messages 
+			</div>
+		<div class="row">
+			
+			<div class="panel panel-default" id='receivedPanel'>
+				<div class="panel-heading" id="receivedHead">
+					<div class="row" id="headingrow">
 					<div class="col-md-2">
 						<input type="checkbox" ng-change="selectAll()" ng-model='checked'><font size="2"> Select All</font>
 					</div>
 					<div class="col-md-2">
 						<button class="btn btn-default" ng-click="deleteMsg()">Delete</button>
 					</div>
-			</div>
-			<div class="panel panel-default" id='receivedPanel'>
-				<div class="panel-heading" id="receivedHead">
-					<div class="row" id="headingrow">
+					</div>
+				</div>
+				
+					
+				
+				<div class="panel-body" id="mainpanel">
+					<div class="row" id="firstrow">
 						<div class="col-md-1"></div>
 						<div class="col-md-2">From</div>
 						<div class="col-md-7">Subject</div>
 						<div class="col-md-2">Date</div>
 					</div>
-				</div>
-				<div class="panel-body" id="mainpanel">
-					
 					<div ng-repeat="message in messagesReceived">
 					<div id="panelrow" class="row bg-8" ng-if="message.seen == false" >
 						<b><div class="col-md-1">

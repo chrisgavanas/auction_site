@@ -24,7 +24,7 @@
 }
 
 #srch-term{
-	width: 350px;
+	width: 500px;
 	height: 34px;
 	z-index: 1;
 }
@@ -47,3 +47,7 @@
 #nav .navbar .navbar-collapse {
   text-align: center;
 } 
+
+#navBarDropdown{
+	font-size: 16px;
+}

@@ -24,3 +24,11 @@
 	padding-left :15px;
 	padding-right: 15px;
 }
+
+#myspan{
+	display:inline-block;
+   width: 200px;
+    white-space: nowrap;
+    overflow:hidden !important;
+    text-overflow: ellipsis;
+}

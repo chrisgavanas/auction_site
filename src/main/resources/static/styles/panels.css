@@ -14,10 +14,27 @@
     border-color: #6ecbc9;
 }
 
-#sellerPanel.panel-primary {
+#adminPanel.panel-primary> .panel-heading {
+    color: #242D2C;
+    background-color: #6ecbc9;
     border-color: #6ecbc9;
 }
 
+
+#sellerPanel.panel-primary {
+    border-color: #6ecbc9;
+
+   box-shadow: 0 6px 12px rgba(0,0,0,.175);
+
+}
+
+
+#adminPanel.panel-primary {
+    border-color: #6ecbc9;
+
+   box-shadow: 0 6px 12px rgba(0,0,0,.175);
+
+}
 #itemrow,#labelrow,#offerrow.row{
 	padding: 15px;
 	border: 1px solid #ddd;
@@ -51,7 +68,7 @@
 
 
 
-#receivedPanel{
+#receivedPanel, #sentPanel{
 	margin-top: 10px;
 }
 

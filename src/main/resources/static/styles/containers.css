@@ -1,11 +1,19 @@
 @CHARSET "UTF-8";
 
-#admin1, #admin2.container-fluid {
+#admin1.container-fluid {
     padding-top: 20px;
     padding-bottom: 20px;
     padding-left: 500px;
     padding-right: 500px;
 }
+
+ #admin2.container-fluid {
+	 padding-top: 50px;
+    padding-bottom: 200px;
+    padding-left: 800px;
+    padding-right: 800px;
+ 
+ }
 
 #verificationCont.container-fluid {
     padding-top: 30px;
@@ -83,10 +91,11 @@
 }
 
 #sellerContainer.container-fluid{
-	padding-left: 200px;
-	padding-right: 200px;
+	padding-left: 500px;
+	padding-right: 500px;
 	padding-top: 50px;
 	padding-bottom: 50px;
+	background:#ffffff url('../images/Photo-Gavel-Computer.png') repeat center center;
 
 }
 
@@ -116,6 +125,7 @@
 #auctionContainer.container-fluid{
 	
 	padding: 50px;
+	padding-bottom: 200px;
 
 }
 
@@ -126,4 +136,38 @@
 
 #messageContainer.container-fluid{
 	padding: 50px;
+	padding-bottom: 200px;
 }
+
+#footerContainer.container-fluid{
+	padding: 50px;
+}
+
+#openContainer.container-fluid{
+	margin-bottom: 100px;
+}
+
+#welcomeContainer2.container-fluid{
+	padding: 50px;
+	padding-left: 200px;
+	padding-right: 200px;
+}
+#navBarContainer.container-fluid{
+	padding-left: 200px;
+	padding-right: 200px;
+}
+
+#sellerContainer1.container-fluid{
+	padding-top: 10px;
+	padding-left: 400px;
+	padding-right: 400px;
+	padding-bottom: 100px;
+	
+}
+
+#adminVerified2,#adminUnverified2.container-fluid{
+	padding-left: 43%;
+	padding-right: 43%;
+	
+}
+

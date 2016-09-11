@@ -125,6 +125,20 @@ public class UserApiImpl implements UserApi {
 
         return userService.getUnverifiedUsers(authToken, from, to);
     }
+    
+    @Override
+    public List<UserResponseDto> getVerifiedUsers(@RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(from).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(to).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        if (from <= 0 || to <= 0)
+            throw new ValidationException(UserError.INVALID_DATA);
+
+        if (from > to)
+            throw new ValidationException(UserError.INVALID_PAGINATION_VALUES);
+
+        return userService.getVerifiedUsers(authToken, from, to);
+    }
 
     @Override
     public void sendMessage(@RequestHeader UUID authToken, @PathVariable String userId, @RequestBody MessageRequestDto messageRequestDto) throws Exception {

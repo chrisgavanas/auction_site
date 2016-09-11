@@ -114,9 +114,10 @@ input.ng-invalid.ng-dirty:focus {
 }
 
 
-#saveBtn1,#saveBtn2,#saveBtn3.btn-default{
+#composeBtn, #auctionBtn, #saveBtn1,#saveBtn2,#saveBtn3 , #adminBtn1, #adminBtn2, #adminBtn3.btn-default{
 	background-color: #242d2c;
 	color: #e1eedd;
+	border-color: #242d2c;
 }
 
 #invalidPass{

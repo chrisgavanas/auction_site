@@ -2,7 +2,7 @@
 
 
 <nav class="navbar navbar-default" id="mainNavBar">
-  <div class="container">
+  <div class="container-fluid" id="navBarContainer">
   
   <div ng-if="!signedIn">
     <div class="navbar-header">
@@ -27,7 +27,7 @@
 		</form>
 		</div>
       <ul class="nav navbar-nav navbar-right">
-        <li><a  data-toggle="modal" data-target="#myModal" ><span class="glyphicon glyphicon-log-in">SIGN IN</a></li>
+        <li><a  data-toggle="modal" data-target="#myModal" ><span class="glyphicon glyphicon-log-in"></span>SIGN IN</a></li>
         <li><a href="#/register"><span class="glyphicon glyphicon-user"></span>REGISTER</a></li>
       
       </ul>
@@ -68,7 +68,7 @@
     			<li><a href="" ng-click="myProfile()">My Profile</a></li>
     			<li><a href="" ng-click="auctions()">Auctions</a></li>
     			<li><a href="" ng-click="bids()">Bids</a></li>
-    			<li><a href="" ng-click="messages()">Messages <i class="fa fa-envelope text-danger" color="red" aria-hidden="true" ng-if='newM'></i></a></li>
+    			<li><a href="" ng-click="messages()">Messages <span class="badge-danger badge " ng-if="newM">1</span></a></li>
     			<li class="divider"></li>
     			<li><a href="" ng-click="logout()">Sign Out</a></li>
    			</ul>

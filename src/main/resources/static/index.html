@@ -53,15 +53,14 @@
 	
 </head>
 
+<body ng-app="router" >
 
-<body >
-<div ng-app="router">
 <div ui-view></div>
 
 
 
 
-<footer class="container-fluid bg-3 text-center">
+<footer class="container-fluid bg-3 text-center" id="footerContainer">
   <p><h5>Bootstrap Theme Made By FetaVideos</h5></p> 
 </footer>
 
@@ -79,6 +78,8 @@
 	
 	
     <script src="admin/admin-options.controller.js"></script>
+    <script src="admin/admin-options-verified.controller.js"></script>
+    <script src="admin/admin-options-unverified.controller.js"></script>
     <script src="admin/verification-preview.controller.js"></script>
     
     <script src="auctions/auction-item.controller.js"></script>
@@ -123,6 +124,6 @@
     <script src="user/user-auctions-start.controller.js"></script>
     
     <script src="seller/seller-profile.controller.js"></script>
-    </div>
+   
 </body>
 </html>

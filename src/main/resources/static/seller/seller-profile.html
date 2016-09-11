@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<link rel="stylesheet" type="text/css" href="../styles/bg.css">
-</head>
-<style>
 
-
-
-
-
-</style>
-<body>
 
 <div class="container-fluid " id='sellerContainer'>
 
@@ -22,11 +8,13 @@
 		
 		<div class="panel-body" id="main" id='sellerPanelBody'>
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-1">
+				</div>
+				<div class="col-md-5">
 					<img src="/images/user.png" height="150" width="150">
 				</div>
-				<div class="col-md-8">
-					<div class="panel panel-default" id='sellerPanel1'>
+				<div class="col-md-5">
+					<div class="panel panel-default" id='sellerPanel1' align="middle">
 						<div class="panel-heading" id='sellerPanelHead1'>
 							Feedback
 						</div>
@@ -43,15 +31,29 @@
 						
 					</div>
 					<div class="row" align="middle">
-							<a>Items for sale</a>
+							<div class="col-md-6" >
+							
+								<a><font size="2">Items for sale</font></a>
+							</div>
+							
+							<div class="col-md-6" >
+							
+								<a><font size="2"><span class="glyphicon glyphicon-envelope"></span> Contact</font></a>
+							</div>
 					</div>
+				</div>
+				<div class="col-md-1">
 				</div>
 				
 			</div>
 			<div class="row">
+			<div class="col-md-1">
+				</div>
 				<font size="2">Member since: {{registrationDateConverted}}</font>
 			</div>
 			<div class="row">
+			<div class="col-md-1">
+				</div>
 				<font size="2">Country: {{user.country}}</font>
 			</div>
 		</div>
@@ -60,7 +62,53 @@
 
 </div>
 
+<div class="container-fluid" id="sellerContainer1">
+	<div class="row">
+		<h4>Items for sale (504)</h4>
+	</div>
+	<div class='row list-group'>
+		<div class='col-md-3'>
+			<div class="thumbnail list-group-item">
+      			<a>
+      			<img src="./images/item.PNG" class="img-responsive"></a>
+      			<a><span id="myspan">Dora the explorer</span></a>
+      			<span>US $19.99</span>
+      		</div>
+		
+		</div>
+		<div class='col-md-3'>
+			<div class="thumbnail list-group-item">
+      			<a>
+      			<img src="./images/item.PNG" class="img-responsive"></a>
+      			<a><span id="myspan">Kapnos karelia kanonikos to mikro</span></a>
+      			<span>US $3.40</span>
+      		</div>
+		
+		</div>
+		<div class='col-md-3'>
+			<div class="thumbnail list-group-item">
+      			<a>
+      			<img src="./images/item.PNG" class="img-responsive"></a>
+      			<a><span id="myspan">PlayStation 1 Used </span></a>
+      			<span>US $30</span>
+      		</div>
+		
+		</div>
+		<div class='col-md-3'>
+			<div class="thumbnail list-group-item">
+      			<a>
+      			<img src="./images/item.PNG" class="img-responsive"></a>
+      			
+      			<a><span id="myspan">PlayStation 4 Used with 2 Controllers</span></a>
+      			<span>US $299.99</span>
+      			
+      		</div>
+		
+		</div>
+	
+	</div>
 
 
-</body>
-</html>
+</div>
+
+

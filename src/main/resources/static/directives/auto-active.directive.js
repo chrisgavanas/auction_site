@@ -7,7 +7,8 @@ router.directive('autoActive', ['$location', '$state', function ($location, $sta
                     var path = $location.path();
                     if (path) {
                         angular.forEach(element.find('a'), function (a) {
-                        	
+                        	console.log(a.href);
+                        	console.log(path);
                             if (a.href.match('#' + path + '(?=\\?|$)')) {
                             
                             	
@@ -15,6 +16,23 @@ router.directive('autoActive', ['$location', '$state', function ($location, $sta
                             } else {
                             	
                                 angular.element(a).removeClass('active');
+                            }
+                            if(a.href == "http://localhost:8080/#/profile/userAuctions" && path == '/profile/userAuctions/active'){
+                            	angular.element(a).addClass('active');
+                            }
+                            if(a.href == "http://localhost:8080/#/profile/userAuctions" && path == '/profile/userAuctions/pending'){
+                            	
+                            	angular.element(a).addClass('active');
+                            }
+                            if(a.href == "http://localhost:8080/#/profile/userAuctions" && path == '/profile/userAuctions/sold'){
+                            	angular.element(a).addClass('active');
+                            }
+                            
+                            if(a.href == "http://localhost:8080/#/profile/messages" && path == '/profile/messages/received'){
+                            	angular.element(a).addClass('active');
+                            }
+                            if(a.href == "http://localhost:8080/#/profile/messages" && path == '/profile/messages/sent'){
+                            	angular.element(a).addClass('active');
                             }
                         });
                     }

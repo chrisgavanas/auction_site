@@ -191,7 +191,22 @@ router.config(function($stateProvider, $urlRouterProvider) {
     			}}
     	})
     
+    	.state('main.verified', {
+    			url: '/verifiedUsers',
+    			views: { 'mainview': {
+    				controller: 'adminOptionsVerifiedController',
+    				templateUrl: 'admin/admin-options-verified.html'
+    			}}
+    	})
     
+    	.state('main.unverified', {
+    			url: '/unverifiedUsers',
+    			views: { 'mainview': {
+    				controller: 'adminOptionsUnverifiedController',
+    				templateUrl: 'admin/admin-options-unverified.html'
+    			}}
+    	})
+    	
         .state('main.newAuction', {
         	url: '/newAuction',
         	views: { 'mainview': {

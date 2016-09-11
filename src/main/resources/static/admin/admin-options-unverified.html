@@ -1,0 +1,20 @@
+<div class="container-fluid " id="adminUnverified">
+	<div class="row text-center">
+		<h4>List of users pending verification.</h4>
+	</div>
+</div>
+<div class="container-fluid text-center" id="adminUnverified2">
+	<div class="list-group">
+		<a ui-sref="main.verificationPreview({id: user.userId})" class="list-group-item" ng-repeat="user in unverified">{{user.username}}</a>	
+	</div>
+	<div class="row" align="middle">
+		<div class="btn-group">
+  			<button type="button" class="btn btn-primary" ng-click='previousPage()' ng-disabled='pageCounter == 1'>Back</button>
+  			<button type="button" class="btn btn-primary" ng-click='nextPage()' ng-disabled='unverified.length < 10'>Next</button>
+  		</div>
+	</div>
+	<br>
+	<div class="row" align="middle">
+		<a href="/#/adminOptions"><h6>Back to administration page.</h6></a>
+	</div>
+</div>

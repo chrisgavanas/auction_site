@@ -149,6 +149,15 @@ public class UserServiceApiImpl implements UserServiceApi {
 
         return userMapper.userListToUserResponseList(users);
     }
+    
+    @Override
+    public List<UserResponseDto> getVerifiedUsers(UUID authToken, Integer from, Integer to) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        validateAuthorization(sessionInfo);
+        List<User> users = userRepository.findUserByIsVerified(true, new PageRequest(from / paginationPageSize, to - from + 1));
+
+        return userMapper.userListToUserResponseList(users);
+    }
 
     @Override
     public void sendMessage(UUID authToken, String userId, MessageRequestDto messageRequestDto) throws Exception {
