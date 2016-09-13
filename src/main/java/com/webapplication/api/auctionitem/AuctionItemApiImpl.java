@@ -1,23 +1,10 @@
 package com.webapplication.api.auctionitem;
 
-import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
-import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
-import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
-import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
-import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
-import com.webapplication.dto.auctionitem.AuctionStatus;
-import com.webapplication.dto.auctionitem.BidRequestDto;
-import com.webapplication.dto.auctionitem.BidResponseDto;
-import com.webapplication.dto.auctionitem.SearchAuctionItemDto;
-import com.webapplication.dto.auctionitem.StartAuctionDto;
+import com.google.common.base.Strings;
+import com.webapplication.dto.auctionitem.*;
 import com.webapplication.error.auctionitem.AuctionItemError;
 import com.webapplication.exception.ValidationException;
-import com.webapplication.exception.auctionitem.AuctionAlreadyInProgressException;
-import com.webapplication.exception.auctionitem.AuctionDurationTooShortException;
-import com.webapplication.exception.auctionitem.AuctionExpiredException;
-import com.webapplication.exception.auctionitem.AuctionItemNotFoundException;
-import com.webapplication.exception.auctionitem.BidException;
-import com.webapplication.exception.auctionitem.InvalidAuctionException;
+import com.webapplication.exception.auctionitem.*;
 import com.webapplication.exception.category.CategoryHierarchyException;
 import com.webapplication.exception.category.CategoryNotFoundException;
 import com.webapplication.exception.user.UserNotFoundException;
@@ -26,11 +13,7 @@ import com.webapplication.validator.auctionitem.AuctionItemRequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -153,6 +136,18 @@ public class AuctionItemApiImpl implements AuctionItemApi {
         return auctionItemService.searchAuctionItem(searchAuctionItemDto);
     }
 
+    @Override
+    public void buyout(@RequestHeader UUID authToken, @PathVariable String auctionItemId, @RequestBody BuyoutAuctionItemRequestDto buyoutAuctionItemRequestDto) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        Optional.ofNullable(auctionItemId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        Optional.ofNullable(buyoutAuctionItemRequestDto).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        Optional.ofNullable(buyoutAuctionItemRequestDto.getBuyerId()).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        if (Strings.isNullOrEmpty(buyoutAuctionItemRequestDto.getBuyerId()))
+            throw new ValidationException(AuctionItemError.INVALID_DATA);
+
+        auctionItemService.buyout(authToken, auctionItemId, buyoutAuctionItemRequestDto);
+    }
+
     @ExceptionHandler(ValidationException.class)
     private void invalidData(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value());
@@ -163,7 +158,8 @@ public class AuctionItemApiImpl implements AuctionItemApi {
         response.sendError(HttpStatus.NOT_FOUND.value());
     }
 
-    @ExceptionHandler({AuctionAlreadyInProgressException.class, AuctionDurationTooShortException.class, CategoryHierarchyException.class, InvalidAuctionException.class, BidException.class, AuctionExpiredException.class})
+    @ExceptionHandler({AuctionAlreadyInProgressException.class, AuctionDurationTooShortException.class, CategoryHierarchyException.class,
+            InvalidAuctionException.class, BidException.class, AuctionExpiredException.class, BuyoutException.class})
     private void startAuctionError(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.CONFLICT.value());
     }

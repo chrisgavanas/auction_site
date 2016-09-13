@@ -21,6 +21,7 @@ public class AuctionItem {
     private String name;
     private Date startDate;
     private String userId;
+    private String buyerId;
     private List<String> categoriesId;
     private List<String> images;
 
@@ -119,6 +120,14 @@ public class AuctionItem {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getBuyerId() {
+        return buyerId;
+    }
+
+    public void setBuyerId(String buyerId) {
+        this.buyerId = buyerId;
     }
 
     public List<Bid> getBids() {

@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,20 +48,26 @@ public class User {
     public User() {
     }
 
-    public User(String username, Integer ratingAsSeller, Boolean isVerified) {     //Needed for XML unmarshall/unmarshall
+    public User(String username, Integer ratingAsSeller, Boolean isVerified) {     //Needed for XML marshall/unmarshall
         this.username = username;
         this.ratingAsSeller = ratingAsSeller;
         this.isVerified = isVerified;
         this.isAdmin = false;
+        this.sentMessages = new LinkedList<>();
+        this.receivedMessages = new LinkedList<>();
+        this.bidIds = new LinkedList<>();
     }
 
-    public User(String username, Integer ratingAsBidder, String country, Address address, Boolean isVerified) { //Needed for XML unmarshall/unmarshall
+    public User(String username, Integer ratingAsBidder, String country, Address address, Boolean isVerified) { //Needed for XML marshall/unmarshall
         this.username = username;
         this.ratingAsBidder = ratingAsBidder;
         this.country = country;
         this.address = address;
         this.isVerified = isVerified;
         this.isAdmin = false;
+        this.sentMessages = new LinkedList<>();
+        this.receivedMessages = new LinkedList<>();
+        this.bidIds = new LinkedList<>();
     }
 
     public String getUserId() {
