@@ -2,15 +2,19 @@ package com.webapplication.service.auctionitem;
 
 import com.webapplication.authentication.Authenticator;
 import com.webapplication.dao.AuctionItemRepository;
+import com.webapplication.dao.CategoryRepository;
 import com.webapplication.dao.UserRepository;
 import com.webapplication.dto.auctionitem.*;
 import com.webapplication.dto.user.SessionInfo;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.Bid;
+import com.webapplication.entity.Category;
 import com.webapplication.entity.User;
 import com.webapplication.error.auctionitem.AuctionItemError;
+import com.webapplication.error.category.CategoryError;
 import com.webapplication.exception.NotAuthorizedException;
 import com.webapplication.exception.auctionitem.*;
+import com.webapplication.exception.category.CategoryNotFoundException;
 import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.mapper.AuctionItemMapper;
 import com.xmlparser.XmlParser;
@@ -40,6 +44,9 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private AuctionItemMapper auctionItemMapper;
@@ -181,8 +188,13 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     @Override
-    public List<AuctionItemResponseDto> searchAuctionItem(SearchAuctionItemDto searchAuctionItemDto) throws Exception {
-        return new LinkedList<>();
+    public List<AuctionItemResponseDto> searchAuctionItem(Integer from, Integer to, SearchAuctionItemDto searchAuctionItemDto) throws Exception {
+        validateCategory(searchAuctionItemDto.getCategoryId());
+        String categoryId = searchAuctionItemDto.getCategoryId();
+        List<AuctionItem> auctionItems = auctionItemRepository.findAuctionsWithCriteria(searchAuctionItemDto.getText(), categoryId.equals("ALL") ? "" : categoryId,
+                new PageRequest(from / paginationPageSize, to - from + 1));
+
+        return auctionItemMapper.auctionItemsToAuctionItemResponseDto(auctionItems);
     }
 
     @Override
@@ -191,6 +203,13 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         validateAuthorization(buyoutAuctionItemRequestDto.getBuyerId(), sessionInfo);
         AuctionItem auctionItem = getAuctionItem(auctionItemId);
         buyoutAuctionItem(auctionItem, buyoutAuctionItemRequestDto.getBuyerId());
+    }
+
+    private void validateCategory(String categoryId) throws Exception {
+        if (!categoryId.equals("ALL")) {
+            Category category = categoryRepository.findCategoryByCategoryId(categoryId);
+            Optional.ofNullable(category).orElseThrow(() -> new CategoryNotFoundException(CategoryError.CATEGORY_NOT_FOUND));
+        }
     }
 
     private void buyoutAuctionItem(AuctionItem auctionItem, String buyerId) throws Exception {

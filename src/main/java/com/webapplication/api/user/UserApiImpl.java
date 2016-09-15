@@ -1,17 +1,7 @@
 package com.webapplication.api.user;
 
 
-import com.webapplication.dto.user.ChangePasswordRequestDto;
-import com.webapplication.dto.user.MessageRequestDto;
-import com.webapplication.dto.user.MessageResponseDto;
-import com.webapplication.dto.user.MessageType;
-import com.webapplication.dto.user.SellerResponseDto;
-import com.webapplication.dto.user.UserLogInRequestDto;
-import com.webapplication.dto.user.UserLogInResponseDto;
-import com.webapplication.dto.user.UserRegisterRequestDto;
-import com.webapplication.dto.user.UserRegisterResponseDto;
-import com.webapplication.dto.user.UserResponseDto;
-import com.webapplication.dto.user.UserUpdateRequestDto;
+import com.webapplication.dto.user.*;
 import com.webapplication.error.user.UserError;
 import com.webapplication.exception.ForbiddenException;
 import com.webapplication.exception.NotAuthenticatedException;
@@ -39,6 +29,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Component
 public class UserApiImpl implements UserApi {
@@ -175,6 +166,18 @@ public class UserApiImpl implements UserApi {
         Optional.ofNullable(messageType).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
 
         userService.deleteMessage(authToken, userId, messageId, messageType);
+    }
+
+    @Override
+    public void voteSeller(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable Vote vote, @RequestParam String sellerId) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(vote).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(sellerId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        if (Stream.of(userId, sellerId).anyMatch(String::isEmpty))
+            throw new ValidationException(UserError.INVALID_DATA);
+
+        userService.voteSeller(authToken, userId, vote, sellerId);
     }
 
     @ExceptionHandler(ValidationException.class)

@@ -43,12 +43,7 @@ public class AuctionItemApiImpl implements AuctionItemApi {
     public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(@PathVariable String userId, @RequestParam("status") AuctionStatus status, @PathVariable Integer from, @PathVariable Integer to) throws Exception {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         Optional.ofNullable(status).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
-        Optional.ofNullable(from).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
-        Optional.ofNullable(to).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
-        if (from <= 0 || to <= 0)
-            throw new ValidationException(AuctionItemError.INVALID_DATA);
-        if (from > to)
-            throw new ValidationException(AuctionItemError.INVALID_PAGINATION_VALUES);
+        validatePaginationValues(from, to);
         if (userId.isEmpty())
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
@@ -91,12 +86,7 @@ public class AuctionItemApiImpl implements AuctionItemApi {
 
     @Override
     public List<AuctionItemResponseDto> getActiveAuctionItems(@PathVariable Integer from, @PathVariable Integer to) throws Exception {
-        Optional.ofNullable(from).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
-        Optional.ofNullable(to).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
-        if (from <= 0 || to <= 0)
-            throw new ValidationException(AuctionItemError.INVALID_DATA);
-        if (from > to)
-            throw new ValidationException(AuctionItemError.INVALID_PAGINATION_VALUES);
+        validatePaginationValues(from, to);
 
         return auctionItemService.getActiveAuctionItems(from, to);
     }
@@ -130,10 +120,11 @@ public class AuctionItemApiImpl implements AuctionItemApi {
     }
 
     @Override
-    public List<AuctionItemResponseDto> searchAuctionItem(@RequestBody SearchAuctionItemDto searchAuctionItemDto) throws Exception {
+    public List<AuctionItemResponseDto> searchAuctionItem(@PathVariable Integer from, @PathVariable Integer to, @RequestBody SearchAuctionItemDto searchAuctionItemDto) throws Exception {
+        validatePaginationValues(from, to);
         auctionItemRequestValidator.validate(searchAuctionItemDto);
 
-        return auctionItemService.searchAuctionItem(searchAuctionItemDto);
+        return auctionItemService.searchAuctionItem(from, to, searchAuctionItemDto);
     }
 
     @Override
@@ -146,6 +137,15 @@ public class AuctionItemApiImpl implements AuctionItemApi {
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
         auctionItemService.buyout(authToken, auctionItemId, buyoutAuctionItemRequestDto);
+    }
+
+    private void validatePaginationValues(Integer from, Integer to) throws Exception {
+        Optional.ofNullable(from).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        Optional.ofNullable(to).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        if (from <= 0 || to <= 0)
+            throw new ValidationException(AuctionItemError.INVALID_DATA);
+        if (from > to)
+            throw new ValidationException(AuctionItemError.INVALID_PAGINATION_VALUES);
     }
 
     @ExceptionHandler(ValidationException.class)

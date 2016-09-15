@@ -2,18 +2,7 @@ package com.webapplication.service.user;
 
 import com.webapplication.authentication.Authenticator;
 import com.webapplication.dao.UserRepository;
-import com.webapplication.dto.user.ChangePasswordRequestDto;
-import com.webapplication.dto.user.MessageRequestDto;
-import com.webapplication.dto.user.MessageResponseDto;
-import com.webapplication.dto.user.MessageType;
-import com.webapplication.dto.user.SellerResponseDto;
-import com.webapplication.dto.user.SessionInfo;
-import com.webapplication.dto.user.UserLogInRequestDto;
-import com.webapplication.dto.user.UserLogInResponseDto;
-import com.webapplication.dto.user.UserRegisterRequestDto;
-import com.webapplication.dto.user.UserRegisterResponseDto;
-import com.webapplication.dto.user.UserResponseDto;
-import com.webapplication.dto.user.UserUpdateRequestDto;
+import com.webapplication.dto.user.*;
 import com.webapplication.entity.Message;
 import com.webapplication.entity.User;
 import com.webapplication.error.user.UserError;
@@ -209,6 +198,16 @@ public class UserServiceApiImpl implements UserServiceApi {
             }
 
         throw new MessageNotFoundException(UserError.MESSAGE_NOT_FOUND);
+    }
+
+    @Override
+    public void voteSeller(UUID authToken, String userId, Vote vote, String sellerId) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        validateAuthorization(userId, sessionInfo);
+        User user = getUser(userId);
+        User seller = getUser(sellerId);
+        seller.setRatingAsSeller(seller.getRatingAsBidder() + vote.getValue());
+        userRepository.save(seller);
     }
 
     private void markMessageAsSeen(String userId, String messageId) throws Exception {
