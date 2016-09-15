@@ -3,27 +3,14 @@ package com.webapplication.service.auctionitem;
 import com.webapplication.authentication.Authenticator;
 import com.webapplication.dao.AuctionItemRepository;
 import com.webapplication.dao.UserRepository;
-import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
-import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
-import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
-import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
-import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
-import com.webapplication.dto.auctionitem.AuctionStatus;
-import com.webapplication.dto.auctionitem.BidRequestDto;
-import com.webapplication.dto.auctionitem.BidResponseDto;
-import com.webapplication.dto.auctionitem.SearchAuctionItemDto;
-import com.webapplication.dto.auctionitem.StartAuctionDto;
+import com.webapplication.dto.auctionitem.*;
 import com.webapplication.dto.user.SessionInfo;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.Bid;
 import com.webapplication.entity.User;
 import com.webapplication.error.auctionitem.AuctionItemError;
 import com.webapplication.exception.NotAuthorizedException;
-import com.webapplication.exception.auctionitem.AuctionAlreadyInProgressException;
-import com.webapplication.exception.auctionitem.AuctionDurationTooShortException;
-import com.webapplication.exception.auctionitem.AuctionExpiredException;
-import com.webapplication.exception.auctionitem.AuctionItemNotFoundException;
-import com.webapplication.exception.auctionitem.BidException;
+import com.webapplication.exception.auctionitem.*;
 import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.mapper.AuctionItemMapper;
 import com.xmlparser.XmlParser;
@@ -42,11 +29,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Transactional
 @Service
@@ -200,6 +183,27 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     @Override
     public List<AuctionItemResponseDto> searchAuctionItem(SearchAuctionItemDto searchAuctionItemDto) throws Exception {
         return new LinkedList<>();
+    }
+
+    @Override
+    public void buyout(UUID authToken, String auctionItemId, BuyoutAuctionItemRequestDto buyoutAuctionItemRequestDto) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        validateAuthorization(buyoutAuctionItemRequestDto.getBuyerId(), sessionInfo);
+        AuctionItem auctionItem = getAuctionItem(auctionItemId);
+        buyoutAuctionItem(auctionItem, buyoutAuctionItemRequestDto.getBuyerId());
+    }
+
+    private void buyoutAuctionItem(AuctionItem auctionItem, String buyerId) throws Exception {
+        if (auctionItem.getStartDate() == null)
+            throw new BuyoutException((AuctionItemError.AUCTION_HAS_NOT_STARTED));
+        if (auctionItem.getEndDate() == null || new Date().after(auctionItem.getEndDate()))
+            throw new BuyoutException(AuctionItemError.AUCTION_EXPIRED);
+        if (auctionItem.getUserId().equals(buyerId))
+            throw new BuyoutException(AuctionItemError.INVALID_BUYOUT_FROM_USER);
+
+        auctionItem.setBuyerId(buyerId);
+        auctionItem.setEndDate(new Date());
+        auctionItemRepository.save(auctionItem);
     }
 
     private void deletePossibleImages(AuctionItem auctionItem, List<String> editedImages) {

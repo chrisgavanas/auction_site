@@ -85,7 +85,6 @@ public class XmlParser {
                     AuctionItemList auctionItemList = (AuctionItemList) jaxbMarshaller.unmarshal(xmlDataset);
                     auctionItemList.getAuctionList().forEach(auctionItem -> {
                         categoryIds.addAll(getCategoryIdsOfAuctionsOrAdd(auctionItem.getCategories()));
-//                        auctionItem.getCategoryIds().forEach(auctionCategory -> categoryIds.add(getCategoryIdOfAuctionOrAdd(auctionCategory)));
                         String sellerId = addUserIfNotExists(auctionItem.getSeller());
 
                         if (!auctionItem.getBids().isEmpty()) {
@@ -252,17 +251,10 @@ public class XmlParser {
         }
         auctionItem.setUserId(sellerId);
         auctionItem.setDescription(auction.getDescription());
+        auctionItem.setImages(new LinkedList<>());
 
         auctionItemRepository.save(auctionItem);
     }
-
-//    private String getCategoryIdOfAuctionOrAdd(String auctionCategory) {
-//        Category category;
-//        if ((category = categoryRepository.findCategoryByDescription(auctionCategory)) == null)
-//            category = categoryRepository.save(new Category(auctionCategory));
-//
-//        return category.getCategoryId();
-//    }
 
     private List<String> getCategoryIdsOfAuctionsOrAdd(List<String> categoryDescriptions) {
         String[] categoryIds = new String[categoryDescriptions.size()];

@@ -15,8 +15,8 @@ public enum AuctionItemError {
     AUCTION_HAS_NOT_STARTED("Auction has not started yet."),
     AUCTION_HAS_BEEN_COMPLETED("Auction has expired."),
     ITEM_BELONGS_TO_BIDDER("Bidder can't own the auction item"),
-    NEW_BID_HAS_OCCURRED("A new bid has occurred."),
-    UNAUTHORIZED("Unauthorized action.");
+    UNAUTHORIZED("Unauthorized action."),
+    INVALID_BUYOUT_FROM_USER("This user can't buyout this item");
 
     private final String description;
 
