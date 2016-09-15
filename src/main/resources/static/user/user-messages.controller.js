@@ -4,8 +4,7 @@ router.controller('userMessagesController', function($scope, $cookies,  $state, 
 	$scope.$state = $state;
 	$scope.notexists = false;
 	$scope.unseenCounter = 0;
-	var token = $cookies.get('authToken');
-	$scope.token = token;
+	
 	
 	
 	$scope.selectedReceived = [];
@@ -22,7 +21,7 @@ router.controller('userMessagesController', function($scope, $cookies,  $state, 
 		message.date = new Date();
 		message.from = $scope.user.username;
 		console.log(message);
-		MessageService.sendMessage(token, $scope.user.userId, message)
+		MessageService.sendMessage($scope.token, $scope.user.userId, message)
 						.then(function (response){
 							console.log(response);
 							$scope.sent = true;
@@ -41,7 +40,7 @@ router.controller('userMessagesController', function($scope, $cookies,  $state, 
 		console.log(message);
 		$scope.selectedReceived = message;
 		if(!message.seen)
-			MessageService.markMessageAsSeen(token, $scope.user.userId, message.messageId)
+			MessageService.markMessageAsSeen($scope.token, $scope.user.userId, message.messageId)
 						.then(function(response){
 							console.log(response);
 						}, function(response){

@@ -1,13 +1,13 @@
 router.controller('userAuctionsSoldController', function($state, $scope, $http, $cookies, AuthenticationService, AuctionItemService){
-	$scope.user = {};
+	
 	$scope.itemsSold = {};
 	$scope.hasAuctions = false;
 	$scope.pageCounter = 1;
-	$scope.user.userId = $cookies.get('userId');
-	var token = $cookies.get('authToken');
+	
+	
 	
 
-	AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "INACTIVE", "1", "10" )
+	AuctionItemService.getAuctionItemsOfUserByStatus($scope.token, $scope.user.userId, "INACTIVE", "1", "10" )
 						.then( function(response){
 							if(response.data.length != 0)
 									$scope.hasAuctions = true;

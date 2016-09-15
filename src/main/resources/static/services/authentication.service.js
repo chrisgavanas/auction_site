@@ -21,9 +21,9 @@ router.factory('AuthenticationService', function($http, $cookies) {
 		
 	};
 	
-	authService.updateUser = function(user){
-		var postData = {Integer: user.userId, UserUpdateRequestDto: user};
-		return $http.post('/api/user/'+user.userId, user)
+	authService.updateUser = function(user, token){
+		console.log(token);
+		return $http.post('/api/user/'+user.userId, user, {headers:{'authToken': token}})
 					.then(function(response){
 						return response.data;
 					});

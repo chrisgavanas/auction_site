@@ -1,26 +1,27 @@
 router.controller('navBarController', function($interval, $state, $scope, $rootScope, $cookies, $http, AuthenticationService, AuctionItemService, MessageService){
-	var data = new FormData();
-	$scope.user = {};
-	$scope.newM = false;
-
 	
+	$scope.donotmatch = false;
+	$scope.newM = false;
 	$scope.signedIn = {};
 	$scope.categories = [];
 	
+	console.log($scope.signedIn);
+	$scope.user = {};
+	$scope.token = null;
 	
 	
-	var token = $cookies.get('authToken');
-	$scope.user.userId = $cookies.get('userId');
 	
-	$scope.donotmatch = false;
 	
-	if($cookies.get('signedIn') == 'yes')
+	if($cookies.get('signedIn') == 'yes'){
 		$scope.signedIn = true;
-	else
+		$scope.token = $cookies.get('authToken');
+		$scope.user.userId = $cookies.get('userId');
+	}else{
 		$scope.signedIn = false;
+	}
 	
 	var getMessages = function(){
-		MessageService.getMessagesByType(token, $scope.user.userId, "RECEIVED")
+		MessageService.getMessagesByType($scope.token, $scope.user.userId, "RECEIVED")
 						.then (function(response){
 								$scope.unseenCounter  = 0;
 								$scope.messagesReceived = response.data;
@@ -40,7 +41,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 							//	console.log(response);
 						});
 
-		MessageService.getMessagesByType(token, $scope.user.userId, "SENT")
+		MessageService.getMessagesByType($scope.token, $scope.user.userId, "SENT")
 					.then (function(response){
 						//	console.log(response);
 						$scope.messagesSent = response.data;
@@ -49,40 +50,84 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 						//console.log(response);
 					});
 	}
-	getMessages();
+	if($scope.signedIn == true){
+		AuthenticationService.getUser($scope.user.userId, $scope.token)
+								.then(function(response){
+								$scope.user = response.data;
+
+								$scope.dateOfBirthConverted = $.datepicker.formatDate("M d, yy", new Date($scope.user.dateOfBirth));
+								$scope.user.dateOfBirth = new Date($scope.user.dateOfBirth);
+										
+								$scope.registrationDateConverted = $.datepicker.formatDate("M d, yy", new Date($scope.user.registrationDate));
+								$scope.user.registrationDate = new Date($scope.user.registrationDate);
+								if($scope.user.gender == "F")
+									$scope.gender = "Female";
+								else
+									$scope.gender = "Male";
+								
+								if($scope.user.isAdmin == true)
+									$scope.user.type = "Administrator";
+								else
+									$scope.user.type = "User";
+							}, function errorCallback(response){
+								
+								$cookies.remove('userId');
+								$cookies.remove('authToken');
+								$cookies.put('signedIn', 'no');
+								
+								$scope.signedIn = false;
+								$state.go('main.signedout');
+							});
+		getMessages();
+	}
 
 
 	$rootScope.$on('$stateChangeSuccess', function() {
-		getMessages();
-		//if($state.current == 'main.profile.userMessages.open')
-		
-		
-	      
+		if($scope.signedIn == true){
+			AuthenticationService.getUser($scope.user.userId, $scope.token)
+									.then(function(response){
+									$scope.user = response.data;
+
+									$scope.dateOfBirthConverted = $.datepicker.formatDate("M d, yy", new Date($scope.user.dateOfBirth));
+									$scope.user.dateOfBirth = new Date($scope.user.dateOfBirth);
+											
+									$scope.registrationDateConverted = $.datepicker.formatDate("M d, yy", new Date($scope.user.registrationDate));
+									$scope.user.registrationDate = new Date($scope.user.registrationDate);
+									if($scope.user.gender == "F")
+										$scope.gender = "Female";
+									else
+										$scope.gender = "Male";
+									
+									if($scope.user.isAdmin == true)
+										$scope.user.type = "Administrator";
+									else
+										$scope.user.type = "User";
+								}, function errorCallback(response){
+									
+									$cookies.remove('userId');
+									$cookies.remove('authToken');
+									$cookies.put('signedIn', 'no');
+									
+									$scope.signedIn = false;
+									$state.go('main.signedout');
+								});
+			getMessages();
+		}
+			      
 	});
 	
 			
 		    
 
 		
-	if($scope.signedIn == true){
-		AuthenticationService.getUser($scope.user.userId, token)
-								.then(function(response){
-								$scope.user = response.data;
-							}, function errorCallback(response){
-								console.log(response);
-								$cookies.remove('userId');
-								$cookies.remove('authToken');
-								$cookies.put('signedIn', 'no');
-								
-								$scope.signedIn = false;
-							});
+	
 		
 		
 		
 		
 		
-	}
-	AuctionItemService.getCategories(token)
+
+	AuctionItemService.getCategories($scope.token)
 							.then(function(response){
 									$scope.categories = angular.copy(response.data);
 									$scope.defaultCat = {};
@@ -102,11 +147,12 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 		$cookies.remove('userId');
 		$cookies.remove('authToken');
 		$cookies.put('signedIn', 'no');
-		
-		$state.go('main.welcome');
 		$scope.signedIn = false;
-		$scope.user = [];
+		$scope.user = {};
 		$scope.loginform.$submitted = false;
+		$scope.token = null;
+		$state.go('main.welcome');
+		
 	}
 	
 	$scope.myProfile = function(){
@@ -124,7 +170,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 
 	$scope.userToLogin = {};
     $scope.login = function() {
-    	console.log($scope.userToLogin);
+    	
     	AuthenticationService.login($scope.userToLogin)
     							.then(function (response){
     								
@@ -132,16 +178,19 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     								$scope.userToLogin = {};
     								$scope.loginform.$submitted = false;
 
-									
+    								$scope.token = response.authToken;
     								$('#myModal').modal('hide');
     								AuthenticationService.getUser(response.useId, response.authToken)
     									.then(function(response){
+    										console.log(response);
     										$scope.signedIn = true;
     										$scope.user = response.data;
-    										if($scope.user.isAdmin == true)
+    										if($scope.user.isAdmin == true){
+    											console.log("mohka");
     	    									$state.go('main.admin');
-    										else
+    										}else{
     											$state.go('main.welcome');
+    										}
     										
     								}, function errorCallback(response){
     										console.log(response);
@@ -149,18 +198,14 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     										$cookies.remove('authToken');
     										$cookies.put('signedIn', 'no');
     										$scope.signedIn = false;
-    										
+    										$scope.user = {};
     									});
-    							
-    								
-    								
     							}, function (response) {
-    								console.log(response);
+    								
     								if (response.status == 401 || response.status == 403) {
     									$scope.donotmatch = true;
                
     								}
-            
     							});
     	
     	

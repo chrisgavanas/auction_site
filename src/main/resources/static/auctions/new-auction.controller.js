@@ -1,6 +1,5 @@
 router.controller('newAuctionController', function(Upload,$scope, $timeout,$state, $http,$cookies, $route, AuthenticationService, AuctionItemService){
-	$scope.user = {};
-	$scope.signedIn = {};
+
 	$scope.item = {};
 	$scope.item.auctionItemId = null;
 	$scope.item ={
@@ -12,14 +11,14 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.selected = [];
 	$scope.item.geoLocationDto = {};
 	$scope.categoryIds = {};
-	$scope.user.userId = $cookies.get('userId');
+
 	$scope.categoryCache = [];
 	$scope.images = [];
 
 	var token = $cookies.get('authToken');
 
 	$scope.categoryIds = $scope.categories;
-	console.log($scope.categories);
+	
 
 	$scope.cont = function(){
 	
@@ -27,7 +26,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 		console.log($scope.item);
 		
 		if($scope.submit == true){
-			AuctionItemService.addAuctionItem(token, $scope.item)
+			AuctionItemService.addAuctionItem($scope.token, $scope.item)
 								.then(function(response){
 									console.log(response);
 									$state.go('main.profile.userAuctions');
@@ -78,7 +77,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
       	
             file.upload = Upload.upload({
                 url: '/api/auctionitem/user/' + $scope.user.userId + '/upload',
-                data: {file: file}, headers: {'authToken': token}
+                data: {file: file}, headers: {'authToken': $scope.token}
             });
 
             file.upload.then(function (response) {

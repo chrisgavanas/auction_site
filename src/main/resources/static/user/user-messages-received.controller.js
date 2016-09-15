@@ -2,7 +2,7 @@ router.controller('userMessagesReceivedController', function($scope, $state, $co
 	
 	$scope.pageCounter = 1;
 	$scope.checkbox = [];
-	console.log($scope.unseenCounter);
+	
 	
 	$scope.selectAll = function(){
 		if($scope.checked){

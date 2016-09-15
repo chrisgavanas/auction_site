@@ -1,16 +1,14 @@
 router.controller('userAuctionsActiveController', function($state, $scope, $http, $cookies, AuthenticationService, AuctionItemService){
-	$scope.user = {};
+	
 	$scope.items = {};
 	$scope.pageCounter = 1;
 	$scope.hasAuctions = false;
-	$scope.user.userId = $cookies.get('userId');
-	var token = $cookies.get('authToken');
-	$scope.to = null;
+		$scope.to = null;
 	$scope.from = 1;
 	$scope.bidds  = [];
 	
 	
-	AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "ACTIVE","1", "10")
+	AuctionItemService.getAuctionItemsOfUserByStatus($scope.token, $scope.user.userId, "ACTIVE","1", "10")
 						.then( function(response){
 							if(response.data.length != 0)
 									$scope.hasAuctions = true;
@@ -60,7 +58,7 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 		$scope.pageCounter++;
 		$scope.to  = $scope.pageCounter * 10;
 		$scope.from = $scope.to  - 9;
-		AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "ACTIVE",$scope.from, $scope.to )
+		AuctionItemService.getAuctionItemsOfUserByStatus($scope.token, $scope.user.userId, "ACTIVE",$scope.from, $scope.to )
 		.then( function(response){
 			if(response.data.length != 0)
 					$scope.hasAuctions = true;
@@ -87,7 +85,7 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 			$scope.to  = $scope.pageCounter * 10;
 			$scope.from = $scope.to  - 9;
 		}
-		AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "ACTIVE",$scope.from, $scope.to )
+		AuctionItemService.getAuctionItemsOfUserByStatus($scope.token, $scope.user.userId, "ACTIVE",$scope.from, $scope.to )
 		.then( function(response){
 			if(response.data.length != 0)
 					$scope.hasAuctions = true;
@@ -108,7 +106,7 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 	}
 	
 	$scope.getOffers = function(auctionItemId){
-		AuctionItemService.getBidsOfAuctionItem(token, auctionItemId)
+		AuctionItemService.getBidsOfAuctionItem($scope.token, auctionItemId)
 						.then(function(response){
 							console.log(response);
 							$scope.bidds = response.data;

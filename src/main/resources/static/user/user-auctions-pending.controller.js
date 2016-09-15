@@ -1,16 +1,14 @@
 router.controller('userAuctionsPendingController', function($state, $scope, $http, $cookies, AuthenticationService, AuctionItemService){
-	$scope.user = {};
 	$scope.itemsPending = {};
 	$scope.hasAuctions = false;
 	$scope.pageCounter = 1;
-	$scope.user.userId = $cookies.get('userId');
 	$scope.to = null;
 	$scope.from = 1;
 	$scope.count = null;
-	var token = $cookies.get('authToken');
+
 	
 
-	AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "PENDING", 1, 10)
+	AuctionItemService.getAuctionItemsOfUserByStatus($scope.token, $scope.user.userId, "PENDING", 1, 10)
 						.then( function(response){
 							if(response.data.length != 0)
 									$scope.hasAuctions = true;
@@ -35,7 +33,7 @@ router.controller('userAuctionsPendingController', function($state, $scope, $htt
 		$scope.to = $scope.pageCounter * 10;
 		$scope.from = to - 9;
 		$scope.count = $scope.to - $scope.from + 1;
-		AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "PENDING", $scope.from, $scope.to)
+		AuctionItemService.getAuctionItemsOfUserByStatus($scope.token, $scope.user.userId, "PENDING", $scope.from, $scope.to)
 		.then( function(response){
 			if(response.data.length != 0)
 					$scope.hasAuctions = true;
@@ -62,7 +60,7 @@ router.controller('userAuctionsPendingController', function($state, $scope, $htt
 			$scope.from = $scope.to - 9;
 			$scope.count = $scope.to - $scope.from + 1;
 		}
-		AuctionItemService.getAuctionItemsOfUserByStatus(token, $scope.user.userId, "PENDING", $scope.from, $scope.to)
+		AuctionItemService.getAuctionItemsOfUserByStatus($scope.token, $scope.user.userId, "PENDING", $scope.from, $scope.to)
 		.then( function(response){
 			if(response.data.length != 0)
 					$scope.hasAuctions = true;

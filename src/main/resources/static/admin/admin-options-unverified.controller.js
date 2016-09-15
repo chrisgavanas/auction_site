@@ -1,7 +1,5 @@
 router.controller('adminOptionsUnverifiedController', function($state, $scope, $cookies, $http, AuthenticationService){
-	$scope.user = {};
 	
-	$scope.signedIn = {};
 
 	$scope.unverified = {};
 	
@@ -9,42 +7,28 @@ router.controller('adminOptionsUnverifiedController', function($state, $scope, $
 	
 	$scope.pageCounter = 1;
 	
-	if($cookies.get('signedIn') === 'yes'){
-		$scope.user.userId = $cookies.get('userId');
-		$scope.signedIn = true;
-		var token = $cookies.get('authToken');
+	
 		
-		$http.get('/api/user/'+ $scope.user.userId, {headers: {'authToken': token}}).then(function successCallback(response){
-			$scope.user = angular.copy(response.data);
-
-		}, function errorCallback(response){
-			
-			$cookies.remove('userId');
-			$cookies.remove('authToken');
-			$cookies.put('signedIn', 'no');
-			$state.go('main.welcome');
-			
-		});
 		
-		$http.get('/api/user/unverified/1-10', {headers: {'authToken': token}} ).then(function successCallback(response){
-			$scope.unverified = angular.copy(response.data);
+	$http.get('/api/user/unverified/1-10', {headers: {'authToken': $scope.token}} ).then(function successCallback(response){
+		$scope.unverified = angular.copy(response.data);
 			
-			var i;
-			for(i = 0; i < $scope.unverified.length; i ++){
+		var i;
+		for(i = 0; i < $scope.unverified.length; i ++){
 				$scope.usernamesAndIds.push( { id: $scope.unverified[i].userId, text: $scope.unverified[i].username } );
-			}
+		}
 			
-		}, function errorCallback(response){
-			alert('error sthn unverified');
+	}, function errorCallback(response){
 			
-		});
+			
+	});
 		
-	}
+	
 	
 	
 	
 	$scope.getUnverified = function(form, to){
-		AuthenticationService.getUnverified(token, form, to)
+		AuthenticationService.getUnverified($scope.token, form, to)
 							.then(function(response){
 								console.log(respone);
 							}, function(response){
@@ -56,10 +40,10 @@ router.controller('adminOptionsUnverifiedController', function($state, $scope, $
 		var to = $scope.pageCounter * 10;
 		var from = to - 9;
 		
-		$http.get('/api/user/unverified/' +from+'-'+to, {headers: {'authToken': token}} ).then(function successCallback(response){
+		$http.get('/api/user/unverified/' +from+'-'+to, {headers: {'authToken': $scope.token}} ).then(function successCallback(response){
 			$scope.unverified = angular.copy(response.data);
 		}, function errorCallback(response){
-			alert('error sthn unverified');
+			
 			
 		});
 		

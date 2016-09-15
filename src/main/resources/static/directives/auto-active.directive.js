@@ -7,8 +7,7 @@ router.directive('autoActive', ['$location', '$state', function ($location, $sta
                     var path = $location.path();
                     if (path) {
                         angular.forEach(element.find('a'), function (a) {
-                        	console.log(a.href);
-                        	console.log(path);
+                        	
                             if (a.href.match('#' + path + '(?=\\?|$)')) {
                             
                             	
