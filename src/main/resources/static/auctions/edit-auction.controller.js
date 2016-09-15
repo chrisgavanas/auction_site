@@ -1,6 +1,6 @@
 router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$scope,$timeout, $state, $http,$cookies, $route, AuthenticationService, AuctionItemService){
-	$scope.user = {};
-	$scope.signedIn = {};
+	
+	
 	$scope.item = {};
 	$scope.item ={
 		categories: []
@@ -8,7 +8,7 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 	$scope.selected = [];
 	$scope.item.geoLocationDto = {};
 	$scope.categories = {};
-	$scope.user.userId = $cookies.get('userId');
+	
 	$scope.categoryCache = [];
 	var auctionId = $stateParams.id;
 	var unchanged = true;
@@ -16,9 +16,9 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 	$scope.imagesCounter = [];
 	$scope.submit = false;
 	$scope.selectedAll = [];
-	var token = $cookies.get('authToken');
+	
 
-	AuctionItemService.getCategories(token)
+	AuctionItemService.getCategories($scope.token)
 						.then(function(response){
 							$scope.categoryIds = angular.copy(response.data);
 							$scope.categoryCache = angular.copy($scope.categoryIds);
@@ -27,7 +27,7 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 							console.log(response);
 						});
 
-	AuctionItemService.getAuctionItemById(token, auctionId)
+	AuctionItemService.getAuctionItemById($scope.token, auctionId)
 	.then(function(response){
 		$scope.item = response.data;
 		$scope.selected = $scope.item.categoryIds
@@ -52,7 +52,7 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 		$scope.item.categoryIds = $scope.selectedAll;
 		console.log($scope.item);
 		if($scope.submit == true || unchanged){
-			AuctionItemService.editAuctionItem(token, auctionId, $scope.item)
+			AuctionItemService.editAuctionItem($scope.token, auctionId, $scope.item)
 							.then(function(response){
 									$state.go('main.profile.userAuctions');
 							}, function(response){
@@ -106,7 +106,7 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
       	
             file.upload = Upload.upload({
                 url: '/api/auctionitem/user/' + $scope.user.userId + '/upload',
-                data: {file: file}, headers: {'authToken': token}
+                data: {file: file}, headers: {'authToken': $scope.token}
             });
 
             file.upload.then(function (response) {
