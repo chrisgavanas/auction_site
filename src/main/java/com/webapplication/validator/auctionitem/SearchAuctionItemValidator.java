@@ -18,8 +18,8 @@ public class SearchAuctionItemValidator implements Validator<SearchAuctionItemDt
     public void validate(SearchAuctionItemDto searchAuctionItemDto) throws ValidationException {
         Optional.ofNullable(searchAuctionItemDto).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         if (Stream.of(searchAuctionItemDto.getCategoryId(), searchAuctionItemDto.getText())
-                .filter(Objects::nonNull).anyMatch(Strings::isNullOrEmpty))
-            throw new ValidationException(AuctionItemError.INVALID_DATA);
+                .anyMatch(Objects::isNull))
+            throw new ValidationException(AuctionItemError.MISSING_DATA);
     }
 
 }
