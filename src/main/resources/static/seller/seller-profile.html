@@ -38,7 +38,7 @@
 							
 							<div class="col-md-6" >
 							
-								<a><font size="2"><span class="glyphicon glyphicon-envelope"></span> Contact</font></a>
+								<a ui-sref="main.profile.userMessages"><font size="2"><span class="glyphicon glyphicon-envelope"></span> Contact</font></a>
 							</div>
 					</div>
 				</div>
@@ -64,47 +64,26 @@
 
 <div class="container-fluid" id="sellerContainer1">
 	<div class="row">
-		<h4>Items for sale (504)</h4>
+		<div class="col-md-6">
+		<h4>Items for sale </h4>
+		</div>
+		<div class="col-md-6" align="right">
+			<a>See other items</a>
+		</div>
 	</div>
 	<div class='row list-group'>
-		<div class='col-md-3'>
+		<div class='col-md-3' ng-repeat="item in userItems">
 			<div class="thumbnail list-group-item">
       			<a>
-      			<img src="./images/item.PNG" class="img-responsive"></a>
-      			<a><span id="myspan">Dora the explorer</span></a>
-      			<span>US $19.99</span>
+      			<img ng-src={{item.displayImage}} class="img-responsive"></a>
+      			<a ui-sref="main.item({id: item.auctionItemId})"><span id="myspan">{{item.name}}</span></a>
+      			<span>${{item.currentBid}}</span>
       		</div>
 		
 		</div>
-		<div class='col-md-3'>
-			<div class="thumbnail list-group-item">
-      			<a>
-      			<img src="./images/item.PNG" class="img-responsive"></a>
-      			<a><span id="myspan">Kapnos karelia kanonikos to mikro</span></a>
-      			<span>US $3.40</span>
-      		</div>
 		
-		</div>
-		<div class='col-md-3'>
-			<div class="thumbnail list-group-item">
-      			<a>
-      			<img src="./images/item.PNG" class="img-responsive"></a>
-      			<a><span id="myspan">PlayStation 1 Used </span></a>
-      			<span>US $30</span>
-      		</div>
 		
-		</div>
-		<div class='col-md-3'>
-			<div class="thumbnail list-group-item">
-      			<a>
-      			<img src="./images/item.PNG" class="img-responsive"></a>
-      			
-      			<a><span id="myspan">PlayStation 4 Used with 2 Controllers</span></a>
-      			<span>US $299.99</span>
-      			
-      		</div>
 		
-		</div>
 	
 	</div>
 

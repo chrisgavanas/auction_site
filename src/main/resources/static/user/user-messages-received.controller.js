@@ -22,10 +22,12 @@ router.controller('userMessagesReceivedController', function($scope, $state, $co
 	}
 	
 	$scope.deleteMsg = function(){
-		
+		console.log($scope.messagesReceived);
 		var i;
 		for (i = 0; i < $scope.messagesReceived.length; i++){
 			if($scope.messagesReceived[i].checked){
+				console.log('deleting ');
+				console.log($scope.messagesReceived[i]);
 				MessageService.deleteMessage($scope.token, $scope.user.userId, $scope.messagesReceived[i].messageId, 'RECEIVED')
 								.then(function(response){
 									console.log(response);

@@ -113,5 +113,16 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 		$scope.selectedImage = image;
 		
 	}
+	
+	$scope.buyout = function(){
+		$scope.buyout = {};
+		$scope.buyout.buyerId = $scope.user.userId;
+		AuctionItemService.buyout($scope.token, $scope.item.auctionItemId, $scope.buyout)
+						.then(function(response){
+							console.log(response);
+						}, function(response){
+							console.log(response);
+						});
+	}
 
 });
