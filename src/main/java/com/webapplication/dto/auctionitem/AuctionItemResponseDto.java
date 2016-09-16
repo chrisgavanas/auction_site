@@ -21,6 +21,7 @@ public class AuctionItemResponseDto {
     private Date endDate;
     private GeoLocationDto geoLocationDto;
     private String userId;
+    private String buyerId;
     private List<CategoryResponseDto> categoryIds;
     private List<String> images;
 
@@ -118,6 +119,14 @@ public class AuctionItemResponseDto {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getBuyerId() {
+        return buyerId;
+    }
+
+    public void setBuyerId(String buyerId) {
+        this.buyerId = buyerId;
     }
 
     public List<String> getImages() {
