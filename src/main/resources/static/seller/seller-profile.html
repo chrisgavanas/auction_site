@@ -3,7 +3,7 @@
 <div class="container-fluid " id='sellerContainer'>
 
 	<div class="panel panel-primary" id="sellerPanel">
-		<div class="bg-3 panel-heading" id='sellerPanelHead'>{{user.username}} ({{user.ratingAsSeller}}<span class="glyphicon glyphicon-star"></span>)</div>
+		<div class="bg-3 panel-heading" id='sellerPanelHead'>{{seller.username}} ({{sekker.ratingAsSeller}}<span class="glyphicon glyphicon-star"></span>)</div>
 		
 		
 		<div class="panel-body" id="main" id='sellerPanelBody'>
@@ -20,10 +20,10 @@
 						</div>
 						<div class="panel-body" id='sellerPanelBody1'>
 							<div class="row">
-								Seller rating: {{user.ratingAsSeller}} <span class="glyphicon glyphicon-star"></span>
+								Seller rating: {{seller.ratingAsSeller}} <span class="glyphicon glyphicon-star"></span>
 							</div>
 							<div class="row">
-								Bidder rating: {{user.ratingAsBidder}} <span class="glyphicon glyphicon-star"></span>
+								Bidder rating: {{seller.ratingAsBidder}} <span class="glyphicon glyphicon-star"></span>
 							</div>
 							
 							
@@ -38,7 +38,7 @@
 							
 							<div class="col-md-6" >
 							
-								<a ui-sref="main.profile.userMessages"><font size="2"><span class="glyphicon glyphicon-envelope"></span> Contact</font></a>
+								<a ng-click="contactUser()"><font size="2"><span class="glyphicon glyphicon-envelope"></span> Contact</font></a>
 							</div>
 					</div>
 				</div>
@@ -54,7 +54,7 @@
 			<div class="row">
 			<div class="col-md-1">
 				</div>
-				<font size="2">Country: {{user.country}}</font>
+				<font size="2">Country: {{seller.country}}</font>
 			</div>
 		</div>
 	</div>

@@ -1,12 +1,14 @@
 router.controller('sellerProfileController', function($scope,$state, $stateParams, $cookies, AuthenticationService, AuctionItemService){
 	
 	var sellerId = $stateParams.id;
+	$scope.seller = {};
+	
 	
 	AuthenticationService.getSeller(sellerId,$scope.token)
 							.then(function(response){
-								$scope.user = response.data;
+								$scope.seller = response.data;
 								$scope.registrationDateConverted = $.datepicker.formatDate("M d, yy", new Date(response.data.registrationDate));
-								$scope.user.registrationDate = new Date(response.data.registrationDate);
+								$scope.seller.registrationDate = new Date(response.data.registrationDate);
 								
 							}, function errorCallback(response){
 								
@@ -36,5 +38,11 @@ router.controller('sellerProfileController', function($scope,$state, $stateParam
 					}, function(response){
 						console.log(response);
 					});
+	$scope.contactUser = function(){
+		
+		$scope.$parent.contact = $scope.seller.username;
+		console.log($scope.$parent.contact);
+		$state.go('main.profile.userMessages');
+	}
 });
 

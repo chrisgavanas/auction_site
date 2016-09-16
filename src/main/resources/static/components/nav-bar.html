@@ -68,7 +68,7 @@
     			<li><a href="" ng-click="myProfile()">My Profile</a></li>
     			<li><a href="" ng-click="auctions()">Auctions</a></li>
     			<li><a href="" ng-click="bids()">Bids</a></li>
-    			<li><a href="" ng-click="messages()">Messages <span class="badge-danger badge " ng-if="newM">1</span></a></li>
+    			<li><a href="" ng-click="messages()">Messages <span class="badge-danger badge " ng-if="newM">{{unseenCounter}}</span></a></li>
     			<li class="divider"></li>
     			<li><a href="" ng-click="logout()">Sign Out</a></li>
    			</ul>

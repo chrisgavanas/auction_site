@@ -10,6 +10,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	$scope.seller = {};
 	$scope.bid = {};
 	$scope.conflict = false;
+	$scope.conflict1 = false;
 	$scope.completed = false;
 	
 	$scope.bid.userId = $scope.user.userId;
@@ -113,14 +114,18 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 		$scope.selectedImage = image;
 		
 	}
-	
+	$scope.buyoutComplete = false;
 	$scope.buyout = function(){
 		$scope.buyout = {};
 		$scope.buyout.buyerId = $scope.user.userId;
 		AuctionItemService.buyout($scope.token, $scope.item.auctionItemId, $scope.buyout)
 						.then(function(response){
-							console.log(response);
+							$scope.buyoutComplete = true;
 						}, function(response){
+							if(response.status == 409){
+								$scope.conflict1 = true;
+								$('#completeModal').modal('hide');
+							}
 							console.log(response);
 						});
 	}

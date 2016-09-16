@@ -10,15 +10,16 @@ router.controller('userAuctionsSoldController', function($state, $scope, $http, 
 	AuctionItemService.getAuctionItemsOfUserByStatus($scope.token, $scope.user.userId, "INACTIVE", "1", "10" )
 						.then( function(response){
 							if(response.data.length != 0)
+								console.log(response);
 									$scope.hasAuctions = true;
 									$scope.itemsSold = {};
 									$scope.itemsSold = response.data;
 									var i;
 									for(i = 0; i < $scope.itemsSold.length; i++){
-										if($scope.itemsPending[i].buyout == null)
-											$scope.itemsPending[i].hasBuyout = false;
+										if($scope.itemsSold[i].buyout == null)
+											$scope.itemsSold[i].hasBuyout = false;
 										else
-											$scope.itemsPending[i].hasBuyout = true;
+											$scope.itemsSold[i].hasBuyout = true;
 									}
 						}, function(response){
 							console.log(response);

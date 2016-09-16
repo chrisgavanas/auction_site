@@ -8,7 +8,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 	console.log($scope.signedIn);
 	$scope.user = {};
 	$scope.token = null;
-	
+	$scope.contact = null;
 	
 	
 	

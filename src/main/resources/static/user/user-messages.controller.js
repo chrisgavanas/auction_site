@@ -3,15 +3,19 @@ router.controller('userMessagesController', function($scope, $cookies,  $state, 
 	$scope.message = {};
 	$scope.$state = $state;
 	$scope.notexists = false;
-	$scope.unseenCounter = 0;
+	$scope.unseen = $scope.$parent.unseenCounter;
 	
 	
 	
 	$scope.selectedReceived = [];
 	$state.go('main.profile.userMessages.received');
 	
-	
-	
+	console.log($scope.$parent.contact);
+	if($scope.$parent.contact != null){
+		$scope.message.to = $scope.contact;
+		$('#modalCompose').modal('show');
+		$scope.$parent.contact = null;
+	}
 	
 	
 	
@@ -38,6 +42,7 @@ router.controller('userMessagesController', function($scope, $cookies,  $state, 
 	
 	$scope.open = function(message){
 		console.log(message);
+		
 		$scope.selectedReceived = message;
 		if(!message.seen)
 			MessageService.markMessageAsSeen($scope.token, $scope.user.userId, message.messageId)
