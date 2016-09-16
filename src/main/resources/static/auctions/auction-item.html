@@ -13,9 +13,10 @@
   			</div>
   			<div class="row">
   				<div class="col-md-4" >	
-  					<div class="row" id="imgs" height=" 300px;" >
-  						<img src={{selectedImage}}  style="max-height:300px ;max-width:300px;"">
+  					<div class="row" id="imgs" height=" 300px;" width="300px;" id="imageRow">
+  						<img src={{selectedImage}}  height=" 300px;" width="300px;" class="img-thumbnail img-responsive shadow">
   					</div>
+  					<br>
     				<div class="row" id="imgs">
     			
   						<img ng-repeat="image in images" ng-src={{image}} style="max-height:50px; max-width:75px;" class="img-thumbnail img-responsive" ng-click="changeImage(image)">
@@ -26,7 +27,7 @@
   				</div>
   				<div class="col-md-8">
   					<div class="row">
-							{{item.name}}  					
+							<h3>{{item.name}}</h3>  					
   					</div>
   					<hr>
   					<div class="row">
@@ -85,11 +86,11 @@
   								
   							</div>
   							<div class="row"  ng-show="hasBuyout">
-  								<button class="btn btn-primary" ng-disabled="item.endDate == null" >Buy it now</button>
+  								<button class="btn btn-primary" ng-disabled="item.endDate == null" ng-click="buyout()" >Buy it now</button>
   							</div>
   						</div>
   						<div class="col-md-6" align="left">
-  							<div class="panel panel-default">
+  							<div class="panel panel-default" id="auctionItemPanel">
   								<div class="panel-body bg-5">
   									<font size="3">Seller Information</font>
   									<p><font size="2"><a ui-sref="main.seller({id: item.userId})">{{seller.username}}</a> ({{seller.ratingAsSeller}}<span class="glyphicon glyphicon-star"></span>)</font></p>
@@ -101,15 +102,16 @@
   					</div>
   				</div>
   			</div>
-  			
+  			<br>
+  			<div class="row" id="cats" align='left'>
+  						<font size="4">Description</font>
+  					
+  			</div>
   			<hr>
   			
   			<div class="row">
   				<div class="col-md-8" align="left">
-  					<div class="row" id="cats">
-  						<font size="3">Description</font>
   					
-  					</div>
   					<div class="row" align="left" id="cats">
   						<font size="2">{{item.description}}</font>
   					</div>

@@ -63,6 +63,13 @@ router.factory('AuctionItemService', function($http, $cookies, $state) {
 						return response;
 					});
 	}
+	
+	auctionitemService.buyout = function(token, auctionItemId , buyerId){
+		return $http.post('api/auctionitem/'+auctionItemId+'/buyout', buyerId, {headers:{'authToken':token}})
+					.then(function (response){
+						return response;
+					});
+	}
 	return auctionitemService;
 	
 });

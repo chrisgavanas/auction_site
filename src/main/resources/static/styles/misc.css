@@ -32,3 +32,13 @@
     overflow:hidden !important;
     text-overflow: ellipsis;
 }
+
+
+.shadow{
+	box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+#cats{
+	
+	margin-left: 40px;
+}
