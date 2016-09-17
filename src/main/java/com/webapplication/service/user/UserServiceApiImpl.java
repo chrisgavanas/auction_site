@@ -175,7 +175,7 @@ public class UserServiceApiImpl implements UserServiceApi {
     }
 
     @Override
-    public void deleteMessage(UUID authToken, String userId, String messageId, MessageType messageType) throws Exception {
+    public void deleteMessage(UUID authToken, String userId, List<String> messageIds, MessageType messageType) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
         validateAuthorization(userId, sessionInfo);
         User user = getUser(userId);
@@ -190,14 +190,18 @@ public class UserServiceApiImpl implements UserServiceApi {
             default:
                 throw new MessageNotFoundException(UserError.MESSAGE_NOT_FOUND);
         }
+
+        int messagesToBeDeleted = messageIds.size();
         for (Message message : messages)
-            if (message.getMessageId().equals(messageId)) {
+            if (messageIds.contains(message.getMessage())) {
                 messages.remove(message);
-                userRepository.save(user);
-                return;
+                messagesToBeDeleted--;
             }
 
-        throw new MessageNotFoundException(UserError.MESSAGE_NOT_FOUND);
+        if (messagesToBeDeleted != 0)
+            throw new MessageNotFoundException(UserError.MESSAGE_NOT_FOUND);
+        else
+            userRepository.save(user);
     }
 
     @Override

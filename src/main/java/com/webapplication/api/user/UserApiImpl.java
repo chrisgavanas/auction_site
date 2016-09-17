@@ -159,13 +159,15 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public void deleteMessage(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable String messageId, @RequestParam("messageType") MessageType messageType) throws Exception {
+    public void deleteMessage(@RequestHeader UUID authToken, @PathVariable String userId, @RequestBody List<String> messageIds, @RequestParam("messageType") MessageType messageType) throws Exception {
         Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
-        Optional.ofNullable(messageId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(messageIds).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        if (messageIds.isEmpty())
+            throw new ValidationException(UserError.MISSING_DATA);
         Optional.ofNullable(messageType).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
 
-        userService.deleteMessage(authToken, userId, messageId, messageType);
+        userService.deleteMessage(authToken, userId, messageIds, messageType);
     }
 
     @Override
