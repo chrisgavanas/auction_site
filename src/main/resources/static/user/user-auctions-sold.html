@@ -18,7 +18,9 @@
 					<font color="#8b0000">Bids</font>
 				</div>
 			
-				
+				<div class="col-md-2">
+					<font color="#8b0000">Buyer</font>
+				</div>
 	
 			</div>
 		
@@ -41,16 +43,8 @@
 				<div class="col-md-1">
 					{{item.bidsNo}}
 				</div>
-				
-				
-				<div class="col-md-1">
-					
-					
-					<button ui-sref="main.startAuction({id: item.auctionItemId})" class="btn btn-default" id="start">Start</button>
-					
-				</div>
-				<div class="col-md-1">
-					<button ui-sref="main.editAuction({id: item.auctionItemId})" class="btn btn-default" id="edit">Edit</button>
+				<div class="col-md-2">
+					{{item.buyerUsername}}
 				</div>
 			</div>
 		

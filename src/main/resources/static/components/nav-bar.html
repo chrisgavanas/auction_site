@@ -40,15 +40,16 @@
    	<div class="navbar-header">
    	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
-   <span class="icon-bar"></span>
-   
+   		<span class="icon-bar"></span>
+   		<span class="icon-bar"></span>
+   		<span class="icon-bar"></span>
        
       </button>
       <a class="navbar-brand" href="#welcome">Home</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
-    <div class="col-md-9">
-    <form class="navbar-form" role="search">
+    <div class="col-md-8">
+    	<form class="navbar-form" role="search">
 		<div class="input-group form-group">
 			<input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
 			
@@ -59,16 +60,22 @@
 			</div>
 		</div>
 		</form>
-		</div>
+	</div>
+	<div class="col-md-2" align="right">
+		<button id="navBarDropdown" class="btn  btn-link" type="button" ng-if="unseenCounter != 0" ><i class="fa fa-envelope" style="color:#990000;" aria-hidden="true"></i></button>
+   	 	<button id="navBarDropdown" class="btn  btn-link" type="button" ng-if="unseenCounter == 0" ><i class="fa fa-envelope-o"  aria-hidden="true"></i></button>
+    </div>
       <ul class="nav navbar-nav navbar-right">
+      		
        <div class="dropdown">
+       		
   			<button id="navBarDropdown" class="btn dropdown-toggle btn-link" type="button" data-toggle="dropdown">Welcome, {{user.username}}
   			<span class="caret"></span></button>
   			<ul class="nav navbar-nav  dropdown-menu">
     			<li><a href="" ng-click="myProfile()">My Profile</a></li>
     			<li><a href="" ng-click="auctions()">Auctions</a></li>
     			<li><a href="" ng-click="bids()">Bids</a></li>
-    			<li><a href="" ng-click="messages()">Messages <span class="badge-danger badge " ng-if="newM">{{unseenCounter}}</span></a></li>
+    			<li><a href="" ng-click="messages()">Messages <span class="badge-danger badge " ng-if="unseenCounter != 0" style="background-color:#990000;">{{unseenCounter}}</span></a></li>
     			<li class="divider"></li>
     			<li><a href="" ng-click="logout()">Sign Out</a></li>
    			</ul>

@@ -31,10 +31,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 										$scope.unseenCounter ++;
 				
 									}
-									if($scope.unseenCounter == 0)
-										$scope.newM = false;
-									else
-										$scope.newM = true;
+									
 								}
 			
 						}, function(response){

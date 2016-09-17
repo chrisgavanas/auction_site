@@ -10,7 +10,7 @@ router.controller('userMessagesController', function($scope, $cookies,  $state, 
 	$scope.selectedReceived = [];
 	$state.go('main.profile.userMessages.received');
 	
-	console.log($scope.$parent.contact);
+	console.log($scope.$parent.messagesReceived);
 	if($scope.$parent.contact != null){
 		$scope.message.to = $scope.contact;
 		$('#modalCompose').modal('show');

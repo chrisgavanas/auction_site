@@ -26,7 +26,7 @@ router.controller('userMessagesReceivedController', function($scope, $state, $co
 		var i;
 		for (i = 0; i < $scope.messagesReceived.length; i++){
 			if($scope.messagesReceived[i].checked){
-				console.log('deleting ');
+				console.log('deleting '+i);
 				console.log($scope.messagesReceived[i]);
 				MessageService.deleteMessage($scope.token, $scope.user.userId, $scope.messagesReceived[i].messageId, 'RECEIVED')
 								.then(function(response){
@@ -36,8 +36,10 @@ router.controller('userMessagesReceivedController', function($scope, $state, $co
 								});
 				$scope.messagesReceived.splice(i,1);
 				i = i - 1;
+				console.log($scope.messagesReceived.length);
 			}
 		}
+		console.log($scope.messagesReceived.length);
 	}
 	
 	$scope.nextPage = function (){

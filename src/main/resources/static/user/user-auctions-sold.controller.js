@@ -3,7 +3,7 @@ router.controller('userAuctionsSoldController', function($state, $scope, $http, 
 	$scope.itemsSold = {};
 	$scope.hasAuctions = false;
 	$scope.pageCounter = 1;
-	
+	$scope.buyerUsername = null;
 	
 	
 
@@ -20,7 +20,22 @@ router.controller('userAuctionsSoldController', function($state, $scope, $http, 
 											$scope.itemsSold[i].hasBuyout = false;
 										else
 											$scope.itemsSold[i].hasBuyout = true;
+										
+										if($scope.itemsSold[i].buyerId != null){
+											
+											AuthenticationService.getSeller($scope.itemsSold[i].buyerId, $scope.token)
+																.then(function(response){
+																	console.log(response.data.username);
+																	 $scope.buyerUsername = response.data.username;
+																	
+																}, function (response){
+																	console.log(response);
+																});
+											$scope.itemsSold[i].buyerUsername = $scope.buyerUsername;
+											console.log($scope.itemsSold[i]);
+										}
 									}
+									
 						}, function(response){
 							console.log(response);
 						});
