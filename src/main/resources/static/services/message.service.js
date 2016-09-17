@@ -23,9 +23,9 @@ router.factory('MessageService', function($http,  $state) {
 					});
 	};
 	
-	messageService.deleteMessage = function(token, userId, messageId, type){
-		console.log("deleting..." + messageId);
-		return $http.post('/api/user/' + userId + '/message/' + messageId + '/delete?messageType=' + type, {}, {headers: {'authToken': token}})
+	messageService.deleteMessage = function(token, userId, messages, type){
+	console.log(messages);
+		return $http.post('/api/user/' + userId + '/message/delete?messageType=' + type, messages, {headers: {'authToken': token}})
 					.then(function(response){
 						return response;
 					});

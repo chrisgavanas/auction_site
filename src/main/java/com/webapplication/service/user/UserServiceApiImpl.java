@@ -193,7 +193,7 @@ public class UserServiceApiImpl implements UserServiceApi {
 
         int messagesToBeDeleted = messageIds.size();
         for (Message message : messages)
-            if (messageIds.contains(message.getMessage())) {
+            if (messageIds.contains(message.getMessageId())) {
                 messages.remove(message);
                 messagesToBeDeleted--;
             }
