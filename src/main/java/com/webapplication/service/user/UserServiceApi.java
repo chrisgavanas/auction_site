@@ -32,7 +32,7 @@ public interface UserServiceApi {
 
     void markMessageAsSeen(UUID authToken, String userId, String messageId) throws Exception;
 
-    void deleteMessage(UUID authToken, String userId, String messageId, MessageType messageType) throws Exception;
+    void deleteMessage(UUID authToken, String userId, List<String> messageIds, MessageType messageType) throws Exception;
 
     void voteSeller(UUID authToken, String userId, Vote vote, String sellerId) throws Exception;
 
