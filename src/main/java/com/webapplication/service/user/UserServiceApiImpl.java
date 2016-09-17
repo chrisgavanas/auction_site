@@ -25,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -191,14 +192,11 @@ public class UserServiceApiImpl implements UserServiceApi {
                 throw new MessageNotFoundException(UserError.MESSAGE_NOT_FOUND);
         }
 
-        int messagesToBeDeleted = messageIds.size();
-        for (Message message : messages)
-            if (messageIds.contains(message.getMessageId())) {
-                messages.remove(message);
-                messagesToBeDeleted--;
-            }
+        int messageNo = messages.size();
+        messages.removeIf(message -> messageIds.contains(message.getMessageId()));
+        messageNo -= messages.size();
 
-        if (messagesToBeDeleted != 0)
+        if (messageNo != messageIds.size())
             throw new MessageNotFoundException(UserError.MESSAGE_NOT_FOUND);
         else
             userRepository.save(user);
