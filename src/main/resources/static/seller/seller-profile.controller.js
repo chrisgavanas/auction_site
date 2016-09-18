@@ -9,7 +9,7 @@ router.controller('sellerProfileController', function($scope,$state, $stateParam
 								$scope.seller = response.data;
 								$scope.registrationDateConverted = $.datepicker.formatDate("M d, yy", new Date(response.data.registrationDate));
 								$scope.seller.registrationDate = new Date(response.data.registrationDate);
-								
+								console.log($scope.seller);
 							}, function errorCallback(response){
 								
 								

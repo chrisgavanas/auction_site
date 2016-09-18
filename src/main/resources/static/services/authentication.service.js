@@ -58,20 +58,27 @@ router.factory('AuthenticationService', function($http, $cookies) {
 					.then(function successCallback(response){
 						return response;
 					});
-	}
+	};
 	
 	authService.getVerified = function (token, from, to){
 		return $http.get('/api/user/verified/' +from+'-'+to, {headers: {'authToken': token}} )
 					.then(function successCallback(response){
 						return response;
 					});
-	}
+	};
 	
 	authService.exportToXML = function(token){
 		return $http.get('/api/auctionitem-as-xml', {headers:{'authToken': token}})
 					.then(function (response){
 						return response;
-					})
-	}
+					});
+	};
+	
+	authService.voteSeller = function (token, userId, sellerId, rating){
+		return $http.post('/api/user/'+userId+'/vote-seller/'+rating+'?sellerId='+sellerId, {}, {headers:{'authToken':token}})
+				.then(function (response){
+					return response;
+				});
+	};
 	return authService;
 })

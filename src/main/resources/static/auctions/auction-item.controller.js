@@ -12,7 +12,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	$scope.conflict = false;
 	$scope.conflict1 = false;
 	$scope.completed = false;
-	
+	$scope.rate = false;
 	$scope.bid.userId = $scope.user.userId;
 	$scope.selectedImage = null;
 	$scope.inactive = false;
@@ -23,7 +23,17 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	AuctionItemService.getAuctionItemById($scope.token, auctionItemId)
 						.then(function(response){
 							$scope.item = response.data;
-						
+							if($scope.item.buyerId != null){
+								AuthenticationService.getSeller($scope.item.buyerId, $scope.token)
+									.then(function(response){
+									
+									
+										$scope.buyer = response.data.username;
+										
+									}, function (response){
+										console.log(response);
+									});
+							}
 							var lat = $scope.item.geoLocationDto.latitude;
 							var lon = $scope.item.geoLocationDto.longitude;
 							if(lat == null || lon == null)
@@ -130,4 +140,25 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 						});
 	}
 
+	$scope.ratePositive = function(){
+		console.log($scope.token);
+		AuthenticationService.voteSeller($scope.token, $scope.user.userId, $scope.seller.sellerId, 'UP')
+							.then(function(response){
+								$scope.rate = true;
+								console.log(response);
+							}, function(response){
+								console.log(response);
+							});
+	}
+	
+	$scope.rateNegative = function(){
+		console.log($scope.seller);
+		AuthenticationService.voteSeller($scope.token, $scope.user.userId, $scope.seller.sellerId, 'DOWN')
+							.then(function(response){
+								$scope.rate = true;
+								console.log(response);
+							}, function(response){
+								console.log(response);
+							});
+	}
 });

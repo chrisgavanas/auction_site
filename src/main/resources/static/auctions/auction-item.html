@@ -4,6 +4,9 @@
 	<div class="alert alert-info" ng-show='inactive'>
 		This is an inactive auction. You cannot place bids until auction is started.
 	</div>
+	<div class="alert alert-info" ng-show='item.buyerId != null'>
+		Item bought by: {{buyer}}
+	</div>
  <form name="biddingform"  role ="form" ng-controller="itemController"
 											novalidate>
   		
@@ -49,7 +52,7 @@
   							</div>
   							<div class="row">
   								<div class="col-md-4">
-  									<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#myModal2" ng-disabled="item.endDate == null" >Place bid</button>
+  									<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#myModal2" ng-disabled="item.endDate == null || item.buyerId != null" >Place bid</button>
   								</div>
   								
   								<div class="col-md-4" align="left">
@@ -92,7 +95,7 @@
   								
   							</div>
   							<div class="row"  ng-show="hasBuyout">
-  								<button class="btn btn-primary" data-toggle="modal" data-target="#completeModal" ng-disabled="item.endDate == null">Buy it now</button>
+  								<button class="btn btn-primary" data-toggle="modal" data-target="#completeModal" ng-disabled="item.endDate == null || item.buyerId != null">Buy it now</button>
   							</div>
   						</div>
   						<div class="col-md-6" align="left">
@@ -146,7 +149,10 @@
         	<button class="btn btn-primary" ng-click="buyout()">Continue</button>
     		<p ng-if="buyoutComplete">You have successfully purchased item: {{item.name}}</p>
     		<p ng-if='buyoutComplete'>Are you satisfied with seller: {{seller.username}}? Please rate below</p>
-    		<button class="btn btn-link" ng-if="buyoutComplete" ><span class="glyphicon glyphicon-plus"></span></button><button ng-if="buyoutComplete" class="btn btn-link"><span class="glyphicon glyphicon-minus"></span></button>
+    		<button class="btn btn-link" ng-if="buyoutComplete" ng-click="ratePositive()"><span class="glyphicon glyphicon-plus"></span></button><button ng-if="buyoutComplete" class="btn btn-link"><span class="glyphicon glyphicon-minus" ng-click='rateNegative()'></span></button>
+    		<div class="alert alert-success" ng-show='rate'>
+				Your feedback has been posted!
+			</div>
     	</div>
     	<div class="modal-footer">
         	<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -174,7 +180,7 @@
              		 <font size = "2"  color="red">Invalid bid increment!</font>
              		<br>
              		
-             		 <font size = "2">See <a>this page</a> for more information on bid increment.</font>
+             		 <font size = "2">See <a ui-sref="main.biddingexamples">this page</a> for more information on bid increment.</font>
              		
             </div>
       	</div>

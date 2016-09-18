@@ -62,8 +62,8 @@
 		</form>
 	</div>
 	<div class="col-md-2" align="right">
-		<button id="navBarDropdown" class="btn  btn-link" type="button" ng-if="unseenCounter != 0" ><i class="fa fa-envelope" style="color:#990000;" aria-hidden="true"></i></button>
-   	 	<button id="navBarDropdown" class="btn  btn-link" type="button" ng-if="unseenCounter == 0" ><i class="fa fa-envelope-o"  aria-hidden="true"></i></button>
+		<button id="navBarDropdown" class="btn  btn-link" type="button" ng-if="unseenCounter != 0" ng-click="gotomessages()"><i class="fa fa-envelope" style="color:#990000;" aria-hidden="true"></i></button>
+   	 	<button id="navBarDropdown" class="btn  btn-link" type="button" ng-if="unseenCounter == 0" ng-click="gotomessages()"><i class="fa fa-envelope-o"  aria-hidden="true"></i></button>
     </div>
       <ul class="nav navbar-nav navbar-right">
       		

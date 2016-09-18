@@ -20,22 +20,27 @@ router.controller('userMessagesSentController', function($scope, $state, Message
 		
 	}
 	
-	$scope.deleteMsg = function(){
+$scope.deleteMsg = function(){
 		
 		var i;
+		$scope.toDelete = [];
 		for (i = 0; i < $scope.messagesSent.length; i++){
-			console.log($scope.messagesSent[i].checked);
-			if($scope.messagesSent[i].checked != undefined && $scope.messagesSent[i].checked){
-				MessageService.deleteMessage($scope.token, $scope.user.userId, $scope.messagesSent[i].messageId, 'SENT')
-								.then(function(response){
-									console.log(response);
-								}, function(response){
-									console.log(response);
-								});
+			if($scope.messagesSent[i].checked){
+				$scope.toDelete.push($scope.messagesSent[i].messageId);
+				
 				$scope.messagesSent.splice(i,1);
 				i = i - 1;
+				console.log($scope.messagesSent.length);
 			}
 		}
+		
+		MessageService.deleteMessage($scope.token, $scope.user.userId, $scope.toDelete, 'SENT')
+			.then(function(response){
+				console.log(response);
+			}, function(response){
+				console.log(response);
+			});
+		
 	}
 	
 	$scope.nextPage = function (){

@@ -18,6 +18,7 @@
     color: #242D2C;
     background-color: #6ecbc9;
     border-color: #6ecbc9;
+    
 }
 
 
@@ -31,7 +32,8 @@
 
 #adminPanel.panel-primary {
     border-color: #6ecbc9;
-
+	width: 300px;
+    height: 300px;
    box-shadow: 0 6px 12px rgba(0,0,0,.175);
 
 }

@@ -1,10 +1,11 @@
 var router = angular.module('router', ['ui.bootstrap', 'ngFileUpload','timer', 'ngMap', 'ui.router', 'ngResource', 'ngCookies', 'ngRoute', 'ngMessages','checklist-model']);
 
 
-router.config(function($stateProvider, $urlRouterProvider) {
+router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
     
     //$urlRouterProvider.otherwise('/welcome');
-    
+	$compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|):/);
+	
     $stateProvider
         
     .state('main', {
@@ -56,6 +57,14 @@ router.config(function($stateProvider, $urlRouterProvider) {
         	url: '/session-expired',
         	views: { 'mainview': {
         		templateUrl: 'messages/expired-session.html'
+        	}}
+        	
+        })
+        
+        .state('main.biddingexamples',{
+        	url: '/bidding-examples',
+        	views: { 'mainview': {
+        		templateUrl: 'messages/bidding-examples.html'
         	}}
         	
         })
