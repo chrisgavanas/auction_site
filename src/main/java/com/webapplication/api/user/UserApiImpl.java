@@ -171,7 +171,7 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public void voteSeller(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable Vote vote, @RequestParam String sellerId) throws Exception {
+    public void voteSeller(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable Vote vote, @RequestBody String sellerId) throws Exception {
         Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(vote).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
