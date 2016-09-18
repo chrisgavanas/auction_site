@@ -128,8 +128,9 @@ public class AuctionItemMapper {
         auctionItemResponseDto.setCategoryIds(categoryMapper.categoriesToCategoryResponseDtoList(categories));
         auctionItemResponseDto.setUserId(auctionItem.getUserId());
         auctionItemResponseDto.setBuyerId(auctionItem.getBuyerId());
-        User user = userRepository.findUserByUserId(auctionItem.getBuyerId());
-        auctionItemResponseDto.setBuyerUsername(user.getUsername());
+        User buyer = userRepository.findUserByUserId(auctionItem.getBuyerId());
+        if (buyer != null)
+            auctionItemResponseDto.setBuyerUsername(buyer.getUsername());
         auctionItemResponseDto.setImages(auctionItem.getImages());
 
         return auctionItemResponseDto;

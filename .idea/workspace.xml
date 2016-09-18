@@ -5,12 +5,10 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/13938506_163218144107961_8401183929563339069_n.jpg" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/1919297_1295147418061_7632387_n.jpg" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/1929174_1130919192458_6274994_n.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/3247_1164297746901_395620_n.jpg" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/static/image-uploads/57b0ca5a29210ce55f5a913f/13938506_163218144107961_8401183929563339069_n.jpg" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/static/image-uploads/57b0ca5a29210ce55f5a913f/1929174_1130919192458_6274994_n.jpg" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/static/image-uploads/57b0ca5a29210ce55f5a913f/3247_1164297746901_395620_n.jpg" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AuctionItemResponseDto.java" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AuctionItemResponseDto.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/webapplication/mapper/AuctionItemMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/mapper/AuctionItemMapper.java" />
     </list>
     <ignored path="lol1.iws" />
@@ -66,11 +64,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AuctionItemMapper.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AuctionItemMapper.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/mapper/AuctionItemMapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="584">
-              <caret line="131" column="66" selection-start-line="131" selection-start-column="66" selection-end-line="131" selection-end-column="66" />
+            <state relative-caret-position="499">
+              <caret line="132" column="4" selection-start-line="132" selection-start-column="4" selection-end-line="132" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -79,8 +77,8 @@
       <file leaf-file-name="AuctionItemResponseDto.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AuctionItemResponseDto.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="550">
-              <caret line="138" column="5" selection-start-line="138" selection-start-column="5" selection-end-line="138" selection-end-column="5" />
+            <state relative-caret-position="323">
+              <caret line="24" column="32" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="32" />
               <folding>
                 <element signature="e#2731#2732#0" expanded="true" />
                 <element signature="e#2761#2762#0" expanded="true" />
@@ -93,7 +91,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application.properties" pinned="false" current-in-tab="true">
+      <file leaf-file-name="application.properties" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="136">
@@ -1073,7 +1071,7 @@
       <workItem from="1474046974347" duration="204000" />
       <workItem from="1474047226879" duration="2000" />
       <workItem from="1474125759946" duration="3655000" />
-      <workItem from="1474196955117" duration="387000" />
+      <workItem from="1474196955117" duration="1128000" />
     </task>
     <task id="LOCAL-00002" summary="Test commit">
       <created>1469112013780</created>
@@ -1327,7 +1325,14 @@
       <option name="project" value="LOCAL" />
       <updated>1474127904918</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="- Added buyer username in AuctionItemResponseDto">
+      <created>1474197377538</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1474197377538</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1363,7 +1368,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="391617000" />
+    <option name="totallyTimeSpent" value="392358000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -1440,7 +1445,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- Added PENDING status to getAuctionOfUserByStatus service" />
     <MESSAGE value="- Fixed bug where only one of buyout and minBid existed" />
     <MESSAGE value="- Edit auction added (Missing some unit tests)" />
     <MESSAGE value="- Added sub categories" />
@@ -1465,7 +1469,8 @@
     <MESSAGE value="- Fixed search functionality&#10;- Added vote seller web service" />
     <MESSAGE value="- Added buyer id to AuctionItemResponseDto" />
     <MESSAGE value="- Changed delete message api from String messageId to List&lt;String&gt; messageIds" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Changed delete message api from String messageId to List&lt;String&gt; messageIds" />
+    <MESSAGE value="- Added buyer username in AuctionItemResponseDto" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added buyer username in AuctionItemResponseDto" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1793,18 +1798,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/api/auctionitem/AuctionItemApi.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/mapper/UserMapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="18" column="45" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
+        <state relative-caret-position="231">
+          <caret line="52" column="27" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/dto/auctionitem/AuctionItemResponseDto.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="138" column="5" selection-start-line="138" selection-start-column="5" selection-end-line="138" selection-end-column="5" />
+        <state relative-caret-position="323">
+          <caret line="24" column="32" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="32" />
           <folding>
             <element signature="e#2731#2732#0" expanded="true" />
             <element signature="e#2761#2762#0" expanded="true" />
@@ -1816,10 +1829,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/mapper/UserMapper.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/api/auctionitem/AuctionItemApi.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="52" column="27" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="27" />
+        <state relative-caret-position="170">
+          <caret line="18" column="45" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
           <folding />
         </state>
       </provider>
@@ -1834,16 +1847,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/mapper/AuctionItemMapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="584">
-          <caret line="131" column="66" selection-start-line="131" selection-start-column="66" selection-end-line="131" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        <state relative-caret-position="499">
+          <caret line="132" column="4" selection-start-line="132" selection-start-column="4" selection-end-line="132" selection-end-column="4" />
           <folding />
         </state>
       </provider>
