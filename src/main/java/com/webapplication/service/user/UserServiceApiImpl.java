@@ -206,7 +206,6 @@ public class UserServiceApiImpl implements UserServiceApi {
     public void voteSeller(UUID authToken, String userId, Vote vote, String sellerId) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
         validateAuthorization(userId, sessionInfo);
-        User user = getUser(userId);
         User seller = getUser(sellerId);
         seller.setRatingAsSeller(seller.getRatingAsBidder() + vote.getValue());
         userRepository.save(seller);
