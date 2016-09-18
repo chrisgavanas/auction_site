@@ -22,6 +22,7 @@ public class AuctionItemResponseDto {
     private GeoLocationDto geoLocationDto;
     private String userId;
     private String buyerId;
+    private String buyerUsername;
     private List<CategoryResponseDto> categoryIds;
     private List<String> images;
 
@@ -127,6 +128,14 @@ public class AuctionItemResponseDto {
 
     public void setBuyerId(String buyerId) {
         this.buyerId = buyerId;
+    }
+
+    public String getBuyerUsername() {
+        return buyerUsername;
+    }
+
+    public void setBuyerUsername(String buyerUsername) {
+        this.buyerUsername = buyerUsername;
     }
 
     public List<String> getImages() {
