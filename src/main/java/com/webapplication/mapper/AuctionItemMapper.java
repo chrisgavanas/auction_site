@@ -18,6 +18,7 @@ import com.webapplication.entity.User;
 import com.webapplication.error.category.CategoryError;
 import com.webapplication.exception.category.CategoryHierarchyException;
 import com.webapplication.exception.category.CategoryNotFoundException;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +46,7 @@ public class AuctionItemMapper {
             return null;
 
         AuctionItem auctionItem = new AuctionItem();
+        auctionItem.setAuctionItemId(ObjectId.get().toString());
         auctionItem.setAuctionItemId(auctionItemRequestDto.getAuctionItemId());
         auctionItem.setName(auctionItemRequestDto.getName());
         auctionItem.setMinBid(auctionItemRequestDto.getMinBid());
