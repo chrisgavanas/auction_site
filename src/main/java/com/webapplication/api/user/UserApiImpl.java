@@ -7,12 +7,7 @@ import com.webapplication.exception.ForbiddenException;
 import com.webapplication.exception.NotAuthenticatedException;
 import com.webapplication.exception.NotAuthorizedException;
 import com.webapplication.exception.ValidationException;
-import com.webapplication.exception.user.EmailAlreadyInUseException;
-import com.webapplication.exception.user.EmailUnverifiedException;
-import com.webapplication.exception.user.MessageNotFoundException;
-import com.webapplication.exception.user.UserAlreadyExistsException;
-import com.webapplication.exception.user.UserAlreadyVerifiedException;
-import com.webapplication.exception.user.UserNotFoundException;
+import com.webapplication.exception.user.*;
 import com.webapplication.service.user.UserServiceApi;
 import com.webapplication.validator.user.UserRequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,14 +167,26 @@ public class UserApiImpl implements UserApi {
 
     @Override
     public void voteSeller(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable Vote vote, @RequestBody String sellerId) throws Exception {
+        validateVoteParams(authToken, userId, vote, sellerId);
+
+        userService.voteSeller(authToken, userId, vote, sellerId);
+    }
+
+    @Override
+    public void voteBuyer(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable Vote vote, @RequestBody String buyerId) throws Exception {
+        validateVoteParams(authToken, userId, vote, buyerId);
+
+        userService.voteBuyer(authToken, userId, vote, buyerId);
+    }
+
+    private void validateVoteParams(UUID authToken, String userId, Vote vote, String sellerId) throws Exception {
+        validateVoteParams(authToken, userId, vote, sellerId);
         Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(vote).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(sellerId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         if (Stream.of(userId, sellerId).anyMatch(String::isEmpty))
             throw new ValidationException(UserError.INVALID_DATA);
-
-        userService.voteSeller(authToken, userId, vote, sellerId);
     }
 
     @ExceptionHandler(ValidationException.class)
@@ -192,7 +199,7 @@ public class UserApiImpl implements UserApi {
         response.sendError(HttpStatus.UNAUTHORIZED.value());
     }
 
-    @ExceptionHandler({UserAlreadyExistsException.class, UserAlreadyVerifiedException.class, EmailAlreadyInUseException.class})
+    @ExceptionHandler({UserAlreadyExistsException.class, UserAlreadyVerifiedException.class, EmailAlreadyInUseException.class, VoteException.class})
     private void conflict(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.CONFLICT.value());
     }
