@@ -258,7 +258,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         auctionItem.setBidsNo(auctionItem.getBidsNo() + 1);
         auctionItem.setCurrentBid(bidRequestDto.getAmount());
         Bid newBid = new Bid(bidRequestDto.getAmount(), new Date(), bidRequestDto.getUserId());
-        auctionItem.getBids().add(newBid);      //TODO check if it's added at start or end
+        auctionItem.getBids().add(0, newBid);      //TODO check if it's added at start or end
     }
 
     private void validateBid(AuctionItem auctionItem, BidRequestDto bidRequestDto) throws Exception {
