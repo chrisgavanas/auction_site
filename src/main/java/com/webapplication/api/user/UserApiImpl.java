@@ -7,12 +7,7 @@ import com.webapplication.exception.ForbiddenException;
 import com.webapplication.exception.NotAuthenticatedException;
 import com.webapplication.exception.NotAuthorizedException;
 import com.webapplication.exception.ValidationException;
-import com.webapplication.exception.user.EmailAlreadyInUseException;
-import com.webapplication.exception.user.EmailUnverifiedException;
-import com.webapplication.exception.user.MessageNotFoundException;
-import com.webapplication.exception.user.UserAlreadyExistsException;
-import com.webapplication.exception.user.UserAlreadyVerifiedException;
-import com.webapplication.exception.user.UserNotFoundException;
+import com.webapplication.exception.user.*;
 import com.webapplication.service.user.UserServiceApi;
 import com.webapplication.validator.user.UserRequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -204,7 +199,7 @@ public class UserApiImpl implements UserApi {
         response.sendError(HttpStatus.UNAUTHORIZED.value());
     }
 
-    @ExceptionHandler({UserAlreadyExistsException.class, UserAlreadyVerifiedException.class, EmailAlreadyInUseException.class})
+    @ExceptionHandler({UserAlreadyExistsException.class, UserAlreadyVerifiedException.class, EmailAlreadyInUseException.class, VoteException.class})
     private void conflict(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.CONFLICT.value());
     }
