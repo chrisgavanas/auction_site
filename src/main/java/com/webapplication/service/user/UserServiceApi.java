@@ -36,4 +36,6 @@ public interface UserServiceApi {
 
     void voteSeller(UUID authToken, String userId, Vote vote, String sellerId) throws Exception;
 
+    void voteBuyer(UUID authToken, String userId, Vote vote, String buyerId) throws Exception;
+
 }

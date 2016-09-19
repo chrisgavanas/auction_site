@@ -171,15 +171,27 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public void voteSeller(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable Vote vote, @RequestParam String sellerId) throws Exception {
+    public void voteSeller(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable Vote vote, @RequestBody String sellerId) throws Exception {
+        validateVoteParams(authToken, userId, vote, sellerId);
+
+        userService.voteSeller(authToken, userId, vote, sellerId);
+    }
+
+    @Override
+    public void voteBuyer(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable Vote vote, @RequestBody String buyerId) throws Exception {
+        validateVoteParams(authToken, userId, vote, buyerId);
+
+        userService.voteBuyer(authToken, userId, vote, buyerId);
+    }
+
+    private void validateVoteParams(UUID authToken, String userId, Vote vote, String sellerId) throws Exception {
+        validateVoteParams(authToken, userId, vote, sellerId);
         Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(vote).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(sellerId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         if (Stream.of(userId, sellerId).anyMatch(String::isEmpty))
             throw new ValidationException(UserError.INVALID_DATA);
-
-        userService.voteSeller(authToken, userId, vote, sellerId);
     }
 
     @ExceptionHandler(ValidationException.class)

@@ -1,21 +1,28 @@
-<div class="container-fluid bg-2" id="admin1">
-	<div class="row text-center">
+<div class="container-fluid bg-2" id="admin1" align='middle'>
+	<div class="row text-center" align="middle">
 		<h4>Administration Page</h4>
 	</div>
 </div>
-<div class="container-fluid text-center" id="admin2">
+<div class="container-fluid text-center" id="admin2" align="middle">
 	<div class="row">
 		<img src="./images/logo1.png"  height="114" width="230">
 	</div>
+	<div class="row" align="middle">
 	<div class="panel panel-primary" id="adminPanel">
 		<div class="panel-heading" id="adminPanelHead">
 			Managment Portlet
 		</div>
 		<div class="panel-body" id="adminPanelBody">
 			<br>
-			
+			{{progress}}
 			<div class="row">
-				<button class="btn btn-default" id="adminBtn1" ng-click="exportToXML()">Export to XML</button>
+				<button class="btn btn-default" id="adminBtn2"  ng-click="prepareXML()">Export to XML</button>
+			</div>
+			<div class="row" ng-if="buttonClicked && xmldata == null">
+				Preparing your xml. Please wait...
+			</div>
+			<div class="row">
+				<a ng-href="{{ fileUrl }}" download="auctions.xml" ng-if='xmldata != null' >Download</a>
 			</div>
 			<br>
 			<div class="row">
@@ -27,6 +34,7 @@
 			</div>
 			<br>
 		</div>
+	</div>
 	</div>
 	<div class="row" align="middle">
 		<a href="/#/profile"><h6>Back to my profile.</h6></a>

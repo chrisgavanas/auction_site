@@ -1,9 +1,9 @@
-router.controller('adminOptionsController', function($state, $scope, $cookies, $http, AuthenticationService){
+router.controller('adminOptionsController', function($timeout,$window, $state, $scope, $cookies, $http, AuthenticationService){
 	$scope.user = {};
-	$scope.nouminaia = "nouminaia";
+	
 	$scope.signedIn = {};
 
-	console.log("geia");
+
 	if($cookies.get('signedIn') === 'yes'){
 		$scope.user.userId = $cookies.get('userId');
 		$scope.signedIn = true;
@@ -33,13 +33,28 @@ router.controller('adminOptionsController', function($state, $scope, $cookies, $
 	$scope.kitsos = function(){
 		$state.go('main.unverified');
 	};
-	
-	$scope.exportToXML = function(){
-		AuthenticationService.exportToXML(token)
-								.then(function(response){
-									console.log(response);
+	$scope.xmldata = null;
+	$scope.buttonClicked = false;
+	$scope.prepareXML = function(){
+		$scope.buttonClicked = true;
+		$scope.wait = true;
+		var promise = AuthenticationService.exportToXML(token);
+
+								promise.then(function(response){
+									$timeout(function () {
+										console.log(response);
+										$scope.xmldata = response.data;
+										blob = new Blob([$scope.xmldata], { type: 'text/plain' }),
+										url = $window.URL || $window.webkitURL;
+										$scope.fileUrl = url.createObjectURL(blob);
+									});
+							    
 								}, function(response){
 									console.log(response);
+								}, function (evt) {
+									console.log(evt);
+					                $scope.progress = Math.min(100, parseInt(100.0 * 
+	                                         evt.loaded / evt.total));
 								});
 	};
 });

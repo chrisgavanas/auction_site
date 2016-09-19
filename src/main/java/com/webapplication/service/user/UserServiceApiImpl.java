@@ -11,12 +11,7 @@ import com.webapplication.error.user.UserRegisterError;
 import com.webapplication.exception.ForbiddenException;
 import com.webapplication.exception.NotAuthenticatedException;
 import com.webapplication.exception.NotAuthorizedException;
-import com.webapplication.exception.user.EmailAlreadyInUseException;
-import com.webapplication.exception.user.EmailUnverifiedException;
-import com.webapplication.exception.user.MessageNotFoundException;
-import com.webapplication.exception.user.UserAlreadyExistsException;
-import com.webapplication.exception.user.UserAlreadyVerifiedException;
-import com.webapplication.exception.user.UserNotFoundException;
+import com.webapplication.exception.user.*;
 import com.webapplication.mapper.UserMapper;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -206,10 +201,24 @@ public class UserServiceApiImpl implements UserServiceApi {
     public void voteSeller(UUID authToken, String userId, Vote vote, String sellerId) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
         validateAuthorization(userId, sessionInfo);
-        User user = getUser(userId);
         User seller = getUser(sellerId);
+        if (userId.equals(seller.getUserId()))
+            throw new VoteException(UserError.VOTE_NOT_ALLOWED);
+
         seller.setRatingAsSeller(seller.getRatingAsSeller() + vote.getValue());
         userRepository.save(seller);
+    }
+
+    @Override
+    public void voteBuyer(UUID authToken, String userId, Vote vote, String buyerId) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        validateAuthorization(userId, sessionInfo);
+        User buyer = getUser(buyerId);
+        if (userId.equals(buyer.getUserId()))
+            throw new VoteException(UserError.VOTE_NOT_ALLOWED);
+
+        buyer.setRatingAsBidder(buyer.getRatingAsBidder() + vote.getValue());
+        userRepository.save(buyer);
     }
 
     private void markMessageAsSeen(String userId, String messageId) throws Exception {

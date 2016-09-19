@@ -8,7 +8,7 @@ router.controller('userAuctionsStartController', function ($scope, $http, $state
 							.then(function(response){
 								$state.go('main.profile.userAuctions');
 							}, function(response){
-								alert("error");
+							console.log(response);
 							});
 	};
 });

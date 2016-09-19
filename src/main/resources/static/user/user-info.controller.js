@@ -1,6 +1,6 @@
 router.controller('userInfoController', function($state, $scope, $cookies, $http, AuthenticationService){
 	$scope.paswords = {};
-	console.log($scope.user);
+	
 		
 	
 

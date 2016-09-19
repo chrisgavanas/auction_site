@@ -43,8 +43,11 @@
 				<div class="col-md-1">
 					{{item.bidsNo}}
 				</div>
-				<div class="col-md-2">
+				<div class="col-md-2" ng-if='item.buyerId != null'>
 					{{item.buyerUsername}}
+				</div>
+				<div class="col-md-2" ng-if='item.buyerId == null'>
+					<i>No buyer</i>
 				</div>
 			</div>
 		
