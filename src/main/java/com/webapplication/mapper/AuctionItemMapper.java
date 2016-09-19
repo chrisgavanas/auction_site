@@ -46,7 +46,6 @@ public class AuctionItemMapper {
             return null;
 
         AuctionItem auctionItem = new AuctionItem();
-        auctionItem.setAuctionItemId(ObjectId.get().toString());
         auctionItem.setAuctionItemId(auctionItemRequestDto.getAuctionItemId());
         auctionItem.setName(auctionItemRequestDto.getName());
         auctionItem.setMinBid(auctionItemRequestDto.getMinBid());
