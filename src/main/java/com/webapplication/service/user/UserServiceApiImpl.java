@@ -207,7 +207,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         SessionInfo sessionInfo = getActiveSession(authToken);
         validateAuthorization(userId, sessionInfo);
         User seller = getUser(sellerId);
-        seller.setRatingAsSeller(seller.getRatingAsBidder() + vote.getValue());
+        seller.setRatingAsSeller(seller.getRatingAsSeller() + vote.getValue());
         userRepository.save(seller);
     }
 
