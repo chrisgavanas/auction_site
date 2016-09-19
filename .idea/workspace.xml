@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0171cc76-f829-4856-891e-0f77d5f8c4a1" name="Default" comment="">
+    <list default="true" id="0171cc76-f829-4856-891e-0f77d5f8c4a1" name="Default" comment="- Added Scheduler to assign auction item won from bidding &#10;- Sending automatic message to seller and buyer is missing">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/scheduler/BidScheduler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/webapplication/dao/AuctionItemRepository.java" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/dao/AuctionItemRepository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/webapplication/service/auctionitem/AuctionItemServiceApiImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/service/auctionitem/AuctionItemServiceApiImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/application.properties" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" />
     </list>
     <ignored path="lol1.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -115,8 +113,8 @@
       <file leaf-file-name="BidScheduler.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/scheduler/BidScheduler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+            <state relative-caret-position="151">
+              <caret line="14" column="14" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1173,7 +1171,7 @@
       <workItem from="1474202125476" duration="1638000" />
       <workItem from="1474281880066" duration="4416000" />
       <workItem from="1474296722946" duration="4332000" />
-      <workItem from="1474301085940" duration="2827000" />
+      <workItem from="1474301085940" duration="2979000" />
     </task>
     <task id="LOCAL-00002" summary="Test commit">
       <created>1469112013780</created>
@@ -1469,7 +1467,14 @@
       <option name="project" value="LOCAL" />
       <updated>1474301486409</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="- Added Scheduler to assign auction item won from bidding &#10;- Sending automatic message to seller and buyer is missing">
+      <created>1474305483341</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1474305483341</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1505,7 +1510,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="405608000" />
+    <option name="totallyTimeSpent" value="405760000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -1582,7 +1587,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- Added description to category response" />
     <MESSAGE value="- Minor changes" />
     <MESSAGE value="- Added image upload for auctions" />
     <MESSAGE value="- Changed path of images" />
@@ -1607,7 +1611,8 @@
     <MESSAGE value="- Added vote buyer service&#10;- Added constraint to vote buyer/seller to disallow user voting himself&#10;- Merge conflicts" />
     <MESSAGE value="- VoteException now returns 409 http status code instead of 500 (default)" />
     <MESSAGE value="- Allow multiple photos with same name per user" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Allow multiple photos with same name per user" />
+    <MESSAGE value="- Added Scheduler to assign auction item won from bidding &#10;- Sending automatic message to seller and buyer is missing" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added Scheduler to assign auction item won from bidding &#10;- Sending automatic message to seller and buyer is missing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1961,8 +1966,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/webapplication/scheduler/BidScheduler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+        <state relative-caret-position="151">
+          <caret line="14" column="14" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
