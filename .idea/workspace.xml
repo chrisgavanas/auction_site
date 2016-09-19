@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0171cc76-f829-4856-891e-0f77d5f8c4a1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/ssl-keystore/keystore.jks" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/webapplication/service/user/UserServiceApiImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/webapplication/service/user/UserServiceApiImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/application.properties" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" />
     </list>
     <ignored path="lol1.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1017,7 +1014,7 @@
       <workItem from="1474046974347" duration="204000" />
       <workItem from="1474047226879" duration="2000" />
       <workItem from="1474125759946" duration="4817000" />
-      <workItem from="1474275450313" duration="2058000" />
+      <workItem from="1474275450313" duration="2152000" />
     </task>
     <task id="LOCAL-00002" summary="Test commit">
       <created>1469112013780</created>
@@ -1278,7 +1275,14 @@
       <option name="project" value="LOCAL" />
       <updated>1474129463302</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="- Added SSL certificate">
+      <created>1474281768229</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1474281768229</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1314,7 +1318,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="394450000" />
+    <option name="totallyTimeSpent" value="394544000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -1391,7 +1395,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- Fixed bug where only one of buyout and minBid existed" />
     <MESSAGE value="- Edit auction added (Missing some unit tests)" />
     <MESSAGE value="- Added sub categories" />
     <MESSAGE value="- Uncommented lines in auction item mapper" />
@@ -1416,7 +1419,8 @@
     <MESSAGE value="- Added buyer id to AuctionItemResponseDto" />
     <MESSAGE value="- Changed delete message api from String messageId to List&lt;String&gt; messageIds" />
     <MESSAGE value="- Fixed bug in delete messages" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Fixed bug in delete messages" />
+    <MESSAGE value="- Added SSL certificate" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added SSL certificate" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
