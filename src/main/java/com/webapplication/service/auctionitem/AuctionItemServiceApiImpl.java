@@ -39,6 +39,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,7 +48,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.LinkedList;
@@ -214,8 +214,15 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     public List<AuctionItemResponseDto> searchAuctionItem(Integer from, Integer to, SearchAuctionItemDto searchAuctionItemDto) throws Exception {
         validateCategory(searchAuctionItemDto.getCategoryId());
         String categoryId = searchAuctionItemDto.getCategoryId();
-        List<AuctionItem> auctionItems = auctionItemRepository.findAuctionsWithCriteria(searchAuctionItemDto.getText(), categoryId.equals("ALL") ? "" : categoryId,
-                new PageRequest(from / paginationPageSize, to - from + 1));
+        Double priceFrom = searchAuctionItemDto.getPriceFrom();
+        Double priceTo = searchAuctionItemDto.getPriceTo();
+
+        String categoryIdToSearch = categoryId.equals("ALL") ? "" : categoryId;
+        Double priceFromToSearch = priceFrom == null ? 0 : priceFrom;
+        Double priceToToSearch = priceTo == null ? Double.MAX_VALUE : priceTo;
+        List<AuctionItem> auctionItems = auctionItemRepository.findAuctionsWithCriteria(searchAuctionItemDto.getText(), categoryIdToSearch,
+                searchAuctionItemDto.getCountry(), priceFromToSearch, priceToToSearch,
+                new PageRequest(from / paginationPageSize, to - from + 1, new Sort(Sort.Direction.ASC, "currentBid")));
 
         return auctionItemMapper.auctionItemsToAuctionItemResponseDto(auctionItems);
     }
