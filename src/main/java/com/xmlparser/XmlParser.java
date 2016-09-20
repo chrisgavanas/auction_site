@@ -159,7 +159,7 @@ public class XmlParser {
         Address address = user.getAddress();
         if (address != null) {
             location.setCity(address.getCity());
-            auction.setCountry(auction.getCountry());
+            auction.setCountry(auctionItem.getCountry());
         }
         auction.setStartDate(sdf.format(auctionItem.getStartDate()));
         auction.setEndDate(sdf.format(auctionItem.getEndDate()));
@@ -243,6 +243,7 @@ public class XmlParser {
         auctionItem.setMinBid(Double.valueOf(auction.getMinBid().replace(",", "").substring(1)));
         auctionItem.setBidsNo(auction.getBidsNo());
         auctionItem.setBids(bids);
+        auctionItem.setCountry(auction.getCountry());
         auctionItem.setGeoLocation(geoLocation);
         try {
             auctionItem.setStartDate(sdf.parse(auction.getStartDate()));

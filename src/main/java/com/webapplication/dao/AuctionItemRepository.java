@@ -29,4 +29,7 @@ public interface AuctionItemRepository extends MongoRepository<AuctionItem, Stri
     @Query("{$or: [{'name' : {$regex : '?0', $options : 'i'} }, {'description' : {$regex : '?0', $options : 'i'} } ], 'categoriesId' : {$regex : '?1' } }")
     List<AuctionItem> findAuctionsWithCriteria(String text, String categoryId, Pageable pageable);
 
+    @Query("{'endDate' : { '$gte' : '?0' }, 'buyerId' : null, 'bidsNo' : { '$gte' : 1 } }")
+    List<AuctionItem> findSoldAndBiddedAuctionItems(Date date);
+
 }
