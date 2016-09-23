@@ -2,6 +2,7 @@ package com.webapplication.dao;
 
 import com.webapplication.entity.AuctionItem;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -26,7 +27,11 @@ public interface AuctionItemRepository extends MongoRepository<AuctionItem, Stri
     @Query("{'endDate' : {'$gte' : '?0'} }")
     List<AuctionItem> findActiveAuctions(Date endDate, Pageable pageable);
 
-    @Query("{$or: [{'name' : {$regex : '?0', $options : 'i'} }, {'description' : {$regex : '?0', $options : 'i'} } ], 'categoriesId' : {$regex : '?1' } }")
-    List<AuctionItem> findAuctionsWithCriteria(String text, String categoryId, Pageable pageable);
+    @Query("{$or: [{'name' : {$regex : '?0', $options : 'i'} }, {'description' : {$regex : '?0', $options : 'i'} } ], 'categoriesId' : {$regex : '?1' }, " +
+            " 'country' : {$regex : '?2', $options : 'i' },  'currentBid' : {$gte : ?3, $lte : ?4} }")
+    List<AuctionItem> findAuctionsWithCriteria(String text, String categoryId, String country, Double priceFrom, Double priceTo, Pageable pageable);
+
+    @Query("{'endDate' : { '$gte' : '?0' }, 'buyerId' : null, 'bidsNo' : { '$gte' : 1 } }")
+    List<AuctionItem> findSoldAndBiddedAuctionItems(Date date);
 
 }

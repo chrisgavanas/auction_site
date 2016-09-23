@@ -11,6 +11,7 @@ public class AddAuctionItemRequestDto {
     private Double minBid;
     private Double buyout;
     private String description;
+    private String country;
     private GeoLocationDto geoLocationDto;
     private String userId;
     private List<String> categoryIds;
@@ -54,6 +55,14 @@ public class AddAuctionItemRequestDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public GeoLocationDto getGeoLocationDto() {

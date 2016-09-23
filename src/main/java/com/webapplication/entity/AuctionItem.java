@@ -16,10 +16,11 @@ public class AuctionItem {
     private Double buyout;
     private Double currentBid;
     private String description;
+    private Date startDate;
     private Date endDate;
+    private String country;
     private Double minBid;
     private String name;
-    private Date startDate;
     private String userId;
     private String buyerId;
     private List<String> categoriesId;
@@ -80,6 +81,14 @@ public class AuctionItem {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public Double getMinBid() {

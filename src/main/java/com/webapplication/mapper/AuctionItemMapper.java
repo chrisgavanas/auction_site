@@ -18,6 +18,7 @@ import com.webapplication.entity.User;
 import com.webapplication.error.category.CategoryError;
 import com.webapplication.exception.category.CategoryHierarchyException;
 import com.webapplication.exception.category.CategoryNotFoundException;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -50,6 +51,7 @@ public class AuctionItemMapper {
         auctionItem.setMinBid(auctionItemRequestDto.getMinBid());
         auctionItem.setBuyout(auctionItemRequestDto.getBuyout());
         auctionItem.setCurrentBid(auctionItemRequestDto.getMinBid());
+        auctionItem.setCountry(auctionItemRequestDto.getCountry());
         auctionItem.setBidsNo(0);
         auctionItem.setDescription(auctionItemRequestDto.getDescription());
         GeoLocationDto geoLocationDto = auctionItemRequestDto.getGeoLocationDto();
@@ -146,6 +148,7 @@ public class AuctionItemMapper {
         auctionItem.setDescription(auctionItemUpdateRequestDto.getDescription());
         auctionItem.setMinBid(auctionItemUpdateRequestDto.getMinBid());
         auctionItem.setName(auctionItemUpdateRequestDto.getName());
+        auctionItem.setCountry(auctionItemUpdateRequestDto.getCountry());
         GeoLocationDto geoLocationDto = auctionItemUpdateRequestDto.getGeoLocationDto();
         if (geoLocationDto != null) {
             GeoLocation geoLocation = new GeoLocation();

@@ -11,6 +11,7 @@ public class AuctionItemUpdateRequestDto {
     private String description;
     private Double minBid;
     private String name;
+    private String country;
     private GeoLocationDto geoLocationDto;
     private List<String> categoryIds;
     private List<String> images;
@@ -45,6 +46,14 @@ public class AuctionItemUpdateRequestDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public GeoLocationDto getGeoLocationDto() {

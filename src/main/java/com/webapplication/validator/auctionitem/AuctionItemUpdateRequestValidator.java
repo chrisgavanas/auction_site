@@ -23,7 +23,7 @@ public class AuctionItemUpdateRequestValidator implements Validator<AuctionItemU
     @Override
     public void validate(AuctionItemUpdateRequestDto request) throws ValidationException {
         Optional.ofNullable(request).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
-        if (Stream.of(request.getDescription(), request.getName(), request.getCategoryIds(), request.getMinBid(), request.getImages()).anyMatch(Objects::isNull))
+        if (Stream.of(request.getDescription(), request.getName(), request.getCategoryIds(), request.getMinBid(), request.getCountry(), request.getImages()).anyMatch(Objects::isNull))
             throw new ValidationException(AuctionItemError.MISSING_DATA);
 
         if (Stream.of(request.getBuyout(), request.getMinBid()).filter(Objects::nonNull).count() == 2)
@@ -35,7 +35,7 @@ public class AuctionItemUpdateRequestValidator implements Validator<AuctionItemU
                 .anyMatch(value -> value <= 0))
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
-        if (Stream.of(request.getName(), request.getDescription()).anyMatch(Strings::isNullOrEmpty))
+        if (Stream.of(request.getName(), request.getDescription(), request.getCountry()).anyMatch(String::isEmpty))
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
         if (request.getCategoryIds().isEmpty())

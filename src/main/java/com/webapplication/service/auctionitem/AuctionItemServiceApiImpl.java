@@ -4,7 +4,17 @@ import com.webapplication.authentication.Authenticator;
 import com.webapplication.dao.AuctionItemRepository;
 import com.webapplication.dao.CategoryRepository;
 import com.webapplication.dao.UserRepository;
-import com.webapplication.dto.auctionitem.*;
+import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
+import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
+import com.webapplication.dto.auctionitem.AuctionStatus;
+import com.webapplication.dto.auctionitem.BidRequestDto;
+import com.webapplication.dto.auctionitem.BidResponseDto;
+import com.webapplication.dto.auctionitem.BuyoutAuctionItemRequestDto;
+import com.webapplication.dto.auctionitem.SearchAuctionItemDto;
+import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.dto.user.SessionInfo;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.Bid;
@@ -13,7 +23,12 @@ import com.webapplication.entity.User;
 import com.webapplication.error.auctionitem.AuctionItemError;
 import com.webapplication.error.category.CategoryError;
 import com.webapplication.exception.NotAuthorizedException;
-import com.webapplication.exception.auctionitem.*;
+import com.webapplication.exception.auctionitem.AuctionAlreadyInProgressException;
+import com.webapplication.exception.auctionitem.AuctionDurationTooShortException;
+import com.webapplication.exception.auctionitem.AuctionExpiredException;
+import com.webapplication.exception.auctionitem.AuctionItemNotFoundException;
+import com.webapplication.exception.auctionitem.BidException;
+import com.webapplication.exception.auctionitem.BuyoutException;
 import com.webapplication.exception.category.CategoryNotFoundException;
 import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.mapper.AuctionItemMapper;
@@ -24,6 +39,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +49,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.*;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
 
 @Transactional
 @Service
@@ -56,6 +77,8 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
 
     @Autowired
     private XmlParser xmlParser;
+
+    private Random random;
 
     @Value("${minAuctionDurationInHours}")
     private Integer minAuctionDurationInHours;
@@ -160,7 +183,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         validateUserId(userId);
         File path = getOrCreatePath(userId);
         File convertedFile = convert(file);
-        File storedImage = storeFile(convertedFile, path, userId);
+        File storedImage = storeFile(convertedFile, path);
 
         return storedImage.getPath();
     }
@@ -191,8 +214,15 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     public List<AuctionItemResponseDto> searchAuctionItem(Integer from, Integer to, SearchAuctionItemDto searchAuctionItemDto) throws Exception {
         validateCategory(searchAuctionItemDto.getCategoryId());
         String categoryId = searchAuctionItemDto.getCategoryId();
-        List<AuctionItem> auctionItems = auctionItemRepository.findAuctionsWithCriteria(searchAuctionItemDto.getText(), categoryId.equals("ALL") ? "" : categoryId,
-                new PageRequest(from / paginationPageSize, to - from + 1));
+        Double priceFrom = searchAuctionItemDto.getPriceFrom();
+        Double priceTo = searchAuctionItemDto.getPriceTo();
+
+        String categoryIdToSearch = categoryId.equals("ALL") ? "" : categoryId;
+        Double priceFromToSearch = priceFrom == null ? 0 : priceFrom;
+        Double priceToToSearch = priceTo == null ? Double.MAX_VALUE : priceTo;
+        List<AuctionItem> auctionItems = auctionItemRepository.findAuctionsWithCriteria(searchAuctionItemDto.getText(), categoryIdToSearch,
+                searchAuctionItemDto.getCountry(), priceFromToSearch, priceToToSearch,
+                new PageRequest(from / paginationPageSize, to - from + 1, new Sort(Sort.Direction.ASC, "currentBid")));
 
         return auctionItemMapper.auctionItemsToAuctionItemResponseDto(auctionItems);
     }
@@ -235,7 +265,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         auctionItem.setBidsNo(auctionItem.getBidsNo() + 1);
         auctionItem.setCurrentBid(bidRequestDto.getAmount());
         Bid newBid = new Bid(bidRequestDto.getAmount(), new Date(), bidRequestDto.getUserId());
-        auctionItem.getBids().add(newBid);      //TODO check if it's added at start or end
+        auctionItem.getBids().add(0, newBid);      //TODO check if it's added at start or end
     }
 
     private void validateBid(AuctionItem auctionItem, BidRequestDto bidRequestDto) throws Exception {
@@ -278,8 +308,8 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
             throw new Exception("Generic error.");
     }
 
-    private File storeFile(File file, File path, String userId) throws Exception {
-        File newFile = new File(path.getPath() + "/" + file.getName());
+    private File storeFile(File file, File path) throws Exception {
+        File newFile = new File(path.getPath() + "/" + new Random().nextInt() + file.getName());
         FileUtils.copyFile(file, newFile);
         return newFile;
     }

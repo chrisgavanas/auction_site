@@ -180,7 +180,6 @@ public class UserApiImpl implements UserApi {
     }
 
     private void validateVoteParams(UUID authToken, String userId, Vote vote, String sellerId) throws Exception {
-        validateVoteParams(authToken, userId, vote, sellerId);
         Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(vote).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));

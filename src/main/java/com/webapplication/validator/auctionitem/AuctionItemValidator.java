@@ -25,10 +25,10 @@ public class AuctionItemValidator implements Validator<AddAuctionItemRequestDto>
     public void validate(AddAuctionItemRequestDto request) throws ValidationException {
         Optional.ofNullable(request).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
 
-        if (Stream.of(request.getName(), request.getUserId(), request.getDescription(), request.getMinBid(), request.getImages()).anyMatch(Objects::isNull))
+        if (Stream.of(request.getName(), request.getUserId(), request.getDescription(), request.getMinBid(), request.getCountry(), request.getImages()).anyMatch(Objects::isNull))
             throw new ValidationException(AuctionItemError.MISSING_DATA);
 
-        if (Stream.of(request.getUserId(), request.getName(), request.getDescription()).anyMatch(Strings::isNullOrEmpty))
+        if (Stream.of(request.getUserId(), request.getName(), request.getDescription(), request.getCountry()).anyMatch(String::isEmpty))
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
         if (Stream.of(request.getMinBid(), request.getBuyout())
