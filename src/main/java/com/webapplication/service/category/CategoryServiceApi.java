@@ -7,5 +7,6 @@ import java.util.List;
 public interface CategoryServiceApi {
 
     List<CategoryResponseDto> getCategories() throws Exception;
-
+    
+    CategoryResponseDto getCategory(String categoryId) throws Exception;
 }

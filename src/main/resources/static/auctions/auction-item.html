@@ -126,8 +126,8 @@
   					</div>
   				</div>
   				<div class="col-md-4">
-  					<ng-map center="current-location" zoom="4">
-    						<marker position="{{item.geoLocationDto.latitude}},{{item.geoLocationDto.longitude}}" draggable="true" on-dragend="getCurrentLocation()"></marker>
+  					<ng-map center="{{item.geoLocationDto.latitude}},{{item.geoLocationDto.longitude}}" zoom="4">
+    						<marker position="{{item.geoLocationDto.latitude}},{{item.geoLocationDto.longitude}}" ></marker>
   						</ng-map>
   				</div>
   			

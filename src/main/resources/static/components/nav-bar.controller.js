@@ -1,15 +1,16 @@
 router.controller('navBarController', function($interval, $state, $scope, $rootScope, $cookies, $http, AuthenticationService, AuctionItemService, MessageService){
-	
+	$scope.searchData = {};
 	$scope.donotmatch = false;
 	$scope.newM = false;
 	$scope.signedIn = {};
-	$scope.categories = [];
+	$scope.categories = {};
+	$scope.categories.category = {};
 	
 	console.log($scope.signedIn);
 	$scope.user = {};
 	$scope.token = null;
 	$scope.contact = null;
-	
+	$scope.text = null;
 	
 	
 	if($cookies.get('signedIn') == 'yes'){
@@ -127,11 +128,9 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 
 	AuctionItemService.getCategories($scope.token)
 							.then(function(response){
-									$scope.categories = angular.copy(response.data);
-									$scope.defaultCat = {};
-									$scope.defaultCat = {categoryId: "0", description: "All Categories"};
-									$scope.categories.push($scope.defaultCat);
-									$scope.selected = "0";
+									$scope.categories.array = angular.copy(response.data);
+									$scope.categories.array.push({categoryId: 'ALL', description: 'All Categories'});
+									$scope.categories.category = $scope.categories.array[$scope.categories.array.length - 1];
 									
 							}, function(response){
 								console.log(response);
@@ -211,11 +210,16 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     };
 	
 	$scope.search = function(){
-		console.log($scope.selected);
+		
+		
+		
+	
+	
+		$state.go('main.search', {input: $scope.searchData.text, catId: $scope.categories.category.categoryId, myParam: {test: 'yiota'}});
 	}
 	
 	$scope.gotomessages = function(){
-		$state.go('main.profile.userMessages');
+		$state.go('main.profile.userMessages.received');
 	}
 	
 });

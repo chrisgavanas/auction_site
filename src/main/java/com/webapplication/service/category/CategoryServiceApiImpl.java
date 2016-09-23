@@ -26,5 +26,12 @@ public class CategoryServiceApiImpl implements CategoryServiceApi {
 
         return categoryMapper.categoryListToCategoryResponseDto(categories);
     }
+    
+    @Override
+    public CategoryResponseDto getCategory(String categoryId) {
+    	Category category = categoryRepository.findCategoryByCategoryId(categoryId);
+    	
+    	return categoryMapper.categoryToCategoryResponseDtoTree(category);
+    }
 
 }

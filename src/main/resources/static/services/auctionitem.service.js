@@ -9,6 +9,13 @@ router.factory('AuctionItemService', function($http, $cookies, $state) {
 					});
 	};
 	
+	auctionitemService.getCategory = function(categoryId){
+		return $http.get('/api/category/' + categoryId)
+					.then (function (response){
+						return response;
+					});
+		
+	};
 	auctionitemService.addAuctionItem = function(token, item){
 		var x = 1;
 		console.log(item);
@@ -68,6 +75,20 @@ router.factory('AuctionItemService', function($http, $cookies, $state) {
 		return $http.post('api/auctionitem/'+auctionItemId+'/buyout', buyerId, {headers:{'authToken':token}})
 					.then(function (response){
 						return response;
+					});
+	}
+	
+	auctionitemService.search = function(from, to, searchInfo){
+		return $http.post('api/auctionitem/search/'+from+'-'+to, searchInfo)
+					.then(function(response){
+						return response;
+					});
+	}
+	
+	auctionitemService.getCountry = function(lat, lon, i){
+		return $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+lon+'&sensor=false&language=en')
+					.then(function (response){
+						return [response, i];
 					});
 	}
 	return auctionitemService;
