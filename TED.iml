@@ -41,7 +41,7 @@
     <orderEntry type="library" name="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER" level="application" />
     <orderEntry type="library" name="EclipseLink 2.5.2" level="project" />
     <orderEntry type="library" name="org.eclipse.datatools.connectivity.jdt.DRIVERLIBRARY/MySQL JDBC Driver" level="application" />
-    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="library" name="Maven: org.mongodb.morphia:morphia:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:2.13.3" level="project" />
     <orderEntry type="library" name="Maven: com.thoughtworks.proxytoys:proxytoys:1.0" level="project" />

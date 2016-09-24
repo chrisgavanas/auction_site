@@ -18,4 +18,5 @@ public interface CategoryApi {
 
     @RequestMapping(path = "/category/{categoryId}", method = RequestMethod.GET, produces = "application/json")
     CategoryResponseDto getCategory(@PathVariable String categoryId) throws Exception;
+
 }

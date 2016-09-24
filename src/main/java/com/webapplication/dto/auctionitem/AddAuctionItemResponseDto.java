@@ -15,6 +15,7 @@ public class AddAuctionItemResponseDto {
     private Integer bidsNo;
     private String description;
     private GeoLocationDto geoLocationDto;
+    private String country;
     private String userId;
     private String buyerId;
     private List<CategoryResponseDto> categories;
@@ -82,6 +83,14 @@ public class AddAuctionItemResponseDto {
 
     public void setGeoLocationDto(GeoLocationDto geoLocationDto) {
         this.geoLocationDto = geoLocationDto;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getUserId() {

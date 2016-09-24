@@ -75,6 +75,7 @@ public class AuctionItemMapper {
             return null;
 
         AddAuctionItemResponseDto addAuctionItemResponseDto = new AddAuctionItemResponseDto();
+
         addAuctionItemResponseDto.setAuctionItemId(auctionItem.getAuctionItemId());
         addAuctionItemResponseDto.setName(auctionItem.getName());
         addAuctionItemResponseDto.setCurrentBid(auctionItem.getCurrentBid());
@@ -87,6 +88,7 @@ public class AuctionItemMapper {
             GeoLocationDto geoLocationDto = new GeoLocationDto(geoLocation.getLatitude(), geoLocation.getLongitude());
             addAuctionItemResponseDto.setGeoLocationDto(geoLocationDto);
         }
+        addAuctionItemResponseDto.setCountry(auctionItem.getCountry());
         addAuctionItemResponseDto.setUserId(auctionItem.getUserId());
         addAuctionItemResponseDto.setBuyerId(auctionItem.getBuyerId());
         List<Category> categories = categoryRepository.findCategoriesByIds(auctionItem.getCategoriesId());
@@ -106,7 +108,6 @@ public class AuctionItemMapper {
                 .collect(Collectors.toList());
     }
 
-
     public AuctionItemResponseDto auctionItemToAuctionItemResponseDto(AuctionItem auctionItem) {
         if (auctionItem == null)
             return null;
@@ -121,6 +122,7 @@ public class AuctionItemMapper {
         auctionItemResponseDto.setDescription(auctionItem.getDescription());
         auctionItemResponseDto.setStartDate(auctionItem.getStartDate());
         auctionItemResponseDto.setEndDate(auctionItem.getEndDate());
+        auctionItemResponseDto.setCountry(auctionItem.getCountry());
         GeoLocation geoLocation = auctionItem.getGeoLocation();
         if (geoLocation != null) {
             GeoLocationDto geoLocationDto = new GeoLocationDto(geoLocation.getLatitude(), geoLocation.getLongitude());
@@ -178,7 +180,12 @@ public class AuctionItemMapper {
         auctionItemBidResponseDto.setDescription(auctionItem.getDescription());
         auctionItemBidResponseDto.setStartDate(auctionItem.getStartDate());
         auctionItemBidResponseDto.setEndDate(auctionItem.getEndDate());
-        auctionItemBidResponseDto.setGeoLocationDto(auctionItemBidResponseDto.getGeoLocationDto());
+        GeoLocation geoLocation = auctionItem.getGeoLocation();
+        if (geoLocation != null) {
+            GeoLocationDto geoLocationDto = new GeoLocationDto(geoLocation.getLatitude(), geoLocation.getLongitude());
+            auctionItemBidResponseDto.setGeoLocationDto(geoLocationDto);
+        }
+        auctionItemBidResponseDto.setCountry(auctionItem.getCountry());
         auctionItemBidResponseDto.setUserId(auctionItem.getUserId());
         auctionItemBidResponseDto.setBuyerId(auctionItem.getBuyerId());
         List<Category> categories = categoryRepository.findCategoriesByIds(auctionItem.getCategoriesId());
