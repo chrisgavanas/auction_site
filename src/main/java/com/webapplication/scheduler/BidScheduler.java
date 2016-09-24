@@ -22,7 +22,7 @@ public class BidScheduler {
     private AuctionItemRepository auctionItemRepository;
 
     @Scheduled(fixedDelay = SCHEDULED_TIME_MINUTES)
-    public void scanForSoldBiddedAuctionItems() {
+    private void scanForSoldBiddedAuctionItems() {
         List<AuctionItem> auctionItems = auctionItemRepository.findSoldAndBiddedAuctionItems(new Date());
         auctionItems.forEach(auctionItem -> {
             Bid winningBid = auctionItem.getBids().get(0);
