@@ -43,7 +43,7 @@ public class CategoryMapper {
         categoryResponseDto.setCategoryId(category.getCategoryId());
         categoryResponseDto.setDescription(category.getDescription());
         categoryResponseDto.setParentId(category.getParentId());
-
+       
         return categoryResponseDto;
     }
 

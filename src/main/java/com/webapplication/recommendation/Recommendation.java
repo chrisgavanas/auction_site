@@ -33,7 +33,7 @@ public class Recommendation {
     @Autowired
     private AuctionItemRepository auctionItemRepository;
 
-    @Scheduled(fixedDelay = REFRESH_TIME)
+//    @Scheduled(fixedDelay = REFRESH_TIME)
     private void recommendations() {
         if (k == null || k < 0)
             return;

@@ -177,3 +177,12 @@
 	padding-left: 500px;
 	padding-right: 500px;
 }
+
+#searchContainer.container-fluid{
+	padding-top: 100px;
+	padding-bottom: 150px;
+	padding-left: 200px;
+	padding-right: 200px;
+	
+}
+

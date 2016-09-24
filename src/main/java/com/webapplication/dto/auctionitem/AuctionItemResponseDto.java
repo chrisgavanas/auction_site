@@ -20,6 +20,7 @@ public class AuctionItemResponseDto {
     private Date startDate;
     private Date endDate;
     private GeoLocationDto geoLocationDto;
+    private String country;
     private String userId;
     private String buyerId;
     private String buyerUsername;
@@ -112,6 +113,14 @@ public class AuctionItemResponseDto {
 
     public void setCategoryIds(List<CategoryResponseDto> categoryIds) {
         this.categoryIds = categoryIds;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getUserId() {

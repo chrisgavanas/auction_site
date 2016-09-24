@@ -1,0 +1,121 @@
+<div class="container-fluid " id="searchContainer">
+
+	<div class="row">
+		<div class="col-md-2" align="left">
+			<div class="row">
+				<b>Categories</b>
+			</div>
+			<div class="row">
+				<a ng-click='reset()'><font size='2'>All</font></a>
+			</div>
+			<div class="row">
+				<a ng-click='filter(parentCategory)' ng-if='currentCategory.parentId != null'><font size='2' ><{{parentCategory.description}}</font></a>
+			</div>
+			<div class="row">
+				{{currentCategory.description}}
+			</div>
+			<div class="row" ng-repeat='category in displayedCategories'>
+				<div class="col-md-1">
+				</div>
+				<div class="col-md-11">
+					<a ng-click='filter(category)' ng-disabled='clicked'><font size='2' >{{category.description}}</font></a>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<b>Item Location</b>
+			</div>
+			<div class='row'>
+				<div class='col-md-10'>
+					<select   class='countries form-control' ng-model="countries.country" ng-options="country as country.name for country in countries.array" ></select>
+				</div>
+			</div>
+			<div class='row'>
+				<div class='col-md-10'>
+					<button class="btn btn-default form-control" ng-click="filterCountry(countries.country)">Search</button>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<b>Price</b>
+				<div class="row">
+					<div class="col-md-3" align="right">
+					<font size='2'>form:</font>
+					</div>
+					<div class="col-md-4" align='left'>
+						$<input class="small" ng-model='range.from'>
+						
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3" align="right">
+						<font size='2'>to:</font>
+					</div>
+					<div class="col-md-7" align="left">
+						$<input class="small" ng-model="range.to">
+					</div>
+				</div>
+				<div class="row" align="middle">
+					<div class="col-md-10">
+						<button class="btn btn-default form-control " ng-click='filterPrice(range)'><i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="col-md-8 searchBoxPanel">
+						
+			<div class=' lvresult row' ng-repeat='item in searchResults'>
+				<div class="imgbox img-thumbnail col-md-4">
+					<a ui-sref="main.item({id: item.auctionItemId})">
+						<img  class="img " ui-sref="main.item({id: item.auctionItemId})" ng-src={{item.displayImage}} class="img-responsive" ng-if="item.displayImage != null">
+					</a>
+					<a ui-sref="main.item({id: item.auctionItemId})">
+						<img class="img " ui-sref="main.item({id: item.auctionItemId})" src="./images/item.png" class="img-responsive" ng-if="item.displayImage == null">
+					</a>
+				</div>
+				
+					
+				<div class="col-md-8">
+					<div class="row">
+						<h3 class="lvtitle"><a ui-sref="main.item({id: item.auctionItemId})">{{item.name}}</a></h3>
+				 			<br>
+					</div>
+				 	<div class="row">
+				 		<div class="col-md-5">
+				 			
+				 			<ul>
+				 				<li><font size='4'><b>US$ {{item.currentBid}}</b></font></li>
+				 				<li>{{item.bidsNo}} bids</li>
+				 				<li ng-if="item.buyout != null"><font size='4'><b>US$ {{item.buyout}}</b></font></li>
+				 				<li ng-if="item.buyout != null">Buy it now!</li>
+				 			</ul>	
+				 		</div>
+				 		<div class="col-md-7">
+				 			<ul>
+				 				<li><timer end-time="item.endDate">{{days}} d {{hours}} h {{minutes}} m {{seconds}} s</timer> left</li>
+				 				<li>from {{item.country}}</li>
+				 			</ul>
+				 		
+				 		</div>
+				 	</div>
+				</div>
+			
+			</div>
+			<br>
+			<div class="row" align="middle">
+				<div class="btn-group">
+  					<button type="button" class="btn btn-default" ng-click='previousPage()' ng-disabled='pageCounter == 1'>Back</button>
+  					<button type="button" class="btn btn-default" ng-click='nextPage()' ng-disabled='searchResults.length < 10'>Next</button>
+  				</div>
+			</div>
+			<br>
+		</div>
+		<div class="col-md-2" align="middle">
+			
+		</div>
+	</div>
+
+
+
+</div>

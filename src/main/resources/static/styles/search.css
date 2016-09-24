@@ -1,0 +1,79 @@
+@CHARSET "UTF-8";
+
+.searchBoxPanel{
+	
+	border: 1px solid #DDD;
+    border-radius: 3px;
+    background-color: white;
+    box-shadow: 4px 4px 1px #EEE;
+ padding: 17px 20px 9px;
+    margin-bottom: 20px;
+}
+
+.img {
+    margin: auto;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 225px;
+    display: block;
+    text-align: center;
+}
+
+
+
+.lvresult {
+    position: relative;
+    padding: 9px;
+    margin: 9px;
+    left: 0;
+    border-width: 1px 0;
+    border-style: solid;
+    border-color: transparent;
+    border-bottom-color: #e4e4e4;
+    color: #767676;
+}
+
+ul {
+    list-style: none ;
+}
+
+h3.lvtitle {
+    word-wrap: break-word;
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.25;
+    position: relative;
+    top: -2px;
+    padding-left: 9px;
+    
+   
+}
+
+.imgbox{
+	
+	width: 225px;
+	height: 225px;
+	border: 1px solid #DDD;
+  
+}
+
+.btngroup{
+	padding: 9px;
+}
+
+.small{
+	width: 50px;
+	height: 22px;
+}
+
+.smallbtn{
+	width: 60px;
+	height: 25px;
+	margin-left: -10px;
+	
+}
+
+.countries{
+	width: 200px;
+}

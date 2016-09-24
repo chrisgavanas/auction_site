@@ -19,6 +19,7 @@ public class AuctionItemBidResponseDto {
     private Date startDate;
     private Date endDate;
     private GeoLocationDto geoLocationDto;
+    private String country;
     private String userId;
     private String buyerId;
     private List<CategoryResponseDto> categories;
@@ -103,6 +104,14 @@ public class AuctionItemBidResponseDto {
 
     public void setGeoLocationDto(GeoLocationDto geoLocationDto) {
         this.geoLocationDto = geoLocationDto;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getUserId() {

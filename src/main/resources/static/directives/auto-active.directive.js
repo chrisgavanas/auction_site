@@ -16,22 +16,22 @@ router.directive('autoActive', ['$location', '$state', function ($location, $sta
                             	
                                 angular.element(a).removeClass('active');
                             }
-                            if(a.href == "unsafe:http://localhost:8080/#/profile/userAuctions" && path == '/profile/userAuctions/active'){
+                            if(a.href == "unsafe:https://localhost:8080/#/profile/userAuctions" && path == '/profile/userAuctions/active'){
                             	console.log('mphkaaa');
                             	angular.element(a).addClass('active');
                             }
-                            if(a.href == "unsafe:http://localhost:8080/#/profile/userAuctions" && path == '/profile/userAuctions/pending'){
+                            if(a.href == "unsafe:https://localhost:8080/#/profile/userAuctions" && path == '/profile/userAuctions/pending'){
                             	
                             	angular.element(a).addClass('active');
                             }
-                            if(a.href == "unsafe:http://localhost:8080/#/profile/userAuctions" && path == '/profile/userAuctions/sold'){
+                            if(a.href == "unsafe:https://localhost:8080/#/profile/userAuctions" && path == '/profile/userAuctions/sold'){
                             	angular.element(a).addClass('active');
                             }
                             
-                            if(a.href == "unsafe:http://localhost:8080/#/profile/messages" && path == '/profile/messages/received'){
+                            if(a.href == "unsafe:https://localhost:8080/#/profile/messages" && path == '/profile/messages/received'){
                             	angular.element(a).addClass('active');
                             }
-                            if(a.href == "unsafe:http://localhost:8080/#/profile/messages" && path == '/profile/messages/sent'){
+                            if(a.href == "unsafe:https://localhost:8080/#/profile/messages" && path == '/profile/messages/sent'){
                             	angular.element(a).addClass('active');
                             }
                         });

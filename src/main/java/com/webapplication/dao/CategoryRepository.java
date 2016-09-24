@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface CategoryRepository extends MongoRepository<Category, String> {
-
+	
     Category findCategoryByCategoryId(String categoryId);
 
     List<Category> findCategoryByParentId(String parentId);

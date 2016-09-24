@@ -75,6 +75,15 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         		templateUrl: 'seller/seller-profile.html'
         	}}
         })
+        .state('main.search', {
+        	url: '/search?catId&input&country&from&to',
+        	views: { 'mainview': {
+        		controller: 'searchController',
+        		templateUrl: 'search/search.html'
+        	}},
+        	 params: {myParam: null}
+
+        })
         .state('main.profile', {
         	url: '/profile',
         	views: { 'mainview': {

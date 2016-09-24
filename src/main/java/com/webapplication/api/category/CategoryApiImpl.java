@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,6 +23,11 @@ public class CategoryApiImpl implements CategoryApi {
         return categoryService.getCategories();
     }
 
+    @Override
+    public CategoryResponseDto getCategory(@PathVariable String categoryId) throws Exception {
+    	return categoryService.getCategory(categoryId);
+    }
+    
     @ExceptionHandler(Exception.class)
     private void genericError(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value());
