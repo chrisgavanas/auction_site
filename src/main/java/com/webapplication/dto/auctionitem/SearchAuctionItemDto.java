@@ -8,8 +8,17 @@ public class SearchAuctionItemDto {
     private Double priceFrom;
     private Double priceTo;
     private String country;
+    private String sellerId;
+    
+    public String getSellerId() {
+		return sellerId;
+	}
 
-    public String getText() {
+	public void setSellerId(String sellerId) {
+		this.sellerId = sellerId;
+	}
+
+	public String getText() {
         return text;
     }
 

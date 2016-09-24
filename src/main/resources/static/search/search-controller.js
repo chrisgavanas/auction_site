@@ -13,14 +13,26 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 	$scope.clicked = false;
 	$scope.range = {};
 	
+	
+	
+	
+	
 	$scope.range.from = $scope.searchData.priceFrom = $stateParams.from;
 	$scope.range.to = $scope.searchData.priceTo = $stateParams.to;
+	
 	if($stateParams.country == undefined)
 		$scope.searchData.country = "";
 	else
 		$scope.searchData.country = $stateParams.country;
-		
+	if($stateParams.input == undefined)
+		$scope.searchData.text = "";
+	else
+		$scope.searchData.text = $stateParams.input;
 	
+	if($stateParams.sellerId == undefined)
+		$scope.searchData.sellerId = "";
+	else
+		$scope.searchData.sellerId = $stateParams.sellerId;
 	console.log($stateParams);
 	
 	
@@ -174,16 +186,16 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 
 	$scope.filter = function(category){
 		
-		$state.go('main.search', {input: $scope.searchData.text, catId: category.categoryId, country: $stateParams.country, from: $stateParams.from, to: $stateParams.to});
+		$state.go('main.search', {input: $scope.searchData.text, catId: category.categoryId, country: $stateParams.country, from: $stateParams.from, to: $stateParams.to, sellerId: $stateParams.sellerId});
 	};
 	
 	
 	$scope.reset = function(){
-		$state.go('main.search', {input: $scope.searchData.text, catId: 'ALL', country: $scope.currentCountry});
+		$state.go('main.search', {input: $scope.searchData.text, catId: 'ALL', country: $stateParams.country, from: $stateParams.from, to: $stateParams.to, sellerId: $stateParams.sellerId});
 	}
 	
 	$scope.goBack = function(categoryId){
-		$state.go('main.search', {input: $scope.searchData.text, catId: categoryId, country: $scope.currentCountry, from: $stateParams.from, to: $stateParams.to});
+		$state.go('main.search', {input: $scope.searchData.text, catId: categoryId, country: $scope.currentCountry, from: $stateParams.from, to: $stateParams.to, sellerId: $stateParams.sellerId});
 	}
 	
 	$scope.filterCountry = function(country){
@@ -192,11 +204,11 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 			$scope.currentCountry = "";
 		else
 			$scope.currentCountry = country.name;
-		$state.go('main.search', {input: $scope.searchData.text, catId: $stateParams.catId, country: $scope.currentCountry, from: $stateParams.from, to: $stateParams.to});
+		$state.go('main.search', {input: $scope.searchData.text, catId: $stateParams.catId, country: $scope.currentCountry, from: $stateParams.from, to: $stateParams.to, sellerId: $stateParams.sellerId});
 	}
 	
 	$scope.filterPrice = function(range){
 		console.log(range);
-		$state.go('main.search', {input: $scope.searchData.text, catId: $stateParams.catId, country: $stateParams.country, from : range.from, to: range.to});
+		$state.go('main.search', {input: $scope.searchData.text, catId: $stateParams.catId, country: $stateParams.country, from : range.from, to: range.to, sellerId: $stateParams.sellerId});
 	}
 });

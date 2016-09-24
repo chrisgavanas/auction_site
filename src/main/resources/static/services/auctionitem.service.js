@@ -51,7 +51,7 @@ router.factory('AuctionItemService', function($http, $cookies, $state) {
 	};
 	
 	auctionitemService.getAuctionItemsOfUserByStatus = function(token, userId, status, from, to){
-		return $http.get('api/auctionitem/user/' + userId + "/"+from+"-"+to+"?status=" + status,  {headers: {'authToken': token}})
+		return $http.get('api/auctionitem/user/' + userId + "/"+from+"-"+to+"?status=" + status)
 					.then(function successCallback(response){
 						return response;
 					});

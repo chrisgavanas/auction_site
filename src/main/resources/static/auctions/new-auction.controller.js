@@ -11,18 +11,28 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.selected = [];
 	$scope.item.geoLocationDto = {};
 	$scope.categoryIds = {};
-
+	$scope.countries = {};
 	$scope.categoryCache = [];
 	$scope.images = [];
-
+	
 	var token = $cookies.get('authToken');
 
-	$scope.categoryIds = $scope.categories;
+	$scope.categoryIds = {};
 	
-
+	
+	AuctionItemService.getCategories($scope.token)
+		.then(function(response){
+			$scope.categoryIds = angular.copy(response.data);
+			
+		}, function(response){
+			console.log(response);
+		});
+	
+	
 	$scope.cont = function(){
 	
 		$scope.item.userId = $scope.user.userId;
+		
 		console.log($scope.item);
 		
 		if($scope.submit == true){
@@ -43,6 +53,11 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 		$scope.pos = this.getPosition();
 		$scope.item.geoLocationDto.latitude = $scope.pos.lat();
 		$scope.item.geoLocationDto.longitude = $scope.pos.lng();
+		console.log($scope.item.geoLocationDto);
+		$http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng='+$scope.item.geoLocationDto.latitude+','+$scope.item.geoLocationDto.longitude+'&sensor=false&language=en')
+			.then(function (response){
+				$scope.item.country = response.data.results[response.data.results.length - 1].formatted_address;
+			})
 	   
 	};
 	

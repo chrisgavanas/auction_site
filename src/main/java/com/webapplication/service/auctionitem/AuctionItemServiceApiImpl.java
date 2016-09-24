@@ -216,12 +216,13 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         String categoryId = searchAuctionItemDto.getCategoryId();
         Double priceFrom = searchAuctionItemDto.getPriceFrom();
         Double priceTo = searchAuctionItemDto.getPriceTo();
-
+        String sellerId = searchAuctionItemDto.getSellerId();
+        
         String categoryIdToSearch = categoryId.equals("ALL") ? "" : categoryId;
         Double priceFromToSearch = priceFrom == null ? 0 : priceFrom;
         Double priceToToSearch = priceTo == null ? Double.MAX_VALUE : priceTo;
         List<AuctionItem> auctionItems = auctionItemRepository.findAuctionsWithCriteria(searchAuctionItemDto.getText(), categoryIdToSearch,
-                searchAuctionItemDto.getCountry(), priceFromToSearch, priceToToSearch,
+                searchAuctionItemDto.getCountry(), priceFromToSearch, priceToToSearch, sellerId,
                 new PageRequest(from / paginationPageSize, to - from + 1, new Sort(Sort.Direction.ASC, "currentBid")));
 
         return auctionItemMapper.auctionItemsToAuctionItemResponseDto(auctionItems);

@@ -82,7 +82,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	}
 	
 	$scope.placeBid = function(){
-		console.log($scope.bid);
+		console.log($scope.item);
 		if($scope.item.buyout != null){
 			if($scope.bid.amount < $scope.item.buyout){
 				console.log($scope.token, $scope.bid, $scope.item.auctionItemId);
@@ -104,7 +104,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 			}
 		}else{
 			
-			$scope.completed = true;
+			
 			AuctionItemService.bid($scope.token, $scope.bid, $scope.item.auctionItemId)
 						.then(function(response){
 							$scope.completed = true;
