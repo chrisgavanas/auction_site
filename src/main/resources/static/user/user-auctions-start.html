@@ -8,14 +8,21 @@
 	 	<div class="form-group" align="middle">
 	 			 	<div ng-messages="startform.date.$error" role="alert" ng-if="startform.$submitted" >
 						<span ng-message="required"><font size="2" color="red">Please enter an end date for your auction.</font></span>
-						<span ng-message="validateDate"><font size="2" color="red">Start day of your auction must not exceed end date.</font></span>
+						
 					</div>
-	 	
+	 				
 	 		<label class="control-label col-md-3" for="date">End date:</label>
 	 		<div class="col-md-6">
-	 				     			<input type="date" class="form-control" name="date" id="date" ng-model="data.endDate" validate-date required>
+	 			<div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" ng-model='date.endDate' validate-date>
+                    	<span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
      		</div>
      	</div>
+     	<span ng-show='invalid1'><font size="2" color="red">Start day of your auction must not exceed end date.</font></span>
+	 	<span ng-show='invalid2'><font size="2" color="red">Auction duration must be at least one hour.</font></span>
      	<div class="form-group" align="middle"> 
     	
       			<button type="submit" class="btn btn-primary" id="startAuction" >Start</button>

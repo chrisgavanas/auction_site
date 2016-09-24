@@ -26,6 +26,7 @@ public class AuctionItemResponseDto {
     private String buyerUsername;
     private List<CategoryResponseDto> categoryIds;
     private List<String> images;
+    
 
     public String getAuctionItemId() {
         return auctionItemId;
