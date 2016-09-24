@@ -29,7 +29,11 @@
 				<div class='col-md-10'>
 					<select   class='countries form-control' ng-model="countries.country" ng-options="country as country.name for country in countries.array" ></select>
 				</div>
-				<button class="btn btn-default" ng-click="show()"><i class="glyphicon glyphicon-search"></i></button>
+			</div>
+			<div class='row'>
+				<div class='col-md-10'>
+					<button class="btn btn-default form-control" ng-click="filterCountry(countries.country)">Search</button>
+				</div>
 			</div>
 			<br>
 			<div class="row">
@@ -47,12 +51,14 @@
 					<div class="col-md-3" align="right">
 						<font size='2'>to:</font>
 					</div>
-					<div class="col-md-4" align="left">
+					<div class="col-md-7" align="left">
 						$<input class="small" ng-model="range.to">
 					</div>
 				</div>
 				<div class="row" align="middle">
-					<button class="btn btn-default "><i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+					<div class="col-md-10">
+						<button class="btn btn-default form-control " ng-click='filterPrice(range)'><i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+					</div>
 				</div>
 				
 			</div>

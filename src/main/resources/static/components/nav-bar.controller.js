@@ -215,7 +215,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 		
 	
 	
-		$state.go('main.search', {input: $scope.searchData.text, catId: $scope.categories.category.categoryId, myParam: {test: 'yiota'}});
+		$state.go('main.search', {input: $scope.searchData.text, catId: $scope.categories.category.categoryId});
 	}
 	
 	$scope.gotomessages = function(){

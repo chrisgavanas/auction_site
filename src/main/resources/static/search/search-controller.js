@@ -11,16 +11,31 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 	$scope.searchData.categoryId = $stateParams.catId;
 	$scope.currentCategory = {};
 	$scope.clicked = false;
+	$scope.range = {};
 	
+	$scope.range.from = $scope.searchData.priceFrom = $stateParams.from;
+	$scope.range.to = $scope.searchData.priceTo = $stateParams.to;
+	if($stateParams.country == undefined)
+		$scope.searchData.country = "";
+	else
+		$scope.searchData.country = $stateParams.country;
+		
 	
-	
+	console.log($stateParams);
 	
 	
 	$http.get('https://restcountries.eu/rest/v1/all')
 			.then(function(response){
 				
 				$scope.countries.array = response.data;
-				$scope.countries.country = $scope.countries.array[0];
+				$scope.countries.array.unshift({name:'All countries'});
+				if($stateParams.country != undefined){
+					var index = $scope.countries.array.map(function(e) { return e.name; }).indexOf($stateParams.country);
+					$scope.countries.country = $scope.countries.array[index];
+				}else{
+					console.log('mphka');
+					$scope.countries.country = $scope.countries.array[0];
+				}
 			}, function(response){
 				console.log(response);
 			})
@@ -63,7 +78,7 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 		});
 	
 	var search = function(){
-		
+		console.log($scope.searchData);
 		AuctionItemService.search(1, 10, $scope.searchData)
 			.then(function(response){
 				$scope.searchResults = response.data;
@@ -159,16 +174,29 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 
 	$scope.filter = function(category){
 		
-		$state.go('main.search', {input: $scope.searchData.text, catId: category.categoryId});
+		$state.go('main.search', {input: $scope.searchData.text, catId: category.categoryId, country: $stateParams.country, from: $stateParams.from, to: $stateParams.to});
 	};
 	
 	
 	$scope.reset = function(){
-		$state.go('main.search', {input: $scope.searchData.text, catId: 'ALL'});
+		$state.go('main.search', {input: $scope.searchData.text, catId: 'ALL', country: $scope.currentCountry});
 	}
 	
 	$scope.goBack = function(categoryId){
-		$state.go('main.search', {input: $scope.searchData.text, catId: categoryId});
+		$state.go('main.search', {input: $scope.searchData.text, catId: categoryId, country: $scope.currentCountry, from: $stateParams.from, to: $stateParams.to});
 	}
 	
+	$scope.filterCountry = function(country){
+		console.log(country.name);
+		if(country.name == "All countries")
+			$scope.currentCountry = "";
+		else
+			$scope.currentCountry = country.name;
+		$state.go('main.search', {input: $scope.searchData.text, catId: $stateParams.catId, country: $scope.currentCountry, from: $stateParams.from, to: $stateParams.to});
+	}
+	
+	$scope.filterPrice = function(range){
+		console.log(range);
+		$state.go('main.search', {input: $scope.searchData.text, catId: $stateParams.catId, country: $stateParams.country, from : range.from, to: range.to});
+	}
 });

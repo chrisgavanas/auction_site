@@ -76,7 +76,7 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         	}}
         })
         .state('main.search', {
-        	url: '/search?catId&input',
+        	url: '/search?catId&input&country&from&to',
         	views: { 'mainview': {
         		controller: 'searchController',
         		templateUrl: 'search/search.html'
