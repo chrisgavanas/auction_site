@@ -69,9 +69,21 @@
   									Your bid has been placed!
   								</div>
   							</div>
+  							<div class="row" ng-if="conflict2">
+  								<div class="alert alert-danger" >
+  									You cannot bid your own item!
+  								</div>
+  								
+  							</div>
   							<div class="row" ng-if="conflict">
   								<div class="alert alert-danger" >
   									You cannot bid your own item!
+  								</div>
+  								
+  							</div>
+  							<div class="row" ng-if="conflict">
+  								<div class="alert alert-danger" >
+  									You cannot bid this item again yet!
   								</div>
   								
   							</div>
@@ -171,8 +183,8 @@
         <h4 class="modal-title">Bidding Overview</h4>
       </div>
       <div class="modal-body">
-        <p ng-if="bid.amount == null && bid.amount != null &&  bid.amount < item.buyout">Bid amount: ${{bid.amount}}</p>
-         <p ng-if="bid.amount == null && (bid.amount == null ||  bid.amount >= item.buyout)">Bid amount: none</p>
+        <p ng-if="bid.amount != null">Bid amount: ${{bid.amount}}</p>
+         <p ng-if="bid.amount == null ">Bid amount: none</p>
         <span><font size="2" color="red" ng-show="item.buyout != null && bid.amount >= item.buyout">Bidding amount cannot surpass buy out.</font></span>
         <div ng-messages="biddingform.bidding.$error" role="alert" ng-if="biddingform.bidding.$touched">
         	<div ng-message="validateBid" align="middle">

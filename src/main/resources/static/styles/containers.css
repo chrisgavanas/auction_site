@@ -91,8 +91,8 @@
 }
 
 #sellerContainer.container-fluid{
-	padding-left: 500px;
-	padding-right: 500px;
+	padding-left: 200px;
+	padding-right: 200px;
 	padding-top: 50px;
 	padding-bottom: 50px;
 	background:#ffffff url('../images/Photo-Gavel-Computer.png') repeat center center;
@@ -159,8 +159,8 @@
 
 #sellerContainer1.container-fluid{
 	padding-top: 10px;
-	padding-left: 400px;
-	padding-right: 400px;
+	padding-left: 200px;
+	padding-right: 200px;
 	padding-bottom: 100px;
 	
 }
