@@ -1,6 +1,8 @@
 package com.webapplication.api.category;
 
 import com.webapplication.dto.category.CategoryResponseDto;
+import com.webapplication.recommendation.Recommendation;
+import com.webapplication.recommendation.SessionRecommendation;
 import com.webapplication.service.category.CategoryServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,8 +20,16 @@ public class CategoryApiImpl implements CategoryApi {
     @Autowired
     private CategoryServiceApi categoryService;
 
+    @Autowired
+    private Recommendation recommendation;
+
+    @Autowired
+    private SessionRecommendation sessionRecommendation;
+
+
     @Override
     public List<CategoryResponseDto> getCategories() throws Exception {
+        sessionRecommendation.recommendItems(recommendation.get1(""), recommendation.get2(""), "57e2ae7463448fff5384252a");
         return categoryService.getCategories();
     }
 

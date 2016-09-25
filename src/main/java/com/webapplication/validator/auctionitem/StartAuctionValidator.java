@@ -19,4 +19,5 @@ public class StartAuctionValidator implements Validator<StartAuctionDto> {
         if (new Date().after(request.getEndDate()))
             throw new ValidationException(AuctionItemError.INVALID_AUCTION_END_DATE);
     }
+
 }

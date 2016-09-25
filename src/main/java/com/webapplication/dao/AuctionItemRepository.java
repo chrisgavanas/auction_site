@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface AuctionItemRepository extends MongoRepository<AuctionItem, String> {
@@ -24,12 +25,15 @@ public interface AuctionItemRepository extends MongoRepository<AuctionItem, Stri
 
     AuctionItem findAuctionItemByAuctionItemId(String auctionItemId);
 
+    @Query(value = "{'endDate' : {'$gte' : '?0'}}", fields = "{'_id' : 1}")
+    List<AuctionItem> findAuctionItemIdsOfActiveAuctions(Date date);
+
     @Query("{'endDate' : {'$gte' : '?0'} }")
     List<AuctionItem> findActiveAuctions(Date endDate, Pageable pageable);
 
     @Query("{$or: [{'name' : {$regex : '?0', $options : 'i'} }, {'description' : {$regex : '?0', $options : 'i'} } ], 'categoriesId' : {$regex : '?1' }, " +
-            " 'country' : {$regex : '?2', $options : 'i' }, 'currentBid' : {$gte : ?3, $lte : ?4}, 'userId': {$regex: '?5'}}")
-    List<AuctionItem> findAuctionsWithCriteria(String text, String categoryId, String country, Double priceFrom, Double priceTo, String sellerid,Pageable pageable);
+            " 'country' : {$regex : '?2', $options : 'i' }, 'currentBid' : {$gte : ?3, $lte : ?4}, 'userId': {$regex: '?5'}, 'endDate' : {'lt' : ?6 }}")
+    List<AuctionItem> findAuctionsWithCriteria(String text, String categoryId, String country, Double priceFrom, Double priceTo, String sellerId, Date date, Pageable pageable);
 
     @Query("{'endDate' : { '$lte' : '?0' }, 'buyerId' : null, 'bidsNo' : { '$gte' : 1 } }")
     List<AuctionItem> findSoldAndBiddedAuctionItems(Date date);

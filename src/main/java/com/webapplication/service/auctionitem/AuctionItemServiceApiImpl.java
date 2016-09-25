@@ -221,7 +221,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         Double priceFromToSearch = priceFrom == null ? 0 : priceFrom;
         Double priceToToSearch = priceTo == null ? Double.MAX_VALUE : priceTo;
         List<AuctionItem> auctionItems = auctionItemRepository.findAuctionsWithCriteria(searchAuctionItemDto.getText(), categoryIdToSearch,
-                searchAuctionItemDto.getCountry(), priceFromToSearch, priceToToSearch, sellerId,
+                searchAuctionItemDto.getCountry(), priceFromToSearch, priceToToSearch, sellerId, new Date(),
                 new PageRequest(from / paginationPageSize, to - from + 1, new Sort(Sort.Direction.ASC, "currentBid")));
 
         return auctionItemMapper.auctionItemsToAuctionItemResponseDto(auctionItems);
