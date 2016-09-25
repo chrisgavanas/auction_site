@@ -149,6 +149,7 @@ public class AuctionItemMapper {
         auctionItem.setBuyout(auctionItemUpdateRequestDto.getBuyout());
         auctionItem.setDescription(auctionItemUpdateRequestDto.getDescription());
         auctionItem.setMinBid(auctionItemUpdateRequestDto.getMinBid());
+        auctionItem.setCurrentBid(auctionItemUpdateRequestDto.getMinBid());
         auctionItem.setName(auctionItemUpdateRequestDto.getName());
         auctionItem.setCountry(auctionItemUpdateRequestDto.getCountry());
         GeoLocationDto geoLocationDto = auctionItemUpdateRequestDto.getGeoLocationDto();
@@ -156,6 +157,7 @@ public class AuctionItemMapper {
             GeoLocation geoLocation = new GeoLocation();
             geoLocation.setLatitude(geoLocationDto.getLatitude());
             geoLocation.setLongitude(geoLocationDto.getLongitude());
+            auctionItem.setGeoLocation(geoLocation);
         } else
             auctionItem.setGeoLocation(null);
         validateCategoryIds(auctionItemUpdateRequestDto.getCategoryIds());

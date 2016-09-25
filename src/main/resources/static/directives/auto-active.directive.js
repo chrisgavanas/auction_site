@@ -17,7 +17,7 @@ router.directive('autoActive', ['$location', '$state', function ($location, $sta
                                 angular.element(a).removeClass('active');
                             }
                             if(a.href == "unsafe:https://localhost:8080/#/profile/userAuctions" && path == '/profile/userAuctions/active'){
-                            	console.log('mphkaaa');
+                            	
                             	angular.element(a).addClass('active');
                             }
                             if(a.href == "unsafe:https://localhost:8080/#/profile/userAuctions" && path == '/profile/userAuctions/pending'){

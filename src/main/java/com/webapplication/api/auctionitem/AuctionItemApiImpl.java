@@ -112,11 +112,11 @@ public class AuctionItemApiImpl implements AuctionItemApi {
     }
 
     @Override
-    public List<BidResponseDto> getBidsOfAuctionItem(@RequestHeader UUID authToken, @PathVariable String auctionItemId) throws Exception {
-        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+    public List<BidResponseDto> getBidsOfAuctionItem(@PathVariable String auctionItemId) throws Exception {
+        
         Optional.ofNullable(auctionItemId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
 
-        return auctionItemService.getBidsOfAuctionItem(authToken, auctionItemId);
+        return auctionItemService.getBidsOfAuctionItem(auctionItemId);
     }
 
     @Override

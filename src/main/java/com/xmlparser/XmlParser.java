@@ -161,8 +161,15 @@ public class XmlParser {
             location.setCity(address.getCity());
             auction.setCountry(auctionItem.getCountry());
         }
-        auction.setStartDate(sdf.format(auctionItem.getStartDate()));
-        auction.setEndDate(sdf.format(auctionItem.getEndDate()));
+        
+        Date startDate = auctionItem.getStartDate();
+        if(startDate != null)
+        	auction.setStartDate(sdf.format(auctionItem.getStartDate()));
+        
+        
+        Date endDate = auctionItem.getEndDate();
+        if(endDate != null)
+        	auction.setEndDate(sdf.format(auctionItem.getEndDate()));
         Seller seller = createSeller(user);
         auction.setSeller(seller);
         auction.setDescription(auctionItem.getDescription());

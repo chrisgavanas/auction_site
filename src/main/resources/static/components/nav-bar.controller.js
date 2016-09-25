@@ -6,7 +6,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 	$scope.categories = {};
 	$scope.categories.category = {};
 	
-	console.log($scope.signedIn);
+	
 	$scope.user = {};
 	$scope.token = null;
 	$scope.contact = null;
@@ -20,8 +20,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 	}else{
 		$scope.signedIn = false;
 	}
-	console.log($scope.token);
-	console.log($scope.user.userId);
+	
 	var getMessages = function(){
 		MessageService.getMessagesByType($scope.token, $scope.user.userId, "RECEIVED")
 						.then (function(response){

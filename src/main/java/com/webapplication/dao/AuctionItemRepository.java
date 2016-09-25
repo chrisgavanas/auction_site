@@ -31,7 +31,7 @@ public interface AuctionItemRepository extends MongoRepository<AuctionItem, Stri
             " 'country' : {$regex : '?2', $options : 'i' }, 'currentBid' : {$gte : ?3, $lte : ?4}, 'userId': {$regex: '?5'}}")
     List<AuctionItem> findAuctionsWithCriteria(String text, String categoryId, String country, Double priceFrom, Double priceTo, String sellerid,Pageable pageable);
 
-    @Query("{'endDate' : { '$gte' : '?0' }, 'buyerId' : null, 'bidsNo' : { '$gte' : 1 } }")
+    @Query("{'endDate' : { '$lte' : '?0' }, 'buyerId' : null, 'bidsNo' : { '$gte' : 1 } }")
     List<AuctionItem> findSoldAndBiddedAuctionItems(Date date);
 
 }

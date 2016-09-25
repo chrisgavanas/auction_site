@@ -202,11 +202,10 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     @Override
-    public List<BidResponseDto> getBidsOfAuctionItem(UUID authToken, String auctionItemId) throws Exception {
-        SessionInfo sessionInfo = getActiveSession(authToken);
+    public List<BidResponseDto> getBidsOfAuctionItem(String auctionItemId) throws Exception {
+       
         AuctionItem auctionItem = getAuctionItem(auctionItemId);
-        validateAuthorization(auctionItem.getUserId(), sessionInfo);
-
+       
         return auctionItemMapper.bidsToBidResponseDtos(auctionItem.getBids());
     }
 
