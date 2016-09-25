@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface AuctionItemRepository extends MongoRepository<AuctionItem, String> {
@@ -23,6 +24,9 @@ public interface AuctionItemRepository extends MongoRepository<AuctionItem, Stri
     List<AuctionItem> findInactiveAuctionsOfUser(String userId, Date date, Pageable pageable);
 
     AuctionItem findAuctionItemByAuctionItemId(String auctionItemId);
+
+    @Query(value = "{'endDate' : {'$gte' : '?0'}}", fields = "{'_id' : 1}")
+    List<AuctionItem> findAuctionItemIdsOfActiveAuctions(Date date);
 
     @Query("{'endDate' : {'$gte' : '?0'} }")
     List<AuctionItem> findActiveAuctions(Date endDate, Pageable pageable);

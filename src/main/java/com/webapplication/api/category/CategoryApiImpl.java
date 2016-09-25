@@ -29,7 +29,7 @@ public class CategoryApiImpl implements CategoryApi {
 
     @Override
     public List<CategoryResponseDto> getCategories() throws Exception {
-//        sessionRecommendation.recommendItems(recommendation.get1(""), recommendation.get2(""), "57e6356663441789f92b7e11");
+        sessionRecommendation.recommendItems(recommendation.get1(""), recommendation.get2(""), "57e2ae7463448fff5384252a");
         return categoryService.getCategories();
     }
 

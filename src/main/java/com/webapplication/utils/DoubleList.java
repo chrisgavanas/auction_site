@@ -13,7 +13,7 @@ public class DoubleList implements Comparable<DoubleList> {
 
     @Override
     public int compareTo(DoubleList o) {
-        return similarity.compareTo(o.similarity);
+        return o.similarity.compareTo(this.similarity);
     }
 
     public Double getSimilarity() {
