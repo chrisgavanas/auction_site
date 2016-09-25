@@ -204,6 +204,8 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 			$scope.currentCountry = "";
 		else
 			$scope.currentCountry = country.name;
+		if($scope.currentCountry == 'United States')
+			$scope.currentCountry = 'USA';
 		$state.go('main.search', {input: $scope.searchData.text, catId: $stateParams.catId, country: $scope.currentCountry, from: $stateParams.from, to: $stateParams.to, sellerId: $stateParams.sellerId});
 	}
 	

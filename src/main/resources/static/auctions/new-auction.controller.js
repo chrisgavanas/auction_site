@@ -33,8 +33,9 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	
 		$scope.item.userId = $scope.user.userId;
 		
-		console.log($scope.item);
 		
+		if($scope.item.country == 'United States')
+			$scope.item.country = 'USA';
 		if($scope.submit == true){
 			AuctionItemService.addAuctionItem($scope.token, $scope.item)
 								.then(function(response){
@@ -153,9 +154,3 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	};
 });
 
-/*<span class="progress" ng-show="file.progress >= 0">
-<div style="width:{{file.progress}}%"  
-	 ng-bind="file.progress + '%'"></div>
-</span>*/
-/*<li ng-repeat="f in errFiles" style="font:smaller"><font size="1">{{f.name}} {{f.$error}} {{f.$errorParam}}</font>
-</li> */

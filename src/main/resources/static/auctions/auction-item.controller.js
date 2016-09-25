@@ -3,6 +3,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	$scope.shown = false;
 	var auctionItemId = $stateParams.id;
 	
+	
 	$scope.images = [];
 	$scope.imagesCounter = [];
 	$scope.hasLatLon = null;
@@ -11,6 +12,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	$scope.bid = {};
 	$scope.conflict = false;
 	$scope.conflict1 = false;
+	$scope.conflict2 = false;
 	$scope.completed = false;
 	$scope.rate = false;
 	$scope.bid.userId = $scope.user.userId;
@@ -82,41 +84,44 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	}
 	
 	$scope.placeBid = function(){
-		console.log($scope.item);
-		if($scope.item.buyout != null){
-			if($scope.bid.amount < $scope.item.buyout){
-				console.log($scope.token, $scope.bid, $scope.item.auctionItemId);
-				AuctionItemService.bid($scope.token, $scope.bid, $scope.item.auctionItemId)
-							.then(function(response){
-								$scope.completed = true;
-								console.log(response);
-							}, function errorCallBack(response){
+		console.log($scope.user.userId);
+		if($scope.user.userId == $scope.item.userId)
+			$scope.conflict2 = true;
+		else{
+			if($scope.item.buyout != null){
+				if($scope.bid.amount < $scope.item.buyout){
+					console.log($scope.token, $scope.bid, $scope.item.auctionItemId);
+					AuctionItemService.bid($scope.token, $scope.bid, $scope.item.auctionItemId)
+									.then(function(response){
+										$scope.completed = true;
+										console.log(response);
+									}, function errorCallBack(response){
 								
-								console.log(response);
-								if(response.status == 409)
-									$scope.conflict = true;
-								if(response.status == 500)
-									$('#myModal').modal('show');
-							});
+										console.log(response);
+										if(response.status == 409)
+											$scope.conflict = true;
+										if(response.status == 500)
+											$('#myModal').modal('show');
+									});
 				
+				}else{
+					$scope.completed = false;
+				}
 			}else{
-				$scope.completed = false;
+			
+			
+				AuctionItemService.bid($scope.token, $scope.bid, $scope.item.auctionItemId)
+									.then(function(response){
+										$scope.completed = true;
+										console.log(response);
+									}, function errorCallBack(response){
+										if(response.status == 409)
+											$scope.conflict = true;
+									});
+			
 			}
-		}else{
-			
-			
-			AuctionItemService.bid($scope.token, $scope.bid, $scope.item.auctionItemId)
-						.then(function(response){
-							$scope.completed = true;
-							console.log(response);
-						}, function errorCallBack(response){
-							if(response.status == 409)
-								$scope.conflict = true;
-						});
-			
-		}
 				
-		
+		}
 	}
 
 	
