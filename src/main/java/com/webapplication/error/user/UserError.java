@@ -12,7 +12,7 @@ public enum UserError {
     PASSWORD_MISSMATCH("Password is invalid."),
     INVALID_PAGINATION_VALUES("\"From\" value must be greater or equal to \"To\" value."),
     MESSAGE_NOT_FOUND("Message not found."),
-    VOTE_NOT_ALLOWED("User can't vote him/herself.");
+    ALREADY_VOTED("You have already voted.");
 
     private final String description;
 

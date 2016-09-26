@@ -2,6 +2,7 @@ package com.webapplication.api.user;
 
 
 import com.webapplication.dto.user.*;
+import com.webapplication.entity.AuctionItem;
 import com.webapplication.error.user.UserError;
 import com.webapplication.exception.ForbiddenException;
 import com.webapplication.exception.NotAuthenticatedException;
@@ -166,17 +167,13 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public void voteSeller(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable Vote vote, @RequestBody String sellerId) throws Exception {
-        validateVoteParams(authToken, userId, vote, sellerId);
+    public void vote(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable Vote vote, @RequestBody VoteLinkDto voteLinkDto) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(vote).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        userRequestValidator.validate(voteLinkDto);
 
-        userService.voteSeller(authToken, userId, vote, sellerId);
-    }
-
-    @Override
-    public void voteBuyer(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable Vote vote, @RequestBody String buyerId) throws Exception {
-        validateVoteParams(authToken, userId, vote, buyerId);
-
-        userService.voteBuyer(authToken, userId, vote, buyerId);
+        userService.vote(authToken, userId, vote, voteLinkDto);
     }
 
     private void validateVoteParams(UUID authToken, String userId, Vote vote, String sellerId) throws Exception {

@@ -1,7 +1,22 @@
 package com.webapplication.api.auctionitem;
 
-import com.webapplication.dto.auctionitem.*;
-import org.springframework.web.bind.annotation.*;
+import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
+import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
+import com.webapplication.dto.auctionitem.AuctionStatus;
+import com.webapplication.dto.auctionitem.BidRequestDto;
+import com.webapplication.dto.auctionitem.BidResponseDto;
+import com.webapplication.dto.auctionitem.BuyoutAuctionItemRequestDto;
+import com.webapplication.dto.auctionitem.SearchAuctionItemDto;
+import com.webapplication.dto.auctionitem.StartAuctionDto;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -47,5 +62,8 @@ public interface AuctionItemApi {
 
     @RequestMapping(path = "/auctionitem/{auctionItemId}/buyout", method = RequestMethod.POST, consumes = "application/json")
     void buyout(@RequestHeader UUID authToken, @PathVariable String auctionItemId, BuyoutAuctionItemRequestDto buyoutAuctionItemRequestDto) throws Exception;
+
+    @RequestMapping(path = "/auctionitem/recommend", method = RequestMethod.POST, consumes = "text/plain", produces = "application/json")
+    List<AuctionItemResponseDto> recommendAuctionItems(@RequestHeader UUID authToken, String userId) throws Exception;
 
 }

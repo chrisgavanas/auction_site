@@ -1,6 +1,7 @@
 package com.webapplication.service.user;
 
 import com.webapplication.dto.user.*;
+import com.webapplication.entity.AuctionItem;
 
 import java.util.List;
 import java.util.UUID;
@@ -34,8 +35,6 @@ public interface UserServiceApi {
 
     void deleteMessage(UUID authToken, String userId, List<String> messageIds, MessageType messageType) throws Exception;
 
-    void voteSeller(UUID authToken, String userId, Vote vote, String sellerId) throws Exception;
-
-    void voteBuyer(UUID authToken, String userId, Vote vote, String buyerId) throws Exception;
+    void vote(UUID authToken, String userId, Vote vote, VoteLinkDto voteLinkDto) throws Exception;
 
 }

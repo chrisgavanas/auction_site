@@ -4,6 +4,7 @@ package com.webapplication.scheduler;
 import com.webapplication.dao.AuctionItemRepository;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.Bid;
+import com.webapplication.service.auctionitem.AuctionItemServiceApiImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,9 @@ public class BidScheduler {
     @Autowired
     private AuctionItemRepository auctionItemRepository;
 
+    @Autowired
+    private AuctionItemServiceApiImpl auctionItemServiceApi;
+
     @Scheduled(fixedDelay = SCHEDULED_TIME_MINUTES)
     private void scanForSoldBiddedAuctionItems() {
         List<AuctionItem> auctionItems = auctionItemRepository.findSoldAndBiddedAuctionItems(new Date());
@@ -28,7 +32,10 @@ public class BidScheduler {
             Bid winningBid = auctionItem.getBids().get(0);
             auctionItem.setBuyerId(winningBid.getUserId());
             auctionItemRepository.save(auctionItem);
-            //TODO Send message to seller and winner
+            try {
+                auctionItemServiceApi.sendAutomaticMessage(auctionItem, winningBid.getUserId(), auctionItem.getUserId(), winningBid.getAmount());
+            } catch (Exception ignored) {
+            }
         });
     }
 

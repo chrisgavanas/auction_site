@@ -31,9 +31,6 @@ public class Recommendation {
     @Autowired
     private AuctionItemRepository auctionItemRepository;
 
-    @Autowired
-    private SessionRecommendation sessionRecommendation;
-
     @Scheduled(fixedDelay = REFRESH_TIME)
     private void recommendations() {
         preferredAuctionsPerUser.clear();
@@ -58,17 +55,13 @@ public class Recommendation {
         });
         auctionItems.forEach(auctionItem -> bidsOrBuyoutPerAuction.put(auctionItem.getAuctionItemId(),
                 findNumberOfBidsOfAuctionItem(auctionItem.getAuctionItemId())));
-
-        System.out.println("done");
-//        findNearestNeighbours(auctionItems, "57e2ae9c63448fff5384532a");
-//        System.out.println(similarity("57e2ae9c63448fff5384532a", "57e2ae9f63448fff538454f7"));
     }
 
-    public Map<String, Set<String>> get1(String userId) {
+    public Map<String, Set<String>> getPreferredAuctionsPerUser() {
         return preferredAuctionsPerUser;
     }
 
-    public Map<String, Integer> get2(String userId) {
+    public Map<String, Integer> getBidsOrBuyoutPerAuction() {
         return bidsOrBuyoutPerAuction;
     }
 
@@ -81,11 +74,6 @@ public class Recommendation {
             return number.get();
         else
             return 0;
-    }
-
-
-    public List<AuctionItem> recommendAuctionItemsForUser(String userId) {
-        return sessionRecommendation.recommendItems(preferredAuctionsPerUser, bidsOrBuyoutPerAuction, userId);
     }
 
 }

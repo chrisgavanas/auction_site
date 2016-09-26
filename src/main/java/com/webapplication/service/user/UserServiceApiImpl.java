@@ -2,17 +2,39 @@ package com.webapplication.service.user;
 
 import com.webapplication.authentication.Authenticator;
 import com.webapplication.dao.UserRepository;
-import com.webapplication.dto.user.*;
+import com.webapplication.dto.user.ChangePasswordRequestDto;
+import com.webapplication.dto.user.MessageRequestDto;
+import com.webapplication.dto.user.MessageResponseDto;
+import com.webapplication.dto.user.MessageType;
+import com.webapplication.dto.user.SellerResponseDto;
+import com.webapplication.dto.user.SessionInfo;
+import com.webapplication.dto.user.UserLogInRequestDto;
+import com.webapplication.dto.user.UserLogInResponseDto;
+import com.webapplication.dto.user.UserRegisterRequestDto;
+import com.webapplication.dto.user.UserRegisterResponseDto;
+import com.webapplication.dto.user.UserResponseDto;
+import com.webapplication.dto.user.UserUpdateRequestDto;
+import com.webapplication.dto.user.Vote;
+import com.webapplication.dto.user.VoteLinkDto;
 import com.webapplication.entity.Message;
 import com.webapplication.entity.User;
+import com.webapplication.entity.VoteLink;
 import com.webapplication.error.user.UserError;
 import com.webapplication.error.user.UserLogInError;
 import com.webapplication.error.user.UserRegisterError;
 import com.webapplication.exception.ForbiddenException;
 import com.webapplication.exception.NotAuthenticatedException;
 import com.webapplication.exception.NotAuthorizedException;
-import com.webapplication.exception.user.*;
+import com.webapplication.exception.user.EmailAlreadyInUseException;
+import com.webapplication.exception.user.EmailUnverifiedException;
+import com.webapplication.exception.user.MessageNotFoundException;
+import com.webapplication.exception.user.UserAlreadyExistsException;
+import com.webapplication.exception.user.UserAlreadyVerifiedException;
+import com.webapplication.exception.user.UserNotFoundException;
+import com.webapplication.exception.user.VoteException;
 import com.webapplication.mapper.UserMapper;
+import com.webapplication.recommendation.Recommendation;
+import com.webapplication.recommendation.SessionRecommendation;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,9 +42,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Transactional
@@ -38,6 +62,12 @@ public class UserServiceApiImpl implements UserServiceApi {
     @Autowired
     private Authenticator authenticator;
 
+    @Autowired
+    private Recommendation recommendation;
+
+    @Autowired
+    private SessionRecommendation sessionRecommendation;
+
     @Value("${paginationPageSize}")
     private Integer paginationPageSize;
 
@@ -48,6 +78,7 @@ public class UserServiceApiImpl implements UserServiceApi {
         if (!user.getIsVerified())
             throw new EmailUnverifiedException(UserLogInError.USER_NOT_EMAIL_VERIFIED);
 
+        startRecommendation(user.getUserId());
         SessionInfo session = new SessionInfo(user.getUserId(), DateTime.now().plusMinutes(Authenticator.SESSION_TIME_OUT_MINUTES), user.getIsAdmin());
         UUID authToken = authenticator.createSession(session);
 
@@ -134,7 +165,7 @@ public class UserServiceApiImpl implements UserServiceApi {
 
         return userMapper.userListToUserResponseList(users);
     }
-    
+
     @Override
     public List<UserResponseDto> getVerifiedUsers(UUID authToken, Integer from, Integer to) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
@@ -198,29 +229,35 @@ public class UserServiceApiImpl implements UserServiceApi {
     }
 
     @Override
-    public void voteSeller(UUID authToken, String userId, Vote vote, String sellerId) throws Exception {
+    public void vote(UUID authToken, String userId, Vote vote, VoteLinkDto voteLinkDto) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
         validateAuthorization(userId, sessionInfo);
-        User seller = getUser(sellerId);
+        String voteReceiverId = voteLinkDto.getVoteReceiverId();
+        User voter = getUser(userId);
+        User voteReceiver = getUser(voteReceiverId);
+        List<VoteLink> voteLinks = voter.getVoteLinks();
+        String auctionItemId = voteLinkDto.getAuctionItemId();
 
-        if (userId.equals(seller.getUserId()))
-            throw new VoteException(UserError.VOTE_NOT_ALLOWED);
+        for (VoteLink voteLink : voteLinks) {
+            if (voteLink.getVoterId().equals(userId) && voteLink.getVoteReceiverId().equals((voteReceiverId))
+                    && voteLink.getAuctionItemId().equals(auctionItemId)) {
+                if (voteLink.getVoteUserAsSeller())
+                    voteReceiver.setRatingAsSeller(voteReceiver.getRatingAsSeller() + vote.getValue());
+                else
+                    voteReceiver.setRatingAsBidder(voteReceiver.getRatingAsBidder() + vote.getValue());
+                voteLinks.remove(voteLink);
+                userRepository.save(Arrays.asList(new User[]{voter, voteReceiver}));
+                return;
+            }
+        }
 
-
-        seller.setRatingAsSeller(seller.getRatingAsSeller() + vote.getValue());
-        userRepository.save(seller);
+        throw new VoteException(UserError.ALREADY_VOTED);
     }
 
-    @Override
-    public void voteBuyer(UUID authToken, String userId, Vote vote, String buyerId) throws Exception {
-        SessionInfo sessionInfo = getActiveSession(authToken);
-        validateAuthorization(userId, sessionInfo);
-        User buyer = getUser(buyerId);
-        if (userId.equals(buyer.getUserId()))
-            throw new VoteException(UserError.VOTE_NOT_ALLOWED);
-
-        buyer.setRatingAsBidder(buyer.getRatingAsBidder() + vote.getValue());
-        userRepository.save(buyer);
+    private void startRecommendation(String userId) {
+        Map<String, Set<String>> preferredAuctionsPerUser = recommendation.getPreferredAuctionsPerUser();
+        Map<String, Integer> bidsOrBuyoutPerAuction = recommendation.getBidsOrBuyoutPerAuction();
+        sessionRecommendation.recommendItems(preferredAuctionsPerUser, bidsOrBuyoutPerAuction, userId);
     }
 
     private void markMessageAsSeen(String userId, String messageId) throws Exception {
