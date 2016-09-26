@@ -37,7 +37,7 @@ public interface AuctionItemServiceApi {
 
     AuctionItemBidResponseDto bidAuctionItem(UUID authToken, String auctionItemId, BidRequestDto bidRequestDto) throws Exception;
 
-    List<BidResponseDto> getBidsOfAuctionItem(UUID authToken, String auctionItemId) throws Exception;
+    List<BidResponseDto> getBidsOfAuctionItem(String auctionItemId) throws Exception;
 
     List<AuctionItemResponseDto> searchAuctionItem(Integer from, Integer to, SearchAuctionItemDto searchAuctionItemDto) throws Exception;
 

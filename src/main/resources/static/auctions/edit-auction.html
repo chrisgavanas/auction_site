@@ -103,12 +103,22 @@
   					</div>
   					<div class="col-md-5">
   						<h6>Drag the marker to your item's location.</h6>
-  						<ng-map center="current-location" zoom="4">
+  						<ng-map center="{{item.geoLocationDto.latitude}},{{item.geoLocationDto.longitude}}" zoom="5">
     						<marker position="{{item.geoLocationDto.latitude}},{{item.geoLocationDto.longitude}}" draggable="true" on-dragend="getCurrentLocation()"></marker>
   						</ng-map>
   					</div>
   					
   				</div>
+  				<div class='row'>
+  					<h5>Selected Country:</h5>
+  					<div class='col-md-4'>
+  					</div>
+					<div class='col-md-4'>
+						{{item.country}}
+					</div>
+					<div class='col-md-4'>
+					</div>
+				</div>
   				<hr>
   				<div class="row">
   					<h6>Uploaded images.</h6>

@@ -61,6 +61,9 @@
   								
   								
   							</div>
+  							<div class="row">
+  								<button type="button" class="btn btn-link" data-toggle="modal" ng-click="getOffers(item.auctionItemId)" data-target="#offerModal2">See Offers</button>
+  							</div>
   							<div class="row" ng-if="item.endDate != null">
   								<font size="1">Time left: <timer end-time="item.endDate">{{days}} d, {{hours}} h, {{minutes}} m, {{seconds}} s.</timer></font>
   							</div>
@@ -75,12 +78,7 @@
   								</div>
   								
   							</div>
-  							<div class="row" ng-if="conflict">
-  								<div class="alert alert-danger" >
-  									You cannot bid your own item!
-  								</div>
-  								
-  							</div>
+  							
   							<div class="row" ng-if="conflict">
   								<div class="alert alert-danger" >
   									You cannot bid this item again yet!
@@ -116,7 +114,7 @@
   									<font size="3">Seller Information</font>
   									<p><font size="2"><a ui-sref="main.seller({id: item.userId})">{{seller.username}}</a> ({{seller.ratingAsSeller}}<span class="glyphicon glyphicon-star"></span>)</font></p>
   									<p><font size="1">From {{seller.country}}</font></p>
-  									<p><font size="1"><a href="#">See other items.</a></font></p>
+  									<p><font size="1"><a ui-sref="main.search({catId: 'ALL', sellerId: seller.sellerId})" >See other items</a></font></p>
   								</div>
 							</div>
   						</div>
@@ -138,6 +136,7 @@
   					</div>
   				</div>
   				<div class="col-md-4">
+  					{{item.country}}
   					<ng-map center="{{item.geoLocationDto.latitude}},{{item.geoLocationDto.longitude}}" zoom="4">
     						<marker position="{{item.geoLocationDto.latitude}},{{item.geoLocationDto.longitude}}" ></marker>
   						</ng-map>
@@ -150,7 +149,7 @@
 <div id="completeModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
-    <!-- Modal content-->
+   
     <div class="modal-content">
      	<div class="modal-header">
         	<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -176,7 +175,7 @@
 <div id="myModal2" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
-    <!-- Modal content-->
+   
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -192,7 +191,7 @@
              		 <font size = "2"  color="red">Invalid bid increment!</font>
              		<br>
              		
-             		 <font size = "2">See <a ui-sref="main.biddingexamples">this page</a> for more information on bid increment.</font>
+             		 <font size = "2">See <button type="button" class="btn btn-link"  ng-click="go()" data-dismiss="modal">this page</button> for more information on bid increment.</font>
              		
             </div>
       	</div>
@@ -206,5 +205,56 @@
 </div>
 </form>
 
+<div id="offerModal2" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
+   
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Bidding Overview</h4>
+      </div>
+      <div class="modal-body">
+        
+		<div class='panel panel-default'>
+			<div class="panel-heading" align='left'>
+				<div class="row">
+					<div class="col-md-4">
+						<font size = "2">Bidder</font>
+					</div>
+					<div class="col-md-2">
+						<font size = "2">Amount</font>
+					</div>
+					<div class="col-md-6">
+						<font size = "2">Date of Bid</font>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body" align='left'>
+			
+				<div class="row" ng-repeat="bid in bidds" >
+					<div class="col-md-4">
+						<font size = "2">{{bid.bidderUsername}} </font>
+					</div>
+					<div class="col-md-2">
+						<font size = "2">{{bid.amount}}$</font>
+					</div>
+					<div class="col-md-6">
+						<font size = "2">{{bid.bidDate | date:  "MMM d, y h:mm a"}}</font>
+					</div>
+					
+				</div>
+			</div>
+		
+		</div>
+	
+	
+      	</div>
+    <div class="modal-footer">
+        	<button type="button" class="btn btn-primary"  data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 </div>

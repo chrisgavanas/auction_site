@@ -1,4 +1,4 @@
-router.controller('adminOptionsUnverifiedController', function($state, $scope, $cookies, $http, AuthenticationService){
+router.controller('adminOptionsUnverifiedController', function($state, $scope, $cookies, $http, AuthenticationService, AdminService){
 	
 
 	$scope.unverified = {};
@@ -10,46 +10,49 @@ router.controller('adminOptionsUnverifiedController', function($state, $scope, $
 	
 		
 		
-	$http.get('/api/user/unverified/1-10', {headers: {'authToken': $scope.token}} ).then(function successCallback(response){
-		$scope.unverified = angular.copy(response.data);
+	AdminService.getUnverified($scope.token, 1, 10)
+				.then(function successCallback(response){
+					$scope.unverified = angular.copy(response.data);
+					console.log($scope.unverfied);
+					var i;
+					for(i = 0; i < $scope.unverified.length; i ++){
+						$scope.usernamesAndIds.push( { id: $scope.unverified[i].userId, text: $scope.unverified[i].username } );
+					}
 			
-		var i;
-		for(i = 0; i < $scope.unverified.length; i ++){
-				$scope.usernamesAndIds.push( { id: $scope.unverified[i].userId, text: $scope.unverified[i].username } );
-		}
-			
-	}, function errorCallback(response){
+				}, function errorCallback(response){
 			
 			
-	});
+				});
 		
 	
 	
 	
 	
 	$scope.getUnverified = function(form, to){
-		AuthenticationService.getUnverified($scope.token, form, to)
+		AdminService.getUnverified($scope.token, form, to)
 							.then(function(response){
 								console.log(respone);
 							}, function(response){
 								console.log(response);
 							});
-	}
+	};
+	
 	$scope.nextPage = function(){
 		$scope.pageCounter++;
 		var to = $scope.pageCounter * 10;
 		var from = to - 9;
 		
-		$http.get('/api/user/unverified/' +from+'-'+to, {headers: {'authToken': $scope.token}} ).then(function successCallback(response){
-			$scope.unverified = angular.copy(response.data);
-		}, function errorCallback(response){
+		AdminService.getUnverified($scope.token, from, to)
+					.then(function successCallback(response){
+						$scope.unverified = angular.copy(response.data);
+					}, function errorCallback(response){
 			
 			
-		});
+					});
 		
 	
 		
-	}
+	};
 	
 	$scope.previousPage = function(){
 		$scope.pageCounter--;
@@ -57,15 +60,16 @@ router.controller('adminOptionsUnverifiedController', function($state, $scope, $
 			var to = $scope.pageCounter * 10;
 			var from = to - 9;
 			
-			$http.get('/api/user/unverified/' +from+'-'+to, {headers: {'authToken': token}} ).then(function successCallback(response){
-				$scope.unverified = angular.copy(response.data);
-			}, function errorCallback(response){
-				alert('error sthn unverified');
+			AdminService.getUnverified($scope.token, from, to)
+						.then(function successCallback(response){
+							$scope.unverified = angular.copy(response.data);
+						}, function errorCallback(response){
+							
 				
-			});
+						});
 		}
 		
-	}
+	};
 	
 	$scope.verify = function(username){
 		var userId = null;
@@ -79,19 +83,17 @@ router.controller('adminOptionsUnverifiedController', function($state, $scope, $
 				
 		}
 	
-		$http.post('/api/user/'+userId+'/verify-user', {}, {headers: {'authToken': token}}).then(function successCallback(response){
-			$state.go($state.current, {}, {reload: true});
+		AdminService.verify($scope.token, userId)
+					.then(function successCallback(response){
+						$state.go($state.current, {}, {reload: true});
 			
-		}, function errorCallback(response){
-			alert(response.data.message);
+					}, function errorCallback(response){
 			
-		});
-	}
+			
+					});
+	};
 	
 	$scope.showUser = function(username){
-		
-		userDataService.setUsername(username);
 		$state.go('main.userpreview');
-		
-	}
+	};
 });

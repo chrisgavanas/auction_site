@@ -2,7 +2,9 @@
 	
 	
 	<br>
-	
+	<a ui-sref='main.admin'>Go back to Administration page.</a>
+	<br>
+	<br>
 	<div class="row">
 			<div class="col-md-2">
 				<font size="2">Username</font>
@@ -150,5 +152,5 @@
 		<hr>
 		
 		<br>
-		<button id="verificationBtn" class="btn btn-default" ng-click="verify()">Verify</button>
+		<button id="verificationBtn" class="btn btn-default" ng-click="verify()" ng-show='!user1.isVerified'>Verify</button>
 </div>

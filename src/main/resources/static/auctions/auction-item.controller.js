@@ -19,12 +19,14 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	$scope.selectedImage = null;
 	$scope.inactive = false;
 	
-	console.log('token is ' + $scope.token);
+	$scope.bidds = [];
+	
 	
 	
 	AuctionItemService.getAuctionItemById($scope.token, auctionItemId)
 						.then(function(response){
 							$scope.item = response.data;
+							console.log($scope.item);
 							if($scope.item.buyerId != null){
 								AuthenticationService.getSeller($scope.item.buyerId, $scope.token)
 									.then(function(response){
@@ -54,7 +56,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 							for (i = 0; i < $scope.item.images.length; i++){
 								var res = $scope.item.images[i].replace(/\\/g, '/');
 								var res2 =res.split('/static/');
-								console.log(res2);
+								
 								$scope.images.push("./"+res2[1]);
 								if(i!=0)
 									$scope.imagesCounter.push[i];
@@ -73,15 +75,9 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 						});	
 	
 	$scope.go  = function(){
-		if(!$scope.shown){
-			$scope.shown = true;
-			$state.go('main.item.offers');
-			
-		}else{
-			$scope.shown = false;
-			$state.go('main.item');
-		}
-	}
+		
+		$state.go('main.biddingexamples');
+	};
 	
 	$scope.placeBid = function(){
 		console.log($scope.user.userId);
@@ -94,7 +90,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 					AuctionItemService.bid($scope.token, $scope.bid, $scope.item.auctionItemId)
 									.then(function(response){
 										$scope.completed = true;
-										console.log(response);
+										
 									}, function errorCallBack(response){
 								
 										console.log(response);
@@ -113,7 +109,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 				AuctionItemService.bid($scope.token, $scope.bid, $scope.item.auctionItemId)
 									.then(function(response){
 										$scope.completed = true;
-										console.log(response);
+										
 									}, function errorCallBack(response){
 										if(response.status == 409)
 											$scope.conflict = true;
@@ -122,7 +118,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 			}
 				
 		}
-	}
+	};
 
 	
 	$scope.changeImage = function (image){
@@ -143,27 +139,40 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 							}
 							console.log(response);
 						});
-	}
+	};
 
 	$scope.ratePositive = function(){
 		console.log($scope.token);
 		AuthenticationService.voteSeller($scope.token, $scope.user.userId, $scope.seller.sellerId, 'UP')
 							.then(function(response){
 								$scope.rate = true;
-								console.log(response);
+								
 							}, function(response){
 								console.log(response);
 							});
-	}
+	};
 	
 	$scope.rateNegative = function(){
 		console.log($scope.seller);
 		AuthenticationService.voteSeller($scope.token, $scope.user.userId, $scope.seller.sellerId, 'DOWN')
 							.then(function(response){
 								$scope.rate = true;
-								console.log(response);
+								
 							}, function(response){
 								console.log(response);
 							});
-	}
+	};
+	
+	
+	
+	
+	AuctionItemService.getBidsOfAuctionItem($scope.token, auctionItemId)
+					.then(function(response){
+						console.log(response);
+						$scope.bidds = response.data;
+						console.log($scope.bidds);
+					}, function(response){
+						console.log(response);
+					});
+	
 });

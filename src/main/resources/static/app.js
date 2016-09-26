@@ -269,3 +269,14 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         
         
 });
+
+router.run(['$rootScope', '$uibModalStack', function($rootScope, $uibModalStack){
+	$rootScope.$on('$stateChangeStart', 
+			function(event, toState, toParams, fromState, fromParams){ 
+					console.log('a');
+					$uibModalStack.dismissAll();
+			})                                                                                                                                                                  
+    
+}]); 
+
+

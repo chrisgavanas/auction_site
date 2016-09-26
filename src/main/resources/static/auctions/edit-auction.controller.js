@@ -67,6 +67,11 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 		$scope.pos = this.getPosition();
 		$scope.item.geoLocationDto.latitude = $scope.pos.lat();
 		$scope.item.geoLocationDto.longitude = $scope.pos.lng();
+		console.log($scope.item);
+		$http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng='+$scope.item.geoLocationDto.latitude+','+$scope.item.geoLocationDto.longitude+'&sensor=false&language=en')
+		.then(function (response){
+			$scope.item.country = response.data.results[response.data.results.length - 1].formatted_address;
+		})
 	   
 	};
 	
@@ -83,7 +88,7 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 		$scope.selectedAll.push(category.categoryId);
 		if(category.subCategories.length != 0){
 			$scope.submit = false;
-			console.log(category.description + category.categoryId);
+			
 			$scope.categoryIds = category.subCategories;
 			
 		}else{
@@ -122,7 +127,7 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
             }, function (response) {
                 if (response.status > 0)
                     $scope.errorMsg = response.status + ': ' + response.data;
-                	console.log(response);
+                	
             }, function (evt) {
                 file.progress = Math.min(100, parseInt(100.0 * 
                                          evt.loaded / evt.total));
@@ -147,7 +152,6 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 			      break;
 			   }
 		}
-		console.log(fullUrl.replace(/\//g,"\\"));
-		console.log($scope.item.images);
+		
 	};
 });

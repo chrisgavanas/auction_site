@@ -7,7 +7,7 @@ router.directive("validateBid", function(){
 		link: function(scope, elm, attrs, ctrl){
 		
 			ctrl.$validators.validateBid = function(newBid){
-				console.log(newBid + " " + scope.minBid);
+			
 				if(scope.minBid >= 0.01 && scope.minBid <= 0.99)
 					if(newBid - scope.minBid >= 0.05)
 						return true;

@@ -1,44 +1,21 @@
-router.controller('adminOptionsController', function($timeout,$window, $state, $scope, $cookies, $http, AuthenticationService){
-	$scope.user = {};
-	
-	$scope.signedIn = {};
+router.controller('adminOptionsController', function($timeout,$window, $state, $scope, $cookies, $http, AuthenticationService, AdminService){
+	$scope.xmldata = null;
+	$scope.buttonClicked = false;
 
 
-	if($cookies.get('signedIn') === 'yes'){
-		$scope.user.userId = $cookies.get('userId');
-		$scope.signedIn = true;
-		var token = $cookies.get('authToken');
-		
-		$http.get('/api/user/'+ $scope.user.userId, {headers: {'authToken': token}}).then(function successCallback(response){
-			$scope.user = angular.copy(response.data);
-
-		}, function errorCallback(response){
-			
-			$cookies.remove('userId');
-			$cookies.remove('authToken');
-			$cookies.put('signedIn', 'no');
-			$state.go('main.welcome');
-			
-		});
-		
-		
-		
-	}
 	
-	
-	$scope.koula = function(){
+	$scope.verified = function(){
 		$state.go('main.verified');
 	};
 	
-	$scope.kitsos = function(){
+	$scope.unverified = function(){
 		$state.go('main.unverified');
 	};
-	$scope.xmldata = null;
-	$scope.buttonClicked = false;
+	
 	$scope.prepareXML = function(){
 		$scope.buttonClicked = true;
 		$scope.wait = true;
-		var promise = AuthenticationService.exportToXML(token);
+		var promise = AdminService.exportToXML($scope.token);
 
 								promise.then(function(response){
 									$timeout(function () {
