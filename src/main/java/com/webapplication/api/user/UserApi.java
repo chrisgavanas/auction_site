@@ -66,7 +66,7 @@ public interface UserApi {
     @RequestMapping(path = "/user/{userId}/message/delete", method = RequestMethod.POST)
     void deleteMessage(@RequestHeader UUID authToken, @PathVariable String userId, List<String> messageIds, @RequestParam("messageType") MessageType messageType) throws Exception;
 
-    @RequestMapping(path = "/user/{userId}/vote-seller/{vote}", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(path = "/user/{userId}/vote/{vote}", method = RequestMethod.POST, consumes = "application/json")
     void vote(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable Vote vote, VoteLinkDto voteLinkDto) throws Exception;
 
 }
