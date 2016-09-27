@@ -41,6 +41,9 @@ public class User {
     @Embedded
     private List<Message> receivedMessages;
 
+    @Embedded
+    private List<VoteLink> voteLinks;
+
     private List<String> auctionItemIds;
     private List<String> bidIds;
 
@@ -54,6 +57,7 @@ public class User {
         this.isAdmin = false;
         this.sentMessages = new LinkedList<>();
         this.receivedMessages = new LinkedList<>();
+        this.voteLinks = new LinkedList<>();
         this.bidIds = new LinkedList<>();
     }
 
@@ -259,6 +263,14 @@ public class User {
 
     public void setReceivedMessages(List<Message> receivedMessages) {
         this.receivedMessages = receivedMessages;
+    }
+
+    public List<VoteLink> getVoteLinks() {
+        return voteLinks;
+    }
+
+    public void setVoteLinks(List<VoteLink> voteLinks) {
+        this.voteLinks = voteLinks;
     }
 
 }

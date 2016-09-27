@@ -2,10 +2,10 @@ package com.webapplication.validator.ValidatorWrapper;
 
 import com.webapplication.dto.user.ChangePasswordRequestDto;
 import com.webapplication.dto.user.MessageRequestDto;
-import com.webapplication.dto.user.MessageResponseDto;
 import com.webapplication.dto.user.UserLogInRequestDto;
 import com.webapplication.dto.user.UserRegisterRequestDto;
 import com.webapplication.dto.user.UserUpdateRequestDto;
+import com.webapplication.dto.user.VoteLinkDto;
 import com.webapplication.exception.ValidationException;
 
 public interface UserRequestValidatorWrapper {
@@ -19,5 +19,7 @@ public interface UserRequestValidatorWrapper {
     void validate(UserUpdateRequestDto userUpdateRequestDto) throws ValidationException;
 
     void validate(MessageRequestDto messageRequestDto) throws ValidationException;
+
+    void validate(VoteLinkDto voteLinkDto) throws ValidationException;
 
 }

@@ -1,10 +1,28 @@
 package com.webapplication.api.auctionitem;
 
 import com.google.common.base.Strings;
-import com.webapplication.dto.auctionitem.*;
+import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
+import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
+import com.webapplication.dto.auctionitem.AuctionStatus;
+import com.webapplication.dto.auctionitem.BidRequestDto;
+import com.webapplication.dto.auctionitem.BidResponseDto;
+import com.webapplication.dto.auctionitem.BuyoutAuctionItemRequestDto;
+import com.webapplication.dto.auctionitem.SearchAuctionItemDto;
+import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.error.auctionitem.AuctionItemError;
+import com.webapplication.error.user.UserError;
+import com.webapplication.exception.NotAuthorizedException;
 import com.webapplication.exception.ValidationException;
-import com.webapplication.exception.auctionitem.*;
+import com.webapplication.exception.auctionitem.AuctionAlreadyInProgressException;
+import com.webapplication.exception.auctionitem.AuctionDurationTooShortException;
+import com.webapplication.exception.auctionitem.AuctionExpiredException;
+import com.webapplication.exception.auctionitem.AuctionItemNotFoundException;
+import com.webapplication.exception.auctionitem.BidException;
+import com.webapplication.exception.auctionitem.BuyoutException;
+import com.webapplication.exception.auctionitem.InvalidAuctionException;
 import com.webapplication.exception.category.CategoryHierarchyException;
 import com.webapplication.exception.category.CategoryNotFoundException;
 import com.webapplication.exception.user.UserNotFoundException;
@@ -13,7 +31,11 @@ import com.webapplication.validator.auctionitem.AuctionItemRequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -139,6 +161,14 @@ public class AuctionItemApiImpl implements AuctionItemApi {
         auctionItemService.buyout(authToken, auctionItemId, buyoutAuctionItemRequestDto);
     }
 
+    @Override
+    public List<AuctionItemResponseDto> recommendAuctionItems(@RequestHeader UUID authToken, @RequestBody String userId) throws Exception {
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+
+        return auctionItemService.recommendAuctionItems(authToken, userId);
+    }
+
     private void validatePaginationValues(Integer from, Integer to) throws Exception {
         Optional.ofNullable(from).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         Optional.ofNullable(to).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
@@ -151,6 +181,11 @@ public class AuctionItemApiImpl implements AuctionItemApi {
     @ExceptionHandler(ValidationException.class)
     private void invalidData(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @ExceptionHandler(NotAuthorizedException.class)
+    private void unauthorized(HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.FORBIDDEN.value());
     }
 
     @ExceptionHandler({UserNotFoundException.class, CategoryNotFoundException.class, IOException.class, AuctionItemNotFoundException.class})

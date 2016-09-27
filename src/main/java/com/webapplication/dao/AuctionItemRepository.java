@@ -2,14 +2,12 @@ package com.webapplication.dao;
 
 import com.webapplication.entity.AuctionItem;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public interface AuctionItemRepository extends MongoRepository<AuctionItem, String> {
@@ -37,5 +35,8 @@ public interface AuctionItemRepository extends MongoRepository<AuctionItem, Stri
 
     @Query("{'endDate' : { '$lte' : '?0' }, 'buyerId' : null, 'bidsNo' : { '$gte' : 1 } }")
     List<AuctionItem> findSoldAndBiddedAuctionItems(Date date);
+
+    @Query("{'auctionItemId' : { $in : ?0 } }")
+    List<AuctionItem> findAuctionItemsByIds(List<String> auctionItemIds);
 
 }

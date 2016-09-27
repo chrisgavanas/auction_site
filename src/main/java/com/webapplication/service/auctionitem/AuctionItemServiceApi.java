@@ -1,6 +1,16 @@
 package com.webapplication.service.auctionitem;
 
-import com.webapplication.dto.auctionitem.*;
+import com.webapplication.dto.auctionitem.AddAuctionItemRequestDto;
+import com.webapplication.dto.auctionitem.AddAuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemBidResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemResponseDto;
+import com.webapplication.dto.auctionitem.AuctionItemUpdateRequestDto;
+import com.webapplication.dto.auctionitem.AuctionStatus;
+import com.webapplication.dto.auctionitem.BidRequestDto;
+import com.webapplication.dto.auctionitem.BidResponseDto;
+import com.webapplication.dto.auctionitem.BuyoutAuctionItemRequestDto;
+import com.webapplication.dto.auctionitem.SearchAuctionItemDto;
+import com.webapplication.dto.auctionitem.StartAuctionDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,5 +42,7 @@ public interface AuctionItemServiceApi {
     List<AuctionItemResponseDto> searchAuctionItem(Integer from, Integer to, SearchAuctionItemDto searchAuctionItemDto) throws Exception;
 
     void buyout(UUID authToken, String auctionItemId, BuyoutAuctionItemRequestDto buyoutAuctionItemRequestDto) throws Exception;
+
+    List<AuctionItemResponseDto> recommendAuctionItems(UUID authToken, String userId) throws Exception;
 
 }

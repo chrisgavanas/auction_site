@@ -1,10 +1,26 @@
 package com.webapplication.api.user;
 
-import com.webapplication.dto.user.*;
-import org.springframework.web.bind.annotation.*;
+import com.webapplication.dto.user.ChangePasswordRequestDto;
+import com.webapplication.dto.user.MessageRequestDto;
+import com.webapplication.dto.user.MessageResponseDto;
+import com.webapplication.dto.user.MessageType;
+import com.webapplication.dto.user.SellerResponseDto;
+import com.webapplication.dto.user.UserLogInRequestDto;
+import com.webapplication.dto.user.UserLogInResponseDto;
+import com.webapplication.dto.user.UserRegisterRequestDto;
+import com.webapplication.dto.user.UserRegisterResponseDto;
+import com.webapplication.dto.user.UserResponseDto;
+import com.webapplication.dto.user.UserUpdateRequestDto;
+import com.webapplication.dto.user.Vote;
+import com.webapplication.dto.user.VoteLinkDto;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -22,7 +38,7 @@ public interface UserApi {
 
     @RequestMapping(path = "/seller/{sellerId}", method = RequestMethod.GET, produces = "application/json")
     SellerResponseDto getSeller(@PathVariable String sellerId) throws Exception;
-    
+
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     UserResponseDto updateUser(@RequestHeader UUID authToken, @PathVariable String userId, UserUpdateRequestDto userUpdateRequestDto) throws Exception;
 
@@ -37,7 +53,7 @@ public interface UserApi {
 
     @RequestMapping(path = "/user/verified/{from}-{to}", method = RequestMethod.GET, produces = "application/json")
     List<UserResponseDto> getVerifiedUsers(@RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception;
-    
+
     @RequestMapping(path = "/user/{userId}/send-message", method = RequestMethod.POST, consumes = "application/json")
     void sendMessage(@RequestHeader UUID authToken, @PathVariable String userId, MessageRequestDto messageRequestDto) throws Exception;
 
@@ -50,10 +66,7 @@ public interface UserApi {
     @RequestMapping(path = "/user/{userId}/message/delete", method = RequestMethod.POST)
     void deleteMessage(@RequestHeader UUID authToken, @PathVariable String userId, List<String> messageIds, @RequestParam("messageType") MessageType messageType) throws Exception;
 
-    @RequestMapping(path = "/user/{userId}/vote-seller/{vote}", method = RequestMethod.POST, consumes = "text/plain")
-    void voteSeller(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable Vote vote, String sellerId) throws Exception;
-
-    @RequestMapping(path = "/user/{userId}/vote-buyer/{vote}", method = RequestMethod.POST, consumes = "text/plain")
-    void voteBuyer(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable Vote vote, String buyerId) throws Exception;
+    @RequestMapping(path = "/user/{userId}/vote/{vote}", method = RequestMethod.POST, consumes = "application/json")
+    void vote(@RequestHeader UUID authToken, @PathVariable String userId, @PathVariable Vote vote, VoteLinkDto voteLinkDto) throws Exception;
 
 }

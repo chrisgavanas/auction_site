@@ -19,7 +19,9 @@ import com.webapplication.dto.user.SessionInfo;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.Bid;
 import com.webapplication.entity.Category;
+import com.webapplication.entity.Message;
 import com.webapplication.entity.User;
+import com.webapplication.entity.VoteLink;
 import com.webapplication.error.auctionitem.AuctionItemError;
 import com.webapplication.error.category.CategoryError;
 import com.webapplication.exception.NotAuthorizedException;
@@ -32,9 +34,11 @@ import com.webapplication.exception.auctionitem.BuyoutException;
 import com.webapplication.exception.category.CategoryNotFoundException;
 import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.mapper.AuctionItemMapper;
+import com.webapplication.recommendation.SessionRecommendation;
 import com.xmlparser.XmlParser;
 import org.apache.commons.io.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,6 +53,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -78,7 +83,8 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     @Autowired
     private XmlParser xmlParser;
 
-    private Random random;
+    @Autowired
+    private SessionRecommendation sessionRecommendation;
 
     @Value("${minAuctionDurationInHours}")
     private Integer minAuctionDurationInHours;
@@ -150,7 +156,6 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     @Override
     public AuctionItemResponseDto startAuction(UUID authToken, String auctionItemId, StartAuctionDto startAuctionDto) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
-        ;
         AuctionItem auctionItem = getAuctionItem(auctionItemId);
         if (auctionItem.getStartDate() != null)
             throw new AuctionAlreadyInProgressException(AuctionItemError.AUCTION_ALREADY_IN_PROGRESS);
@@ -216,7 +221,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         Double priceFrom = searchAuctionItemDto.getPriceFrom();
         Double priceTo = searchAuctionItemDto.getPriceTo();
         String sellerId = searchAuctionItemDto.getSellerId();
-        
+
         String categoryIdToSearch = categoryId.equals("ALL") ? "" : categoryId;
         Double priceFromToSearch = priceFrom == null ? 0 : priceFrom;
         Double priceToToSearch = priceTo == null ? Double.MAX_VALUE : priceTo;
@@ -235,6 +240,16 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         buyoutAuctionItem(auctionItem, buyoutAuctionItemRequestDto.getBuyerId());
     }
 
+    @Override
+    public List<AuctionItemResponseDto> recommendAuctionItems(UUID authToken, String userId) throws Exception {
+        SessionInfo sessionInfo = getActiveSession(authToken);
+        validateAuthorization(userId, sessionInfo);
+        List<String> recommendedAuctionItemIds = sessionRecommendation.recommend();
+        List<AuctionItem> recommendedAuctionItems = auctionItemRepository.findAuctionItemsByIds(recommendedAuctionItemIds);
+
+        return auctionItemMapper.auctionItemsToAuctionItemResponseDto(recommendedAuctionItems);
+    }
+
     private void validateCategory(String categoryId) throws Exception {
         if (!categoryId.equals("ALL")) {
             Category category = categoryRepository.findCategoryByCategoryId(categoryId);
@@ -250,9 +265,43 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         if (auctionItem.getUserId().equals(buyerId))
             throw new BuyoutException(AuctionItemError.INVALID_BUYOUT_FROM_USER);
 
+        User buyer = validateUserId(buyerId);
         auctionItem.setBuyerId(buyerId);
         auctionItem.setEndDate(new Date());
+        sendAutomaticMessage(auctionItem, buyerId, auctionItem.getUserId(), auctionItem.getBuyout());
         auctionItemRepository.save(auctionItem);
+    }
+
+    public void sendAutomaticMessage(AuctionItem auctionItem, String buyerId, String sellerId, Double price) throws Exception {
+        User buyer = validateUserId(buyerId);
+        User seller = validateUserId(sellerId);
+        Message messageToBuyer = new Message();
+        messageToBuyer.setMessageId(ObjectId.get().toString());
+        messageToBuyer.setSubject("Auction Completed");
+        messageToBuyer.setMessage("You have successfully purchased item " + auctionItem.getName()
+                + " from " + seller.getUsername() + " at the price of: " + price);
+        messageToBuyer.setDate(new Date());
+        messageToBuyer.setFrom("");
+        messageToBuyer.setTo(buyer.getUsername());
+        messageToBuyer.setSeen(false);
+        buyer.getReceivedMessages().add(0, messageToBuyer);
+        VoteLink voteSeller = new VoteLink(auctionItem.getAuctionItemId(), buyerId, sellerId, true);
+        buyer.getVoteLinks().add(voteSeller);
+
+        Message messageToSeller = new Message();
+        messageToSeller.setMessageId(ObjectId.get().toString());
+        messageToSeller.setSubject("Auction Completed");
+        messageToSeller.setMessage("Your item " + auctionItem.getName() + " has been purchased by " + buyer.getUsername()
+                + " at the price of: " + price);
+        messageToSeller.setDate(new Date());
+        messageToSeller.setFrom("");
+        messageToSeller.setTo(seller.getUsername());
+        messageToSeller.setSeen(false);
+        seller.getReceivedMessages().add(0, messageToSeller);
+        VoteLink voteBuyer = new VoteLink(auctionItem.getAuctionItemId(), sellerId, buyerId, false);
+        seller.getVoteLinks().add(voteBuyer);
+
+        userRepository.save(Arrays.asList(new User[]{buyer, seller}));
     }
 
     private void deletePossibleImages(AuctionItem auctionItem, List<String> editedImages) {
@@ -265,7 +314,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         auctionItem.setBidsNo(auctionItem.getBidsNo() + 1);
         auctionItem.setCurrentBid(bidRequestDto.getAmount());
         Bid newBid = new Bid(bidRequestDto.getAmount(), new Date(), bidRequestDto.getUserId());
-        auctionItem.getBids().add(0, newBid);      //TODO check if it's added at start or end
+        auctionItem.getBids().add(0, newBid);
     }
 
     private void validateBid(AuctionItem auctionItem, BidRequestDto bidRequestDto) throws Exception {
@@ -330,9 +379,10 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         return file;
     }
 
-    private void validateUserId(String userId) throws Exception {
+    private User validateUserId(String userId) throws Exception {
         User user = userRepository.findUserByUserId(userId);
         Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(AuctionItemError.USER_NOT_FOUND));
+        return user;
     }
 
     private Date validateDates(Date endDate) throws Exception {

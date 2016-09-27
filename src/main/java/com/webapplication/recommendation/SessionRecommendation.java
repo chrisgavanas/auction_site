@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -16,6 +15,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,23 +33,25 @@ public class SessionRecommendation {
     private Map<String, Set<String>> preferredAuctionsPerUser;
     private Map<String, Integer> bidsOrBuyoutPerAuction;
     private List<String> kMostCommonUsers;
-    private List<String> kMostCommonAuctionItems;
+    private List<String> kMostCommonAuctionItems = new LinkedList<>();
 
-    public List<AuctionItem> recommendItems(Map<String, Set<String>> preferredAuctionsPerUser, Map<String, Integer> bidsOrBuyoutPerAuction, String userId) {
-        if (this.preferredAuctionsPerUser == null)
-            this.preferredAuctionsPerUser = preferredAuctionsPerUser;
-        if (this.bidsOrBuyoutPerAuction == null)
-            this.bidsOrBuyoutPerAuction = bidsOrBuyoutPerAuction;
-
-        return recommendItems(userId);
+    public List<String> recommend() {
+        return kMostCommonAuctionItems;
     }
 
-    private List<AuctionItem> recommendItems(String userId) {
+    public void recommendItems(Map<String, Set<String>> preferredAuctionsPerUser, Map<String, Integer> bidsOrBuyoutPerAuction, String userId) {
+        this.preferredAuctionsPerUser = preferredAuctionsPerUser;
+        this.bidsOrBuyoutPerAuction = bidsOrBuyoutPerAuction;
+        recommendItems(userId);
+    }
+
+    private void recommendItems(String userId) {
+        if (preferredAuctionsPerUser.get(userId) == null)
+            return;
+        
         kMostCommonUsers = findKMostCommonUsers(userId);
         System.out.println(kMostCommonUsers);
         kMostCommonAuctionItems = findRecommendedItems(userId, kMostCommonUsers);
-
-        return null;
     }
 
     private List<String> findRecommendedItems(String userId, List<String> kMostCommonUsers) {
@@ -84,12 +86,18 @@ public class SessionRecommendation {
                 break;
         }
 
-        int i = 0;
         if (kMostCommonAuctionItems.size() < recommendedItems) {
-
+            int itemNo = recommendedItems - kMostCommonAuctionItems.size();
+            Random rng = new Random();
+            while (itemNo > 0) {
+                int pos = rng.nextInt(auctionItemIds.size());
+                if (!kMostCommonAuctionItems.contains(activeAuctions.get(pos).getAuctionItemId())) {
+                    itemNo--;
+                    kMostCommonAuctionItems.add(activeAuctions.get(pos).getAuctionItemId());
+                }
+            }
         }
 
-        System.out.println(kMostCommonAuctionItems.size());
         return kMostCommonAuctionItems;
     }
 
