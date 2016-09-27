@@ -94,7 +94,7 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 		AuctionItemService.search(1, 10, $scope.searchData)
 			.then(function(response){
 				$scope.searchResults = response.data;
-		
+				console.log(response);
 		
 		
 				var i;

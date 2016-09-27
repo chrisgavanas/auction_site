@@ -1,8 +1,7 @@
 package com.webapplication.api.category;
 
 import com.webapplication.dto.category.CategoryResponseDto;
-import com.webapplication.recommendation.Recommendation;
-import com.webapplication.recommendation.SessionRecommendation;
+
 import com.webapplication.service.category.CategoryServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +21,10 @@ public class CategoryApiImpl implements CategoryApi {
 
     @Override
     public List<CategoryResponseDto> getCategories() throws Exception {
+
+    	
+       
+
         return categoryService.getCategories();
     }
 
