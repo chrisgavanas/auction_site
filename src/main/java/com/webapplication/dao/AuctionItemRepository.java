@@ -29,7 +29,7 @@ public interface AuctionItemRepository extends MongoRepository<AuctionItem, Stri
     @Query("{'endDate' : {'$gte' : '?0'} }")
     List<AuctionItem> findActiveAuctions(Date endDate, Pageable pageable);
 
-    @Query("{$or: [{'name' : {$regex : '?0', $options : 'i'} }, {'description' : {$regex : '?0', $options : 'i'} } ], 'categoriesId' : {$regex : '?1' }, " +
+    @Query("{'endDate' : {$gte : ?6}, $or: [{'name' : {$regex : '?0', $options : 'i'} }, {'description' : {$regex : '?0', $options : 'i'} } ], 'categoriesId' : {$regex : '?1' }, " +
             " 'country' : {$regex : '?2', $options : 'i' }, 'currentBid' : {$gte : ?3, $lte : ?4}, 'userId': {$regex: '?5'}}")
     List<AuctionItem> findAuctionsWithCriteria(String text, String categoryId, String country, Double priceFrom, Double priceTo, String sellerId, Date date, Pageable pageable);
 
