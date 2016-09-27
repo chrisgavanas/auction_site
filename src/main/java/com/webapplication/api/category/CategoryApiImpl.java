@@ -29,7 +29,8 @@ public class CategoryApiImpl implements CategoryApi {
 
     @Override
     public List<CategoryResponseDto> getCategories() throws Exception {
-        sessionRecommendation.recommendItems(recommendation.get1(""), recommendation.get2(""), "57e2ae7463448fff5384252a");
+    	System.out.println("mpka");
+        sessionRecommendation.recommendItems(recommendation.get1(""), recommendation.get2(""), "57e7d7e8ae22c9667df94a9a");
         return categoryService.getCategories();
     }
 

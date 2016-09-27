@@ -46,6 +46,7 @@ public class SessionRecommendation {
 
     private List<AuctionItem> recommendItems(String userId) {
         kMostCommonUsers = findKMostCommonUsers(userId);
+        System.out.println(kMostCommonUsers);
         kMostCommonAuctionItems = findRecommendedItems(userId, kMostCommonUsers);
 
         return null;
@@ -93,6 +94,7 @@ public class SessionRecommendation {
     }
 
     private List<String> findKMostCommonUsers(String userId) {
+    	System.out.println("mostomon");
         List<DoubleList> similarities = new LinkedList<>();
         Set<String> userIds = new HashSet<>(preferredAuctionsPerUser.keySet());
         Set<String> biddedOrBuyoutItemsByUser1 = preferredAuctionsPerUser.get(userId);
