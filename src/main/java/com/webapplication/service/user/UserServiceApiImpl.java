@@ -43,6 +43,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -62,12 +63,6 @@ public class UserServiceApiImpl implements UserServiceApi {
     @Autowired
     private Authenticator authenticator;
 
-    @Autowired
-    private Recommendation recommendation;
-
-    @Autowired
-    private SessionRecommendation sessionRecommendation;
-
     @Value("${paginationPageSize}")
     private Integer paginationPageSize;
 
@@ -78,7 +73,6 @@ public class UserServiceApiImpl implements UserServiceApi {
         if (!user.getIsVerified())
             throw new EmailUnverifiedException(UserLogInError.USER_NOT_EMAIL_VERIFIED);
 
-        startRecommendation(user.getUserId());
         SessionInfo session = new SessionInfo(user.getUserId(), DateTime.now().plusMinutes(Authenticator.SESSION_TIME_OUT_MINUTES), user.getIsAdmin());
         UUID authToken = authenticator.createSession(session);
 
@@ -235,29 +229,24 @@ public class UserServiceApiImpl implements UserServiceApi {
         String voteReceiverId = voteLinkDto.getVoteReceiverId();
         User voter = getUser(userId);
         User voteReceiver = getUser(voteReceiverId);
-        List<VoteLink> voteLinks = voter.getVoteLinks();
+        List<Message> messages = voter.getReceivedMessages();
         String auctionItemId = voteLinkDto.getAuctionItemId();
 
-        for (VoteLink voteLink : voteLinks) {
-            if (voteLink.getVoterId().equals(userId) && voteLink.getVoteReceiverId().equals((voteReceiverId))
+        for (Message message : messages) {
+            VoteLink voteLink = message.getVoteLink();
+            if (voteLink != null && voteLink.getVoterId().equals(userId) && voteLink.getVoteReceiverId().equals((voteReceiverId))
                     && voteLink.getAuctionItemId().equals(auctionItemId)) {
                 if (voteLink.getVoteUserAsSeller())
                     voteReceiver.setRatingAsSeller(voteReceiver.getRatingAsSeller() + vote.getValue());
                 else
                     voteReceiver.setRatingAsBidder(voteReceiver.getRatingAsBidder() + vote.getValue());
-                voteLinks.remove(voteLink);
+                message.setVoteLink(null);
                 userRepository.save(Arrays.asList(new User[]{voter, voteReceiver}));
                 return;
             }
         }
 
         throw new VoteException(UserError.ALREADY_VOTED);
-    }
-
-    private void startRecommendation(String userId) {
-        Map<String, Set<String>> preferredAuctionsPerUser = recommendation.getPreferredAuctionsPerUser();
-        Map<String, Integer> bidsOrBuyoutPerAuction = recommendation.getBidsOrBuyoutPerAuction();
-        sessionRecommendation.recommendItems(preferredAuctionsPerUser, bidsOrBuyoutPerAuction, userId);
     }
 
     private void markMessageAsSeen(String userId, String messageId) throws Exception {

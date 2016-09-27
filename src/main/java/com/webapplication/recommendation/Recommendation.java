@@ -6,6 +6,7 @@ import com.webapplication.dao.UserRepository;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.entity.Bid;
 import com.webapplication.entity.User;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -21,9 +22,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Recommendation {
 
     private final static int REFRESH_TIME = 1000 * 60 * 60 * 6;
-
     private Map<String, Set<String>> preferredAuctionsPerUser = new ConcurrentHashMap<>();
     private Map<String, Integer> bidsOrBuyoutPerAuction = new ConcurrentHashMap<>();
+    private LocalDateTime lastRun;
 
     @Autowired
     private UserRepository userRepository;
@@ -55,6 +56,7 @@ public class Recommendation {
         });
         auctionItems.forEach(auctionItem -> bidsOrBuyoutPerAuction.put(auctionItem.getAuctionItemId(),
                 findNumberOfBidsOfAuctionItem(auctionItem.getAuctionItemId())));
+        lastRun = LocalDateTime.now();
     }
 
     public Map<String, Set<String>> getPreferredAuctionsPerUser() {
@@ -63,6 +65,10 @@ public class Recommendation {
 
     public Map<String, Integer> getBidsOrBuyoutPerAuction() {
         return bidsOrBuyoutPerAuction;
+    }
+
+    public LocalDateTime getLastRun() {
+        return lastRun;
     }
 
     private Integer findNumberOfBidsOfAuctionItem(String auctionItem) {

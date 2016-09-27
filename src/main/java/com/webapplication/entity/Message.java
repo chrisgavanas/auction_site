@@ -12,6 +12,7 @@ public class Message {
     private String to;
     private Date date;
     private Boolean seen;
+    private VoteLink voteLink;
 
     public String getMessageId() {
         return messageId;
@@ -67,6 +68,14 @@ public class Message {
 
     public void setSeen(Boolean seen) {
         this.seen = seen;
+    }
+
+    public VoteLink getVoteLink() {
+        return voteLink;
+    }
+
+    public void setVoteLink(VoteLink voteLink) {
+        this.voteLink = voteLink;
     }
 
 }

@@ -34,12 +34,14 @@ import com.webapplication.exception.auctionitem.BuyoutException;
 import com.webapplication.exception.category.CategoryNotFoundException;
 import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.mapper.AuctionItemMapper;
+import com.webapplication.recommendation.Recommendation;
 import com.webapplication.recommendation.SessionRecommendation;
 import com.xmlparser.XmlParser;
 import org.apache.commons.io.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -57,8 +59,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 @Transactional
@@ -82,6 +86,9 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
 
     @Autowired
     private XmlParser xmlParser;
+
+    @Autowired
+    private Recommendation recommendation;
 
     @Autowired
     private SessionRecommendation sessionRecommendation;
@@ -208,9 +215,9 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
 
     @Override
     public List<BidResponseDto> getBidsOfAuctionItem(String auctionItemId) throws Exception {
-       
+
         AuctionItem auctionItem = getAuctionItem(auctionItemId);
-       
+
         return auctionItemMapper.bidsToBidResponseDtos(auctionItem.getBids());
     }
 
@@ -244,10 +251,18 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     public List<AuctionItemResponseDto> recommendAuctionItems(UUID authToken, String userId) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
         validateAuthorization(userId, sessionInfo);
+        startRecommendation(userId);
         List<String> recommendedAuctionItemIds = sessionRecommendation.recommend();
         List<AuctionItem> recommendedAuctionItems = auctionItemRepository.findAuctionItemsByIds(recommendedAuctionItemIds);
 
         return auctionItemMapper.auctionItemsToAuctionItemResponseDto(recommendedAuctionItems);
+    }
+
+    private void startRecommendation(String userId) {
+        Map<String, Set<String>> preferredAuctionsPerUser = recommendation.getPreferredAuctionsPerUser();
+        Map<String, Integer> bidsOrBuyoutPerAuction = recommendation.getBidsOrBuyoutPerAuction();
+        LocalDateTime lastRun = recommendation.getLastRun();
+        sessionRecommendation.recommendItems(preferredAuctionsPerUser, bidsOrBuyoutPerAuction, lastRun, userId);
     }
 
     private void validateCategory(String categoryId) throws Exception {
@@ -286,7 +301,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         messageToBuyer.setSeen(false);
         buyer.getReceivedMessages().add(0, messageToBuyer);
         VoteLink voteSeller = new VoteLink(auctionItem.getAuctionItemId(), buyerId, sellerId, true);
-        buyer.getVoteLinks().add(voteSeller);
+        messageToBuyer.setVoteLink(voteSeller);
 
         Message messageToSeller = new Message();
         messageToSeller.setMessageId(ObjectId.get().toString());
@@ -299,7 +314,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         messageToSeller.setSeen(false);
         seller.getReceivedMessages().add(0, messageToSeller);
         VoteLink voteBuyer = new VoteLink(auctionItem.getAuctionItemId(), sellerId, buyerId, false);
-        seller.getVoteLinks().add(voteBuyer);
+        messageToSeller.setVoteLink(voteBuyer);
 
         userRepository.save(Arrays.asList(new User[]{buyer, seller}));
     }

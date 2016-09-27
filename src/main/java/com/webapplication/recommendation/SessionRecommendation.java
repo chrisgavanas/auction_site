@@ -3,10 +3,13 @@ package com.webapplication.recommendation;
 import com.webapplication.dao.AuctionItemRepository;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.utils.DoubleList;
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -34,21 +37,27 @@ public class SessionRecommendation {
     private Map<String, Integer> bidsOrBuyoutPerAuction;
     private List<String> kMostCommonUsers;
     private List<String> kMostCommonAuctionItems = new LinkedList<>();
+    private LocalDateTime lastRun;
 
     public List<String> recommend() {
         return kMostCommonAuctionItems;
     }
 
-    public void recommendItems(Map<String, Set<String>> preferredAuctionsPerUser, Map<String, Integer> bidsOrBuyoutPerAuction, String userId) {
-        this.preferredAuctionsPerUser = preferredAuctionsPerUser;
-        this.bidsOrBuyoutPerAuction = bidsOrBuyoutPerAuction;
-        recommendItems(userId);
+    public void recommendItems(Map<String, Set<String>> preferredAuctionsPerUser, Map<String, Integer> bidsOrBuyoutPerAuction, LocalDateTime lastRun, String userId) {
+        if (this.lastRun == null || this.lastRun.isBefore(lastRun)) {
+            this.lastRun = lastRun;
+            this.preferredAuctionsPerUser = preferredAuctionsPerUser;
+            this.bidsOrBuyoutPerAuction = bidsOrBuyoutPerAuction;
+            recommendItems(userId);
+        }
     }
 
     private void recommendItems(String userId) {
-        if (preferredAuctionsPerUser.get(userId) == null)
+        if (preferredAuctionsPerUser.get(userId) == null) {
+            setRandomAuctionItems();
             return;
-        
+        }
+
         kMostCommonUsers = findKMostCommonUsers(userId);
         kMostCommonAuctionItems = findRecommendedItems(userId, kMostCommonUsers);
     }
@@ -145,6 +154,13 @@ public class SessionRecommendation {
         }
 
         return userLikesBothAuctions / Math.sqrt(c1 * c2);
+    }
+
+    private void setRandomAuctionItems() {
+        List<AuctionItem> auctionItems = auctionItemRepository.findActiveAuctions(new Date(),
+                new PageRequest(0, recommendedItems));
+        auctionItems.stream().map(AuctionItem::getAuctionItemId)
+                .forEach(auctionItemId -> kMostCommonAuctionItems.add(auctionItemId));
     }
 
 }

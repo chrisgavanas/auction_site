@@ -8,9 +8,11 @@ import com.webapplication.dto.user.UserRegisterRequestDto;
 import com.webapplication.dto.user.UserRegisterResponseDto;
 import com.webapplication.dto.user.UserResponseDto;
 import com.webapplication.dto.user.UserUpdateRequestDto;
+import com.webapplication.dto.user.VoteLinkDto;
 import com.webapplication.entity.Address;
 import com.webapplication.entity.Message;
 import com.webapplication.entity.User;
+import com.webapplication.entity.VoteLink;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -172,6 +173,7 @@ public class UserMapper {
         message.setSubject(messageRequestDto.getSubject());
         message.setDate(new Date());
         message.setSeen(false);
+        message.setVoteLink(null);
 
         return message;
     }
@@ -188,8 +190,22 @@ public class UserMapper {
         messageResponseDto.setTo(message.getTo());
         messageResponseDto.setDate(message.getDate());
         messageResponseDto.setSeen(message.getSeen());
+        VoteLink voteLink = message.getVoteLink();
+        VoteLinkDto voteLinkDto = convertVoteLinkToVoteLinkDto(message.getMessageId(), voteLink);
+        messageResponseDto.setVoteLinkDto(voteLinkDto);
 
         return messageResponseDto;
+    }
+
+    private VoteLinkDto convertVoteLinkToVoteLinkDto(String messageId, VoteLink voteLink) {
+        if (voteLink == null)
+            return null;
+
+        VoteLinkDto voteLinkDto = new VoteLinkDto();
+        voteLinkDto.setMessageId(messageId);
+        voteLinkDto.setAuctionItemId(voteLink.getAuctionItemId());
+        voteLinkDto.setVoteReceiverId(voteLink.getVoteReceiverId());
+        return voteLinkDto;
     }
 
     public List<MessageResponseDto> convertMessageListToMessageResponseDtoList(List<Message> messages) {

@@ -3,12 +3,19 @@ package com.webapplication.dto.user;
 
 public class VoteLinkDto {
 
+    private String messageId;
     private String auctionItemId;
     private String voteReceiverId;
 
-    public VoteLinkDto(String auctionItemId, String voteReceiverId) {
-        this.auctionItemId = auctionItemId;
-        this.voteReceiverId = voteReceiverId;
+    public VoteLinkDto() {
+    }
+
+    public String getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 
     public String getAuctionItemId() {

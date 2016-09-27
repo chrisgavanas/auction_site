@@ -12,6 +12,7 @@ public class MessageResponseDto {
     private String to;
     private Date date;
     private Boolean seen;
+    private VoteLinkDto voteLinkDto;
 
     public String getMessageId() {
         return messageId;
@@ -67,6 +68,14 @@ public class MessageResponseDto {
 
     public void setSeen(Boolean seen) {
         this.seen = seen;
+    }
+
+    public VoteLinkDto getVoteLinkDto() {
+        return voteLinkDto;
+    }
+
+    public void setVoteLinkDto(VoteLinkDto voteLinkDto) {
+        this.voteLinkDto = voteLinkDto;
     }
 
 }
