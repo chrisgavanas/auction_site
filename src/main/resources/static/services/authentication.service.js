@@ -74,8 +74,8 @@ router.factory('AuthenticationService', function($http, $cookies) {
 					});
 	};
 	
-	authService.voteSeller = function (token, userId, sellerId, rating){
-		return $http.post('/api/user/'+userId+'/vote-seller/'+rating, sellerId, {headers:{'authToken':token}})
+	authService.voteSeller = function (token, userId,  rating, votedto){
+		return $http.post('/api/user/'+userId+'/vote/'+rating, votedto,{headers:{'authToken':token}})
 				.then(function (response){
 					return response;
 				});

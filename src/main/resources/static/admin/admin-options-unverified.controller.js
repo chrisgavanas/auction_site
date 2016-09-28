@@ -7,7 +7,8 @@ router.controller('adminOptionsUnverifiedController', function($state, $scope, $
 	
 	$scope.pageCounter = 1;
 	
-	
+	if($scope.signedIn == false)
+		$state.go('main.signedout');
 		
 		
 	AdminService.getUnverified($scope.token, 1, 10)
@@ -20,7 +21,12 @@ router.controller('adminOptionsUnverifiedController', function($state, $scope, $
 					}
 			
 				}, function errorCallback(response){
-			
+					$cookies.remove('userId');
+					$cookies.remove('authToken');
+					$cookies.put('signedIn', 'no');
+					
+					$scope.signedIn = false;
+					$state.go('main.signedout');
 			
 				});
 		
@@ -33,7 +39,12 @@ router.controller('adminOptionsUnverifiedController', function($state, $scope, $
 							.then(function(response){
 								console.log(respone);
 							}, function(response){
-								console.log(response);
+								$cookies.remove('userId');
+								$cookies.remove('authToken');
+								$cookies.put('signedIn', 'no');
+								
+								$scope.signedIn = false;
+								$state.go('main.signedout');
 							});
 	};
 	
@@ -46,7 +57,12 @@ router.controller('adminOptionsUnverifiedController', function($state, $scope, $
 					.then(function successCallback(response){
 						$scope.unverified = angular.copy(response.data);
 					}, function errorCallback(response){
-			
+						$cookies.remove('userId');
+						$cookies.remove('authToken');
+						$cookies.put('signedIn', 'no');
+						
+						$scope.signedIn = false;
+						$state.go('main.signedout');
 			
 					});
 		
@@ -64,7 +80,12 @@ router.controller('adminOptionsUnverifiedController', function($state, $scope, $
 						.then(function successCallback(response){
 							$scope.unverified = angular.copy(response.data);
 						}, function errorCallback(response){
+							$cookies.remove('userId');
+							$cookies.remove('authToken');
+							$cookies.put('signedIn', 'no');
 							
+							$scope.signedIn = false;
+							$state.go('main.signedout');
 				
 						});
 		}
@@ -88,7 +109,12 @@ router.controller('adminOptionsUnverifiedController', function($state, $scope, $
 						$state.go($state.current, {}, {reload: true});
 			
 					}, function errorCallback(response){
-			
+						$cookies.remove('userId');
+						$cookies.remove('authToken');
+						$cookies.put('signedIn', 'no');
+						
+						$scope.signedIn = false;
+						$state.go('main.signedout');
 			
 					});
 	};

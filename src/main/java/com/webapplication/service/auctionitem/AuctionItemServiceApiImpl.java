@@ -293,8 +293,8 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         Message messageToBuyer = new Message();
         messageToBuyer.setMessageId(ObjectId.get().toString());
         messageToBuyer.setSubject("Auction Completed");
-        messageToBuyer.setMessage("You have successfully purchased item " + auctionItem.getName()
-                + " from " + seller.getUsername() + " at the price of: " + price);
+        messageToBuyer.setMessage("You have successfully purchased item '" + auctionItem.getName() + "' from '" 
+        		+ seller.getUsername() + "' at the price of: $" + price);
         messageToBuyer.setDate(new Date());
         messageToBuyer.setFrom("");
         messageToBuyer.setTo(buyer.getUsername());
@@ -306,8 +306,8 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         Message messageToSeller = new Message();
         messageToSeller.setMessageId(ObjectId.get().toString());
         messageToSeller.setSubject("Auction Completed");
-        messageToSeller.setMessage("Your item " + auctionItem.getName() + " has been purchased by " + buyer.getUsername()
-                + " at the price of: " + price);
+        messageToSeller.setMessage("Your item '" + auctionItem.getName() + "' has been purchased by '" + buyer.getUsername()
+                + "' at the price of: $" + price);
         messageToSeller.setDate(new Date());
         messageToSeller.setFrom("");
         messageToSeller.setTo(seller.getUsername());

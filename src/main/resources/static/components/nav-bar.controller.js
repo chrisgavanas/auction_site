@@ -5,14 +5,16 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 	$scope.signedIn = {};
 	$scope.categories = {};
 	$scope.categories.category = {};
-	
+	$scope.unseenCounter = 0;
 	
 	$scope.user = {};
 	$scope.token = null;
 	$scope.contact = null;
 	$scope.text = null;
 	
-	
+	var EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
+	 
+	console.log('fortwsa');
 	if($cookies.get('signedIn') == 'yes'){
 		$scope.signedIn = true;
 		$scope.token = $cookies.get('authToken');
@@ -26,6 +28,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 						.then (function(response){
 								$scope.unseenCounter  = 0;
 								$scope.messagesReceived = response.data;
+								console.log($scope.messagesReceived);
 								for(var i = 0; i < $scope.messagesReceived.length; i++){
 				
 									if($scope.messagesReceived[i].seen == false){
@@ -33,10 +36,11 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 				
 									}
 									
+									
 								}
 			
 						}, function(response){
-							//	console.log(response);
+							console.log(response);
 						});
 
 		MessageService.getMessagesByType($scope.token, $scope.user.userId, "SENT")
@@ -77,6 +81,26 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 								$state.go('main.signedout');
 							});
 		getMessages();
+		AuctionItemService.recommend($scope.token, $scope.user.userId)
+		.then(function(response){
+			$scope.recommendations = response.data;
+			console.log(response);
+			for (i = 0; i < $scope.recommendations.length; i++){
+				console.log($scope.recommendations[i].length);
+					if($scope.recommendations[i].images.length > 0){
+						var res = $scope.recommendations[i].images[0].replace(/\\/g, '/');
+						var res2 =res.split('/static/');
+					
+						$scope.recommendations[i].displayImage = res2[1];
+						
+					}else{
+						$scope.recommendations[i].displayImage = './images/item.png';
+					}
+			
+			}
+		}, function(response){
+			console.log(response);
+		});
 	}
 
 
@@ -110,6 +134,20 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 									$state.go('main.signedout');
 								});
 			getMessages();
+			
+			AuctionItemService.recommend($scope.token, $scope.user.userId)
+			.then(function(response){
+				$scope.recommendations = response.data;
+				console.log(response);
+			}, function(response){
+				console.log(response);
+			});
+		}else{
+			$cookies.remove('userId');
+			$cookies.remove('authToken');
+			$cookies.put('signedIn', 'no');
+			
+			$scope.signedIn = false;
 		}
 			      
 	});
@@ -147,6 +185,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 		$scope.user = {};
 		$scope.loginform.$submitted = false;
 		$scope.token = null;
+		$scope.recommendations = [];
 		$state.go('main.welcome');
 		
 	}
@@ -166,7 +205,14 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 
 	$scope.userToLogin = {};
     $scope.login = function() {
-    	
+    	if(EMAIL_REGEXP.test($scope.field)){
+    		$scope.userToLogin.email = $scope.field;
+    		$scope.userToLogin.username = null;
+    		
+    	}else{
+    		$scope.userToLogin.email = null;
+    		$scope.userToLogin.username = $scope.field;
+    	}
     	AuthenticationService.login($scope.userToLogin)
     							.then(function (response){
     								
@@ -182,7 +228,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     										$scope.signedIn = true;
     										$scope.user = response.data;
     										if($scope.user.isAdmin == true){
-    											console.log("mohka");
+    											
     	    									$state.go('main.admin');
     										}else{
     											$state.go('main.welcome');
@@ -196,6 +242,9 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     										$scope.signedIn = false;
     										$scope.user = {};
     									});
+    								
+    								
+    							
     							}, function (response) {
     								
     								if (response.status == 401 || response.status == 403) {

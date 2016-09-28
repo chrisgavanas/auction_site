@@ -4,7 +4,7 @@
     <tbody class="bg-8">
       <tr>
         <td align="left" width="10%"><button class=" btn btn-link" ng-click="back()"><font size="2">List of messages</font></button></td>
-        <td align="left" width="10%" ><button class=" btn btn-link" ><font size="2">Delete</font></button></td>
+        
         <td align="right"><button class=" btn btn-link" ng-click="setReply()" data-toggle="modal" data-target="#modalCompose"><i class="fa fa-reply" aria-hidden="true"></i>Reply</button></td>
         
       </tr>
@@ -20,7 +20,7 @@
         <td align="right" width="20%"><b>Subject:</b></td><td align="left" width="80%">{{selectedReceived.subject}}</td>
        </tr>
        <tr>
-        <td align="right" width="20%"><b>Date:</b></td><td align="left" width="80%">{{selectedReceived.date}}</td>
+        <td align="right" width="20%"><b>Date:</b></td><td align="left" width="80%">{{selectedReceived.date | date : "MMM d, y h:mm a"}}</td>
      </tr>
      <tr>
         <td align="right" width="20%"><b>To:</b></td><td align="left" width="80%">{{selectedReceived.to}}</td>
@@ -30,6 +30,18 @@
     
       <tr>
         <td align="left">{{selectedReceived.message}}</td>
+      </tr>
+      
+      <tr ng-show="selectedReceived.voteLinkDto != null">
+      	<td align='left'>Vote user: <button class="btn btn-link"  ng-click="ratePositive()"><span class="glyphicon glyphicon-plus"></span></button><button class="btn btn-link"><span class="glyphicon glyphicon-minus" ng-click='rateNegative()'></span></button>
+    	</td>
+    	<td align='left'>	<div class="alert alert-success" ng-show='rate'>
+				Your feedback has been posted!
+			</div>
+			<div class="alert alert-danger" ng-show='cannotrateagain'>
+				You have already rated the user for this transaction!
+			</div></td>
+    
       </tr>
       
     </tbody>

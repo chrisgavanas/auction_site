@@ -3,7 +3,7 @@ var router = angular.module('router', ['ui.bootstrap', 'ngFileUpload','timer', '
 
 router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
     
-    //$urlRouterProvider.otherwise('/welcome');
+    $urlRouterProvider.otherwise('/welcome');
 	$compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|):/);
 	
     $stateProvider
@@ -53,10 +53,18 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         	
         })
         
-        .state('main.sessionexpired',{
-        	url: '/session-expired',
+        .state('main.notfound',{
+        	url: '/notfound',
         	views: { 'mainview': {
-        		templateUrl: 'messages/expired-session.html'
+        		templateUrl: 'messages/not-found.html'
+        	}}
+        	
+        })
+        
+        .state('main.forbidden',{
+        	url: '/forbidden',
+        	views: { 'mainview': {
+        		templateUrl: 'messages/forbidden.html'
         	}}
         	
         })

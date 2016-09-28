@@ -1,7 +1,8 @@
 router.controller('userInfoController', function($state, $scope, $cookies, $http, AuthenticationService){
 	$scope.paswords = {};
 	
-		
+	if($scope.signedIn == false)
+		$state.go('main.signedout');
 	
 
 							

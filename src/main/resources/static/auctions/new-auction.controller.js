@@ -15,10 +15,12 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.categoryCache = [];
 	$scope.images = [];
 	
-	var token = $cookies.get('authToken');
+
 
 	$scope.categoryIds = {};
 	
+	if($scope.signedIn == false)
+		$state.go('main.signedout');
 	
 	AuctionItemService.getCategories($scope.token)
 		.then(function(response){
@@ -99,15 +101,15 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
             file.upload.then(function (response) {
                 $timeout(function () {
                     file.result = response.data;
-                   
+                   console.log(file.result);
                     $scope.item.images.push(file.result);
-                   
-            		var res = file.result.replace(/\\/g, '/');
-            		var res2 =res.split('/static/');
+                   $scope.images.push(file.result);
+            	//	var res = file.result.replace(/\\/g, '/');
+            	//	var res2 =res.split('/static/');
             		
-            		$scope.images.push("./"+res2[1]);
+            	//	$scope.images.push("./"+res2[1]);
             		
-            		console.log($scope.images);
+            		//console.log($scope.images);
                    
                 });
             }, function (response) {

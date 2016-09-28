@@ -2,12 +2,29 @@ router.controller('userAuctionsStartController', function ($scope, $http, $state
 	$scope.data = {};
 	$scope.invalid1 = false;
 	$scope.invalid2 = false;
+	var auctionItemId = $stateParams.id;
+	
+	if($scope.signedIn == false)
+		$state.go('main.signedout');
+	
+	
+	AuctionItemService.getAuctionItemById($scope.token, auctionItemId)
+		.then(function(response){
+			$scope.item = response.data;
+			console.log($scope.item);
+			if($scope.item.userId != $scope.user.userId)
+				$state.go('main.forbidden');
+			
+		}, function(response){
+			if(response.status == 404)
+				$state.go('main.notfound');
 		
+		});
 	$scope.start = function(){
 		
 		
 		 
-		var auctionItemId = $stateParams.id;
+		
 		$scope.data.endDate = $('#datetimepicker1').data('DateTimePicker').date()._d;
 		if($scope.data.endDate < new Date())
 			$scope.invalid1 = true;
@@ -20,6 +37,8 @@ router.controller('userAuctionsStartController', function ($scope, $http, $state
 								}, function(response){
 									if(response.status == 409)
 										$scope.invalid2 = true;
+									if(response.status == 404)
+										$state.go('main.notfound');
 								});
 		}
 	};

@@ -91,6 +91,15 @@ router.factory('AuctionItemService', function($http, $cookies, $state) {
 						return [response, i];
 					});
 	}
+	
+	auctionitemService.recommend = function(token, userId){
+		console.log(token);
+		console.log(userId);
+		return $http.post('api/auctionitem/recommend', userId, {headers:{'Content-Type': 'text/plain','authToken':token}})
+					.then (function (response){
+						return response;
+					});
+	};
 	return auctionitemService;
 	
 });

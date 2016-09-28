@@ -5,7 +5,8 @@ router.controller('adminOptionsVerifiedController', function($state, $scope, $co
 	$scope.usernamesAndIds = [];
 	
 	$scope.pageCounter = 1;
-	
+	if($scope.signedIn == false)
+		$state.go('main.signedout');
 		
 	AdminService.getVerified($scope.token, 1, 10)
 				.then(function successCallback(response){
@@ -17,7 +18,12 @@ router.controller('adminOptionsVerifiedController', function($state, $scope, $co
 					}
 			
 				}, function errorCallback(response){
+					$cookies.remove('userId');
+					$cookies.remove('authToken');
+					$cookies.put('signedIn', 'no');
 					
+					$scope.signedIn = false;
+					$state.go('main.signedout');
 			
 				});
 		
@@ -28,7 +34,12 @@ router.controller('adminOptionsVerifiedController', function($state, $scope, $co
 							.then(function(response){
 								console.log(respone);
 							}, function(response){
-								console.log(response);
+								$cookies.remove('userId');
+								$cookies.remove('authToken');
+								$cookies.put('signedIn', 'no');
+								
+								$scope.signedIn = false;
+								$state.go('main.signedout');
 							});
 	};
 	
@@ -42,7 +53,12 @@ router.controller('adminOptionsVerifiedController', function($state, $scope, $co
 					.then(function successCallback(response){
 						$scope.verified = angular.copy(response.data);
 					}, function errorCallback(response){
-			
+						$cookies.remove('userId');
+						$cookies.remove('authToken');
+						$cookies.put('signedIn', 'no');
+						
+						$scope.signedIn = false;
+						$state.go('main.signedout');
 			
 					});
 		
@@ -60,7 +76,12 @@ router.controller('adminOptionsVerifiedController', function($state, $scope, $co
 						.then(function successCallback(response){
 							$scope.verified = angular.copy(response.data);
 						}, function errorCallback(response){
-								
+							$cookies.remove('userId');
+							$cookies.remove('authToken');
+							$cookies.put('signedIn', 'no');
+							
+							$scope.signedIn = false;
+							$state.go('main.signedout');
 						});
 		}
 		
