@@ -66,6 +66,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -108,6 +109,8 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     public AddAuctionItemResponseDto addAuctionItem(UUID authToken, AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
         validateAuthorization(auctionItemRequestDto.getUserId(), sessionInfo);
+        List<String> finalizedImagesNames = finalizeImages(auctionItemRequestDto.getImages());
+        auctionItemRequestDto.setImages(finalizedImagesNames);
         AuctionItem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(auctionItemRequestDto);
         validateUserId(auctionItem.getUserId());
         auctionItemRepository.save(auctionItem);
@@ -271,6 +274,15 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         is.close();
 
         return imageToByteArrayEncoded;
+    }
+
+    private List<String> finalizeImages(List<String> images) {
+        return images.stream().map(image -> {
+            File oldName = new File(image);
+            File newName = new File("FINALIZED_AUCTION_" + image);
+            oldName.renameTo(newName);
+            return newName.getPath();
+        }).collect(Collectors.toList());
     }
 
     private void startRecommendation(String userId) {
