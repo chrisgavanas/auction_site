@@ -13,7 +13,6 @@ import com.webapplication.dto.auctionitem.BuyoutAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.SearchAuctionItemDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
 import com.webapplication.error.auctionitem.AuctionItemError;
-import com.webapplication.error.user.UserError;
 import com.webapplication.exception.NotAuthorizedException;
 import com.webapplication.exception.ValidationException;
 import com.webapplication.exception.auctionitem.AuctionAlreadyInProgressException;
@@ -22,13 +21,13 @@ import com.webapplication.exception.auctionitem.AuctionExpiredException;
 import com.webapplication.exception.auctionitem.AuctionItemNotFoundException;
 import com.webapplication.exception.auctionitem.BidException;
 import com.webapplication.exception.auctionitem.BuyoutException;
+import com.webapplication.exception.auctionitem.ImageNotExistException;
 import com.webapplication.exception.auctionitem.InvalidAuctionException;
 import com.webapplication.exception.category.CategoryHierarchyException;
 import com.webapplication.exception.category.CategoryNotFoundException;
 import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.service.auctionitem.AuctionItemServiceApi;
 import com.webapplication.validator.auctionitem.AuctionItemRequestValidator;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -39,15 +38,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -171,17 +163,17 @@ public class AuctionItemApiImpl implements AuctionItemApi {
 
     @Override
     public List<AuctionItemResponseDto> recommendAuctionItems(@RequestHeader UUID authToken, @RequestBody String userId) throws Exception {
-        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
-        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
+        Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+        Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
 
         return auctionItemService.recommendAuctionItems(authToken, userId);
     }
 
     @Override
     public byte[] getImage(@RequestParam("imagePath") String imagePath) throws Exception {
-        File img = new File(imagePath);
-        InputStream is = new FileInputStream(img);
-        return IOUtils.toByteArray(is);
+        Optional.ofNullable(imagePath).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
+
+        return auctionItemService.getImage(imagePath);
     }
 
     private void validatePaginationValues(Integer from, Integer to) throws Exception {
@@ -203,7 +195,8 @@ public class AuctionItemApiImpl implements AuctionItemApi {
         response.sendError(HttpStatus.FORBIDDEN.value());
     }
 
-    @ExceptionHandler({UserNotFoundException.class, CategoryNotFoundException.class, IOException.class, AuctionItemNotFoundException.class})
+    @ExceptionHandler({UserNotFoundException.class, CategoryNotFoundException.class, IOException.class,
+            AuctionItemNotFoundException.class, ImageNotExistException.class})
     private void userNotFound(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.NOT_FOUND.value());
     }

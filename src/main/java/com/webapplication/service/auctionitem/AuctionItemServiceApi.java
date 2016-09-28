@@ -45,4 +45,6 @@ public interface AuctionItemServiceApi {
 
     List<AuctionItemResponseDto> recommendAuctionItems(UUID authToken, String userId) throws Exception;
 
+    byte[] getImage(String imagePath) throws Exception;
+
 }

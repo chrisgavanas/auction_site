@@ -31,12 +31,14 @@ import com.webapplication.exception.auctionitem.AuctionExpiredException;
 import com.webapplication.exception.auctionitem.AuctionItemNotFoundException;
 import com.webapplication.exception.auctionitem.BidException;
 import com.webapplication.exception.auctionitem.BuyoutException;
+import com.webapplication.exception.auctionitem.ImageNotExistException;
 import com.webapplication.exception.category.CategoryNotFoundException;
 import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.mapper.AuctionItemMapper;
 import com.webapplication.recommendation.Recommendation;
 import com.webapplication.recommendation.SessionRecommendation;
 import com.xmlparser.XmlParser;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.bson.types.ObjectId;
@@ -256,6 +258,19 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         List<AuctionItem> recommendedAuctionItems = auctionItemRepository.findAuctionItemsByIds(recommendedAuctionItemIds);
 
         return auctionItemMapper.auctionItemsToAuctionItemResponseDto(recommendedAuctionItems);
+    }
+
+    @Override
+    public byte[] getImage(String imagePath) throws Exception {
+        File image = new File(imagePath);
+        if (!image.exists())
+            throw new ImageNotExistException(AuctionItemError.IMAGE_DOES_NOT_EXIST);
+
+        InputStream is = new FileInputStream(image);
+        byte[] imageToByteArrayEncoded = Base64.encodeBase64(org.apache.commons.io.IOUtils.toByteArray(is));
+        is.close();
+
+        return imageToByteArrayEncoded;
     }
 
     private void startRecommendation(String userId) {
