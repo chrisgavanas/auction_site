@@ -31,12 +31,14 @@ import com.webapplication.exception.auctionitem.AuctionExpiredException;
 import com.webapplication.exception.auctionitem.AuctionItemNotFoundException;
 import com.webapplication.exception.auctionitem.BidException;
 import com.webapplication.exception.auctionitem.BuyoutException;
+import com.webapplication.exception.auctionitem.ImageNotExistException;
 import com.webapplication.exception.category.CategoryNotFoundException;
 import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.mapper.AuctionItemMapper;
 import com.webapplication.recommendation.Recommendation;
 import com.webapplication.recommendation.SessionRecommendation;
 import com.xmlparser.XmlParser;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.bson.types.ObjectId;
@@ -64,6 +66,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -106,6 +109,8 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     public AddAuctionItemResponseDto addAuctionItem(UUID authToken, AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
         validateAuthorization(auctionItemRequestDto.getUserId(), sessionInfo);
+        List<String> finalizedImagesNames = finalizeImages(auctionItemRequestDto.getImages());
+        auctionItemRequestDto.setImages(finalizedImagesNames);
         AuctionItem auctionItem = auctionItemMapper.addAuctionItemRequestDtoToAuctionItem(auctionItemRequestDto);
         validateUserId(auctionItem.getUserId());
         auctionItemRepository.save(auctionItem);
@@ -256,6 +261,28 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         List<AuctionItem> recommendedAuctionItems = auctionItemRepository.findAuctionItemsByIds(recommendedAuctionItemIds);
 
         return auctionItemMapper.auctionItemsToAuctionItemResponseDto(recommendedAuctionItems);
+    }
+
+    @Override
+    public byte[] getImage(String imagePath) throws Exception {
+        File image = new File(imagePath);
+        if (!image.exists())
+            throw new ImageNotExistException(AuctionItemError.IMAGE_DOES_NOT_EXIST);
+
+        InputStream is = new FileInputStream(image);
+        byte[] imageToByteArrayEncoded = Base64.encodeBase64(org.apache.commons.io.IOUtils.toByteArray(is));
+        is.close();
+
+        return imageToByteArrayEncoded;
+    }
+
+    private List<String> finalizeImages(List<String> images) {
+        return images.stream().map(image -> {
+            File oldName = new File(image);
+            File newName = new File("FINALIZED_AUCTION_" + image);
+            oldName.renameTo(newName);
+            return newName.getPath();
+        }).collect(Collectors.toList());
     }
 
     private void startRecommendation(String userId) {

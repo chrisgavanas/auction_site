@@ -65,6 +65,7 @@ public class User {
         this.country = country;
         this.address = address;
         this.isVerified = isVerified;
+        this.email = "dummydata@gmail.com";
         this.isAdmin = false;
         this.sentMessages = new LinkedList<>();
         this.receivedMessages = new LinkedList<>();

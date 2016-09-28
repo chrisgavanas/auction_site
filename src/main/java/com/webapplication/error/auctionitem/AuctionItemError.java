@@ -16,7 +16,8 @@ public enum AuctionItemError {
     AUCTION_HAS_BEEN_COMPLETED("Auction has expired."),
     ITEM_BELONGS_TO_BIDDER("Bidder can't own the auction item"),
     UNAUTHORIZED("Unauthorized action."),
-    INVALID_BUYOUT_FROM_USER("This user can't buyout this item");
+    INVALID_BUYOUT_FROM_USER("This user can't buyout this item"),
+    IMAGE_DOES_NOT_EXIST("Image was not found.");
 
     private final String description;
 
