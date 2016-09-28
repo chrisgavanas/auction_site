@@ -11,15 +11,18 @@ import com.webapplication.dto.auctionitem.BidResponseDto;
 import com.webapplication.dto.auctionitem.BuyoutAuctionItemRequestDto;
 import com.webapplication.dto.auctionitem.SearchAuctionItemDto;
 import com.webapplication.dto.auctionitem.StartAuctionDto;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -66,7 +69,7 @@ public interface AuctionItemApi {
     @RequestMapping(path = "/auctionitem/recommend", method = RequestMethod.POST, consumes = "text/plain", produces = "application/json")
     List<AuctionItemResponseDto> recommendAuctionItems(@RequestHeader UUID authToken, String userId) throws Exception;
 
-    @RequestMapping(path = "/auctionitem/image", method = RequestMethod.GET)
-    void getImageOfAuctionItem(HttpServletResponse httpServletResponse, @RequestParam("imagePath") String imagePath) throws Exception;
+    @RequestMapping(value = "/auctionitem/image", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    byte[] getImage(@RequestParam("imagePath") String imagePath) throws Exception;
 
 }

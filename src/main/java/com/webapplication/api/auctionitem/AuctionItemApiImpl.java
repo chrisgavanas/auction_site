@@ -28,6 +28,7 @@ import com.webapplication.exception.category.CategoryNotFoundException;
 import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.service.auctionitem.AuctionItemServiceApi;
 import com.webapplication.validator.auctionitem.AuctionItemRequestValidator;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -44,7 +45,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -175,22 +178,10 @@ public class AuctionItemApiImpl implements AuctionItemApi {
     }
 
     @Override
-    public void getImageOfAuctionItem(HttpServletResponse httpServletResponse, @RequestParam("imagePath") String imagePath) throws Exception {
-        ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
-        System.out.println(imagePath);
-        try {
-            BufferedImage image = ImageIO.read(new File(imagePath));
-            ImageIO.write(image, "jpeg", jpegOutputStream);
-        } catch (IllegalArgumentException e) {
-            httpServletResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
-        }
-
-        byte[] imgByte = jpegOutputStream.toByteArray();
-        httpServletResponse.setContentType("image/jpeg");
-        ServletOutputStream responseOutputStream = httpServletResponse.getOutputStream();
-        responseOutputStream.write(imgByte);
-        responseOutputStream.flush();
-        responseOutputStream.close();
+    public byte[] getImage(@RequestParam("imagePath") String imagePath) throws Exception {
+        File img = new File(imagePath);
+        InputStream is = new FileInputStream(img);
+        return IOUtils.toByteArray(is);
     }
 
     private void validatePaginationValues(Integer from, Integer to) throws Exception {
