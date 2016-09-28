@@ -213,6 +213,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     		$scope.userToLogin.email = null;
     		$scope.userToLogin.username = $scope.field;
     	}
+    	console.log($scope.userToLogin);
     	AuthenticationService.login($scope.userToLogin)
     							.then(function (response){
     								
@@ -246,7 +247,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     								
     							
     							}, function (response) {
-    								
+    								console.log(response);
     								if (response.status == 401 || response.status == 403) {
     									$scope.donotmatch = true;
                

@@ -102,8 +102,17 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
                 $timeout(function () {
                     file.result = response.data;
                    console.log(file.result);
-                    $scope.item.images.push(file.result);
-                   $scope.images.push(file.result);
+                    $http.get('/api/auctionitem/image?imagePath='+file.result)
+                    		.then(function(response){
+                    			$scope.dat = response.data;
+                    			blob = new Blob([response.data], { type: 'image/jpeg' });
+                    			console.log(response);
+                    			var urlCreator = window.URL || window.webkitURL;
+                    		    var imageUrl = urlCreator.createObjectURL( blob );
+                    		    console.log(imageUrl);
+                    		}, function(response){
+                    			console.log(response);
+                    		})
             	//	var res = file.result.replace(/\\/g, '/');
             	//	var res2 =res.split('/static/');
             		
