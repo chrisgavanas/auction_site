@@ -11,7 +11,8 @@ router.controller('sellerProfileController', function($scope,$state, $stateParam
 								$scope.seller.registrationDate = new Date(response.data.registrationDate);
 								console.log($scope.seller);
 							}, function errorCallback(response){
-								
+								if(response.status == 404)
+									$state.go('main.notfound');
 								
 							});
 	AuctionItemService.getAuctionItemsOfUserByStatus($scope.token, sellerId, 'ACTIVE', 1, 4)

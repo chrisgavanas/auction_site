@@ -3,7 +3,8 @@ router.controller('verificationPreviewController', function($state, $scope, $coo
 
 	$scope.user1 = {}
 	
-	
+	if($scope.signedIn == false)
+		$state.go('main.signedout');
 	
 	
 	AuthenticationService.getUser($scope.userId, $scope.token)
@@ -26,7 +27,8 @@ router.controller('verificationPreviewController', function($state, $scope, $coo
 							$scope.user1.registrationDate = new Date(response.data.registrationDate);
 						}, function errorCallback(response){
 		
-								console.log(response);
+							if(response.status == 404)
+								$state.go('main.notfound');
 		
 						});
 	

@@ -4,7 +4,8 @@ router.controller('userAuctionsSoldController', function($state, $scope, $http, 
 	$scope.hasAuctions = false;
 	$scope.pageCounter = 1;
 	
-
+	if($scope.signedIn == false)
+		$state.go('main.signedout');
 	
 	AuctionItemService.getAuctionItemsOfUserByStatus($scope.token, $scope.user.userId, "INACTIVE", "1", "10" )
 						.then( function(response){

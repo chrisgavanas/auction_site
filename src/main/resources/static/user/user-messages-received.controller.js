@@ -3,6 +3,8 @@ router.controller('userMessagesReceivedController', function($scope, $state, $co
 	$scope.pageCounter = 1;
 	$scope.checkbox = [];
 	
+	if($scope.signedIn == false)
+		$state.go('main.signedout');
 	
 	$scope.selectAll = function(){
 		if($scope.checked){

@@ -3,6 +3,9 @@ router.controller('userMessagesSentController', function($scope, $state, Message
 	$scope.checkbox = [];
 	$scope.selectedSent = {};
 	
+	if($scope.signedIn == false)
+		$state.go('main.signedout');
+	
 	$scope.selectAll = function(){
 		if($scope.checked){
 			var i;

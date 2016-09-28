@@ -7,9 +7,12 @@ router.controller('userMessagesController', function($scope, $cookies,  $state, 
 	
 	
 	$scope.selectedReceived = [];
-	$state.go('main.profile.userMessages.received');
 	
-	console.log($scope.$parent.messagesReceived);
+	if($scope.signedIn == false){
+		$state.go('main.signedout');
+	}else{
+		$state.go('main.profile.userMessages.received');
+	}
 	
 	if($scope.$parent.contact != null){
 		$scope.message.to = $scope.contact;

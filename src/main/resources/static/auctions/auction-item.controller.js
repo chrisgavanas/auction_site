@@ -71,7 +71,8 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 												
 													});
 						}, function(response){
-							console.log(response);
+							if(response.status == 404)
+								$state.go('main.notfound');
 						});	
 	
 	$scope.go  = function(){
@@ -141,27 +142,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 						});
 	};
 
-	$scope.ratePositive = function(){
-		console.log($scope.token);
-		AuthenticationService.voteSeller($scope.token, $scope.user.userId, $scope.seller.sellerId, 'UP')
-							.then(function(response){
-								$scope.rate = true;
-								
-							}, function(response){
-								console.log(response);
-							});
-	};
 	
-	$scope.rateNegative = function(){
-		console.log($scope.seller);
-		AuthenticationService.voteSeller($scope.token, $scope.user.userId, $scope.seller.sellerId, 'DOWN')
-							.then(function(response){
-								$scope.rate = true;
-								
-							}, function(response){
-								console.log(response);
-							});
-	};
 	
 	
 	

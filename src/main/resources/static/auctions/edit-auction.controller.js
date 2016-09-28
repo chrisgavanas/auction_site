@@ -17,7 +17,8 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 	$scope.submit = false;
 	$scope.selectedAll = [];
 	
-
+	if($scope.signedIn == false)
+		$state.go('main.signedout');
 	AuctionItemService.getCategories($scope.token)
 						.then(function(response){
 							$scope.categoryIds = angular.copy(response.data);
@@ -30,6 +31,8 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 	AuctionItemService.getAuctionItemById($scope.token, auctionId)
 	.then(function(response){
 		$scope.item = response.data;
+		if($scope.item.userId != $scope.user.userId)
+			$state.go('main.forbidden');
 		$scope.selected = $scope.item.categoryIds
 		for (i = 0; i < $scope.item.images.length; i++){
 			var res = $scope.item.images[i].replace(/\\/g, '/');
@@ -43,7 +46,9 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 			$scope.selectedAll.push($scope.item.categoryIds[i].categoryId);
 		console.log($scope.images);
 	}, function(response){
-		alert("error");
+		if(response.status == 404)
+			$state.go('main.notfound');
+		
 	});
 	
 	$scope.cont = function(){

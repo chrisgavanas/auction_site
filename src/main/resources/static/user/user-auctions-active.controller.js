@@ -3,10 +3,12 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 	$scope.items = {};
 	$scope.pageCounter = 1;
 	$scope.hasAuctions = false;
-		$scope.to = null;
+	$scope.to = null;
 	$scope.from = 1;
 	$scope.bidds  = [];
 	
+	if($scope.signedIn == false)
+		$state.go('main.signedout');
 	
 	AuctionItemService.getAuctionItemsOfUserByStatus($scope.token, $scope.user.userId, "ACTIVE","1", "10")
 						.then( function(response){

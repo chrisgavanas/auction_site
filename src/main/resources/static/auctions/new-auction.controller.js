@@ -15,10 +15,12 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.categoryCache = [];
 	$scope.images = [];
 	
-	var token = $cookies.get('authToken');
+
 
 	$scope.categoryIds = {};
 	
+	if($scope.signedIn == false)
+		$state.go('main.signedout');
 	
 	AuctionItemService.getCategories($scope.token)
 		.then(function(response){

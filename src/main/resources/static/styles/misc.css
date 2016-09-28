@@ -27,7 +27,7 @@
 
 #myspan{
 	display:inline-block;
-   width: 200px;
+   	width: 100%;
     white-space: nowrap;
     overflow:hidden !important;
     text-overflow: ellipsis;

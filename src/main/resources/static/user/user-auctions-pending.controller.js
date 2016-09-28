@@ -6,7 +6,8 @@ router.controller('userAuctionsPendingController', function($state, $scope, $htt
 	$scope.from = 1;
 	$scope.count = null;
 
-	
+	if($scope.signedIn == false)
+		$state.go('main.signedout');
 
 	AuctionItemService.getAuctionItemsOfUserByStatus($scope.token, $scope.user.userId, "PENDING", 1, 10)
 						.then( function(response){

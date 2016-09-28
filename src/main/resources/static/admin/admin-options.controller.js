@@ -2,7 +2,8 @@ router.controller('adminOptionsController', function($timeout,$window, $state, $
 	$scope.xmldata = null;
 	$scope.buttonClicked = false;
 
-
+	if($scope.signedIn == false)
+		$state.go('main.signedout');
 	
 	$scope.verified = function(){
 		$state.go('main.verified');
