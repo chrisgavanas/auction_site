@@ -31,6 +31,7 @@ public class User {
     private Date registrationDate;
     private String username;
     private String vat;
+    private String salt;
 
     @Embedded
     private Address address;
@@ -51,6 +52,7 @@ public class User {
         this.username = username;
         this.ratingAsSeller = ratingAsSeller;
         this.isVerified = isVerified;
+        this.email = "dummydata@gmail.com";
         this.isAdmin = false;
         this.sentMessages = new LinkedList<>();
         this.receivedMessages = new LinkedList<>();
@@ -260,5 +262,13 @@ public class User {
     public void setReceivedMessages(List<Message> receivedMessages) {
         this.receivedMessages = receivedMessages;
     }
-    
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
 }

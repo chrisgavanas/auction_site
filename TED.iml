@@ -101,6 +101,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: com.athaydes:spock-reports:1.2.12" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.16" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />
+    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.9" level="project" />
     <orderEntry type="library" name="Maven: cglib:cglib-nodep:3.2.0" level="project" />
   </component>
 </module>

@@ -33,8 +33,7 @@ import com.webapplication.exception.user.UserAlreadyVerifiedException;
 import com.webapplication.exception.user.UserNotFoundException;
 import com.webapplication.exception.user.VoteException;
 import com.webapplication.mapper.UserMapper;
-import com.webapplication.recommendation.Recommendation;
-import com.webapplication.recommendation.SessionRecommendation;
+import org.apache.commons.codec.binary.Base64;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,14 +45,10 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 @Transactional
@@ -74,15 +69,13 @@ public class UserServiceApiImpl implements UserServiceApi {
 
     @Override
     public UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) throws Exception {
-        User user = userRepository.findUserByUsernameOrEmailAndPassword(userLogInRequestDto.getUsername(), userLogInRequestDto.getEmail(), userLogInRequestDto.getPassword());
+        User user = userRepository.findUserByUsernameOrEmail("chris5", "chrisgavanas5@gmail.com");
         Optional.ofNullable(user).orElseThrow(() -> new NotAuthenticatedException(UserLogInError.INVALID_CREDENTIALS));
+        if (!validatePassword(userLogInRequestDto.getPassword(), user.getPassword(), user.getSalt()))
+            throw new NotAuthenticatedException(UserLogInError.INVALID_CREDENTIALS);
         if (!user.getIsVerified())
             throw new EmailUnverifiedException(UserLogInError.USER_NOT_EMAIL_VERIFIED);
 
-        byte[] s = encodePassword(user.getPassword());
-        for (byte y : s)
-            System.out.print(y);
-        System.out.println();
         SessionInfo session = new SessionInfo(user.getUserId(), DateTime.now().plusMinutes(Authenticator.SESSION_TIME_OUT_MINUTES), user.getIsAdmin());
         UUID authToken = authenticator.createSession(session);
 
@@ -96,7 +89,10 @@ public class UserServiceApiImpl implements UserServiceApi {
             throw new UserAlreadyExistsException(user.getUsername().equals(userRegisterRequestDto.getUsername())
                     ? UserRegisterError.USERNAME_ALREADY_IN_USE : UserRegisterError.EMAIL_ALREADY_USED);
 
-        user = userMapper.registerRequestToUser(userRegisterRequestDto);
+        byte[] salt = createSaltForUser();
+        String encodedSaltAsString = new String(Base64.encodeBase64(salt));
+        String encodedPassword = encodePassword(userRegisterRequestDto.getPassword(), salt);
+        user = userMapper.registerRequestToUser(userRegisterRequestDto, encodedSaltAsString, encodedPassword);
         userRepository.save(user);
 
         return userMapper.userToRegisterResponse(user);
@@ -259,22 +255,33 @@ public class UserServiceApiImpl implements UserServiceApi {
         throw new VoteException(UserError.ALREADY_VOTED);
     }
 
-    private byte[] encodePassword(String password) {
-        byte[] rv = null;
-        try {
-            SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
-            byte[] salt = new byte[8];
-            random.nextBytes(salt);
-            String algorithm = "PBKDF2WithHmacSHA1";
-            int derivedKeyLength = 160;
-            int iterations = 20000;
-            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, derivedKeyLength);
-            SecretKeyFactory f = SecretKeyFactory.getInstance(algorithm);
-            rv = f.generateSecret(spec).getEncoded();
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException ignored) {
-        }
+    private byte[] createSaltForUser() throws NoSuchAlgorithmException {
+        SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+        byte[] salt = new byte[8];
+        random.nextBytes(salt);
+        return salt;
+    }
 
-        return rv;
+    private String encodePassword(String password, byte[] salt) throws Exception {
+        String algorithm = "PBKDF2WithHmacSHA1";
+        int derivedKeyLength = 160;
+        int iterations = 20000;
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, derivedKeyLength);
+        SecretKeyFactory f = SecretKeyFactory.getInstance(algorithm);
+        byte[] encodedPassword = Base64.encodeBase64(f.generateSecret(spec).getEncoded());
+        return new String(encodedPassword);
+    }
+
+
+    private Boolean validatePassword(String attemptedPassword, String password, String saltStored) throws Exception {
+        byte[] salt = Base64.decodeBase64(saltStored.getBytes());
+        String algorithm = "PBKDF2WithHmacSHA1";
+        int derivedKeyLength = 160;
+        int iterations = 20000;
+        KeySpec spec = new PBEKeySpec(attemptedPassword.toCharArray(), salt, iterations, derivedKeyLength);
+        SecretKeyFactory f = SecretKeyFactory.getInstance(algorithm);
+        String encodedAttemptedPassword = new String(Base64.encodeBase64(f.generateSecret(spec).getEncoded()));
+        return password.equals(encodedAttemptedPassword);
     }
 
     private void markMessageAsSeen(String userId, String messageId) throws Exception {
