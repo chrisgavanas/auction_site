@@ -38,7 +38,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -135,7 +140,7 @@ public class AuctionItemApiImpl implements AuctionItemApi {
 
     @Override
     public List<BidResponseDto> getBidsOfAuctionItem(@PathVariable String auctionItemId) throws Exception {
-        
+
         Optional.ofNullable(auctionItemId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
 
         return auctionItemService.getBidsOfAuctionItem(auctionItemId);
@@ -167,6 +172,25 @@ public class AuctionItemApiImpl implements AuctionItemApi {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
 
         return auctionItemService.recommendAuctionItems(authToken, userId);
+    }
+
+    @Override
+    public void getImageOfAuctionItem(HttpServletResponse httpServletResponse, @RequestParam("imagePath") String imagePath) throws Exception {
+        ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
+        System.out.println(imagePath);
+        try {
+            BufferedImage image = ImageIO.read(new File(imagePath));
+            ImageIO.write(image, "jpeg", jpegOutputStream);
+        } catch (IllegalArgumentException e) {
+            httpServletResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
+
+        byte[] imgByte = jpegOutputStream.toByteArray();
+        httpServletResponse.setContentType("image/jpeg");
+        ServletOutputStream responseOutputStream = httpServletResponse.getOutputStream();
+        responseOutputStream.write(imgByte);
+        responseOutputStream.flush();
+        responseOutputStream.close();
     }
 
     private void validatePaginationValues(Integer from, Integer to) throws Exception {

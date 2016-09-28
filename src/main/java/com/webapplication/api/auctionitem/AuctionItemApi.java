@@ -66,4 +66,7 @@ public interface AuctionItemApi {
     @RequestMapping(path = "/auctionitem/recommend", method = RequestMethod.POST, consumes = "text/plain", produces = "application/json")
     List<AuctionItemResponseDto> recommendAuctionItems(@RequestHeader UUID authToken, String userId) throws Exception;
 
+    @RequestMapping(path = "/auctionitem/image", method = RequestMethod.GET)
+    void getImageOfAuctionItem(HttpServletResponse httpServletResponse, @RequestParam("imagePath") String imagePath) throws Exception;
+
 }

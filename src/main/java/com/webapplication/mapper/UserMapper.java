@@ -25,14 +25,14 @@ import java.util.stream.Collectors;
 @Component
 public class UserMapper {
 
-    public User registerRequestToUser(UserRegisterRequestDto userRegisterDto) {
+    public User registerRequestToUser(UserRegisterRequestDto userRegisterDto, String salt, String encodedPassword) {
         if (userRegisterDto == null)
             return null;
 
         User user = new User();
         user.setUsername(userRegisterDto.getUsername());
         user.setEmail(userRegisterDto.getEmail());
-        user.setPassword(userRegisterDto.getPassword());
+        user.setPassword(encodedPassword);
         user.setFirstName(userRegisterDto.getFirstName());
         user.setLastName(userRegisterDto.getLastName());
         user.setCountry(userRegisterDto.getCountry());
@@ -46,6 +46,7 @@ public class UserMapper {
         user.setPhoneNumber(userRegisterDto.getPhoneNumber());
         user.setRatingAsSeller(0);
         user.setRatingAsBidder(0);
+        user.setSalt(salt);
         AddressDto addressDto = userRegisterDto.getAddress();
         if (addressDto != null) {
             Address address = new Address(addressDto.getCity(), addressDto.getPostalCode(), addressDto.getStreet());
