@@ -42,6 +42,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -73,6 +79,10 @@ public class UserServiceApiImpl implements UserServiceApi {
         if (!user.getIsVerified())
             throw new EmailUnverifiedException(UserLogInError.USER_NOT_EMAIL_VERIFIED);
 
+        byte[] s = encodePassword(user.getPassword());
+        for (byte y : s)
+            System.out.print(y);
+        System.out.println();
         SessionInfo session = new SessionInfo(user.getUserId(), DateTime.now().plusMinutes(Authenticator.SESSION_TIME_OUT_MINUTES), user.getIsAdmin());
         UUID authToken = authenticator.createSession(session);
 
@@ -247,6 +257,24 @@ public class UserServiceApiImpl implements UserServiceApi {
         }
 
         throw new VoteException(UserError.ALREADY_VOTED);
+    }
+
+    private byte[] encodePassword(String password) {
+        byte[] rv = null;
+        try {
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+            byte[] salt = new byte[8];
+            random.nextBytes(salt);
+            String algorithm = "PBKDF2WithHmacSHA1";
+            int derivedKeyLength = 160;
+            int iterations = 20000;
+            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, derivedKeyLength);
+            SecretKeyFactory f = SecretKeyFactory.getInstance(algorithm);
+            rv = f.generateSecret(spec).getEncoded();
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ignored) {
+        }
+
+        return rv;
     }
 
     private void markMessageAsSeen(String userId, String messageId) throws Exception {
