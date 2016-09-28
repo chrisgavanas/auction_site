@@ -6,7 +6,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 	$scope.categories = {};
 	$scope.categories.category = {};
 	$scope.unseenCounter = 0;
-	
+	$scope.signedIn = false;
 	$scope.user = {};
 	$scope.token = null;
 	$scope.contact = null;
@@ -14,7 +14,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 	
 	var EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
 	 
-	console.log('fortwsa');
+	
 	if($cookies.get('signedIn') == 'yes'){
 		$scope.signedIn = true;
 		$scope.token = $cookies.get('authToken');
@@ -22,7 +22,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 	}else{
 		$scope.signedIn = false;
 	}
-	
+	console.log($scope.signedIn);
 	var getMessages = function(){
 		MessageService.getMessagesByType($scope.token, $scope.user.userId, "RECEIVED")
 						.then (function(response){
@@ -213,6 +213,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     		$scope.userToLogin.email = null;
     		$scope.userToLogin.username = $scope.field;
     	}
+    	console.log($scope.userToLogin);
     	AuthenticationService.login($scope.userToLogin)
     							.then(function (response){
     								
@@ -246,7 +247,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     								
     							
     							}, function (response) {
-    								
+    								console.log(response);
     								if (response.status == 401 || response.status == 403) {
     									$scope.donotmatch = true;
                
