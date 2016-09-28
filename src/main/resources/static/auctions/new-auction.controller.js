@@ -105,11 +105,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
                     $http.get('/api/auctionitem/image?imagePath='+file.result)
                     		.then(function(response){
                     			$scope.dat = response.data;
-                    			blob = new Blob([response.data], { type: 'image/jpeg' });
-                    			console.log(response);
-                    			var urlCreator = window.URL || window.webkitURL;
-                    		    var imageUrl = urlCreator.createObjectURL( blob );
-                    		    console.log(imageUrl);
+                    			
                     		}, function(response){
                     			console.log(response);
                     		})
