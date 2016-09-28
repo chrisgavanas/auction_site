@@ -69,7 +69,7 @@ public class UserServiceApiImpl implements UserServiceApi {
 
     @Override
     public UserLogInResponseDto login(UserLogInRequestDto userLogInRequestDto) throws Exception {
-        User user = userRepository.findUserByUsernameOrEmail("chris5", "chrisgavanas5@gmail.com");
+        User user = userRepository.findUserByUsernameOrEmail(userLogInRequestDto.getUsername(), userLogInRequestDto.getEmail());
         Optional.ofNullable(user).orElseThrow(() -> new NotAuthenticatedException(UserLogInError.INVALID_CREDENTIALS));
         if (!validatePassword(userLogInRequestDto.getPassword(), user.getPassword(), user.getSalt()))
             throw new NotAuthenticatedException(UserLogInError.INVALID_CREDENTIALS);
