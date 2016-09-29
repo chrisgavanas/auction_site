@@ -40,7 +40,7 @@ import com.webapplication.recommendation.SessionRecommendation;
 import com.xmlparser.XmlParser;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.apache.commons.io.IOUtils;
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
@@ -270,7 +270,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
             throw new ImageNotExistException(AuctionItemError.IMAGE_DOES_NOT_EXIST);
 
         InputStream is = new FileInputStream(image);
-        byte[] imageToByteArrayEncoded = Base64.encodeBase64(org.apache.commons.io.IOUtils.toByteArray(is));
+        byte[] imageToByteArrayEncoded = Base64.encodeBase64(IOUtils.toByteArray(is));
         is.close();
 
         return imageToByteArrayEncoded;
@@ -324,8 +324,8 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         Message messageToBuyer = new Message();
         messageToBuyer.setMessageId(ObjectId.get().toString());
         messageToBuyer.setSubject("Auction Completed");
-        messageToBuyer.setMessage("You have successfully purchased item '" + auctionItem.getName() + "' from '" 
-        		+ seller.getUsername() + "' at the price of: $" + price);
+        messageToBuyer.setMessage("You have successfully purchased item '" + auctionItem.getName() + "' from '"
+                + seller.getUsername() + "' at the price of: $" + price);
         messageToBuyer.setDate(new Date());
         messageToBuyer.setFrom("");
         messageToBuyer.setTo(buyer.getUsername());
