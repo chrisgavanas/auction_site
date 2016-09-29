@@ -282,7 +282,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
             String[] imagePathParts = image.split("\\\\");
             String newName = "";
             for (int i = 0; i < imagePathParts.length - 1; i++)
-                newName += imagePathParts[i];
+                newName += imagePathParts[i] + "/";
             File newFileName = new File(newName + "FINALIZED_AUCTION_" + imagePathParts[imagePathParts.length - 1]);
             oldName.renameTo(newFileName);
             return newFileName.getPath();
