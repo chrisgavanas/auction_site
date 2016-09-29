@@ -14,7 +14,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.countries = {};
 	$scope.categoryCache = [];
 	$scope.images = [];
-	
+	$scope.bytes = [];
 
 
 	$scope.categoryIds = {};
@@ -34,7 +34,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	$scope.cont = function(){
 	
 		$scope.item.userId = $scope.user.userId;
-		
+		console.log($scope.item);
 		
 		if($scope.item.country == 'United States')
 			$scope.item.country = 'USA';
@@ -88,7 +88,7 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	////////////
 	$scope.uploadFiles = function(files, errFiles) {
         $scope.files = files;
-    
+    console.log(files);
         
         $scope.errFiles = errFiles;
         angular.forEach(files, function(file) {
@@ -100,21 +100,18 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 
             file.upload.then(function (response) {
                 $timeout(function () {
-                    file.result = response.data;
-                   console.log(file.result);
-                    $http.get('/api/auctionitem/image?imagePath='+file.result)
+                	
+                    $scope.item.images.push(response.data);
+                  
+                    $http.get('/api/auctionitem/image?imagePath='+response.data)
                     		.then(function(response){
-                    			$scope.dat = response.data;
                     			
+                    			$scope.bytes.push(response.data);
+                    			console.log($scope.bytes);
                     		}, function(response){
                     			console.log(response);
                     		})
-            	//	var res = file.result.replace(/\\/g, '/');
-            	//	var res2 =res.split('/static/');
-            		
-            	//	$scope.images.push("./"+res2[1]);
-            		
-            		//console.log($scope.images);
+            	
                    
                 });
             }, function (response) {
@@ -139,23 +136,13 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 		
 	};
 	
-	$scope.deleteExisting = function(url){
-		for (var i =0; i < $scope.images.length; i++){
-			   if ($scope.images[i] === url) {
-			     
-			      $scope.images.splice(i,1);
-			      break;
-			   }
-		}
-		var res2 =url.split('./');
-		var fullUrl = './src/main/resources/static/' + res2[1];
-		for (var i =0; i < $scope.item.images.length; i++){
-			   if ($scope.item.images[i] === fullUrl.replace(/\//g,"\\")) {
-			     
+	$scope.deleteExisting = function(i){
+		console.log(i);
+		$scope.bytes.splice(i,1);
 			      $scope.item.images.splice(i,1);
-			      break;
-			   }
-		}
+			     
+			
+		
 		
 		
 	};

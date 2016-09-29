@@ -1,6 +1,6 @@
 router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$scope,$timeout, $state, $http,$cookies, $route, AuthenticationService, AuctionItemService){
 	
-	
+	$scope.bytes = [];
 	$scope.item = {};
 	$scope.item ={
 		categories: []
@@ -29,27 +29,30 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 						});
 
 	AuctionItemService.getAuctionItemById($scope.token, auctionId)
-	.then(function(response){
-		$scope.item = response.data;
-		if($scope.item.userId != $scope.user.userId)
-			$state.go('main.forbidden');
-		$scope.selected = $scope.item.categoryIds
-		for (i = 0; i < $scope.item.images.length; i++){
-			var res = $scope.item.images[i].replace(/\\/g, '/');
-			var res2 =res.split('/static/');
-			console.log(res2);
-			$scope.images.push("./"+res2[1]);
-			if(i!=0)
-				$scope.imagesCounter.push[i];
-		}
-		for(i = 0; i < $scope.item.categoryIds.length; i++)
-			$scope.selectedAll.push($scope.item.categoryIds[i].categoryId);
-		console.log($scope.images);
-	}, function(response){
-		if(response.status == 404)
-			$state.go('main.notfound');
+					.then(function(response){
+						$scope.item = response.data;
+						if($scope.item.userId != $scope.user.userId)
+							$state.go('main.forbidden');
+						$scope.selected = $scope.item.categoryIds
+						
+						for (i = 0; i < $scope.item.images.length; i++){
+							$http.get('/api/auctionitem/image?imagePath='+$scope.item.images[i])
+                    			.then(function(response){
+                    			
+                    				$scope.bytes.push(response.data);
+                    		
+                    			}, function(response){
+                    				console.log(response);
+                    			});
+						}
+						for(i = 0; i < $scope.item.categoryIds.length; i++)
+							$scope.selectedAll.push($scope.item.categoryIds[i].categoryId);
+						console.log($scope.images);
+					}, function(response){
+						if(response.status == 404)
+							$state.go('main.notfound');
 		
-	});
+					});
 	
 	$scope.cont = function(){
 		
@@ -121,12 +124,17 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 
             file.upload.then(function (response) {
                 $timeout(function () {
-                    file.result = response.data;
-                    $scope.item.images.push(file.result);
-                    var res = file.result.replace(/\\/g, '/');
-            		var res2 =res.split('/static/');
-            		
-            		$scope.images.push("./"+res2[1]);
+                	$scope.item.images.push(response.data);
+                    
+                    $http.get('/api/auctionitem/image?imagePath='+response.data)
+                    		.then(function(response){
+                    			
+                    			$scope.bytes.push(response.data);
+                    			console.log($scope.bytes);
+                    		}, function(response){
+                    			console.log(response);
+                    		})
+            	
                    
                 });
             }, function (response) {
@@ -140,23 +148,10 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
         });
     }
 	
-	$scope.deleteExisting = function(url){
-		for (var i =0; i < $scope.images.length; i++){
-			   if ($scope.images[i] === url) {
-			     
-			      $scope.images.splice(i,1);
-			      break;
-			   }
-		}
-		var res2 =url.split('./');
-		var fullUrl = './src/main/resources/static/' + res2[1];
-		for (var i =0; i < $scope.item.images.length; i++){
-			   if ($scope.item.images[i] === fullUrl.replace(/\//g,"\\")) {
-			     
+	$scope.deleteExisting = function(i){
+		console.log(i);
+		$scope.bytes.splice(i,1);
 			      $scope.item.images.splice(i,1);
-			      break;
-			   }
-		}
 		
 	};
 });
