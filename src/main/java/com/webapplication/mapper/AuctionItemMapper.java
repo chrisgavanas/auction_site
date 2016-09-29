@@ -18,10 +18,13 @@ import com.webapplication.entity.User;
 import com.webapplication.error.category.CategoryError;
 import com.webapplication.exception.category.CategoryHierarchyException;
 import com.webapplication.exception.category.CategoryNotFoundException;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -108,7 +111,7 @@ public class AuctionItemMapper {
                 .collect(Collectors.toList());
     }
 
-    public AuctionItemResponseDto auctionItemToAuctionItemResponseDto(AuctionItem auctionItem) {
+    public AuctionItemResponseDto auctionItemToAuctionItemResponseDto(AuctionItem auctionItem)  {
         if (auctionItem == null)
             return null;
 
@@ -136,6 +139,17 @@ public class AuctionItemMapper {
         if (buyer != null)
             auctionItemResponseDto.setBuyerUsername(buyer.getUsername());
         auctionItemResponseDto.setImages(auctionItem.getImages());
+        if (!auctionItem.getImages().isEmpty()) {
+            File image = new File(auctionItem.getImages().get(0));
+
+            try (InputStream is = new FileInputStream(image)) {
+                byte[] imageToByteArrayEncoded = Base64.encodeBase64(IOUtils.toByteArray(is));
+                is.close();
+                auctionItemResponseDto.setImagePreview(imageToByteArrayEncoded);
+            } catch (Exception ignored) {
+
+            }
+        }
 
         return auctionItemResponseDto;
     }

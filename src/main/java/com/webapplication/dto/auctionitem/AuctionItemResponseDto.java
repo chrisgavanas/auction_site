@@ -26,7 +26,7 @@ public class AuctionItemResponseDto {
     private String buyerUsername;
     private List<CategoryResponseDto> categoryIds;
     private List<String> images;
-    
+    private byte[] imagePreview;
 
     public String getAuctionItemId() {
         return auctionItemId;
@@ -154,6 +154,14 @@ public class AuctionItemResponseDto {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    public byte[] getImagePreview() {
+        return imagePreview;
+    }
+
+    public void setImagePreview(byte[] imagePreview) {
+        this.imagePreview = imagePreview;
     }
 
 }
