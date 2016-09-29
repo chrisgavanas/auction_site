@@ -17,8 +17,6 @@ router.factory('AuctionItemService', function($http, $cookies, $state) {
 		
 	};
 	auctionitemService.addAuctionItem = function(token, item){
-		var x = 1;
-		console.log(item);
 		return $http.post('/api/auctionitem', item,  {headers: {'authToken': token}})
 					.then(function(response){
 							$state.go('main.profile.userAuctions');
@@ -93,8 +91,6 @@ router.factory('AuctionItemService', function($http, $cookies, $state) {
 	}
 	
 	auctionitemService.recommend = function(token, userId){
-		console.log(token);
-		console.log(userId);
 		return $http.post('api/auctionitem/recommend', userId, {headers:{'Content-Type': 'text/plain','authToken':token}})
 					.then (function (response){
 						return response;

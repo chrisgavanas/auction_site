@@ -17,12 +17,12 @@
   			<div class="row">
   				<div class="col-md-4" >	
   					<div class="row" id="imgs" height=" 300px;" width="300px;" id="imageRow">
-  						<img src={{selectedImage}}  height=" 300px;" width="300px;" class="img-thumbnail img-responsive shadow">
+  						<img src='data:image/jpg;base64,{{selectedImage}}'  height=" 300px;" width="300px;" class="img-thumbnail img-responsive shadow">
   					</div>
   					<br>
     				<div class="row" id="imgs">
     			
-  						<img ng-repeat="image in bytes" ng-src={{image}} style="max-height:50px; max-width:75px;" class="img-thumbnail img-responsive" ng-click="changeImage(image)">
+  						<img ng-repeat="image in bytes" ng-src='data:image/jpg;base64,{{image}}' style="max-height:50px; max-width:75px;" class="img-thumbnail img-responsive" ng-click="changeImage(image)">
   						
   					</div>
   					

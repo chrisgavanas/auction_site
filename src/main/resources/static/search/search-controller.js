@@ -12,7 +12,7 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 	$scope.currentCategory = {};
 	$scope.clicked = false;
 	$scope.range = {};
-	
+	$scope.bytes = [];
 	
 	
 	
@@ -33,7 +33,7 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 		$scope.searchData.sellerId = "";
 	else
 		$scope.searchData.sellerId = $stateParams.sellerId;
-	console.log($stateParams);
+
 	
 	
 	$http.get('https://restcountries.eu/rest/v1/all')
@@ -45,7 +45,7 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 					var index = $scope.countries.array.map(function(e) { return e.name; }).indexOf($stateParams.country);
 					$scope.countries.country = $scope.countries.array[index];
 				}else{
-					console.log('mphka');
+					
 					$scope.countries.country = $scope.countries.array[0];
 				}
 			}, function(response){
@@ -90,28 +90,27 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 		});
 	
 	var search = function(){
-		console.log($scope.searchData);
+	
 		AuctionItemService.search(1, 10, $scope.searchData)
 			.then(function(response){
 				$scope.searchResults = response.data;
-				console.log(response);
-		
-		
-				var i;
 				for (i = 0; i < $scope.searchResults.length; i++){
-			
-					if($scope.searchResults[i].images.length > 0){
-						var res = $scope.searchResults[i].images[0].replace(/\\/g, '/');
-						var res2 =res.split('/static/');
-						console.log(res2);
-						$scope.searchResults[i].displayImage = res2[1];
-					
-					}else{
-						$scope.searchResults[i].displayImage = null;
-					}
-		
-			}
-			
+					if($scope.searchResults[i].images != null)
+						$http.get('/api/auctionitem/image?imagePath='+$scope.searchResults[i].images[0])
+							.then(function(response){
+								$scope.bytes.push(response.data);
+							}, function(response){
+								console.log(response);
+							});
+					else
+						$http.get('/api/auctionitem/image?imagePath='+'./images/item.png')
+						.then(function(response){
+							$scope.bytes.push(response.data);
+						}, function(response){
+							console.log(response);
+						});
+				}
+				
 			}, function(response){
 				console.log(response);
 			});
