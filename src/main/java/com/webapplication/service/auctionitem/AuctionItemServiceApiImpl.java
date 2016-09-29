@@ -279,9 +279,13 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     private List<String> finalizeImages(List<String> images) {
         return images.stream().map(image -> {
             File oldName = new File(image);
-            File newName = new File("FINALIZED_AUCTION_" + image);
-            oldName.renameTo(newName);
-            return newName.getPath();
+            String[] imagePathParts = image.split("\\\\");
+            String newName = "";
+            for (int i = 0; i < imagePathParts.length - 1; i++)
+                newName += imagePathParts[i];
+            File newFileName = new File(newName + "FINALIZED_AUCTION_" + imagePathParts[imagePathParts.length - 1]);
+            oldName.renameTo(newFileName);
+            return newFileName.getPath();
         }).collect(Collectors.toList());
     }
 
