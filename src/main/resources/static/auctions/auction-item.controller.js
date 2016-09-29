@@ -2,7 +2,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	$scope.item = {};
 	$scope.shown = false;
 	var auctionItemId = $stateParams.id;
-	
+	$scope.bytes = [];
 	
 	$scope.images = [];
 	$scope.imagesCounter = [];
@@ -30,7 +30,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 							if($scope.item.buyerId != null){
 								AuthenticationService.getSeller($scope.item.buyerId, $scope.token)
 									.then(function(response){
-									
+										
 									
 										$scope.buyer = response.data.username;
 										
@@ -54,15 +54,19 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 							}
 							var i;
 							for (i = 0; i < $scope.item.images.length; i++){
-								var res = $scope.item.images[i].replace(/\\/g, '/');
-								var res2 =res.split('/static/');
-								
-								$scope.images.push("./"+res2[1]);
-								if(i!=0)
-									$scope.imagesCounter.push[i];
+								for (i = 0; i < $scope.item.images.length; i++){
+									$http.get('/api/auctionitem/image?imagePath='+$scope.item.images[i])
+		                    			.then(function(response){
+		                    			
+		                    				$scope.bytes.push(response.data);
+		                    		
+		                    			}, function(response){
+		                    				console.log(response);
+		                    			});
+								}
 							}
 						
-							$scope.selectedImage = $scope.images[0];
+							$scope.selectedImage = $scope.bytes[0];
 							AuthenticationService.getSeller($scope.item.userId, $scope.token)
 													.then(function(response){
 															$scope.seller = response.data;

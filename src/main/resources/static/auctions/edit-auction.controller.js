@@ -34,7 +34,7 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 						if($scope.item.userId != $scope.user.userId)
 							$state.go('main.forbidden');
 						$scope.selected = $scope.item.categoryIds
-						
+						console.log($scope.item);
 						for (i = 0; i < $scope.item.images.length; i++){
 							$http.get('/api/auctionitem/image?imagePath='+$scope.item.images[i])
                     			.then(function(response){
