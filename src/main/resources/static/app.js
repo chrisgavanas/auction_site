@@ -13,12 +13,11 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
     	views: { '': {
     							templateUrl: './components/nav-bar.html',
     							controller: 'navBarController'
-    			}
-    		//	'': {
-    		//		templateUrl: './main/main.html'
-    		//	}
+    			},
+    			
+    	
     						
-    	}
+    	},data : { pageTitle: 'main' }
     })
     	.state('main.welcome', {
     		url: '/welcome',
@@ -26,7 +25,8 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
     			
     			controller: 'welcomeController',
     			templateUrl: 'main/welcome.html',
-    		}}
+    		}},
+    		data : { pageTitle: 'Welcome' }
     		
     	})
     	
@@ -35,7 +35,8 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         	views: { 'mainview': {
         		controller: 'registerController',
         		templateUrl: 'register/register.html'
-        	}}
+        	}},
+        	data : { pageTitle: 'Register' }
         })
         
         .state('main.verification',{
@@ -43,13 +44,15 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         	views: { 'mainview': {
         		templateUrl: 'messages/verification-pending.html'
         	}}
+        	,data : { pageTitle: 'Verification' }
         })
         
         .state('main.signedout',{
         	url: '/not-signed-in',
         	views: { 'mainview': {
         		templateUrl: 'messages/not-logged-in.html'
-        	}}
+        	}},
+        data : { pageTitle: 'Signed out' }
         	
         })
         
@@ -57,7 +60,8 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         	url: '/notfound',
         	views: { 'mainview': {
         		templateUrl: 'messages/not-found.html'
-        	}}
+        	}},
+        	data : { pageTitle: 'Not found' }
         	
         })
         
@@ -65,7 +69,8 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         	url: '/forbidden',
         	views: { 'mainview': {
         		templateUrl: 'messages/forbidden.html'
-        	}}
+        	}},
+        	data : { pageTitle: 'Forbidden' }
         	
         })
         
@@ -73,7 +78,7 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         	url: '/bidding-examples',
         	views: { 'mainview': {
         		templateUrl: 'messages/bidding-examples.html'
-        	}}
+        	}},data : { pageTitle: 'Examples' }
         	
         })
         .state('main.seller',{
@@ -82,6 +87,7 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         		controller: 'sellerProfileController',
         		templateUrl: 'seller/seller-profile.html'
         	}}
+        ,data : { pageTitle: 'Profile' }
         })
         .state('main.search', {
         	url: '/search?catId&input&country&from&to&sellerId',
@@ -89,7 +95,8 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         		controller: 'searchController',
         		templateUrl: 'search/search.html'
         	}},
-        	 params: {myParam: null}
+        	 params: {myParam: null},
+        	 data : { pageTitle: 'Search' }
 
         })
         .state('main.profile', {
@@ -97,7 +104,8 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         	views: { 'mainview': {
         		controller: 'profileController',
         		templateUrl: 'user/profile.html'
-        	}}
+        	}},
+        	data : { pageTitle: 'My Profile' }
 
         })
         .state('main.profile.userInfo',{
@@ -107,7 +115,8 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         		controller: 'userInfoController',
         	    templateUrl: '/user/user-info.html'
         		}
-        	}
+        	},
+        	data : { pageTitle: 'Profile Info' }
         })
        
         .state('main.profile.userMessages',{
@@ -116,7 +125,8 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         		controller: 'userMessagesController',
         	    templateUrl: '/user/user-messages.html'
         		}
-        	}
+        	},
+        data : { pageTitle: 'My Mesages' }
         })
        
         .state('main.profile.userMessages.received',{
@@ -125,7 +135,8 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         		controller: 'userMessagesReceivedController',
         	    templateUrl: '/user/user-messages-received.html'
         		}
-        	}
+        	},
+        	data : { pageTitle: 'Received Messages' }
         })
         .state('main.profile.userMessages.sent',{
         	url: '/sent',
@@ -133,7 +144,8 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         		controller: 'userMessagesSentController',
         	    templateUrl: '/user/user-messages-sent.html'
         		}
-        	}
+        	},
+        	data : { pageTitle: 'Sent Messages' }
         })
         
          .state('main.profile.userMessages.open',{
@@ -142,14 +154,16 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         		controller: 'userMessagesOpenController',
         	    templateUrl: '/user/user-messages-open.html'
         		}
-        	}
+        	},
+        	data : { pageTitle: 'Open Message'}
         })
         .state('main.item', {
     		url: '/item?id',
     		views: { 'mainview': {
     			controller: 'itemController',
     			templateUrl: 'auctions/auction-item.html'
-    		}}
+    		}},
+    		data : { pageTitle: 'Item' }
     	})
     	
     	
@@ -160,16 +174,19 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         		controller: 'userAuctionsController',
         	    templateUrl: '/user/user-auctions.html'
         		}
-        	}
+        	},
+        	data : { pageTitle: 'My Auctions' }
         })
         
         .state('main.profile.userAuctions.active',{
+        	title: 'Auctions',
         	url: '/active',
         	views: { 'auctionview': {
         		controller: 'userAuctionsActiveController',
         	    templateUrl: '/user/user-auctions-active.html'
         		}
-        	}
+        	},
+        	data : { pageTitle: 'Active Auctions' }
         })
         
         .state('main.profile.userAuctions.active.offers', {
@@ -178,7 +195,8 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
     			controller: 'offersController',
     			templateUrl: 'auctions/auction-item-offers.html'
     			}
-    		}
+    		},
+        data : { pageTitle: 'Active Auctions | Offers' }
     	})
     	
         .state('main.profile.userAuctions.pending',{
@@ -187,7 +205,7 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         		controller: 'userAuctionsPendingController',
         	    templateUrl: '/user/user-auctions-pending.html'
         		}
-        	}
+        	},data : { pageTitle: 'Inactive Auctions' }
         })
         
         .state('main.profile.userAuctions.sold',{
@@ -196,16 +214,9 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         		controller: 'userAuctionsSoldController',
         	    templateUrl: '/user/user-auctions-sold.html'
         		}
-        	}
+        	},data : { pageTitle: 'Sold Auctions' }
         })
-        .state('main.profile.userBids',{
-        	url: '/userBids',
-        	views: { 'menuview': {
-        		controller: 'userBidsController',
-        	   templateUrl: '/user/user-bids.html'
-        		}
-        	}
-        })
+        
         
     
     	
@@ -214,7 +225,7 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
     			views: { 'mainview': {
     				controller: 'adminOptionsController',
     				templateUrl: 'admin/admin-options.html'
-    			}}
+    			}},data : { pageTitle: 'Admin' }
     	})
     
     	.state('main.verified', {
@@ -222,7 +233,7 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
     			views: { 'mainview': {
     				controller: 'adminOptionsVerifiedController',
     				templateUrl: 'admin/admin-options-verified.html'
-    			}}
+    			}},data : { pageTitle: 'Verified' }
     	})
     
     	.state('main.unverified', {
@@ -230,7 +241,7 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
     			views: { 'mainview': {
     				controller: 'adminOptionsUnverifiedController',
     				templateUrl: 'admin/admin-options-unverified.html'
-    			}}
+    			}},data : { pageTitle: 'Unverified' }
     	})
     	
         .state('main.newAuction', {
@@ -238,7 +249,7 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         	views: { 'mainview': {
         		controller: 'newAuctionController',
         		templateUrl: 'auctions/new-auction.html'
-        	}}
+        	}},data : { pageTitle: 'New Auction' }
         })
         
          .state('main.editAuction', {
@@ -246,7 +257,7 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         	views: { 'mainview': {
         	controller: 'editAuctionController',
         	templateUrl: 'auctions/edit-auction.html'
-        	}}
+        	}},data : { pageTitle: 'Edit Auction' }
         })
         
         .state('main.verificationPreview', {
@@ -254,7 +265,7 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         	views: { 'mainview': {
         	controller: 'verificationPreviewController',
         	templateUrl: 'admin/verification-preview.html'
-        	}}
+        	}},data : { pageTitle: 'Preview' }
         })	
         
         .state('main.startAuction', {
@@ -265,7 +276,7 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
                 	
                 'preview@main.startAuction': { templateUrl: '/auctions/auction-item.html',
                 					controller: 'itemController'}
-                }
+                },data : { pageTitle: 'Start Auction' }
         	
         	
         	
@@ -278,13 +289,24 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         
 });
 
-router.run(['$rootScope', '$uibModalStack', function($rootScope, $uibModalStack){
-	$rootScope.$on('$stateChangeStart', 
-			function(event, toState, toParams, fromState, fromParams){ 
-					console.log('a');
-					$uibModalStack.dismissAll();
-			})                                                                                                                                                                  
-    
-}]); 
+router.run([
+             '$log', '$rootScope', '$window', '$state', '$location',
+             function($log, $rootScope, $window, $state, $location) {
+
+                 $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+                	 $('.modal-backdrop').remove();
+                	 $('body').removeClass('modal-open');
+                	 document.getElementsByTagName("body")[0].style = 'padding-right: 0';
+                     if (toState.data.pageTitle) {
+                         document.title = toState.data.pageTitle + ' | Auction';
+                         console.log($rootScope.pageTitle);
+                     }
+                 });
+
+                
+
+                
+             }
+]);
 
 

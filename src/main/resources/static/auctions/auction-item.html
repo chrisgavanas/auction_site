@@ -16,8 +16,10 @@
   			</div>
   			<div class="row">
   				<div class="col-md-4" >	
+  			
   					<div class="row" id="imgs" height=" 300px;" width="300px;" id="imageRow">
-  						<img src='data:image/jpg;base64,{{selectedImage}}'  height=" 300px;" width="300px;" class="img-thumbnail img-responsive shadow">
+  						<img src='data:image/jpg;base64,{{selectedImage}}'  height=" 300px;" width="300px;" class="img-thumbnail img-responsive shadow" ng-if='bytes.length != 0'>
+  						<img src='./images/item.png'  height=" 300px;" width="300px;" class="img-thumbnail img-responsive shadow" ng-if='bytes.length == 0'>
   					</div>
   					<br>
     				<div class="row" id="imgs">
@@ -159,11 +161,7 @@
         	<p>By clicking continue you agree to buy this '{{item.name}}' for ${{item.buyout}}.</p>
         	<button class="btn btn-primary" ng-click="buyout()">Continue</button>
     		<p ng-if="buyoutComplete">You have successfully purchased item: {{item.name}}</p>
-    		<p ng-if='buyoutComplete'>Are you satisfied with seller: {{seller.username}}? Please rate below</p>
-    		<button class="btn btn-link" ng-if="buyoutComplete" ng-click="ratePositive()"><span class="glyphicon glyphicon-plus"></span></button><button ng-if="buyoutComplete" class="btn btn-link"><span class="glyphicon glyphicon-minus" ng-click='rateNegative()'></span></button>
-    		<div class="alert alert-success" ng-show='rate'>
-				Your feedback has been posted!
-			</div>
+    		
     	</div>
     	<div class="modal-footer">
         	<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

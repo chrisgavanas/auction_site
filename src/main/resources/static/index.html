@@ -20,9 +20,6 @@
 	<link rel="stylesheet" type="text/css" href="../styles/search.css">
 	
 	
-	
-	
-	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.min.js"></script>
@@ -53,26 +50,8 @@
 	<script src="https://code.angularjs.org/1.2.0rc1/angular-animate.min.js"></script>
     <script src="https://code.angularjs.org/1.2.0rc1/angular-touch.min.js"></script>
 	<script src="https://cdn.rawgit.com/siddii/angular-timer/master/dist/angular-timer.min.js"></script>
-</head>
-
-<body ng-app="router" >
-
-<div ui-view></div>
-
-
-
-
-<footer class="container-fluid bg-3 text-center" id="footerContainer">
-  <p><h5>Bootstrap Theme Made By FetaVideos</h5></p> 
-</footer>
-
-    <!-- libraries -->
-    
-    
-	 <!-- libraries -->
-	 
 	
-    <script src="app.js"></script>
+	 <script src="app.js"></script>
    
 	<script src="components/ng-file-upload-shim.min.js"></script>
 	<script src="components/ng-file-upload.min.js"></script>
@@ -102,7 +81,7 @@
     <script src="directives/startdate-validation.directive.js"></script>
     <script src="directives/birthdate-validation.directive.js"></script>
     <script src="directives/auto-active.directive.js"></script>
-    
+    <script src="directives/title.directive.js"></script>
     
     <script src="main/welcome.controller.js"></script>
     
@@ -128,6 +107,27 @@
     <script src="user/user-auctions-start.controller.js"></script>
     
     <script src="seller/seller-profile.controller.js"></script>
+	
+	<title ng-bind="pageTitle">{{pageTitle}}</title>
+	
+	
+</head>
+
+<body ng-app="router" >
+
+<div ui-view></div>
+
+
+
+
+<footer class="container-fluid bg-3 text-center" id="footerContainer">
+  <p><h5>Bootstrap Theme Made By FetaVideos</h5></p> 
+</footer>
+
+  
+	 
+	
+   
    
 </body>
 </html>

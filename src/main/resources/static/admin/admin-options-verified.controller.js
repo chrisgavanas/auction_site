@@ -1,10 +1,10 @@
 router.controller('adminOptionsVerifiedController', function($state, $scope, $cookies, $http, AuthenticationService, AdminService){
 	
 	$scope.verified = {};
-	
 	$scope.usernamesAndIds = [];
-	
 	$scope.pageCounter = 1;
+	
+	
 	if($scope.signedIn == false)
 		$state.go('main.signedout');
 		
@@ -28,20 +28,6 @@ router.controller('adminOptionsVerifiedController', function($state, $scope, $co
 				});
 		
 	
-
-	$scope.getVerified = function(form, to){
-		AdminService.getVerified($scope.token, form, to)
-							.then(function(response){
-								console.log(respone);
-							}, function(response){
-								$cookies.remove('userId');
-								$cookies.remove('authToken');
-								$cookies.put('signedIn', 'no');
-								
-								$scope.signedIn = false;
-								$state.go('main.signedout');
-							});
-	};
 	
 	
 	$scope.nextPage = function(){

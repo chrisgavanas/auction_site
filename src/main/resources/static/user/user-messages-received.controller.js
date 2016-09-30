@@ -33,13 +33,13 @@ router.controller('userMessagesReceivedController', function($scope, $state, $co
 				
 				$scope.messagesReceived.splice(i,1);
 				i = i - 1;
-				console.log($scope.messagesReceived.length);
+			
 			}
 		}
 		
 		MessageService.deleteMessage($scope.token, $scope.user.userId, $scope.toDelete, 'RECEIVED')
 			.then(function(response){
-				console.log(response);
+				
 			}, function(response){
 				console.log(response);
 			});
@@ -62,7 +62,6 @@ router.controller('userMessagesReceivedController', function($scope, $state, $co
 	}
 	
 	$scope.setReply = function(){
-		console.log($scope.selectedReceived);
 		$scope.message.subject = "Re: " + $scope.selectedReceived.subject;
 		$scope.message.username = $scope.selectedReceived.username;
 	}

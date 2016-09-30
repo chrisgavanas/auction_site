@@ -36,7 +36,7 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 
 	
 	
-	$http.get('https://restcountries.eu/rest/v1/all')
+	AuctionItemService.getAllCountries()
 			.then(function(response){
 				
 				$scope.countries.array = response.data;
@@ -94,22 +94,7 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 		AuctionItemService.search(1, 10, $scope.searchData)
 			.then(function(response){
 				$scope.searchResults = response.data;
-				for (i = 0; i < $scope.searchResults.length; i++){
-					if($scope.searchResults[i].images != null)
-						$http.get('/api/auctionitem/image?imagePath='+$scope.searchResults[i].images[0])
-							.then(function(response){
-								$scope.bytes.push(response.data);
-							}, function(response){
-								console.log(response);
-							});
-					else
-						$http.get('/api/auctionitem/image?imagePath='+'./images/item.png')
-						.then(function(response){
-							$scope.bytes.push(response.data);
-						}, function(response){
-							console.log(response);
-						});
-				}
+				
 				
 			}, function(response){
 				console.log(response);
@@ -129,22 +114,7 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 			.then(function(response){
 				
 				$scope.searchResults = response.data;
-				var i;
-				for (i = 0; i < $scope.searchResults.length; i++){
 				
-					
-					if($scope.searchResults[i].images.length > 0){
-						var res = $scope.searchResults[i].images[0].replace(/\\/g, '/');
-						var res2 =res.split('/static/');
-						console.log(res2);
-						$scope.searchResults[i].displayImage = res2[1];
-						if(i!=0)
-							$scope.imagesCounter.push[i];
-					}else{
-						$scope.searchResults[i].displayImage = null;
-					}
-			
-				}
 			
 			
 			}, function(response){
@@ -162,21 +132,7 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 		AuctionItemService.search($scope.from, $scope.to, $scope.searchData)
 			.then(function(response){
 				$scope.searchResults = response.data;
-				var i;
-			for (i = 0; i < $scope.searchResults.length; i++){
-			
-					if($scope.searchResults[i].images.length > 0){
-						var res = $scope.searchResults[i].images[0].replace(/\\/g, '/');
-						var res2 =res.split('/static/');
-						console.log(res2);
-						$scope.searchResults[i].displayImage = res2[1];
-						if(i!=0)
-							$scope.imagesCounter.push[i];
-					}else{
-						$scope.searchResults[i].displayImage = null;
-					}
-			
-				}
+				
 			
 			}, function(response){
 				console.log(response);
@@ -198,7 +154,7 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 	}
 	
 	$scope.filterCountry = function(country){
-		console.log(country.name);
+		
 		if(country.name == "All countries")
 			$scope.currentCountry = "";
 		else
@@ -209,7 +165,7 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 	}
 	
 	$scope.filterPrice = function(range){
-		console.log(range);
+	
 		$state.go('main.search', {input: $scope.searchData.text, catId: $stateParams.catId, country: $stateParams.country, from : range.from, to: range.to, sellerId: $stateParams.sellerId});
 	}
 });

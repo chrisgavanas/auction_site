@@ -11,7 +11,6 @@ router.controller('userAuctionsStartController', function ($scope, $http, $state
 	AuctionItemService.getAuctionItemById($scope.token, auctionItemId)
 		.then(function(response){
 			$scope.item = response.data;
-			console.log($scope.item);
 			if($scope.item.userId != $scope.user.userId)
 				$state.go('main.forbidden');
 			

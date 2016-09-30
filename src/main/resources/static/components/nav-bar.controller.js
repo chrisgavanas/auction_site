@@ -45,11 +45,9 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 
 		MessageService.getMessagesByType($scope.token, $scope.user.userId, "SENT")
 					.then (function(response){
-						//	console.log(response);
 						$scope.messagesSent = response.data;
 
 					}, function(response){
-						//console.log(response);
 					});
 	}
 	if($scope.signedIn == true){
@@ -88,7 +86,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 								for (i = 0; i < $scope.recommendations.length; i++){
 								
 									if($scope.recommendations[i].images.length > 0){
-										$http.get('/api/auctionitem/image?imagePath='+$scope.recommendations[i].images[0])
+										AuctionItemService.getImage($scope.recommendations[i].images[0])
 		                    					.then(function(response){
 		                    						$scope.recommendations[i].displayImage = 'data:image/jpg;base64,' + response.data;
 		                    		
@@ -218,11 +216,10 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     		$scope.userToLogin.email = null;
     		$scope.userToLogin.username = $scope.field;
     	}
-    	console.log($scope.userToLogin);
+    	
     	AuthenticationService.login($scope.userToLogin)
     							.then(function (response){
     								
-    								console.log(response);
     								$scope.userToLogin = {};
     								$scope.loginform.$submitted = false;
 
@@ -230,7 +227,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     								$('#myModal').modal('hide');
     								AuthenticationService.getUser(response.useId, response.authToken)
     									.then(function(response){
-    										console.log(response);
+    										
     										$scope.signedIn = true;
     										$scope.user = response.data;
     										if($scope.user.isAdmin == true){
@@ -241,7 +238,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     										}
     										
     								}, function errorCallback(response){
-    										console.log(response);
+    										
     										$cookies.remove('userId');
     										$cookies.remove('authToken');
     										$cookies.put('signedIn', 'no');
@@ -252,7 +249,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     								
     							
     							}, function (response) {
-    								console.log(response);
+    								
     								if (response.status == 401 || response.status == 403) {
     									$scope.donotmatch = true;
                

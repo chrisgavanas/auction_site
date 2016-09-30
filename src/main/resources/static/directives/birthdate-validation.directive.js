@@ -6,7 +6,7 @@ router.directive("validateBirthdate", function(){
 		
 			ctrl.$validators.validateBirthdate = function(endDate){
 				var date = new Date();
-				console.log(date);
+				
 				if(date <= endDate)
 					return false;
 				else

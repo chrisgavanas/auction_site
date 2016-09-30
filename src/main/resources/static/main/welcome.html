@@ -15,7 +15,8 @@
     <div class="col-md-4" ng-repeat='item in recommendations'>
       <div class="thumbnail list-group-item">
       	
-      		<a><img ui-sref="main.item({id: item.auctionItemId})" ng-src={{item.displayImage}} class="img-responsive"></a>
+      		<a><img ui-sref="main.item({id: item.auctionItemId})" ng-src='data:image/jpg;base64,{{item.imagePreview}}' class="img-responsive" ng-if='item.imagePreview != null'></a>
+      		<a><img ui-sref="main.item({id: item.auctionItemId})" ng-src='./images/item.png' class="img-responsive" ng-if='item.imagePreview == null'></a>
       		<a ui-sref="main.item({id: item.auctionItemId})"><span id="myspan"><h4>{{item.name}}</h4></span></a>
       	
       	

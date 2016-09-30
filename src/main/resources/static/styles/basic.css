@@ -17,6 +17,7 @@ hr{
 	border: none;
 	color: #242d2c;
 	font-weight: bold;
+	border-bottom: 3px solid #6ecbc9;
 }
 .special .list-group-item.active, .special .list-group-item.active:focus, .special .list-group-item.active:hover{
 	background-color: #6ecbc9;

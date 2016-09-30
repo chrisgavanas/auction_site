@@ -25,7 +25,7 @@ router.controller('userAuctionsPendingController', function($state, $scope, $htt
 											$scope.itemsPending[i].hasBuyout = true;
 									}
 						}, function(response){
-							alert("error");
+							
 						});
 	
 	$scope.nextPage = function (){
@@ -41,7 +41,7 @@ router.controller('userAuctionsPendingController', function($state, $scope, $htt
 					$scope.itemsPending = {};
 					$scope.itemsPending = response.data;
 					
-					console.log(response);
+					
 					var i;
 					for(i = 0; i < $scope.itemsPending.length; i++){
 						if($scope.itemsPending[i].buyout == null)
@@ -76,7 +76,7 @@ router.controller('userAuctionsPendingController', function($state, $scope, $htt
 							$scope.itemsPending[i].hasBuyout = true;
 					}
 		}, function(response){
-			alert("error");
+			
 		});
 	}
 });

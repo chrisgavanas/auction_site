@@ -26,7 +26,6 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	AuctionItemService.getAuctionItemById($scope.token, auctionItemId)
 						.then(function(response){
 							$scope.item = response.data;
-							console.log($scope.item);
 							if($scope.item.buyerId != null){
 								AuthenticationService.getSeller($scope.item.buyerId, $scope.token)
 									.then(function(response){
@@ -55,16 +54,16 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 							var i;
 							for (i = 0; i < $scope.item.images.length; i++){
 								for (i = 0; i < $scope.item.images.length; i++){
-									$http.get('/api/auctionitem/image?imagePath='+$scope.item.images[i])
-		                    			.then(function(response){
-		                    				console.log(response);
-		                    				if($scope.selectedImage == null)
-		                    					$scope.selectedImage = response.data;
-		                    				$scope.bytes.push(response.data);
+									AuctionItemService.getImage($scope.item.images[i])
+		                    							.then(function(response){
+		                    				
+		                    								if($scope.selectedImage == null)
+		                    									$scope.selectedImage = response.data;
+		                    								$scope.bytes.push(response.data);
 		                    		
-		                    			}, function(response){
-		                    				console.log(response);
-		                    			});
+		                    							}, function(response){
+		                    								console.log(response);
+		                    							});
 								}
 							}
 						
@@ -83,12 +82,12 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 						});	
 	
 	$scope.go  = function(){
-		
+		$('#myModal2').modal('hide');
+		$('.modal-backdrop').remove();
 		$state.go('main.biddingexamples');
 	};
 	
 	$scope.placeBid = function(){
-		console.log($scope.user.userId);
 		if($scope.user.userId == $scope.item.userId)
 			$scope.conflict2 = true;
 		else{
@@ -156,9 +155,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	
 	AuctionItemService.getBidsOfAuctionItem($scope.token, auctionItemId)
 					.then(function(response){
-						console.log(response);
 						$scope.bidds = response.data;
-						console.log($scope.bidds);
 					}, function(response){
 						console.log(response);
 					});

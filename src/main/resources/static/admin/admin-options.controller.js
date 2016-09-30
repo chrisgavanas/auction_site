@@ -17,10 +17,8 @@ router.controller('adminOptionsController', function($timeout,$window, $state, $
 		$scope.buttonClicked = true;
 		$scope.wait = true;
 		var promise = AdminService.exportToXML($scope.token);
-
 								promise.then(function(response){
 									$timeout(function () {
-										console.log(response);
 										$scope.xmldata = response.data;
 										blob = new Blob([$scope.xmldata], { type: 'text/plain' }),
 										url = $window.URL || $window.webkitURL;

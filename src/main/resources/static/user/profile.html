@@ -6,7 +6,7 @@
 </div>
 
 <div  id="nav">
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default" role="navigation" align="middle">
   <div class="container">
    	<div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar2">
@@ -20,10 +20,10 @@
       
     </div>
     <div class="collaps navbar-collapse" ng-class="!navCollapsed && 'in'" id="myNavbar2">
-    <ul class="nav navbar-nav" auto-active>
+    <ul class="nav navbar-nav" auto-active align="middle">
       <li  ><a ui-sref="main.profile.userInfo">User Info</a></li>
-      <li ><a ui-sref="main.profile.userAuctions">Auctions</a></li>
-      <li ><a ui-sref="main.profile.userMessages">Messages</a></li>
+      <li ><a ui-sref="main.profile.userAuctions.active">Auctions</a></li>
+      <li ><a ui-sref="main.profile.userMessages.received">Messages</a></li>
 			  
      
     </ul>

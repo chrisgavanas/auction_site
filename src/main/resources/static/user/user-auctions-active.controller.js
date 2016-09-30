@@ -110,7 +110,7 @@ router.controller('userAuctionsActiveController', function($state, $scope, $http
 	$scope.getOffers = function(auctionItemId){
 		AuctionItemService.getBidsOfAuctionItem($scope.token, auctionItemId)
 						.then(function(response){
-							console.log(response);
+							
 							$scope.bidds = response.data;
 						
 						}, function(response){

@@ -1,14 +1,8 @@
 router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$scope,$timeout, $state, $http,$cookies, $route, AuthenticationService, AuctionItemService){
 	
 	$scope.bytes = [];
-	$scope.item = {};
-	$scope.item ={
-		categories: []
-	};
 	$scope.selected = [];
-	$scope.item.geoLocationDto = {};
 	$scope.categories = {};
-	
 	$scope.categoryCache = [];
 	var auctionId = $stateParams.id;
 	var unchanged = true;
@@ -16,9 +10,11 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 	$scope.imagesCounter = [];
 	$scope.submit = false;
 	$scope.selectedAll = [];
+	$scope.categoryMissing = false;
 	
 	if($scope.signedIn == false)
 		$state.go('main.signedout');
+	
 	AuctionItemService.getCategories($scope.token)
 						.then(function(response){
 							$scope.categoryIds = angular.copy(response.data);
@@ -34,11 +30,10 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 						if($scope.item.userId != $scope.user.userId)
 							$state.go('main.forbidden');
 						$scope.selected = $scope.item.categoryIds
-						console.log($scope.item);
 						for (i = 0; i < $scope.item.images.length; i++){
-							$http.get('/api/auctionitem/image?imagePath='+$scope.item.images[i])
-                    			.then(function(response){
-                    			
+							AuctionItemService.getImage($scope.item.images[i])
+							.then(function(response){
+   
                     				$scope.bytes.push(response.data);
                     		
                     			}, function(response){
@@ -47,7 +42,7 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 						}
 						for(i = 0; i < $scope.item.categoryIds.length; i++)
 							$scope.selectedAll.push($scope.item.categoryIds[i].categoryId);
-						console.log($scope.images);
+						
 					}, function(response){
 						if(response.status == 404)
 							$state.go('main.notfound');
@@ -56,9 +51,15 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 	
 	$scope.cont = function(){
 		
-		$scope.item.userId = $scope.user.userId;
 		$scope.item.categoryIds = $scope.selectedAll;
 		console.log($scope.item);
+		if($scope.item.country == null)
+			AuctionItemService.getCountry($scope.item.geoLocationDto.latitude,$scope.item.geoLocationDto.longitude)
+					.then(function (response){
+						$scope.item.country = response.data.results[response.data.results.length - 1].formatted_address;
+					})
+		if($scope.item.country == 'United States')
+			$scope.item.country = 'USA';
 		if($scope.submit == true || unchanged){
 			AuctionItemService.editAuctionItem($scope.token, auctionId, $scope.item)
 							.then(function(response){
@@ -73,13 +74,15 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 	
 	$scope.getCurrentLocation = function(){
 		$scope.pos = this.getPosition();
+	
 		$scope.item.geoLocationDto.latitude = $scope.pos.lat();
 		$scope.item.geoLocationDto.longitude = $scope.pos.lng();
-		console.log($scope.item);
-		$http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng='+$scope.item.geoLocationDto.latitude+','+$scope.item.geoLocationDto.longitude+'&sensor=false&language=en')
-		.then(function (response){
-			$scope.item.country = response.data.results[response.data.results.length - 1].formatted_address;
-		})
+		AuctionItemService.getCountry($scope.item.geoLocationDto.latitude, $scope.item.geoLocationDto.longitude)
+							.then(function (response){
+								$scope.item.country = response.data.results[response.data.results.length - 1].formatted_address;
+							}, function(response){
+								$scope.item.country = 'None';
+							})
 	   
 	};
 	
@@ -94,9 +97,10 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 			
 		$scope.selected.push(category);
 		$scope.selectedAll.push(category.categoryId);
+		console.log($scope.item.categoryIds);
 		if(category.subCategories.length != 0){
 			$scope.submit = false;
-			
+		
 			$scope.categoryIds = category.subCategories;
 			
 		}else{
@@ -126,11 +130,9 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
                 $timeout(function () {
                 	$scope.item.images.push(response.data);
                     
-                    $http.get('/api/auctionitem/image?imagePath='+response.data)
-                    		.then(function(response){
-                    			
+                	AuctionItemService.getImage($scope.item.images[i])
+					.then(function(response){
                     			$scope.bytes.push(response.data);
-                    			console.log($scope.bytes);
                     		}, function(response){
                     			console.log(response);
                     		})
@@ -149,9 +151,27 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
     }
 	
 	$scope.deleteExisting = function(i){
-		console.log(i);
 		$scope.bytes.splice(i,1);
 			      $scope.item.images.splice(i,1);
 		
 	};
+	
+	$scope.setCountry = function(){
+		
+		if($scope.item.geoLocationDto.latitude != null && $scope.item.geoLocationDto.longitude != null)
+			AuctionItemService.getCountry($scope.item.geoLocationDto.latitude,$scope.item.geoLocationDto.longitude)
+			.then(function (response){
+				
+				if(response.data.results.length == 0)
+					$scope.notValidLocation = true;
+				else{
+					$scope.notValidLocation = false;
+					$scope.item.country = response.data.results[response.data.results.length - 1].formatted_address;
+					if($scope.item.country == 'United States')
+						$scope.item.country = 'USA';
+				}
+			});
+		else
+			$scope.item.country = null;
+	}
 });

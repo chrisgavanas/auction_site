@@ -2,9 +2,7 @@ router.controller('adminOptionsUnverifiedController', function($state, $scope, $
 	
 
 	$scope.unverified = {};
-	
 	$scope.usernamesAndIds = [];
-	
 	$scope.pageCounter = 1;
 	
 	if($scope.signedIn == false)
@@ -14,7 +12,6 @@ router.controller('adminOptionsUnverifiedController', function($state, $scope, $
 	AdminService.getUnverified($scope.token, 1, 10)
 				.then(function successCallback(response){
 					$scope.unverified = angular.copy(response.data);
-					console.log($scope.unverfied);
 					var i;
 					for(i = 0; i < $scope.unverified.length; i ++){
 						$scope.usernamesAndIds.push( { id: $scope.unverified[i].userId, text: $scope.unverified[i].username } );
@@ -24,29 +21,12 @@ router.controller('adminOptionsUnverifiedController', function($state, $scope, $
 					$cookies.remove('userId');
 					$cookies.remove('authToken');
 					$cookies.put('signedIn', 'no');
-					
 					$scope.signedIn = false;
 					$state.go('main.signedout');
 			
 				});
 		
-	
-	
-	
-	
-	$scope.getUnverified = function(form, to){
-		AdminService.getUnverified($scope.token, form, to)
-							.then(function(response){
-								console.log(respone);
-							}, function(response){
-								$cookies.remove('userId');
-								$cookies.remove('authToken');
-								$cookies.put('signedIn', 'no');
-								
-								$scope.signedIn = false;
-								$state.go('main.signedout');
-							});
-	};
+
 	
 	$scope.nextPage = function(){
 		$scope.pageCounter++;
@@ -60,7 +40,6 @@ router.controller('adminOptionsUnverifiedController', function($state, $scope, $
 						$cookies.remove('userId');
 						$cookies.remove('authToken');
 						$cookies.put('signedIn', 'no');
-						
 						$scope.signedIn = false;
 						$state.go('main.signedout');
 			

@@ -1,6 +1,5 @@
 router.controller('verificationPreviewController', function($state, $scope, $cookies, $http, $stateParams, AuthenticationService, AdminService){
 	$scope.userId = $stateParams.id;
-
 	$scope.user1 = {}
 	
 	if($scope.signedIn == false)
@@ -26,7 +25,6 @@ router.controller('verificationPreviewController', function($state, $scope, $coo
 							$scope.registrationDateConverted = $.datepicker.formatDate("M d, yy", new Date(response.data.registrationDate));
 							$scope.user1.registrationDate = new Date(response.data.registrationDate);
 						}, function errorCallback(response){
-		
 							if(response.status == 404)
 								$state.go('main.notfound');
 		

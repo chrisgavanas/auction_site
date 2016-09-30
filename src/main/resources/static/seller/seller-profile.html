@@ -75,7 +75,7 @@
 		<div class='col-md-3' ng-repeat="item in userItems">
 			<div class="thumbnail list-group-item">
       			<a>
-      			<img ui-sref="main.item({id: item.auctionItemId})" ng-src={{item.displayImage}} class="img-responsive"></a>
+      			<img src='data:image/jpg;base64,{{item.imagePreview}}' ui-sref="main.item({id: item.auctionItemId})"  class="img-responsive"></a>
       			<a ui-sref="main.item({id: item.auctionItemId})"><span id="myspan">{{item.name}}</span></a>
       			<span>${{item.currentBid}}</span>
       		</div>

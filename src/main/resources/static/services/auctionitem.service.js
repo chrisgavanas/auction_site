@@ -96,6 +96,28 @@ router.factory('AuctionItemService', function($http, $cookies, $state) {
 						return response;
 					});
 	};
+	
+	auctionitemService.getImage = function(path){
+		return $http.get('/api/auctionitem/image?imagePath=' + path)
+					.then(function(response){
+						return response;
+					});
+	};
+	
+	auctionitemService.getCountry = function(lat, lon){
+		return $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+lon+'&sensor=false&language=en')
+					.then(function(response){
+						return response;
+					});
+	};
+	
+	auctionitemService.getAllCountries = function(){
+		return 	$http.get('https://restcountries.eu/rest/v1/all')
+						.then(function(response){
+							return response;
+						});
+
+	};
 	return auctionitemService;
 	
 });

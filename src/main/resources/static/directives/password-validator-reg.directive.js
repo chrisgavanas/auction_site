@@ -1,5 +1,5 @@
 var validateEmail = router.directive('pass', function() {
-	console.log("mphka");
+	
   var PASS_REGEXP = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/;
   return {
     require: 'ngModel',

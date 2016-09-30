@@ -39,7 +39,7 @@ $scope.deleteMsg = function(){
 		
 		MessageService.deleteMessage($scope.token, $scope.user.userId, $scope.toDelete, 'SENT')
 			.then(function(response){
-				console.log(response);
+				
 			}, function(response){
 				console.log(response);
 			});

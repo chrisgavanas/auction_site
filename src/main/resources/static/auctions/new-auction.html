@@ -26,6 +26,9 @@
     					<font size="2">You have selected a category!</font>
   						</div>
   					</div>
+  					<div class='alert alert-danger' ng-show='categoryMissing && !submit'>
+  						You have not selected a category!
+  					</div>
   				</div>
   				<div class="row">
   					<div class="col-md-4"></div>
@@ -84,24 +87,31 @@
   				</div>
   				<hr>
   				<div class="row">
-  					<h5>Add your item's location. (Optional)</h5>
-  					
+  					<h5>Add your item's location.</h5>
+  					<div class="alert alert-danger" ng-if='notValidLocation'>Not a valid location!</div>
   				</div>
   				<br>
   				<div class="row" >
   					<div class="col-md-5">
-  						<h6>Enter your item's longitute and latitude</h6>
+  						
+  						<h6>Enter your item's longitude and latitude</h6>
   						<div class="row">
-  							<h6>Longitute</h6>
+  							<h6>Longitude</h6>
   						</div>
   						<div class="row" align="middle">
-  							<input class="form-control" id="lon" ng-model="item.geoLocationDto.longitude">
+  							<div ng-messages="auctionItemForm.lon.$error" role="alert" ng-if="auctionItemForm.$submitted">
+								<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+							</div>
+  							<input name='lon' class="form-control" id="lon" ng-model="item.geoLocationDto.longitude" ng-change='setCountry()' required>
   						</div>
   						<div class="row">
   							<h6>Latitude</h6>
   						</div>
   						<div class="row" align="middle">
-  							<input class="form-control" id="lat" ng-model="item.geoLocationDto.latitude">
+  							<div ng-messages="auctionItemForm.lat.$error" role="alert" ng-if="auctionItemForm.$submitted">
+								<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+							</div>
+  							<input name='lat' class="form-control" id="lat" ng-model="item.geoLocationDto.latitude" ng-change='setCountry()' required>
   						</div>
   					</div>
   					<div class="col-md-2">
@@ -109,21 +119,22 @@
   					</div>
   					<div class="col-md-5">
   						<h6>Drag the marker to your item's location.</h6>
-  						<ng-map center="current-location" zoom="4">
-    						<marker position="current-location" draggable="true" on-dragend="getCurrentLocation()"></marker>
+  						<ng-map center="{{item.geoLocationDto.latitude}},{{item.geoLocationDto.longitude}}" zoom="4">
+    						<marker position="{{item.geoLocationDto.latitude}},{{item.geoLocationDto.longitude}}" draggable="true" on-dragend="getCurrentLocation()"></marker>
   						</ng-map>
   					</div>
   					
   				</div>
   				<div class='row'>
-  					<h5>Selected Country:</h5>
-  					<div class='col-md-4'>
-  					</div>
-					<div class='col-md-4'>
-						{{item.country}}
-					</div>
-					<div class='col-md-4'>
-					</div>
+  					
+  						<h5>Selected Country:</h5>
+  						<div class='col-md-4'>
+  						</div>
+						<div class='col-md-4'>
+							{{item.country}}
+						</div>
+						
+					
 				</div>
   				<hr>
   				<div class="row">

@@ -36,7 +36,7 @@ router.controller('userInfoController', function($state, $scope, $cookies, $http
 										document.getElementById("invalidPass").style.display = "block";
 									else if(response.data.message == "New password must differ with the old password.")
 										document.getElementById("differentPass").style.display = "block";
-									console.log(response);
+									
 			
 								});
 	};
@@ -45,7 +45,7 @@ router.controller('userInfoController', function($state, $scope, $cookies, $http
 		$state.go('main.admin');
 	};
 	
-	// other functions //
+	
 	
 	
 	
