@@ -1,7 +1,5 @@
 package com.webapplication.dto.user;
 
-import java.util.UUID;
-
 public class ChangePasswordRequestDto {
 
     private String oldPassword;
