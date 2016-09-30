@@ -141,13 +141,12 @@ public class AuctionItemMapper {
         auctionItemResponseDto.setImages(auctionItem.getImages());
         if (!auctionItem.getImages().isEmpty()) {
             File image = new File(auctionItem.getImages().get(0));
-
             try (InputStream is = new FileInputStream(image)) {
                
                 auctionItemResponseDto.setImagePreview(IOUtils.toByteArray(is));
                 is.close();
             } catch (Exception ignored) {
-            	
+
             }
         }
 

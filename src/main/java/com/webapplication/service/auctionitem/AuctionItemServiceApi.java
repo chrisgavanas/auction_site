@@ -47,4 +47,6 @@ public interface AuctionItemServiceApi {
 
     byte[] getImage(String imagePath) throws Exception;
 
+    List<AuctionItemResponseDto> getRandomRecommendedAuctionItems() throws Exception;
+
 }

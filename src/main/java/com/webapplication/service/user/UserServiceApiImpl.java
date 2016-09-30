@@ -25,6 +25,7 @@ import com.webapplication.error.user.UserRegisterError;
 import com.webapplication.exception.ForbiddenException;
 import com.webapplication.exception.NotAuthenticatedException;
 import com.webapplication.exception.NotAuthorizedException;
+import com.webapplication.exception.ValidationException;
 import com.webapplication.exception.user.EmailAlreadyInUseException;
 import com.webapplication.exception.user.EmailUnverifiedException;
 import com.webapplication.exception.user.MessageNotFoundException;
@@ -150,10 +151,13 @@ public class UserServiceApiImpl implements UserServiceApi {
         User user = getUser(userId);
         validateAuthorization(userId, sessionInfo);
 
-        if (!user.getPassword().equals(changePasswordRequestDto.getOldPassword()))
+        byte[] salt = Base64.decodeBase64(user.getSalt().getBytes());
+        String oldPasswordEncoded = encodePassword(changePasswordRequestDto.getOldPassword(), salt);
+        if (!oldPasswordEncoded.equals(user.getPassword()))
             throw new ForbiddenException(UserError.PASSWORD_MISSMATCH);
 
-        user.setPassword(changePasswordRequestDto.getNewPassword());
+        String newPasswordEncoded = encodePassword(changePasswordRequestDto.getNewPassword(), salt);
+        user.setPassword(newPasswordEncoded);
         userRepository.save(user);
     }
 
