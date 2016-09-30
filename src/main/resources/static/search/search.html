@@ -68,7 +68,7 @@
 			<div class=' lvresult row' ng-repeat='item in searchResults'>
 				<div class="imgbox img-thumbnail col-md-4">
 					<a ui-sref="main.item({id: item.auctionItemId})">
-						<img  class="img " ui-sref="main.item({id: item.auctionItemId})" ng-src={{item.displayImage}} class="img-responsive" ng-if="item.displayImage != null">
+						<img  class="img " ui-sref="main.item({id: item.auctionItemId})" ng-src='data:image/jpg;base64,{{bytes[$index]}}' class="img-responsive" >
 					</a>
 					<a ui-sref="main.item({id: item.auctionItemId})">
 						<img class="img " ui-sref="main.item({id: item.auctionItemId})" src="./images/item.png" class="img-responsive" ng-if="item.displayImage == null">

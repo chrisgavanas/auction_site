@@ -11,7 +11,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 	$scope.token = null;
 	$scope.contact = null;
 	$scope.text = null;
-	
+	$scope.bytes = [];
 	var EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
 	 
 	
@@ -22,13 +22,13 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 	}else{
 		$scope.signedIn = false;
 	}
-	console.log($scope.signedIn);
+
 	var getMessages = function(){
 		MessageService.getMessagesByType($scope.token, $scope.user.userId, "RECEIVED")
 						.then (function(response){
 								$scope.unseenCounter  = 0;
 								$scope.messagesReceived = response.data;
-								console.log($scope.messagesReceived);
+							
 								for(var i = 0; i < $scope.messagesReceived.length; i++){
 				
 									if($scope.messagesReceived[i].seen == false){
@@ -82,25 +82,30 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 							});
 		getMessages();
 		AuctionItemService.recommend($scope.token, $scope.user.userId)
-		.then(function(response){
-			$scope.recommendations = response.data;
-			console.log(response);
-			for (i = 0; i < $scope.recommendations.length; i++){
-				console.log($scope.recommendations[i].length);
-					if($scope.recommendations[i].images.length > 0){
-						var res = $scope.recommendations[i].images[0].replace(/\\/g, '/');
-						var res2 =res.split('/static/');
-					
-						$scope.recommendations[i].displayImage = res2[1];
+							.then(function(response){
+								$scope.recommendations = response.data;
 						
-					}else{
-						$scope.recommendations[i].displayImage = './images/item.png';
-					}
+								for (i = 0; i < $scope.recommendations.length; i++){
+								
+									if($scope.recommendations[i].images.length > 0){
+										$http.get('/api/auctionitem/image?imagePath='+$scope.recommendations[i].images[0])
+		                    					.then(function(response){
+		                    						$scope.recommendations[i].displayImage = 'data:image/jpg;base64,' + response.data;
+		                    		
+		                    					}, function(response){
+		                    						console.log(response);
+		                    					});
+					
+										
+						
+									}else{
+										$scope.recommendations[i].displayImage = './images/item.png';
+									}
 			
-			}
-		}, function(response){
-			console.log(response);
-		});
+								}
+							}, function(response){
+								console.log(response);
+							});
 	}
 
 
@@ -138,7 +143,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 			AuctionItemService.recommend($scope.token, $scope.user.userId)
 			.then(function(response){
 				$scope.recommendations = response.data;
-				console.log(response);
+		
 			}, function(response){
 				console.log(response);
 			});

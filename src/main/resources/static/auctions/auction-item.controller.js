@@ -57,7 +57,9 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 								for (i = 0; i < $scope.item.images.length; i++){
 									$http.get('/api/auctionitem/image?imagePath='+$scope.item.images[i])
 		                    			.then(function(response){
-		                    			
+		                    				console.log(response);
+		                    				if($scope.selectedImage == null)
+		                    					$scope.selectedImage = response.data;
 		                    				$scope.bytes.push(response.data);
 		                    		
 		                    			}, function(response){
@@ -66,7 +68,8 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 								}
 							}
 						
-							$scope.selectedImage = $scope.bytes[0];
+							
+						
 							AuthenticationService.getSeller($scope.item.userId, $scope.token)
 													.then(function(response){
 															$scope.seller = response.data;
