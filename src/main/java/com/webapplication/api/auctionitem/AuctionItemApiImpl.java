@@ -176,6 +176,11 @@ public class AuctionItemApiImpl implements AuctionItemApi {
         return auctionItemService.getImage(imagePath);
     }
 
+    @Override
+    public List<AuctionItemResponseDto> getRandomRecommendedAuctionItems() throws Exception {
+        return auctionItemService.getRandomRecommendedAuctionItems();
+    }
+
     private void validatePaginationValues(Integer from, Integer to) throws Exception {
         Optional.ofNullable(from).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         Optional.ofNullable(to).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));

@@ -105,6 +105,9 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     @Value("${paginationPageSize}")
     private Integer paginationPageSize;
 
+    @Value("${recommendedNo}")
+    private Integer recommendedNo;
+
     @Override
     public AddAuctionItemResponseDto addAuctionItem(UUID authToken, AddAuctionItemRequestDto auctionItemRequestDto) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
@@ -274,6 +277,18 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         is.close();
 
         return imageToByteArrayEncoded;
+    }
+
+    @Override
+    public List<AuctionItemResponseDto> getRandomRecommendedAuctionItems() {
+        Integer totalAuctions = (int) auctionItemRepository.count();
+        System.out.println("Found " + totalAuctions + " auctions in db.");
+        Random rng = new Random();
+        Integer random = rng.nextInt(totalAuctions / recommendedNo);
+        List<AuctionItem> randomAuctionItems = auctionItemRepository.findActiveAuctions(new Date(),
+                new PageRequest(random, recommendedNo));
+
+        return auctionItemMapper.auctionItemsToAuctionItemResponseDto(randomAuctionItems);
     }
 
     private List<String> finalizeImages(List<String> images) {

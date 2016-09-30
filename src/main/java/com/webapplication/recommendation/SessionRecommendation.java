@@ -38,17 +38,19 @@ public class SessionRecommendation {
     private List<String> kMostCommonUsers;
     private List<String> kMostCommonAuctionItems = new LinkedList<>();
     private LocalDateTime lastRun;
+    private String recommendedForUser;
 
     public List<String> recommend() {
         return kMostCommonAuctionItems;
     }
 
     public void recommendItems(Map<String, Set<String>> preferredAuctionsPerUser, Map<String, Integer> bidsOrBuyoutPerAuction, LocalDateTime lastRun, String userId) {
-        if (this.lastRun == null || this.lastRun.isBefore(lastRun)) {
+        if (this.lastRun == null || this.lastRun.isBefore(lastRun) || !userId.equals(recommendedForUser)) {
             this.lastRun = lastRun;
             this.preferredAuctionsPerUser = preferredAuctionsPerUser;
             this.bidsOrBuyoutPerAuction = bidsOrBuyoutPerAuction;
             recommendItems(userId);
+            recommendedForUser = userId;
         }
     }
 
@@ -135,11 +137,6 @@ public class SessionRecommendation {
                 .stream().map(DoubleList::getId).collect(Collectors.toList());
     }
 
-    public void addBidOrBuyout(String userId, String auctionItemId) {   //TODO maybe it will be removed
-        if (preferredAuctionsPerUser != null && preferredAuctionsPerUser.get(userId) != null)
-            preferredAuctionsPerUser.get(userId).add(auctionItemId);
-    }
-
     private Double similarityOfAuctions(String auctionItem1, String auctionItem2) {
         Integer c1 = bidsOrBuyoutPerAuction.get(auctionItem1);
         Integer c2 = bidsOrBuyoutPerAuction.get(auctionItem2);
@@ -157,8 +154,11 @@ public class SessionRecommendation {
     }
 
     private void setRandomAuctionItems() {
+        Integer totalAuctionItems = (int) auctionItemRepository.count();
+        Random rng = new Random();
+        Integer random = rng.nextInt(totalAuctionItems / recommendedItems);
         List<AuctionItem> auctionItems = auctionItemRepository.findActiveAuctions(new Date(),
-                new PageRequest(0, recommendedItems));
+                new PageRequest(random, recommendedItems));
         auctionItems.stream().map(AuctionItem::getAuctionItemId)
                 .forEach(auctionItemId -> kMostCommonAuctionItems.add(auctionItemId));
     }

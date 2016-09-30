@@ -17,12 +17,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -71,5 +69,8 @@ public interface AuctionItemApi {
 
     @RequestMapping(value = "/auctionitem/image", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     byte[] getImage(@RequestParam("imagePath") String imagePath) throws Exception;
+
+    @RequestMapping(value = "/auctionitem/random-recommended", method = RequestMethod.GET, produces = "application/json")
+    List<AuctionItemResponseDto> getRandomRecommendedAuctionItems() throws Exception;
 
 }
