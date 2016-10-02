@@ -100,7 +100,6 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 				$scope.searchResults = response.data;
 				$scope.totalAuctions = response.headers().totalauctions;
 				$scope.pageNumbers = Math.ceil($scope.totalAuctions / 10);
-				console.log($scope.pageNumbers);
 				if($scope.searchResults.length == 0)
 					$scope.noResults = true;
 			}, function(response){

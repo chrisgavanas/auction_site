@@ -49,7 +49,6 @@ $scope.pageCounter = 1;
 	$scope.change = function (current){
 		$scope.to = current * 10;
 		$scope.from = $scope.to - 9;
-		console.log($scope.to+' '+$scope.from);
 		AdminService.getVerified($scope.token, $scope.from, $scope.to)
 						.then(function successCallback(response){
 							$scope.verified = angular.copy(response.data);

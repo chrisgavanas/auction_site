@@ -54,7 +54,7 @@ router.controller('userMessagesController', function($scope, $cookies,  $state, 
 							
 							
 						}, function(response){
-							console.log(response);
+							
 						});
 		
 		$state.go('main.profile.userMessages.open');

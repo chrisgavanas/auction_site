@@ -154,7 +154,6 @@ router.controller('itemController', function($timeout, $scope, $state, $http,$co
 		
 		AuctionItemService.getBidsOfAuctionItem($scope.token, id)
 						.then(function(response){
-							console.log(response);
 							$scope.bidds = response.data;
 							$timeout(function(){
 								$scope.$apply();
