@@ -1,5 +1,6 @@
 package com.xmlparser;
 
+import com.google.common.collect.Lists;
 import com.webapplication.dao.AuctionItemRepository;
 import com.webapplication.dao.CategoryRepository;
 import com.webapplication.dao.UserRepository;
@@ -92,7 +93,9 @@ public class XmlParser {
                                 bids.add(addUserIfNotExistsAndGetBids(bid));
                             });
                         }
-                        addAuctions(auctionItem, categoryIds, bids, sellerId);
+
+                        List<Bid> bidsReversed = Lists.reverse(bids);
+                        addAuctions(auctionItem, categoryIds, bidsReversed, sellerId);
 
                         categoryIds.clear();
                         bids.clear();

@@ -82,8 +82,8 @@ public class SessionRecommendation {
         });
 
         if (kMostCommonAuctionItems.size() < recommendedItems) {
-        List<AuctionItem> activeAuctions = auctionItemRepository.findAuctionItemIdsOfActiveAuctions(new Date());
-        Set<String> auctionItemIds = activeAuctions.stream().map(AuctionItem::getAuctionItemId).collect(Collectors.toSet());
+            List<AuctionItem> activeAuctions = auctionItemRepository.findAuctionItemIdsOfActiveAuctions(new Date());
+            Set<String> auctionItemIds = activeAuctions.stream().map(AuctionItem::getAuctionItemId).collect(Collectors.toSet());
             int itemNo = recommendedItems - kMostCommonAuctionItems.size();
             Random rng = new Random();
             while (itemNo > 0) {
