@@ -3,7 +3,15 @@ router.controller('adminOptionsVerifiedController', function($state, $scope, $co
 	$scope.verified = {};
 	$scope.usernamesAndIds = [];
 	$scope.pageCounter = 1;
+$scope.pageCounter = 1;
 	
+	$scope.totalUsers = 0;
+	
+	$scope.pageNumbers = 0;
+	$scope.maxSize = 5;
+
+	$scope.bigCurrentPage = 1;
+	$scope.currentPage = 4;
 	
 	if($scope.signedIn == false)
 		$state.go('main.signedout');
@@ -11,10 +19,12 @@ router.controller('adminOptionsVerifiedController', function($state, $scope, $co
 	AdminService.getVerified($scope.token, 1, 10)
 				.then(function successCallback(response){
 					$scope.verified = angular.copy(response.data);
-			
+					$scope.totalUsers = response.headers().totalusers;
+					$scope.pageNumbers = Math.ceil($scope.totalUsers / 10);
+					
 					var i;
 					for(i = 0; i < $scope.verified.length; i ++){
-						$scope.usernamesAndIds.push( { id: $scope.unverified[i].userId, text: $scope.unverified[i].username } );
+						$scope.usernamesAndIds.push( { id: $scope.verified[i].userId, text: $scope.verified[i].username } );
 					}
 			
 				}, function errorCallback(response){
@@ -30,53 +40,27 @@ router.controller('adminOptionsVerifiedController', function($state, $scope, $co
 	
 	
 	
-	$scope.nextPage = function(){
-		$scope.pageCounter++;
-		var to = $scope.pageCounter * 10;
-		var from = to - 9;
-		
-		AdminService.getVerified($scope.token, from, to)
-					.then(function successCallback(response){
-						$scope.verified = angular.copy(response.data);
-					}, function errorCallback(response){
-						$cookies.remove('userId');
-						$cookies.remove('authToken');
-						$cookies.put('signedIn', 'no');
-						
-						$scope.signedIn = false;
-						$state.go('main.signedout');
-			
-					});
-		
 	
+	$scope.showUser = function(username){
+		$state.go('main.userpreview');
 		
 	};
 	
-	$scope.previousPage = function(){
-		$scope.pageCounter--;
-		if($scope.pageCounter >= 1){
-			var to = $scope.pageCounter * 10;
-			var from = to - 9;
-			
-			AdminService.getVerified($scope.token, from, to)
+	$scope.change = function (current){
+		$scope.to = current * 10;
+		$scope.from = $scope.to - 9;
+		console.log($scope.to+' '+$scope.from);
+		AdminService.getVerified($scope.token, $scope.from, $scope.to)
 						.then(function successCallback(response){
 							$scope.verified = angular.copy(response.data);
 						}, function errorCallback(response){
 							$cookies.remove('userId');
 							$cookies.remove('authToken');
 							$cookies.put('signedIn', 'no');
-							
+			
 							$scope.signedIn = false;
 							$state.go('main.signedout');
+
 						});
-		}
-		
-	};
-	
-	
-	
-	$scope.showUser = function(username){
-		$state.go('main.userpreview');
-		
 	};
 });

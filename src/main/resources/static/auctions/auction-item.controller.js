@@ -1,4 +1,4 @@
-router.controller('itemController', function($scope, $state, $http,$cookies, $route, $stateParams, AuthenticationService, AuctionItemService){
+router.controller('itemController', function($timeout, $scope, $state, $http,$cookies, $route, $stateParams, AuthenticationService, AuctionItemService){
 	$scope.item = {};
 	$scope.shown = false;
 	var auctionItemId = $stateParams.id;
@@ -18,7 +18,6 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	$scope.bid.userId = $scope.user.userId;
 	$scope.selectedImage = null;
 	$scope.inactive = false;
-	
 	$scope.bidds = [];
 	
 	
@@ -140,6 +139,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 		AuctionItemService.buyout($scope.token, $scope.item.auctionItemId, $scope.buyout)
 						.then(function(response){
 							$scope.buyoutComplete = true;
+							
 						}, function(response){
 							if(response.status == 409){
 								$scope.conflict1 = true;
@@ -150,15 +150,28 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	};
 
 	
-	
-	
-	
+	$scope.getOffers = function(id){
+		
+		AuctionItemService.getBidsOfAuctionItem($scope.token, id)
+						.then(function(response){
+							console.log(response);
+							$scope.bidds = response.data;
+							$timeout(function(){
+								$scope.$apply();
+							});
+							
+						}, function(response){
+							console.log(response);
+						});
+	}
 	
 	AuctionItemService.getBidsOfAuctionItem($scope.token, auctionItemId)
-					.then(function(response){
-						$scope.bidds = response.data;
-					}, function(response){
-						console.log(response);
-					});
+						.then(function(response){
+							$scope.bidds = response.data;
+						}, function(response){
+							console.log(response);
+						});
+	
+
 	
 });
