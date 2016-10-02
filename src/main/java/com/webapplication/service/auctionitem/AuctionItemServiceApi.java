@@ -39,7 +39,7 @@ public interface AuctionItemServiceApi {
 
     List<BidResponseDto> getBidsOfAuctionItem(String auctionItemId) throws Exception;
 
-    List<AuctionItemResponseDto> searchAuctionItem(Integer from, Integer to, SearchAuctionItemDto searchAuctionItemDto) throws Exception;
+    List<AuctionItemResponseDto> searchAuctionItem(HttpServletResponse response, Integer from, Integer to, SearchAuctionItemDto searchAuctionItemDto) throws Exception;
 
     void buyout(UUID authToken, String auctionItemId, BuyoutAuctionItemRequestDto buyoutAuctionItemRequestDto) throws Exception;
 

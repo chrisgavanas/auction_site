@@ -59,7 +59,7 @@ public interface AuctionItemApi {
     List<BidResponseDto> getBidsOfAuctionItem(@PathVariable String auctionItemId) throws Exception;
 
     @RequestMapping(path = "/auctionitem/search/{from}-{to}", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    List<AuctionItemResponseDto> searchAuctionItem(@PathVariable Integer from, @PathVariable Integer to, SearchAuctionItemDto searchAuctionItemDto) throws Exception;
+    List<AuctionItemResponseDto> searchAuctionItem(HttpServletResponse response, @PathVariable Integer from, @PathVariable Integer to, SearchAuctionItemDto searchAuctionItemDto) throws Exception;
 
     @RequestMapping(path = "/auctionitem/{auctionItemId}/buyout", method = RequestMethod.POST, consumes = "application/json")
     void buyout(@RequestHeader UUID authToken, @PathVariable String auctionItemId, BuyoutAuctionItemRequestDto buyoutAuctionItemRequestDto) throws Exception;

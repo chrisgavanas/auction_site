@@ -93,7 +93,6 @@ public class XmlParser {
                                 bids.add(addUserIfNotExistsAndGetBids(bid));
                             });
                         }
-
                         List<Bid> bidsReversed = Lists.reverse(bids);
                         addAuctions(auctionItem, categoryIds, bidsReversed, sellerId);
 
@@ -164,15 +163,15 @@ public class XmlParser {
             location.setCity(address.getCity());
             auction.setCountry(auctionItem.getCountry());
         }
-        
+
         Date startDate = auctionItem.getStartDate();
-        if(startDate != null)
-        	auction.setStartDate(sdf.format(auctionItem.getStartDate()));
-        
-        
+        if (startDate != null)
+            auction.setStartDate(sdf.format(auctionItem.getStartDate()));
+
+
         Date endDate = auctionItem.getEndDate();
-        if(endDate != null)
-        	auction.setEndDate(sdf.format(auctionItem.getEndDate()));
+        if (endDate != null)
+            auction.setEndDate(sdf.format(auctionItem.getEndDate()));
         Seller seller = createSeller(user);
         auction.setSeller(seller);
         auction.setDescription(auctionItem.getDescription());

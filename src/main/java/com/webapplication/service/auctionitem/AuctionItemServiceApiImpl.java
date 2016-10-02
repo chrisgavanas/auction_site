@@ -230,7 +230,7 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     @Override
-    public List<AuctionItemResponseDto> searchAuctionItem(Integer from, Integer to, SearchAuctionItemDto searchAuctionItemDto) throws Exception {
+    public List<AuctionItemResponseDto> searchAuctionItem(HttpServletResponse response, Integer from, Integer to, SearchAuctionItemDto searchAuctionItemDto) throws Exception {
         validateCategory(searchAuctionItemDto.getCategoryId());
         String categoryId = searchAuctionItemDto.getCategoryId();
         Double priceFrom = searchAuctionItemDto.getPriceFrom();
@@ -243,6 +243,10 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
         List<AuctionItem> auctionItems = auctionItemRepository.findAuctionsWithCriteria(searchAuctionItemDto.getText(), categoryIdToSearch,
                 searchAuctionItemDto.getCountry(), priceFromToSearch, priceToToSearch, sellerId, new Date(),
                 new PageRequest(from / paginationPageSize, to - from + 1, new Sort(Sort.Direction.ASC, "currentBid")));
+
+        Long count = auctionItemRepository.countAuctionsWithCriteria(searchAuctionItemDto.getText(), categoryIdToSearch,
+                searchAuctionItemDto.getCountry(), priceFromToSearch, priceToToSearch, sellerId, new Date());
+        response.addHeader("totalAuctions", count.toString());
 
         return auctionItemMapper.auctionItemsToAuctionItemResponseDto(auctionItems);
     }

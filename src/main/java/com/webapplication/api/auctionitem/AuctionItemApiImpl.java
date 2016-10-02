@@ -142,11 +142,11 @@ public class AuctionItemApiImpl implements AuctionItemApi {
     }
 
     @Override
-    public List<AuctionItemResponseDto> searchAuctionItem(@PathVariable Integer from, @PathVariable Integer to, @RequestBody SearchAuctionItemDto searchAuctionItemDto) throws Exception {
+    public List<AuctionItemResponseDto> searchAuctionItem(HttpServletResponse response, @PathVariable Integer from, @PathVariable Integer to, @RequestBody SearchAuctionItemDto searchAuctionItemDto) throws Exception {
         validatePaginationValues(from, to);
         auctionItemRequestValidator.validate(searchAuctionItemDto);
 
-        return auctionItemService.searchAuctionItem(from, to, searchAuctionItemDto);
+        return auctionItemService.searchAuctionItem(response, from, to, searchAuctionItemDto);
     }
 
     @Override
