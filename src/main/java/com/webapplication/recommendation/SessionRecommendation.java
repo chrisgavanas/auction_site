@@ -21,10 +21,10 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SessionRecommendation {
+
 
     @Value("${recommendedNo}")
     private Integer recommendedItems;
@@ -197,5 +197,6 @@ public class SessionRecommendation {
         auctionItems.stream().map(AuctionItem::getAuctionItemId)
                 .forEach(auctionItemId -> kMostCommonAuctionItems.add(auctionItemId));
     }
+
 
 }
