@@ -122,19 +122,27 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     }
 
     @Override
-    public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(String userId, AuctionStatus status, Integer from, Integer to) throws Exception {
+    public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(HttpServletResponse response, String userId, AuctionStatus status, Integer from, Integer to) throws Exception {
         List<AuctionItem> auctionItems = null;
+        Date currentDate = new Date();
+        Long totalAuctions;
         switch (status) {
             case ACTIVE:
-                auctionItems = auctionItemRepository.findActiveAuctionsOfUser(userId, new Date(), new PageRequest(from / paginationPageSize, to - from + 1));
+                auctionItems = auctionItemRepository.findActiveAuctionsOfUser(userId, currentDate, new PageRequest(from / paginationPageSize, to - from + 1));
+                totalAuctions = auctionItemRepository.countActiveAuctionsOfUser(userId, currentDate);
                 break;
             case PENDING:
                 auctionItems = auctionItemRepository.findPendingAuctionsOfUser(userId, new PageRequest(from / paginationPageSize, to - from + 1));
+                totalAuctions = auctionItemRepository.countPendingAuctionsOfUser(userId);
                 break;
             case INACTIVE:
-                auctionItems = auctionItemRepository.findInactiveAuctionsOfUser(userId, new Date(), new PageRequest(from / paginationPageSize, to - from + 1));
+                auctionItems = auctionItemRepository.findInactiveAuctionsOfUser(userId, currentDate, new PageRequest(from / paginationPageSize, to - from + 1));
+                totalAuctions = auctionItemRepository.countInactiveAuctionsOfUser(userId, currentDate);
                 break;
+            default:
+                totalAuctions = 0L;
         }
+        response.addHeader("totalAuctions", totalAuctions.toString());
 
         return auctionItemMapper.auctionItemsToAuctionItemResponseDto(auctionItems);
     }

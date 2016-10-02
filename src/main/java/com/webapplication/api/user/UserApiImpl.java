@@ -100,7 +100,7 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public List<UserResponseDto> getUnverifiedUsers(@RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception {
+    public List<UserResponseDto> getUnverifiedUsers(HttpServletResponse response, @RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception {
         Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(from).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(to).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
@@ -110,11 +110,11 @@ public class UserApiImpl implements UserApi {
         if (from > to)
             throw new ValidationException(UserError.INVALID_PAGINATION_VALUES);
 
-        return userService.getUnverifiedUsers(authToken, from, to);
+        return userService.getUnverifiedUsers(response, authToken, from, to);
     }
     
     @Override
-    public List<UserResponseDto> getVerifiedUsers(@RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception {
+    public List<UserResponseDto> getVerifiedUsers(HttpServletResponse response, @RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception {
         Optional.ofNullable(authToken).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(from).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
         Optional.ofNullable(to).orElseThrow(() -> new ValidationException(UserError.MISSING_DATA));
@@ -124,7 +124,7 @@ public class UserApiImpl implements UserApi {
         if (from > to)
             throw new ValidationException(UserError.INVALID_PAGINATION_VALUES);
 
-        return userService.getVerifiedUsers(authToken, from, to);
+        return userService.getVerifiedUsers(response, authToken, from, to);
     }
 
     @Override

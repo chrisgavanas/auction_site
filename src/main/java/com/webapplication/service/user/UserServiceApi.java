@@ -3,6 +3,7 @@ package com.webapplication.service.user;
 import com.webapplication.dto.user.*;
 import com.webapplication.entity.AuctionItem;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,9 +24,9 @@ public interface UserServiceApi {
 
     void changePassword(UUID authToken, String userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
 
-    List<UserResponseDto> getUnverifiedUsers(UUID authToken, Integer from, Integer to) throws Exception;
+    List<UserResponseDto> getUnverifiedUsers(HttpServletResponse response, UUID authToken, Integer from, Integer to) throws Exception;
 
-    List<UserResponseDto> getVerifiedUsers(UUID authToken, Integer from, Integer to) throws Exception;
+    List<UserResponseDto> getVerifiedUsers(HttpServletResponse response, UUID authToken, Integer from, Integer to) throws Exception;
 
     void sendMessage(UUID authToken, String userId, MessageRequestDto messageRequestDto) throws Exception;
 

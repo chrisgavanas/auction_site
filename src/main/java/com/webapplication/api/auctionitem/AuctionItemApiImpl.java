@@ -62,14 +62,14 @@ public class AuctionItemApiImpl implements AuctionItemApi {
     }
 
     @Override
-    public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(@PathVariable String userId, @RequestParam("status") AuctionStatus status, @PathVariable Integer from, @PathVariable Integer to) throws Exception {
+    public List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(HttpServletResponse response, @PathVariable String userId, @RequestParam("status") AuctionStatus status, @PathVariable Integer from, @PathVariable Integer to) throws Exception {
         Optional.ofNullable(userId).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         Optional.ofNullable(status).orElseThrow(() -> new ValidationException(AuctionItemError.MISSING_DATA));
         validatePaginationValues(from, to);
         if (userId.isEmpty())
             throw new ValidationException(AuctionItemError.INVALID_DATA);
 
-        return auctionItemService.getAuctionItemsOfUserByStatus(userId, status, from, to);
+        return auctionItemService.getAuctionItemsOfUserByStatus(response, userId, status, from, to);
     }
 
     @Override

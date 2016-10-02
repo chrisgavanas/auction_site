@@ -22,4 +22,6 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     List<User> findUserByIsVerified(Boolean isVerified, Pageable pageable);
 
+    Long countUserByIsVerified(Boolean isVerified);
+
 }

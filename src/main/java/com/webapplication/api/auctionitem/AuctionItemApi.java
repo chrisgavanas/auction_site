@@ -32,7 +32,7 @@ public interface AuctionItemApi {
     AddAuctionItemResponseDto addAuctionItem(@RequestHeader UUID authToken, AddAuctionItemRequestDto auctionItemRequestDto) throws Exception;
 
     @RequestMapping(path = "/auctionitem/user/{userId}/{from}-{to}", method = RequestMethod.GET, produces = "application/json")
-    List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(@PathVariable String userId, @RequestParam("status") AuctionStatus status, @PathVariable Integer from, @PathVariable Integer to) throws Exception;
+    List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(HttpServletResponse response, @PathVariable String userId, @RequestParam("status") AuctionStatus status, @PathVariable Integer from, @PathVariable Integer to) throws Exception;
 
     @RequestMapping(path = "/auctionitem-as-xml", method = RequestMethod.GET)
     void exportAuctionsAsXmlFile(@RequestHeader UUID authToken, HttpServletResponse response) throws Exception;
