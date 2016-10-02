@@ -7,7 +7,8 @@ router.directive('autoActive', ['$location', '$state', function ($location, $sta
                     var path = $location.path();
                     if (path) {
                         angular.forEach(element.find('a'), function (a) {
-                        	
+                        //	console.log(path);
+                        	//console.log(a.href);
                             if (a.href.match('#' + path + '(?=\\?|$)')) {
                             
                             	
@@ -32,6 +33,10 @@ router.directive('autoActive', ['$location', '$state', function ($location, $sta
                             	angular.element(a).addClass('active');
                             }
                             if(a.href == "unsafe:https://localhost:8080/#/profile/messages" && path == '/profile/messages/sent'){
+                            	angular.element(a).addClass('active');
+                            }
+                            if((a.href == "unsafe:https://localhost:8080/#/profile/messages/received" || a.href == "unsafe:https://localhost:8080/#/profile/messages/received") && path == '/profile/messages/open'){
+                            	
                             	angular.element(a).addClass('active');
                             }
                         });

@@ -7,16 +7,19 @@
 	
 </div>
 
-<div class="container-fluid bg-2 " id="welcomeContainer2"> 
+<div class="container-fluid " id="welcomeContainer2"> 
  <div class="row" align="left">
   	<h3>Recommended for you</h3>
+  	<hr>
   </div>
   <div class="row list-group">
-    <div class="col-md-4" ng-repeat='item in recommendations'>
-      <div class="thumbnail list-group-item">
+    <div  ng-repeat='item in recommendations'>
+    <div class='col-md-4'>
+      <div class="thumbnail" id='frontPage'>
       	
-      		<a><img ui-sref="main.item({id: item.auctionItemId})" ng-src='data:image/jpg;base64,{{item.imagePreview}}' class="img-responsive" ng-if='item.imagePreview != null'></a>
-      		<a><img ui-sref="main.item({id: item.auctionItemId})" ng-src='./images/item.png' class="img-responsive" ng-if='item.imagePreview == null'></a>
+      		<a><img ui-sref="main.item({id: item.auctionItemId})" ng-src='data:image/jpg;base64,{{item.imagePreview}}' class="img-responsive" ng-if='item.imagePreview != null' ></a>
+      		<a><img ui-sref="main.item({id: item.auctionItemId})" ng-src='./images/item.png' class="img-responsive" style="max-height: 250px"ng-if='item.imagePreview == null'></a>
+      		<hr>
       		<a ui-sref="main.item({id: item.auctionItemId})"><span id="myspan"><h4>{{item.name}}</h4></span></a>
       	
       	
@@ -24,7 +27,8 @@
       		<br>
       		<span><font size='1'>Time left: <timer end-time="item.endDate">{{days}} d, {{hours}} h, {{minutes}} m, {{seconds}} s.</timer></font></span>
       	</div>
-      
+      </div>
+    
     </div>
     
       

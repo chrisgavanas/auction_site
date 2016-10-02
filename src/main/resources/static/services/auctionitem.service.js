@@ -97,6 +97,13 @@ router.factory('AuctionItemService', function($http, $cookies, $state) {
 					});
 	};
 	
+	auctionitemService.randomRecommend = function(){
+		return $http.get('api/auctionitem/random-recommended')
+					.then(function(response){
+						return response;
+					});
+	}
+	
 	auctionitemService.getImage = function(path){
 		return $http.get('/api/auctionitem/image?imagePath=' + path)
 					.then(function(response){

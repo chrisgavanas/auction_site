@@ -1,5 +1,4 @@
 <div class="container-fluid " id="searchContainer">
-
 	<div class="row">
 		<div class="col-md-2" align="left">
 			<div class="row">
@@ -63,7 +62,14 @@
 				
 			</div>
 		</div>
-		<div class="col-md-8 searchBoxPanel">
+		<div class='col-md-8' ng-if='noResults' align='middle'>
+			<div class='row ' ><h3>No results were found!</h3> <a ui-sref='main.welcome'>Go back to welcome page.</a></div>
+			<br>
+			<div class='row'>
+				<img src='./images/sr1-icon-noResult.png'>
+			</div>
+		</div>
+		<div class="col-md-8 searchBoxPanel" ng-if='!noResults'>
 						
 			<div class=' lvresult row' ng-repeat='item in searchResults'>
 				<div class="imgbox img-thumbnail col-md-4">

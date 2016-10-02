@@ -13,7 +13,7 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 	$scope.clicked = false;
 	$scope.range = {};
 	$scope.bytes = [];
-	
+	$scope.noResults = false;
 	
 	
 	
@@ -95,7 +95,8 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 			.then(function(response){
 				$scope.searchResults = response.data;
 				
-				
+				if($scope.searchResults.length == 0)
+					$scope.noResults = true;
 			}, function(response){
 				console.log(response);
 			});

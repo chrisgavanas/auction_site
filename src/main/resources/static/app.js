@@ -26,7 +26,7 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
     			controller: 'welcomeController',
     			templateUrl: 'main/welcome.html',
     		}},
-    		data : { pageTitle: 'Welcome' }
+    		data : { pageTitle: "" }
     		
     	})
     	
@@ -149,7 +149,6 @@ router.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
         })
         
          .state('main.profile.userMessages.open',{
-        	
         	views: { 'messageview': {
         		controller: 'userMessagesOpenController',
         	    templateUrl: '/user/user-messages-open.html'
@@ -297,10 +296,11 @@ router.run([
                 	 $('.modal-backdrop').remove();
                 	 $('body').removeClass('modal-open');
                 	 document.getElementsByTagName("body")[0].style = 'padding-right: 0';
-                     if (toState.data.pageTitle) {
+                     if (toState.data.pageTitle ) {
                          document.title = toState.data.pageTitle + ' | Auction';
-                         console.log($rootScope.pageTitle);
-                     }
+                        
+                     }else
+                    	 document.title = 'Auction';
                  });
 
                 

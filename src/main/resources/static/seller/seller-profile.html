@@ -73,11 +73,16 @@
 	</div>
 	<div class='row list-group'>
 		<div class='col-md-3' ng-repeat="item in userItems">
-			<div class="thumbnail list-group-item">
+			<div class="thumbnail " id='frontPage'>
       			<a>
-      			<img src='data:image/jpg;base64,{{item.imagePreview}}' ui-sref="main.item({id: item.auctionItemId})"  class="img-responsive"></a>
+      			<img src='data:image/jpg;base64,{{item.imagePreview}}' ui-sref="main.item({id: item.auctionItemId})"  class="img-responsive" style="max-height: 250px" ng-if='item.imagePreview != null'></a>
+      			<a>
+      			<img src='./images/item.png' ui-sref="main.item({id: item.auctionItemId})"  class="img-responsive" style="max-height: 250px" ng-if='item.imagePreview == null'></a>
+      			<hr>
       			<a ui-sref="main.item({id: item.auctionItemId})"><span id="myspan">{{item.name}}</span></a>
-      			<span>${{item.currentBid}}</span>
+      			<span>Current bid: ${{item.currentBid}}</span>
+      			<br>
+      			<span><font size='1'>Time left: <timer end-time="item.endDate">{{days}} d, {{hours}} h, {{minutes}} m, {{seconds}} s.</timer></font></span>
       		</div>
 		
 		</div>

@@ -26,6 +26,7 @@ router.controller('itemController', function($scope, $state, $http,$cookies, $ro
 	AuctionItemService.getAuctionItemById($scope.token, auctionItemId)
 						.then(function(response){
 							$scope.item = response.data;
+							
 							if($scope.item.buyerId != null){
 								AuthenticationService.getSeller($scope.item.buyerId, $scope.token)
 									.then(function(response){

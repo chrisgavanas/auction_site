@@ -154,9 +154,7 @@
 			<font size="1">Registered on {{registrationDateConverted}}</font>
 		</div>
 		<br>
-		<div class="row" align="middle">
-			<button id="saveBtn3" class="btn btn-default myBtn" ng-click="applyChanges(user)">Save</button>
-		</div>
+		
 		<br>
 		</form>
 		<form >
@@ -256,27 +254,64 @@
 		
 		</div>
 		<div class="row">
-			<dv class="col-md-4" align="right">
+			<div class='col-md-4'></div>
+			<div class="col-md-4 alert alert-success" align="middle" ng-if='passwordChanged'>
+				Password changed!
+			</div>
+			<div class="col-md-4 alert alert-danger" align="middle" ng-if='invalidPass'>
+				Incorrect password!
+			</div>
+			<div class="col-md-4 alert alert-danger" align="middle" ng-if='different'>
+				Password must be different!
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4" align="right">
 				<font size="2">Current</font>
-			</dv>
+			</div>
 			<div class="col-md-4">
+			<div ng-messages="passwordForm.oldPassword.$error" role="alert" ng-if="passwordForm.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
 				<input type="password" name="oldPassword" class="form-control" ng-model="passwords.oldPassword" required>
 			</div>
 		</div>
 		<div class="row">
-			<dv class="col-md-4" align="right">
-				<font size="2">New</font>
-			</dv>
-			<div class="col-md-4">
-				<input type="password" class="form-control" name="newPassword" ng-model="passwords.newPassword" required>
+				
+			<div class="col-md-4" align="right">
+			
 			</div>
+			<div class="col-md-4"  align='left'>
+				<div align="left" ><font size="1" >{{strength}}</font></div>
+				<div ng-style="passwordStrength" id="bar"></div>
+				
+				
+			</div>
+			
 		</div>
 		<div class="row">
-			<dv class="col-md-4" align="right">
-				<font size="2">Re-type</font>
-			</dv>
+				
+			<div class="col-md-4" align="right">
+				<font size="2">New</font>
+			</div>
 			<div class="col-md-4">
-				<input type="password" class="form-control" ng-model="passwords.confirmPassword" name="confirmPassword" required validate-pass="passwords.newPassword">
+				<div ng-messages="passwordForm.newPassword.$error" role="alert" ng-if="passwordForm.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
+				<input type="password" class="form-control" name="newPassword" ng-change="analyze(passwords.newPassword)" ng-model="passwords.newPassword" required>
+				
+			</div>
+			
+		</div>
+		<div class="row">
+			<div class="col-md-4" align="right">
+				<font size="2">Re-type</font>
+			</div>
+			<div class="col-md-4">
+				<div ng-messages="passwordForm.confirmPassword.$error" role="alert" ng-if="passwordForm.$submitted">
+					<span ng-message="required"><font size="2" color="red">Required field is missing.</font></span>
+				</div>
+				<input type="password" class="form-control" ng-model="passwords.confirmPassword" name="confirmPassword" required validate-pass="passwords.newPassword" pass>
 			</div>
 		</div>
 		<br>

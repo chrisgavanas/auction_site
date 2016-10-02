@@ -22,7 +22,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 	}else{
 		$scope.signedIn = false;
 	}
-
+	
 	var getMessages = function(){
 		MessageService.getMessagesByType($scope.token, $scope.user.userId, "RECEIVED")
 						.then (function(response){
@@ -83,28 +83,20 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 							.then(function(response){
 								$scope.recommendations = response.data;
 						
-								for (i = 0; i < $scope.recommendations.length; i++){
-								
-									if($scope.recommendations[i].images.length > 0){
-										AuctionItemService.getImage($scope.recommendations[i].images[0])
-		                    					.then(function(response){
-		                    						$scope.recommendations[i].displayImage = 'data:image/jpg;base64,' + response.data;
-		                    		
-		                    					}, function(response){
-		                    						console.log(response);
-		                    					});
-					
-										
-						
-									}else{
-										$scope.recommendations[i].displayImage = './images/item.png';
-									}
-			
-								}
 							}, function(response){
 								console.log(response);
 							});
-	}
+	}else
+		AuctionItemService.randomRecommend()
+							.then(function(response){
+								$scope.recommendations = response.data;
+	
+								console.log(response.data);
+
+								
+							}, function(response){
+								console.log(response);
+							});
 
 
 	$rootScope.$on('$stateChangeSuccess', function() {
@@ -188,7 +180,16 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 		$scope.user = {};
 		$scope.loginform.$submitted = false;
 		$scope.token = null;
-		$scope.recommendations = [];
+		AuctionItemService.randomRecommend()
+		.then(function(response){
+			$scope.recommendations = response.data;
+
+			console.log(response.data);
+
+			
+		}, function(response){
+			console.log(response);
+		});
 		$state.go('main.welcome');
 		
 	}

@@ -13,7 +13,6 @@ router.factory('AuthenticationService', function($http, $cookies) {
 	};
 	
 	authService.register = function(user){
-		console.log(user);
 		return $http.post('/api/user', user)
 					.then(function(response){
 						return response.data;
