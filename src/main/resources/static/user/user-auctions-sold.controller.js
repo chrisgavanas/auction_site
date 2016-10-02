@@ -18,7 +18,7 @@ router.controller('userAuctionsSoldController', function($state, $scope, $http, 
 
 									var i;
 									for(i = 0; i < $scope.itemsSold.length; i++){
-										addBuyer(i, null);
+									
 										if($scope.itemsSold[i].buyout == null)
 											$scope.itemsSold[i].hasBuyout = false;
 										else

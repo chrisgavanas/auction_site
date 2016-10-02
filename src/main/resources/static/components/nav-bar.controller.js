@@ -184,8 +184,6 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
 		.then(function(response){
 			$scope.recommendations = response.data;
 
-			console.log(response.data);
-
 			
 		}, function(response){
 			console.log(response);
@@ -231,12 +229,21 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     										
     										$scope.signedIn = true;
     										$scope.user = response.data;
+    										
+    										AuctionItemService.recommend($scope.token, $scope.user.userId)
+        									.then(function(response){
+        										$scope.recommendations = response.data;
+        										console.log($scope.recommendations);
+        									}, function(response){
+        										console.log(response);
+        									});
     										if($scope.user.isAdmin == true){
     											
     	    									$state.go('main.admin');
     										}else{
     											$state.go('main.welcome');
     										}
+    								
     										
     								}, function errorCallback(response){
     										
@@ -245,7 +252,8 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     										$cookies.put('signedIn', 'no');
     										$scope.signedIn = false;
     										$scope.user = {};
-    									});
+    								});
+    								
     								
     								
     							

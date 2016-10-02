@@ -1,7 +1,9 @@
 router.controller('adminOptionsController', function($timeout,$window, $state, $scope, $cookies, $http, AuthenticationService, AdminService){
 	$scope.xmldata = null;
 	$scope.buttonClicked = false;
-
+	
+	if($scope.user.isAdmin == false)
+		$state.go('main.forbidden');
 	if($scope.signedIn == false)
 		$state.go('main.signedout');
 	
