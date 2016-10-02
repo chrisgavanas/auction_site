@@ -233,7 +233,7 @@ router.controller('navBarController', function($interval, $state, $scope, $rootS
     										AuctionItemService.recommend($scope.token, $scope.user.userId)
         									.then(function(response){
         										$scope.recommendations = response.data;
-        										console.log($scope.recommendations);
+        										console.log(response);
         									}, function(response){
         										console.log(response);
         									});
