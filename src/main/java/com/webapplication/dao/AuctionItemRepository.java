@@ -26,6 +26,9 @@ public interface AuctionItemRepository extends MongoRepository<AuctionItem, Stri
     @Query(value = "{'endDate' : {'$gte' : '?0'}}", fields = "{'_id' : 1}")
     List<AuctionItem> findAuctionItemIdsOfActiveAuctions(Date date);
 
+    @Query(value = "{'auctionItemId' : '?0'}", fields = "{'bidsNo' : 1}")
+    AuctionItem findBidsNoOfAuction(String auctionItemId);
+
     @Query("{'endDate' : {'$gte' : '?0'} }")
     List<AuctionItem> findActiveAuctions(Date endDate, Pageable pageable);
 
