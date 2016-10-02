@@ -282,7 +282,6 @@ public class AuctionItemServiceApiImpl implements AuctionItemServiceApi {
     @Override
     public List<AuctionItemResponseDto> getRandomRecommendedAuctionItems() {
         Integer totalAuctions = (int) auctionItemRepository.count();
-        System.out.println("Found " + totalAuctions + " auctions in db.");
         Random rng = new Random();
         Integer random = rng.nextInt(totalAuctions / recommendedNo);
         List<AuctionItem> randomAuctionItems = auctionItemRepository.findActiveAuctions(new Date(),

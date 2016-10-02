@@ -4,7 +4,6 @@ import com.webapplication.dao.AuctionItemRepository;
 import com.webapplication.entity.AuctionItem;
 import com.webapplication.utils.DoubleList;
 import org.joda.time.LocalDateTime;
-import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -61,42 +60,30 @@ public class SessionRecommendation {
         }
 
         kMostCommonUsers = findKMostCommonUsers(userId);
-        kMostCommonAuctionItems = findRecommendedItems(userId, kMostCommonUsers);
+        kMostCommonAuctionItems = findRecommendedItems(userId);
     }
 
-    private List<String> findRecommendedItems(String userId, List<String> kMostCommonUsers) {
+    private List<String> findRecommendedItems(String userId) {
         List<String> kMostCommonAuctionItems = new LinkedList<>();
-        List<AuctionItem> activeAuctions = auctionItemRepository.findAuctionItemIdsOfActiveAuctions(new Date());
-        Set<String> auctionItemIds = activeAuctions.stream().map(AuctionItem::getAuctionItemId).collect(Collectors.toSet());
-        List<DoubleList> similaritiesPerAuction = new LinkedList<>();
-        Set<String> auctionItemIdsOfUsers = new HashSet<>();
-        kMostCommonUsers.forEach(id -> auctionItemIdsOfUsers.addAll(preferredAuctionsPerUser.get(id)));
-        for (String auctionItemId : auctionItemIds) {
-            similaritiesPerAuction.clear();
-            auctionItemIdsOfUsers.forEach(auctionItemIdOfUsers -> {
-                Double similarity = similarityOfAuctions(auctionItemId, auctionItemIdOfUsers);
-                similaritiesPerAuction.add(new DoubleList(similarity, auctionItemIdOfUsers));
-            });
-            Collections.sort(similaritiesPerAuction);
-            int k = (int) Math.sqrt(auctionItemIds.size());
-            List<String> kMostCommonItems = similaritiesPerAuction.subList(0,
-                    k >= similaritiesPerAuction.size() ? similaritiesPerAuction.size() : k)
-                    .stream().map(DoubleList::getId).collect(Collectors.toList());
-            int matched = 0;
-            for (String commonItemId : kMostCommonItems) {
-                if (preferredAuctionsPerUser.get(userId).contains(commonItemId))
-                    matched++;
-                if (matched > kMostCommonItems.size() / 2)
-                    break;
-            }
-            if (matched > kMostCommonItems.size() / 2)
-                kMostCommonAuctionItems.add(auctionItemId);
+        List<String> auctionsOfKUsers = new LinkedList<>();
 
-            if (kMostCommonAuctionItems.size() == recommendedItems)
-                break;
-        }
+        kMostCommonUsers.forEach(commonUser -> {
+            Set<String> auctionsOfCommonUser = preferredAuctionsPerUser.get(commonUser);
+            List<String> recommendedAuctions = auctionsOfCommonUser.stream().filter(auctionOfCommonUser ->
+                    !preferredAuctionsPerUser.get(userId).contains(auctionOfCommonUser))
+                    .collect(Collectors.toList());
+            kMostCommonAuctionItems.addAll(recommendedAuctions);
+        });
+
+        kMostCommonAuctionItems.sort((item1, item2) -> {
+            Integer bidsNoOfItem1 = auctionItemRepository.findBidsNoOfAuction(item1).getBidsNo();
+            Integer bidsNoOfItem2 = auctionItemRepository.findBidsNoOfAuction(item2).getBidsNo();
+            return Integer.compare(bidsNoOfItem2, bidsNoOfItem1);
+        });
 
         if (kMostCommonAuctionItems.size() < recommendedItems) {
+        List<AuctionItem> activeAuctions = auctionItemRepository.findAuctionItemIdsOfActiveAuctions(new Date());
+        Set<String> auctionItemIds = activeAuctions.stream().map(AuctionItem::getAuctionItemId).collect(Collectors.toSet());
             int itemNo = recommendedItems - kMostCommonAuctionItems.size();
             Random rng = new Random();
             while (itemNo > 0) {
@@ -108,8 +95,56 @@ public class SessionRecommendation {
             }
         }
 
-        return kMostCommonAuctionItems;
+        return kMostCommonAuctionItems.subList(0, recommendedItems >= kMostCommonAuctionItems.size()
+                ? kMostCommonAuctionItems.size() : recommendedItems);
     }
+
+//    private List<String> findRecommendedItems(String userId, List<String> kMostCommonUsers) {
+//        List<String> kMostCommonAuctionItems = new LinkedList<>();
+//        List<AuctionItem> activeAuctions = auctionItemRepository.findAuctionItemIdsOfActiveAuctions(new Date());
+//        Set<String> auctionItemIds = activeAuctions.stream().map(AuctionItem::getAuctionItemId).collect(Collectors.toSet());
+//        List<DoubleList> similaritiesPerAuction = new LinkedList<>();
+//        Set<String> auctionItemIdsOfUsers = new HashSet<>();
+//        kMostCommonUsers.forEach(id -> auctionItemIdsOfUsers.addAll(preferredAuctionsPerUser.get(id)));
+//        for (String auctionItemId : auctionItemIds) {
+//            similaritiesPerAuction.clear();
+//            auctionItemIdsOfUsers.forEach(auctionItemIdOfUsers -> {
+//                Double similarity = similarityOfAuctions(auctionItemId, auctionItemIdOfUsers);
+//                similaritiesPerAuction.add(new DoubleList(similarity, auctionItemIdOfUsers));
+//            });
+//            Collections.sort(similaritiesPerAuction);
+//            int k = (int) Math.sqrt(auctionItemIds.size());
+//            List<String> kMostCommonItems = similaritiesPerAuction.subList(0,
+//                    k >= similaritiesPerAuction.size() ? similaritiesPerAuction.size() : k)
+//                    .stream().map(DoubleList::getId).collect(Collectors.toList());
+//            int matched = 0;
+//            for (String commonItemId : kMostCommonItems) {
+//                if (preferredAuctionsPerUser.get(userId).contains(commonItemId))
+//                    matched++;
+//                if (matched > kMostCommonItems.size() / 2)
+//                    break;
+//            }
+//            if (matched > kMostCommonItems.size() / 2)
+//                kMostCommonAuctionItems.add(auctionItemId);
+//
+//            if (kMostCommonAuctionItems.size() == recommendedItems)
+//                break;
+//        }
+//
+//        if (kMostCommonAuctionItems.size() < recommendedItems) {
+//            int itemNo = recommendedItems - kMostCommonAuctionItems.size();
+//            Random rng = new Random();
+//            while (itemNo > 0) {
+//                int pos = rng.nextInt(auctionItemIds.size());
+//                if (!kMostCommonAuctionItems.contains(activeAuctions.get(pos).getAuctionItemId())) {
+//                    itemNo--;
+//                    kMostCommonAuctionItems.add(activeAuctions.get(pos).getAuctionItemId());
+//                }
+//            }
+//        }
+//
+//        return kMostCommonAuctionItems;
+//    }
 
     private List<String> findKMostCommonUsers(String userId) {
         List<DoubleList> similarities = new LinkedList<>();
