@@ -14,9 +14,13 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 	$scope.range = {};
 	$scope.bytes = [];
 	$scope.noResults = false;
+	$scope.totalAuctions = 0;
 	
-	
-	
+	$scope.pageNumbers = 0;
+	$scope.maxSize = 5;
+
+	$scope.bigCurrentPage = 1;
+	 $scope.currentPage = 4;
 	$scope.range.from = $scope.searchData.priceFrom = $stateParams.from;
 	$scope.range.to = $scope.searchData.priceTo = $stateParams.to;
 	
@@ -94,7 +98,9 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 		AuctionItemService.search(1, 10, $scope.searchData)
 			.then(function(response){
 				$scope.searchResults = response.data;
-				
+				$scope.totalAuctions = response.headers().totalauctions;
+				$scope.pageNumbers = Math.ceil($scope.totalAuctions / 10);
+				console.log($scope.pageNumbers);
 				if($scope.searchResults.length == 0)
 					$scope.noResults = true;
 			}, function(response){
@@ -169,4 +175,24 @@ router.controller('searchController', function($http, $stateParams, $scope, $sta
 	
 		$state.go('main.search', {input: $scope.searchData.text, catId: $stateParams.catId, country: $stateParams.country, from : range.from, to: range.to, sellerId: $stateParams.sellerId});
 	}
+	
+	$scope.setPage = function (pageNo) {
+	    $scope.currentPage = pageNo;
+	  
+	};
+	  
+	$scope.change = function (current){
+		$scope.to = current * 10;
+		$scope.from = $scope.to - 9;
+		AuctionItemService.search($scope.from, $scope.to, $scope.searchData)
+		.then(function(response){
+			$scope.searchResults = response.data;
+			
+		
+		}, function(response){
+			console.log(response);
+		});
+	}
+
+	  
 });
