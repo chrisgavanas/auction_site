@@ -15,11 +15,20 @@ public interface AuctionItemRepository extends MongoRepository<AuctionItem, Stri
     @Query("{'userId' : '?0', 'endDate' : {'$gte' : '?1'} }")
     List<AuctionItem> findActiveAuctionsOfUser(String userId, Date date, Pageable pageable);
 
+    @Query(value = "{'userId' : '?0', 'endDate' : {'$gte' : '?1'} }", count = true)
+    Long countActiveAuctionsOfUser(String userId, Date date);
+
     @Query("{'userId' : '?0', 'startDate' : null }")
     List<AuctionItem> findPendingAuctionsOfUser(String userId, Pageable pageable);
 
+    @Query(value = "{'userId' : '?0', 'startDate' : null }", count = true)
+    Long countPendingAuctionsOfUser(String userId);
+
     @Query("{'userId' : '?0', 'endDate' : {'$lt' : '?1'} }")
     List<AuctionItem> findInactiveAuctionsOfUser(String userId, Date date, Pageable pageable);
+
+    @Query(value = "{'userId' : '?0', 'endDate' : {'$lt' : '?1'} }", count = true)
+    Long countInactiveAuctionsOfUser(String userId, Date date);
 
     AuctionItem findAuctionItemByAuctionItemId(String auctionItemId);
 

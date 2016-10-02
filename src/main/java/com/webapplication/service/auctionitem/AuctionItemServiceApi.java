@@ -21,7 +21,7 @@ public interface AuctionItemServiceApi {
 
     AddAuctionItemResponseDto addAuctionItem(UUID authToken, AddAuctionItemRequestDto auctionItemRequestDto) throws Exception;
 
-    List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(String userId, AuctionStatus status, Integer from, Integer to) throws Exception;
+    List<AuctionItemResponseDto> getAuctionItemsOfUserByStatus(HttpServletResponse response, String userId, AuctionStatus status, Integer from, Integer to) throws Exception;
 
     void exportAuctionsAsXmlFile(UUID authToken, HttpServletResponse response) throws Exception;
 

@@ -44,6 +44,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import javax.servlet.http.HttpServletResponse;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
@@ -162,19 +163,23 @@ public class UserServiceApiImpl implements UserServiceApi {
     }
 
     @Override
-    public List<UserResponseDto> getUnverifiedUsers(UUID authToken, Integer from, Integer to) throws Exception {
+    public List<UserResponseDto> getUnverifiedUsers(HttpServletResponse response, UUID authToken, Integer from, Integer to) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
         validateAuthorization(sessionInfo);
         List<User> users = userRepository.findUserByIsVerified(false, new PageRequest(from / paginationPageSize, to - from + 1));
+        Long totalUsers = userRepository.countUserByIsVerified(false);
+        response.addHeader("totalUsers", totalUsers.toString());
 
         return userMapper.userListToUserResponseList(users);
     }
 
     @Override
-    public List<UserResponseDto> getVerifiedUsers(UUID authToken, Integer from, Integer to) throws Exception {
+    public List<UserResponseDto> getVerifiedUsers(HttpServletResponse response, UUID authToken, Integer from, Integer to) throws Exception {
         SessionInfo sessionInfo = getActiveSession(authToken);
         validateAuthorization(sessionInfo);
         List<User> users = userRepository.findUserByIsVerified(true, new PageRequest(from / paginationPageSize, to - from + 1));
+        Long totalUsers = userRepository.countUserByIsVerified(true);
+        response.addHeader("totalUsers", totalUsers.toString());
 
         return userMapper.userListToUserResponseList(users);
     }

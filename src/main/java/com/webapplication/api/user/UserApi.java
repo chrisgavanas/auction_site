@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,10 +50,10 @@ public interface UserApi {
     void changePassword(@RequestHeader UUID authToken, @PathVariable String userId, ChangePasswordRequestDto changePasswordRequestDto) throws Exception;
 
     @RequestMapping(path = "/user/unverified/{from}-{to}", method = RequestMethod.GET, produces = "application/json")
-    List<UserResponseDto> getUnverifiedUsers(@RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception;
+    List<UserResponseDto> getUnverifiedUsers(HttpServletResponse response, @RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception;
 
     @RequestMapping(path = "/user/verified/{from}-{to}", method = RequestMethod.GET, produces = "application/json")
-    List<UserResponseDto> getVerifiedUsers(@RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception;
+    List<UserResponseDto> getVerifiedUsers(HttpServletResponse response, @RequestHeader UUID authToken, @PathVariable Integer from, @PathVariable Integer to) throws Exception;
 
     @RequestMapping(path = "/user/{userId}/send-message", method = RequestMethod.POST, consumes = "application/json")
     void sendMessage(@RequestHeader UUID authToken, @PathVariable String userId, MessageRequestDto messageRequestDto) throws Exception;
