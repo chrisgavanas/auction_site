@@ -8,10 +8,8 @@
 		<a ui-sref="main.verificationPreview({id: user.userId})" class="list-group-item" ng-repeat="user in unverified">{{user.username}}</a>	
 	</div>
 	<div class="row" align="middle">
-		<div class="btn-group">
-  			<button type="button" class="btn btn-primary" ng-click='previousPage()' ng-disabled='pageCounter == 1'>Back</button>
-  			<button type="button" class="btn btn-primary" ng-click='nextPage()' ng-disabled='unverified.length < 10'>Next</button>
-  		</div>
+		<ul uib-pagination total-items="totalUsers" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" ng-change='change(bigCurrentPage)'></ul>
+
 	</div>
 	<br>
 	<div class="row" align="middle">

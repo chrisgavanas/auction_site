@@ -52,7 +52,6 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 	$scope.cont = function(){
 		
 		$scope.item.categoryIds = $scope.selectedAll;
-		console.log($scope.item);
 		if($scope.item.country == null)
 			AuctionItemService.getCountry($scope.item.geoLocationDto.latitude,$scope.item.geoLocationDto.longitude)
 					.then(function (response){
@@ -97,7 +96,6 @@ router.controller('editAuctionController', function(Upload, NgMap,$stateParams,$
 			
 		$scope.selected.push(category);
 		$scope.selectedAll.push(category.categoryId);
-		console.log($scope.item.categoryIds);
 		if(category.subCategories.length != 0){
 			$scope.submit = false;
 		

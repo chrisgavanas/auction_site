@@ -34,7 +34,6 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	
 	
 	$scope.cont = function(){
-	console.log($scope.item);
 		$scope.item.userId = $scope.user.userId;
 		if($scope.item.country == null)
 			AuctionItemService.getCountry($scope.item.geoLocationDto.latitude,$scope.item.geoLocationDto.longitude)
@@ -98,7 +97,6 @@ router.controller('newAuctionController', function(Upload,$scope, $timeout,$stat
 	////////////
 	$scope.uploadFiles = function(files, errFiles) {
         $scope.files = files;
-    console.log(files);
         
         $scope.errFiles = errFiles;
         angular.forEach(files, function(file) {
